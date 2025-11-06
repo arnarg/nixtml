@@ -1,0 +1,125 @@
+{ lib, ... }:
+let
+  inherit (lib) mkTag mkVoid;
+in
+{
+
+  # Regular tags
+  a = mkTag "a";
+  abbr = mkTag "abbr";
+  address = mkTag "address";
+  article = mkTag "article";
+  aside = mkTag "aside";
+  audio = mkTag "audio";
+  b = mkTag "b";
+  bdi = mkTag "bdi";
+  bdo = mkTag "bdo";
+  blockquote = mkTag "blockquote";
+  body = mkTag "body";
+  button = mkTag "button";
+  canvas = mkTag "canvas";
+  caption = mkTag "caption";
+  cite = mkTag "cite";
+  code = mkTag "code";
+  colgroup = mkTag "colgroup";
+  data = mkTag "data";
+  datalist = mkTag "datalist";
+  dd = mkTag "dd";
+  del = mkTag "del";
+  details = mkTag "details";
+  dfn = mkTag "dfn";
+  dialog = mkTag "dialog";
+  div = mkTag "div";
+  dl = mkTag "dl";
+  dt = mkTag "dt";
+  em = mkTag "em";
+  fieldset = mkTag "fieldset";
+  figcaption = mkTag "figcaption";
+  figure = mkTag "figure";
+  footer = mkTag "footer";
+  form = mkTag "form";
+  h1 = mkTag "h1";
+  h2 = mkTag "h2";
+  h3 = mkTag "h3";
+  h4 = mkTag "h4";
+  h5 = mkTag "h5";
+  h6 = mkTag "h6";
+  head = mkTag "head";
+  header = mkTag "header";
+  hgroup = mkTag "hgroup";
+  html = mkTag "html";
+  i = mkTag "i";
+  iframe = mkTag "iframe";
+  ins = mkTag "ins";
+  kbd = mkTag "kbd";
+  label = mkTag "label";
+  legend = mkTag "legend";
+  li = mkTag "li";
+  main = mkTag "main";
+  map = mkTag "map";
+  mark = mkTag "mark";
+  media = mkTag "media";
+  menu = mkTag "menu";
+  meter = mkTag "meter";
+  nav = mkTag "nav";
+  noscript = mkTag "noscript";
+  object = mkTag "object";
+  ol = mkTag "ol";
+  optgroup = mkTag "optgroup";
+  option = mkTag "option";
+  output = mkTag "output";
+  p = mkTag "p";
+  picture = mkTag "picture";
+  pre = mkTag "pre";
+  progress = mkTag "progress";
+  q = mkTag "q";
+  rp = mkTag "rp";
+  rt = mkTag "rt";
+  ruby = mkTag "ruby";
+  s = mkTag "s";
+  samp = mkTag "samp";
+  script = mkTag "script";
+  search = mkTag "search";
+  section = mkTag "section";
+  select = mkTag "select";
+  slot = mkTag "slot";
+  small = mkTag "small";
+  span = mkTag "span";
+  strong = mkTag "strong";
+  style = mkTag "style";
+  sub = mkTag "sub";
+  summary = mkTag "summary";
+  sup = mkTag "sup";
+  table = mkTag "table";
+  tbody = mkTag "tbody";
+  td = mkTag "td";
+  template = mkTag "template";
+  textarea = mkTag "textarea";
+  tfoot = mkTag "tfoot";
+  th = mkTag "th";
+  thead = mkTag "thead";
+  time = mkTag "time";
+  tr = mkTag "tr";
+  u = mkTag "u";
+  ul = mkTag "ul";
+  var = mkTag "var";
+  video = mkTag "video";
+
+  # Void tags
+  area = mkVoid "area";
+  base = mkVoid "base";
+  br = mkVoid "br";
+  col = mkVoid "col";
+  embed = mkVoid "embed";
+  hr = mkVoid "hr";
+  img = mkVoid "img";
+  input = mkVoid "input";
+  link = mkVoid "link";
+  meta = mkVoid "meta";
+  source = mkVoid "source";
+  track = mkVoid "track";
+  wbr = mkVoid "wbr";
+
+  # Convenience functions
+  title = data: mkTag "title" [ ] [ data ];
+}
