@@ -40,15 +40,14 @@ let
     import npkgs { };
 
   nlib = import ./lib.nix;
-in
-{
-  lib.mkWebsite =
+
+  evalModules =
     {
       modules,
       lib ? pkgs.lib,
       specialArgs,
     }:
-    nlib.mkWebsite {
+    nlib.evalModules {
       inherit
         pkgs
         lib
@@ -56,4 +55,39 @@ in
         specialArgs
         ;
     };
+in
+{
+  lib = {
+    inherit evalModules;
+
+    mkWebsite =
+      {
+        name,
+        baseURL,
+        metadata ? { },
+        content ? { },
+        static ? { },
+        collections ? { },
+        layouts ? { },
+        imports ? [ ],
+      }:
+      evalModules {
+        modules = [
+          {
+            website = {
+              inherit
+                name
+                baseURL
+                metadata
+                content
+                static
+                collections
+                layouts
+                ;
+            };
+          }
+        ]
+        ++ imports;
+      };
+  };
 }
