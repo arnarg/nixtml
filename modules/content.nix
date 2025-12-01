@@ -19,8 +19,15 @@ let
         ]
       );
 
+      options = pkgs.writeText "content-options-${name}.json" (
+        builtins.toJSON {
+          inherit (config.website.content) dateFormat;
+          settings = config.website.content.mdProcessor.settings;
+        }
+      );
+
       jsonData = pkgs.runCommand "content-data-${name}.json" { } ''
-        ${py}/bin/python ${./processContent.py} ${toString path} "${dateFormat}" > $out
+        ${py}/bin/python ${./processContent.py} ${toString path} ${toString options} > $out
       '';
 
       contentData = lib.importJSON jsonData;
@@ -76,6 +83,16 @@ in
 
           This is a format string for python's `strftime`. See: https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior
         '';
+      };
+
+      mdProcessor = {
+        settings.highlight.style = mkOption {
+          type = types.str;
+          default = "default";
+          description = ''
+            The pygments style to use for code block colorscheme.
+          '';
+        };
       };
 
       content =

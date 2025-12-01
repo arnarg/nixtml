@@ -54,7 +54,11 @@ class YamlMetadataPreprocessor(Preprocessor):
         return meta_lines, lines
 
 
-def process_post(post: str, date_format: str) -> str:
+def process_post(post: str, options: dict) -> str:
+    settings = {}
+    if "settings" in options:
+        settings = options["settings"]
+
     md = Markdown(
         extensions=[
             YamlMetadataExtension(),
@@ -67,7 +71,8 @@ def process_post(post: str, date_format: str) -> str:
         extension_configs={
             "pymdownx.highlight": {
                 "noclasses": True,
-                "pygments_style": "gruvbox-dark",
+                "use_pygments": True,
+                "pygments_style": settings["highlight"]["style"],
             },
         },
     )
@@ -81,7 +86,7 @@ def process_post(post: str, date_format: str) -> str:
 
     for k, v in md.Meta.items():
         if isinstance(v, datetime):
-            md.Meta[k] = v.strftime(date_format)
+            md.Meta[k] = v.strftime(options["dateFormat"])
 
     return {
         "metadata": md.Meta,
@@ -94,8 +99,10 @@ if __name__ == "__main__":
     with open(postPath, "r") as f:
         postData = f.read()
 
-    dateFormat = sys.argv[2]
+    optionsPath = sys.argv[2]
+    with open(optionsPath, "r") as f:
+        options = json.load(f)
 
-    data = process_post(postData, dateFormat)
+    data = process_post(postData, options)
 
     print(json.dumps(data))
