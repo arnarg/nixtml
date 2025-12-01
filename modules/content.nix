@@ -77,7 +77,7 @@ in
 
       dateFormat = mkOption {
         type = types.str;
-        default = "%b %d, %Y";
+        default = "%b %-d, %Y";
         description = ''
           Format string for any datetime in content front matter.
 
