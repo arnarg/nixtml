@@ -1,6 +1,8 @@
-# nixtml
+<p align="center">
+  <img alt="nixtml logo" src="./logo.svg" width="1000px">
+</p>
 
-A static website generator written in nix. Inspired by hugo.
+<p align="center">A static website generator written in <strong>nix</strong>. Inspired by hugo.</p>
 
 ## Getting started
 
@@ -79,9 +81,13 @@ A static website generator written in nix. Inspired by hugo.
 }
 ```
 
+## Examples
+
+- [My blog](https://github.com/arnarg/blog)
+
 ## Templates
 
-Templates should be defined under `website.layouts`. All templates should be a function to a string (or list of strings, that is automatically coerced to a string).
+Templates should be defined in modules under `website.layouts`. All templates should be a function to a string (or list of strings, that is automatically coerced to a string).
 
 ### Nix functional HTML
 
