@@ -11,12 +11,15 @@ let
     name: path: dateFormat:
     let
       py = pkgs.python3.withPackages (
-        ps: with ps; [
+        ps:
+        with ps;
+        [
           markdown
           pymdown-extensions
           pyyaml
           pygments
         ]
+        ++ config.website.content.mdProcessor.extraPythonPackages
       );
 
       options = pkgs.writeText "content-options-${name}.json" (
@@ -91,6 +94,13 @@ in
           default = "default";
           description = ''
             The pygments style to use for code block colorscheme.
+          '';
+        };
+        extraPythonPackages = mkOption {
+          type = with types; listOf package;
+          default = [ ];
+          description = ''
+            Extra python packages to use for processing markdown content.
           '';
         };
       };
