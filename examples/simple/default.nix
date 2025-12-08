@@ -17,6 +17,7 @@ in
 {
   website = {
     name = "example-website";
+    baseURL = "https://example.com";
 
     metadata = {
       lang = "en";
