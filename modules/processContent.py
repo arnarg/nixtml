@@ -67,6 +67,7 @@ def process_post(post: str, options: dict) -> str:
             "pymdownx.superfences",
             "pymdownx.highlight",
             "pymdownx.blocks.admonition",
+            "pymdownx.inlinehilite",
         ],
         extension_configs={
             "pymdownx.highlight": {

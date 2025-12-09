@@ -22,14 +22,20 @@
         pkgs = import nixpkgs { inherit system; };
       in
       {
-        packages.examples = {
-          simple = self.lib.evalModules {
+        packages = {
+          docs = self.lib.evalModules {
             inherit pkgs;
-            modules = [ ./examples/simple ];
+            modules = [ ./docs ];
           };
-          blog = self.lib.evalModules {
-            inherit pkgs;
-            modules = [ ./examples/blog ];
+          examples = {
+            simple = self.lib.evalModules {
+              inherit pkgs;
+              modules = [ ./examples/simple ];
+            };
+            blog = self.lib.evalModules {
+              inherit pkgs;
+              modules = [ ./examples/blog ];
+            };
           };
         };
 
@@ -55,6 +61,15 @@
                 set -eo pipefail
 
                 ${pkgs.statix}/bin/statix check .
+              '').outPath;
+          };
+
+          # Quickly build and serve docs
+          serveDocs = {
+            type = "app";
+            program =
+              (pkgs.writeShellScript "serve-docs" ''
+                ${pkgs.python3}/bin/python -m http.server -d ${self.packages.${system}.docs} 8080
               '').outPath;
           };
         };
