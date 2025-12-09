@@ -34,8 +34,14 @@ in
     };
 
     baseURL = mkOption {
-      type = types.str;
+      type = types.strMatching "^https?://.*";
       description = "Base URL of the generated website. Used for generating permalinks.";
+    };
+
+    baseURI = mkOption {
+      type = types.str;
+      default = lib.extractBaseURI config.website.baseURL;
+      internal = true;
     };
 
     metadata = mkOption {

@@ -27,6 +27,18 @@ lib.extend (
 
     escapeHTML = html: builtins.replaceStrings [ "<" ">" "&" ] [ "&lt;" "&gt;" "&amp;" ] html;
 
+    extractBaseURI =
+      url:
+      lib.pipe url [
+        (lib.match "^https?://(.*)")
+        lib.head
+        (lib.splitString "/")
+        (lib.drop 1)
+        (lib.filter (x: x != ""))
+        (lib.concatStringsSep "/")
+        (uri: if uri == "" then "/" else "/" + uri + "/")
+      ];
+
     sortTaxonomy =
       path: items:
       lib.foldr (

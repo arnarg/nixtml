@@ -129,4 +129,22 @@ in
       };
     };
   };
+  extractBaseURI = {
+    testHTTP = {
+      expr = lib.extractBaseURI "http://example.com";
+      expected = "/";
+    };
+    testHTTPS = {
+      expr = lib.extractBaseURI "https://example.com";
+      expected = "/";
+    };
+    testWithURI = {
+      expr = lib.extractBaseURI "https://example.com/blog";
+      expected = "/blog/";
+    };
+    testWithEmptyParts = {
+      expr = lib.extractBaseURI "https://example.com//blog//";
+      expected = "/blog/";
+    };
+  };
 }

@@ -21,7 +21,7 @@ in
 {
   website = {
     name = "example-blog";
-    baseURL = "https://example-blog.com";
+    baseURL = "https://example.com/blog";
 
     metadata = {
       lang = "en";

@@ -1,6 +1,6 @@
 { lib, config, ... }:
 let
-  inherit (config.website) baseURL metadata;
+  inherit (config.website) baseURL baseURI metadata;
   contentOutput = config.website.content.output;
 in
 {
@@ -129,7 +129,7 @@ in
                         date
                         ;
                       permalink = "${baseURL}/${n}";
-                      url = "/" + n;
+                      url = baseURI + n;
                       metadata = lib.removeAttrs result.metadata [
                         "title"
                         "dateEpoch"
@@ -274,12 +274,12 @@ in
                 hasPrev = cfg.pages ? "${prevNumber}";
                 nextPageURL =
                   if hasNext then
-                    "/" + cfg.pages."${nextNumber}".path
+                    baseURI + cfg.pages."${nextNumber}".path
                   else
                     builtins.throw "Next page '${nextNumber}' does not exist. Use `hasNext` from context to check if next page exists.";
                 prevPageURL =
                   if hasPrev then
-                    "/" + cfg.pages."${prevNumber}".path
+                    baseURI + cfg.pages."${prevNumber}".path
                   else
                     builtins.throw "Previous page '${prevNumber}' does not exist. Use `hasPrev` from context to check if previous page exists.";
               in
@@ -316,12 +316,12 @@ in
                   hasPrev = cfg ? "${prevNumber}";
                   nextPageURL =
                     if hasNext then
-                      "/" + cfg."${nextNumber}".path
+                      baseURI + cfg."${nextNumber}".path
                     else
                       builtins.throw "Next page '${nextNumber}' does not exist. Use `hasNext` from context to check if next page exists.";
                   prevPageURL =
                     if hasPrev then
-                      "/" + cfg."${prevNumber}".path
+                      baseURI + cfg."${prevNumber}".path
                     else
                       builtins.throw "Previous page '${prevNumber}' does not exist. Use `hasPrev` from context to check if previous page exists.";
                 in
