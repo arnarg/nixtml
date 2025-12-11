@@ -79,9 +79,11 @@ in
                         options = {
                           path = mkOption {
                             type = types.str;
+                            internal = true;
                           };
                           context = mkOption {
                             type = with types; attrsOf anything;
+                            internal = true;
                           };
                         };
                       }
@@ -99,9 +101,11 @@ in
                           options = {
                             path = mkOption {
                               type = types.str;
+                              internal = true;
                             };
                             context = mkOption {
                               type = with types; attrsOf anything;
+                              internal = true;
                             };
                           };
                         })

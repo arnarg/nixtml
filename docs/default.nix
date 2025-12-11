@@ -6,15 +6,18 @@
 }:
 let
   inherit (lib.tags)
+    a
     body
     div
+    footer
     h1
     head
     html
+    img
     link
     meta
+    p
     section
-    img
     ;
   inherit (lib) attrs;
   inherit (config.website) metadata;
@@ -97,6 +100,34 @@ in
                           ])
                         ]
                         [ content ]
+                      )
+                    ]
+                  )
+                  (footer
+                    [ (attrs.classes [ "footer" ]) ]
+                    [
+                      (div
+                        [
+                          (attrs.classes [
+                            "content"
+                            "is-max-desktop"
+                            "has-text-centered"
+                          ])
+                        ]
+                        [
+                          (p
+                            [ ]
+                            [
+                              "This website is (obviously) generated with "
+                              (a
+                                [
+                                  (attrs.href "https://github.com/arnarg/nixtml")
+                                ]
+                                [ "nixtml." ]
+                              )
+                            ]
+                          )
+                        ]
                       )
                     ]
                   )

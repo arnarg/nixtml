@@ -174,13 +174,28 @@ in
                       normalized + ".html"
                     else
                       normalized + "/index.html";
+                  description = ''
+                    The final path of the of the page.
+
+                    The value is normalized when generating the final website output.
+
+                    - If this ends with `.html`, the value is unchanged. **Example:** `404.html`.
+                    - If this ends with `index`, only `.html` is appended. **Example:** `about/index` -> `about/index.html`.
+                    - Otherwise `/index.html` is appended. **Example:** `about` -> `about/index.html`.
+                  '';
                 };
                 layout = mkOption {
                   type = with types; functionTo strOrListOfStr;
+                  description = ''
+                    The layout template to use to render this page.
+                  '';
                 };
                 extraContext = mkOption {
                   type = with types; lazyAttrsOf anything;
                   default = { };
+                  description = ''
+                    Extra context to pass on to the layout template when rendering this page.
+                  '';
                 };
                 lastModified = mkOption {
                   type = with types; nullOr str;
