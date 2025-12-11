@@ -79,7 +79,7 @@ in
                               ])
                             ]
                             [
-                              (img [ (attrs.src "/logo.svg") ])
+                              (img [ (attrs.src (config.website.baseURI + "logo.svg")) ])
                             ]
                           )
                         ]
@@ -127,7 +127,7 @@ in
           [
             (link [
               (attrs.rel "stylesheet")
-              (attrs.href "/css/main.css")
+              (attrs.href (config.website.baseURI + "css/main.css"))
             ])
             (meta [
               (attrs.httpEquiv "Content-Type")
