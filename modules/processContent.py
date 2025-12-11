@@ -64,12 +64,23 @@ def process_post(post: str, options: dict) -> str:
             YamlMetadataExtension(),
             "tables",
             "footnotes",
+            "toc",
             "pymdownx.superfences",
             "pymdownx.highlight",
             "pymdownx.blocks.admonition",
             "pymdownx.inlinehilite",
         ],
         extension_configs={
+            "toc": {
+                "marker": settings["toc"]["marker"],
+                "title": settings["toc"]["title"],
+                "title_class": settings["toc"]["titleClass"],
+                "toc_class": settings["toc"]["tocClass"],
+                "anchorlink": settings["toc"]["anchorlink"],
+                "anchorlink_class": settings["toc"]["anchorlinkClass"],
+                "permalink": settings["toc"]["permalink"],
+                "permalink_class": settings["toc"]["permalinkClass"],
+            },
             "pymdownx.highlight": {
                 "noclasses": True,
                 "use_pygments": True,

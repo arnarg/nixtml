@@ -168,7 +168,7 @@ in
                         (lib.concatStringsSep "/")
                       ];
                     in
-                    if lib.hasSuffix "index.html" normalized then
+                    if lib.hasSuffix ".html" normalized then
                       normalized
                     else if lib.hasSuffix "index" normalized then
                       normalized + ".html"

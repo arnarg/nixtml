@@ -13,7 +13,8 @@ let
     html
     link
     meta
-    title
+    section
+    img
     ;
   inherit (lib) attrs;
   inherit (config.website) metadata;
@@ -36,6 +37,21 @@ in
 
     content.dir = ./content;
 
+    files."logo.svg".source = ../logo.svg;
+
+    pages."404.html" = {
+      extraContext =
+        let
+          title = "Page Not Found";
+        in
+        {
+          inherit title;
+          metadata = { inherit title; };
+          content = "This page does not exist!";
+        };
+      layout = config.website.layouts.page;
+    };
+
     layouts = {
       base =
         { path, content, ... }@context:
@@ -46,18 +62,43 @@ in
             [
               (head [ ] [ (partials.head context) ])
               (body
+                [ ]
                 [
-                  (attrs.classes [
-                    "font-sans"
-                    "bg-white"
-                  ])
-                ]
-                [
-                  (div
+                  (section
+                    [ (attrs.classes [ "hero" ]) ]
                     [
-                      (attrs.classes [ "container" ])
+                      (div
+                        [ (attrs.classes [ "hero-body" ]) ]
+                        [
+                          (div
+                            [
+                              (attrs.classes [
+                                "container"
+                                "is-max-desktop"
+                                "has-text-centered"
+                              ])
+                            ]
+                            [
+                              (img [ (attrs.src "/logo.svg") ])
+                            ]
+                          )
+                        ]
+                      )
                     ]
-                    [ content ]
+                  )
+                  (section
+                    [ (attrs.classes [ "section" ]) ]
+                    [
+                      (div
+                        [
+                          (attrs.classes [
+                            "container"
+                            "is-max-desktop"
+                          ])
+                        ]
+                        [ content ]
+                      )
+                    ]
                   )
                 ]
               )
@@ -68,8 +109,13 @@ in
       page =
         { metadata, content, ... }:
         [
-          (h1 [ ] [ metadata.title ])
-          content
+          (h1 [ (attrs.classes [ "title" ]) ] [ metadata.title ])
+          (div
+            [ (attrs.classes [ "content" ]) ]
+            [
+              content
+            ]
+          )
         ];
 
       partials = {
@@ -112,9 +158,16 @@ in
           ];
 
         meta =
-          { path, ... }:
+          { path, title, ... }:
+          let
+            pageTitle =
+              if title != null && path != [ "index.html" ] then
+                "${title} | ${metadata.title}"
+              else
+                metadata.title;
+          in
           [
-            (title metadata.title)
+            (lib.tags.title pageTitle)
             (meta [
               (attrs.name "description")
               (attrs.content metadata.description)
@@ -152,7 +205,13 @@ in
     };
 
     content.mdProcessor = {
-      settings.highlight.style = "catppuccin-latte";
+      settings = {
+        toc = {
+          permalink = "#";
+          permalinkClass = "headerlink mx-2";
+        };
+        highlight.style = "catppuccin-latte";
+      };
       extraPythonPackages = [
         # Add pygments-styles: https://pygments-styles.org/
         (
