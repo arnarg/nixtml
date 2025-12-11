@@ -81,6 +81,8 @@
 }
 ```
 
+See all available nixtml module options [here](https://arnarg.github.io/nixtml/options/).
+
 ## Examples
 
 - [My blog](https://github.com/arnarg/blog)
