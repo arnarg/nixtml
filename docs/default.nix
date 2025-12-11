@@ -171,7 +171,7 @@ in
             ])
             (meta [
               (attrs.name "viewport")
-              (attrs.name "width=device-width, initial-scale=1.0")
+              (attrs.content "width=device-width, initial-scale=1.0")
             ])
             (meta [
               (attrs.name "msapplication-TileColor")
