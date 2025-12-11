@@ -21575,4 +21575,8 @@ h2:hover a.headerlink {
   display: inline-block;
 }
 
+.content h2 {
+  word-wrap: break-word;
+}
+
 /*# sourceMappingURL=main.css.map */
