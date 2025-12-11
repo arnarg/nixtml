@@ -41,14 +41,45 @@
 					<p><strong><em>Default:</em></strong>
 					<code class="highlight"><span style="color: #7C7F93">{</span>
 					<span style="color: #7C7F93">}</span></code></p>
-					<p><strong><em>Declared by:</em></strong></p>
-					<ul>
-						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/build.nix">&lt;nixtml/modules/build.nix&gt;</a></li>
-					</ul>
-					<h2 id="buildfilespackage">build.filesPackage<a class="headerlink mx-2" href="#buildfilespackage" title="Permanent link">#</a></h2>
-					<p>A package containing all files from <code>config.website.files</code>.</p>
-					<p><strong><em>Type:</em></strong>
-					package</p>
+					<p><strong><em>Example:</em></strong></p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span>
+  <span style="color: #40A02B">stylesheetPackage</span> <span style="color: #179299">=</span>
+      <span style="color: #8839EF">let</span>
+        <span style="color: #40A02B">bulma</span> <span style="color: #179299">=</span> pkgs<span style="color: #179299">.</span>fetchFromGitHub <span style="color: #7C7F93">{</span>
+          <span style="color: #40A02B">owner</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;jgthms&quot;</span><span style="color: #7C7F93">;</span>
+          <span style="color: #40A02B">repo</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;bulma&quot;</span><span style="color: #7C7F93">;</span>
+          <span style="color: #40A02B">rev</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;1.0.4&quot;</span><span style="color: #7C7F93">;</span>
+          <span style="color: #40A02B">hash</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;sha256-hlejqBI6ayzhm15IymrzhTevkl3xffMfdTasZ2CmAas=&quot;</span><span style="color: #7C7F93">;</span>
+        <span style="color: #7C7F93">};</span>
+
+        <span style="color: #40A02B">deps</span> <span style="color: #179299">=</span> pkgs<span style="color: #179299">.</span>linkFarm <span style="color: #40A02B">&quot;nixtml-docs-stylesheet-deps&quot;</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">{</span>
+            <span style="color: #40A02B">name</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;bulma&quot;</span><span style="color: #7C7F93">;</span>
+            <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> bulma<span style="color: #7C7F93">;</span>
+          <span style="color: #7C7F93">}</span>
+        <span style="color: #7C7F93">];</span>
+      <span style="color: #8839EF">in</span>
+      pkgs<span style="color: #179299">.</span>stdenv<span style="color: #179299">.</span>mkDerivation <span style="color: #7C7F93">{</span>
+        <span style="color: #40A02B">name</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;nixtml-docs-stylesheet&quot;</span><span style="color: #7C7F93">;</span>
+
+        <span style="color: #40A02B">src</span> <span style="color: #179299">=</span> <span style="color: #40A02B">./stylesheet</span><span style="color: #7C7F93">;</span>
+
+        <span style="color: #40A02B">buildInputs</span> <span style="color: #179299">=</span> <span style="color: #8839EF">with</span> pkgs<span style="color: #7C7F93">;</span> <span style="color: #7C7F93">[</span>
+          dart-sass
+        <span style="color: #7C7F93">];</span>
+
+        <span style="color: #40A02B">buildPhase</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&#39;&#39;</span>
+<span style="color: #40A02B">          sass --load-path &quot;</span><span style="color: #EA76CB">${</span>deps<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot; main.scss main.css</span>
+<span style="color: #40A02B">        &#39;&#39;</span><span style="color: #7C7F93">;</span>
+
+        <span style="color: #40A02B">installPhase</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&#39;&#39;</span>
+<span style="color: #40A02B">          mkdir -p $out/css</span>
+
+<span style="color: #40A02B">          cp main.css $out/css/main.css</span>
+<span style="color: #40A02B">        &#39;&#39;</span><span style="color: #7C7F93">;</span>
+      <span style="color: #7C7F93">};</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
 					<p><strong><em>Declared by:</em></strong></p>
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/build.nix">&lt;nixtml/modules/build.nix&gt;</a></li>
@@ -75,20 +106,6 @@
 					<p><strong><em>Default:</em></strong>
 					<code class="highlight"><span style="color: #7C7F93">{</span>
 					<span style="color: #7C7F93">}</span></code></p>
-					<p><strong><em>Declared by:</em></strong></p>
-					<ul>
-						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/collections.nix">&lt;nixtml/modules/collections.nix&gt;</a></li>
-					</ul>
-					<h2 id="websitecollectionsnamepagesnamecontext">website.collections.&lt;name&gt;.pages.&lt;name&gt;.context<a class="headerlink mx-2" href="#websitecollectionsnamepagesnamecontext" title="Permanent link">#</a></h2>
-					<p><strong><em>Type:</em></strong>
-					attribute set of anything</p>
-					<p><strong><em>Declared by:</em></strong></p>
-					<ul>
-						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/collections.nix">&lt;nixtml/modules/collections.nix&gt;</a></li>
-					</ul>
-					<h2 id="websitecollectionsnamepagesnamepath">website.collections.&lt;name&gt;.pages.&lt;name&gt;.path<a class="headerlink mx-2" href="#websitecollectionsnamepagesnamepath" title="Permanent link">#</a></h2>
-					<p><strong><em>Type:</em></strong>
-					string</p>
 					<p><strong><em>Declared by:</em></strong></p>
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/collections.nix">&lt;nixtml/modules/collections.nix&gt;</a></li>
@@ -148,20 +165,6 @@
   <span style="color: #40A02B">&quot;tags&quot;</span>
 <span style="color: #7C7F93">]</span>
 </code></pre></div>
-					<p><strong><em>Declared by:</em></strong></p>
-					<ul>
-						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/collections.nix">&lt;nixtml/modules/collections.nix&gt;</a></li>
-					</ul>
-					<h2 id="websitecollectionsnametaxonomypagesnamenamenamecontext">website.collections.&lt;name&gt;.taxonomyPages.&lt;name&gt;.&lt;name&gt;.&lt;name&gt;.context<a class="headerlink mx-2" href="#websitecollectionsnametaxonomypagesnamenamenamecontext" title="Permanent link">#</a></h2>
-					<p><strong><em>Type:</em></strong>
-					attribute set of anything</p>
-					<p><strong><em>Declared by:</em></strong></p>
-					<ul>
-						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/collections.nix">&lt;nixtml/modules/collections.nix&gt;</a></li>
-					</ul>
-					<h2 id="websitecollectionsnametaxonomypagesnamenamenamepath">website.collections.&lt;name&gt;.taxonomyPages.&lt;name&gt;.&lt;name&gt;.&lt;name&gt;.path<a class="headerlink mx-2" href="#websitecollectionsnametaxonomypagesnamenamenamepath" title="Permanent link">#</a></h2>
-					<p><strong><em>Type:</em></strong>
-					string</p>
 					<p><strong><em>Declared by:</em></strong></p>
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/collections.nix">&lt;nixtml/modules/collections.nix&gt;</a></li>
@@ -463,6 +466,7 @@
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
 					</ul>
 					<h2 id="websitepagesnameextracontext">website.pages.&lt;name&gt;.extraContext<a class="headerlink mx-2" href="#websitepagesnameextracontext" title="Permanent link">#</a></h2>
+					<p>Extra context to pass on to the layout template when rendering this page.</p>
 					<p><strong><em>Type:</em></strong>
 					lazy attribute set of anything</p>
 					<p><strong><em>Default:</em></strong>
@@ -484,6 +488,7 @@
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
 					</ul>
 					<h2 id="websitepagesnamelayout">website.pages.&lt;name&gt;.layout<a class="headerlink mx-2" href="#websitepagesnamelayout" title="Permanent link">#</a></h2>
+					<p>The layout template to use to render this page.</p>
 					<p><strong><em>Type:</em></strong>
 					function that evaluates to a(n) (string or (list of string) convertible to it)</p>
 					<p><strong><em>Declared by:</em></strong></p>
@@ -491,6 +496,20 @@
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
 					</ul>
 					<h2 id="websitepagesnamepath">website.pages.&lt;name&gt;.path<a class="headerlink mx-2" href="#websitepagesnamepath" title="Permanent link">#</a></h2>
+					<p>The final path of the of the page.</p>
+					<p>The value is normalized when generating the final website output.</p>
+					<ul>
+						<li>If this ends with <code>.html</code>, the value is unchanged. <strong>Example:</strong>
+							<code>404.html</code>.</li>
+						<li>If this ends with <code>index</code>, only <code>.html</code>
+							is appended. <strong>Example:</strong>
+							<code>about/index</code>
+							-&gt; <code>about/index.html</code>.</li>
+						<li>Otherwise <code>/index.html</code>
+							is appended. <strong>Example:</strong>
+							<code>about</code>
+							-&gt; <code>about/index.html</code>.</li>
+					</ul>
 					<p><strong><em>Type:</em></strong>
 					string</p>
 					<p><strong><em>Default:</em></strong>
@@ -522,5 +541,15 @@
 				</div>
 			</div>
 		</section>
+		<footer class="footer">
+			<div class="content is-max-desktop has-text-centered">
+				<p>
+					This website is (obviously) generated with
+					<a href="https://github.com/arnarg/nixtml">
+						nixtml.
+					</a>
+				</p>
+			</div>
+		</footer>
 	</body>
 </html>
