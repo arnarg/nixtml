@@ -28,5 +28,11 @@ h2 {
   }
 }
 
+.content {
+  h2 {
+    word-wrap: break-word;
+  }
+}
+
 // Fira Sans and Fira Mono
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans:wght@200;300;400');

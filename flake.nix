@@ -68,8 +68,16 @@
           serveDocs = {
             type = "app";
             program =
+              let
+                nested = pkgs.linkFarm "nixtml-docs-nested" [
+                  {
+                    name = "nixtml";
+                    path = self.packages.${system}.docs;
+                  }
+                ];
+              in
               (pkgs.writeShellScript "serve-docs" ''
-                ${pkgs.python3}/bin/python -m http.server -d ${self.packages.${system}.docs} 8080
+                ${pkgs.python3}/bin/python -m http.server -d ${nested} 8080
               '').outPath;
           };
         };

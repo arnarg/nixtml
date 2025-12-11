@@ -175,11 +175,11 @@ in
             ])
             (meta [
               (attrs.name "msapplication-TileColor")
-              (attrs.name "#da532c")
+              (attrs.content "#da532c")
             ])
             (meta [
               (attrs.name "theme-color")
-              (attrs.name "#ffffff")
+              (attrs.content "#ffffff")
             ])
             (link [
               (attrs.rel "icon")
