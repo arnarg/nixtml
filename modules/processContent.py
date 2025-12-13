@@ -69,6 +69,7 @@ def process_post(post: str, options: dict) -> str:
             "pymdownx.highlight",
             "pymdownx.blocks.admonition",
             "pymdownx.inlinehilite",
+            "pymdownx.magiclink",
         ],
         extension_configs={
             "toc": {

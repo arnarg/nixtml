@@ -19,7 +19,7 @@ in
                     Path to folder in `config.website.content.dir` that contains items for the collection.
 
                     For example if all blog posts are kept in ./content/blog/posts and `config.website.content.dir = ./content;`, setting this option to `"blog/posts"` will create a collection for the blog posts.
-                    The collection will automatically create pages (such as `blog/page/1`, `blog/page/2`, etc.) using template `config.website.layouts.collection` and an RSS feed for the collection (by default `<name>.xml`).
+                    The collection will automatically create pages (such as page 1 at `blog/index.html`, page 2 at `blog/page/2/index.html`, etc.) using template `config.website.layouts.collection` and an RSS feed for the collection (if enabled) at `blog/index.xml`.
                   '';
                 };
                 pagination = {
@@ -255,6 +255,16 @@ in
           )
         );
       default = { };
+      example = literalExpression ''
+        {
+          path = "blog/posts";
+          pagination.perPage = 5;
+          taxonomies = [ "tags" ];
+        }
+      '';
+      description = ''
+        Collections allow you to group, paginate and list related content such as blog posts or portfolio pieces.
+      '';
     };
   };
 
