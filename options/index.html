@@ -101,11 +101,19 @@
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
 					</ul>
 					<h2 id="websitecollections">website.collections<a class="headerlink mx-2" href="#websitecollections" title="Permanent link">#</a></h2>
+					<p>Collections allow you to group, paginate and list related content such as blog posts or portfolio pieces.</p>
 					<p><strong><em>Type:</em></strong>
 					attribute set of (submodule)</p>
 					<p><strong><em>Default:</em></strong>
 					<code class="highlight"><span style="color: #7C7F93">{</span>
 					<span style="color: #7C7F93">}</span></code></p>
+					<p><strong><em>Example:</em></strong></p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span>
+  <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;blog/posts&quot;</span><span style="color: #7C7F93">;</span>
+  pagination<span style="color: #179299">.</span><span style="color: #40A02B">perPage</span> <span style="color: #179299">=</span> <span style="color: #FE640B">5</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">taxonomies</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;tags&quot;</span> <span style="color: #7C7F93">];</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
 					<p><strong><em>Declared by:</em></strong></p>
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/collections.nix">&lt;nixtml/modules/collections.nix&gt;</a></li>
@@ -125,8 +133,8 @@
 						that contains items for the collection.</p>
 					<p>For example if all blog posts are kept in ./content/blog/posts and <code>config.website.content.dir = ./content;</code>, setting this option to <code>"blog/posts"</code>
 						will create a collection for the blog posts.
-						The collection will automatically create pages (such as <code>blog/page/1</code>, <code>blog/page/2</code>, etc.) using template <code>config.website.layouts.collection</code>
-						and an RSS feed for the collection (by default <code>&lt;name&gt;.xml</code>).</p>
+						The collection will automatically create pages (such as page 1 at <code>blog/index.html</code>, page 2 at <code>blog/page/2/index.html</code>, etc.) using template <code>config.website.layouts.collection</code>
+						and an RSS feed for the collection (if enabled) at <code>blog/index.xml</code>.</p>
 					<p><strong><em>Type:</em></strong>
 					string</p>
 					<p><strong><em>Declared by:</em></strong></p>
@@ -171,7 +179,7 @@
 					</ul>
 					<h2 id="websitecontentdateformat">website.content.dateFormat<a class="headerlink mx-2" href="#websitecontentdateformat" title="Permanent link">#</a></h2>
 					<p>Format string for any datetime in content front matter.</p>
-					<p>This is a format string for python's <code>strftime</code>. See: https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior</p>
+					<p>This is a format string for python's <code>strftime</code>. See: <a href="https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior">https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior</a></p>
 					<p><strong><em>Type:</em></strong>
 					string</p>
 					<p><strong><em>Default:</em></strong>
