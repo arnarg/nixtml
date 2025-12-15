@@ -177,17 +177,6 @@
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/collections.nix">&lt;nixtml/modules/collections.nix&gt;</a></li>
 					</ul>
-					<h2 id="websitecontentdateformat">website.content.dateFormat<a class="headerlink mx-2" href="#websitecontentdateformat" title="Permanent link">#</a></h2>
-					<p>Format string for any datetime in content front matter.</p>
-					<p>This is a format string for python's <code>strftime</code>. See: <a href="https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior">https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior</a></p>
-					<p><strong><em>Type:</em></strong>
-					string</p>
-					<p><strong><em>Default:</em></strong>
-					<code class="highlight"><span style="color: #40A02B">&quot;%b %-d, %Y&quot;</span></code></p>
-					<p><strong><em>Declared by:</em></strong></p>
-					<ul>
-						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
-					</ul>
 					<h2 id="websitecontentdir">website.content.dir<a class="headerlink mx-2" href="#websitecontentdir" title="Permanent link">#</a></h2>
 					<p>Path to a directory with markdown content.</p>
 					<p><strong><em>Type:</em></strong>
@@ -196,7 +185,68 @@
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 					</ul>
-					<h2 id="websitecontentmdprocessorextrapythonpackages">website.content.mdProcessor.extraPythonPackages<a class="headerlink mx-2" href="#websitecontentmdprocessorextrapythonpackages" title="Permanent link">#</a></h2>
+					<h2 id="websitecontentpages">website.content.pages<a class="headerlink mx-2" href="#websitecontentpages" title="Permanent link">#</a></h2>
+					<p>Attribute set of pages to be processed by a content processor (see <code>config.website.content.processors</code>). The content can come either from <code>text</code>
+						or <code>source</code>.</p>
+					<p>Keep in mind that nixtml will automatically populate this by walking <code>config.website.content.dir</code>
+						and finding content.</p>
+					<p><strong><em>Type:</em></strong>
+					attribute set of (submodule)</p>
+					<p><strong><em>Default:</em></strong>
+					<code class="highlight"><span style="color: #7C7F93">{</span>
+					<span style="color: #7C7F93">}</span></code></p>
+					<p><strong><em>Example:</em></strong></p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span>
+  <span style="color: #40A02B">&quot;index&quot;</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+    <span style="color: #40A02B">text</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&#39;&#39;</span>
+<span style="color: #40A02B">      ---</span>
+<span style="color: #40A02B">      title: Homepage</span>
+<span style="color: #40A02B">      ---</span>
+<span style="color: #40A02B">      # Welcome!</span>
+
+<span style="color: #40A02B">      Welcome to the hompage</span>
+<span style="color: #40A02B">    &#39;&#39;</span><span style="color: #7C7F93">;</span>
+    <span style="color: #40A02B">processor</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;md&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #7C7F93">};</span>
+  <span style="color: #40A02B">&quot;nested/page&quot;</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+    <span style="color: #40A02B">source</span> <span style="color: #179299">=</span> <span style="color: #40A02B">./path/to/page.md</span><span style="color: #7C7F93">;</span>
+    <span style="color: #40A02B">processor</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;md&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #7C7F93">};</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+					<p><strong><em>Declared by:</em></strong></p>
+					<ul>
+						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+					</ul>
+					<h2 id="websitecontentpagesnameprocessor">website.content.pages.&lt;name&gt;.processor<a class="headerlink mx-2" href="#websitecontentpagesnameprocessor" title="Permanent link">#</a></h2>
+					<p>Name of the processor to use to render the page content.</p>
+					<p><strong><em>Type:</em></strong>
+					value "md" (singular enum)</p>
+					<p><strong><em>Default:</em></strong>
+					<code class="highlight"><span style="color: #40A02B">&quot;md&quot;</span></code></p>
+					<p><strong><em>Declared by:</em></strong></p>
+					<ul>
+						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+					</ul>
+					<h2 id="websitecontentpagesnamesource">website.content.pages.&lt;name&gt;.source<a class="headerlink mx-2" href="#websitecontentpagesnamesource" title="Permanent link">#</a></h2>
+					<p>Path to to a source file with content that should be processed with the desired processor.</p>
+					<p><strong><em>Type:</em></strong>
+					absolute path</p>
+					<p><strong><em>Declared by:</em></strong></p>
+					<ul>
+						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+					</ul>
+					<h2 id="websitecontentpagesnametext">website.content.pages.&lt;name&gt;.text<a class="headerlink mx-2" href="#websitecontentpagesnametext" title="Permanent link">#</a></h2>
+					<p>Content that should be processed with the desired processor.</p>
+					<p><strong><em>Type:</em></strong>
+					null or string</p>
+					<p><strong><em>Default:</em></strong>
+					<code class="highlight"><span style="color: #1E66F5">null</span></code></p>
+					<p><strong><em>Declared by:</em></strong></p>
+					<ul>
+						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+					</ul>
+					<h2 id="websitecontentprocessorsmdextrapythonpackages">website.content.processors.md.extraPythonPackages<a class="headerlink mx-2" href="#websitecontentprocessorsmdextrapythonpackages" title="Permanent link">#</a></h2>
 					<p>Extra python packages to use for processing markdown content.</p>
 					<p><strong><em>Type:</em></strong>
 					list of package</p>
@@ -207,7 +257,18 @@
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 					</ul>
-					<h2 id="websitecontentmdprocessorsettingshighlightstyle">website.content.mdProcessor.settings.highlight.style<a class="headerlink mx-2" href="#websitecontentmdprocessorsettingshighlightstyle" title="Permanent link">#</a></h2>
+					<h2 id="websitecontentprocessorsmdsettingsdateformat">website.content.processors.md.settings.dateFormat<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsdateformat" title="Permanent link">#</a></h2>
+					<p>Format string for any datetime in content front matter.</p>
+					<p>This is a format string for python's <code>strftime</code>. See: <a href="https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior">https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior</a></p>
+					<p><strong><em>Type:</em></strong>
+					string</p>
+					<p><strong><em>Default:</em></strong>
+					<code class="highlight"><span style="color: #40A02B">&quot;%b %-d, %Y&quot;</span></code></p>
+					<p><strong><em>Declared by:</em></strong></p>
+					<ul>
+						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+					</ul>
+					<h2 id="websitecontentprocessorsmdsettingshighlightstyle">website.content.processors.md.settings.highlight.style<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingshighlightstyle" title="Permanent link">#</a></h2>
 					<p>The pygments style to use for code block colorscheme.</p>
 					<p><strong><em>Type:</em></strong>
 					string</p>
@@ -217,7 +278,7 @@
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 					</ul>
-					<h2 id="websitecontentmdprocessorsettingstocanchorlink">website.content.mdProcessor.settings.toc.anchorlink<a class="headerlink mx-2" href="#websitecontentmdprocessorsettingstocanchorlink" title="Permanent link">#</a></h2>
+					<h2 id="websitecontentprocessorsmdsettingstocanchorlink">website.content.processors.md.settings.toc.anchorlink<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstocanchorlink" title="Permanent link">#</a></h2>
 					<p>Set to <code>true</code>
 						to cause all headers to link to themselves.</p>
 					<p><strong><em>Type:</em></strong>
@@ -228,7 +289,7 @@
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 					</ul>
-					<h2 id="websitecontentmdprocessorsettingstocanchorlinkclass">website.content.mdProcessor.settings.toc.anchorlinkClass<a class="headerlink mx-2" href="#websitecontentmdprocessorsettingstocanchorlinkclass" title="Permanent link">#</a></h2>
+					<h2 id="websitecontentprocessorsmdsettingstocanchorlinkclass">website.content.processors.md.settings.toc.anchorlinkClass<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstocanchorlinkclass" title="Permanent link">#</a></h2>
 					<p>CSS class(es) used for the link.</p>
 					<p><strong><em>Type:</em></strong>
 					string</p>
@@ -238,7 +299,7 @@
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 					</ul>
-					<h2 id="websitecontentmdprocessorsettingstocmarker">website.content.mdProcessor.settings.toc.marker<a class="headerlink mx-2" href="#websitecontentmdprocessorsettingstocmarker" title="Permanent link">#</a></h2>
+					<h2 id="websitecontentprocessorsmdsettingstocmarker">website.content.processors.md.settings.toc.marker<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstocmarker" title="Permanent link">#</a></h2>
 					<p>Text to find and replace with the Table of Contents.</p>
 					<p>Set to an empty string to disable searching for a marker, which may save some time, especially on long documents.</p>
 					<p><strong><em>Type:</em></strong>
@@ -249,8 +310,9 @@
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 					</ul>
-					<h2 id="websitecontentmdprocessorsettingstocpermalink">website.content.mdProcessor.settings.toc.permalink<a class="headerlink mx-2" href="#websitecontentmdprocessorsettingstocpermalink" title="Permanent link">#</a></h2>
-					<p>Set to True or a string to generate permanent links at the end of each header. Useful with Sphinx style sheets.</p>
+					<h2 id="websitecontentprocessorsmdsettingstocpermalink">website.content.processors.md.settings.toc.permalink<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstocpermalink" title="Permanent link">#</a></h2>
+					<p>Set to <code>true</code>
+						or a string to generate permanent links at the end of each header.</p>
 					<p>When set to <code>true</code>
 						the paragraph symbol (¶ or “<code>&amp;para;</code>”) is used as the link text. When set to a string, the provided string is used as the link text.</p>
 					<p><strong><em>Type:</em></strong>
@@ -261,7 +323,7 @@
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 					</ul>
-					<h2 id="websitecontentmdprocessorsettingstocpermalinkclass">website.content.mdProcessor.settings.toc.permalinkClass<a class="headerlink mx-2" href="#websitecontentmdprocessorsettingstocpermalinkclass" title="Permanent link">#</a></h2>
+					<h2 id="websitecontentprocessorsmdsettingstocpermalinkclass">website.content.processors.md.settings.toc.permalinkClass<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstocpermalinkclass" title="Permanent link">#</a></h2>
 					<p>CSS class(es) used for the link.</p>
 					<p><strong><em>Type:</em></strong>
 					string</p>
@@ -271,7 +333,7 @@
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 					</ul>
-					<h2 id="websitecontentmdprocessorsettingstoctitle">website.content.mdProcessor.settings.toc.title<a class="headerlink mx-2" href="#websitecontentmdprocessorsettingstoctitle" title="Permanent link">#</a></h2>
+					<h2 id="websitecontentprocessorsmdsettingstoctitle">website.content.processors.md.settings.toc.title<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstoctitle" title="Permanent link">#</a></h2>
 					<p>Title to insert in the Table of Contents’ <code>&lt;div&gt;</code>.</p>
 					<p><strong><em>Type:</em></strong>
 					null or string</p>
@@ -281,7 +343,7 @@
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 					</ul>
-					<h2 id="websitecontentmdprocessorsettingstoctitleclass">website.content.mdProcessor.settings.toc.titleClass<a class="headerlink mx-2" href="#websitecontentmdprocessorsettingstoctitleclass" title="Permanent link">#</a></h2>
+					<h2 id="websitecontentprocessorsmdsettingstoctitleclass">website.content.processors.md.settings.toc.titleClass<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstoctitleclass" title="Permanent link">#</a></h2>
 					<p>CSS class used for the title contained in the Table of Contents.</p>
 					<p><strong><em>Type:</em></strong>
 					string</p>
@@ -291,7 +353,7 @@
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 					</ul>
-					<h2 id="websitecontentmdprocessorsettingstoctocclass">website.content.mdProcessor.settings.toc.tocClass<a class="headerlink mx-2" href="#websitecontentmdprocessorsettingstoctocclass" title="Permanent link">#</a></h2>
+					<h2 id="websitecontentprocessorsmdsettingstoctocclass">website.content.processors.md.settings.toc.tocClass<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstoctocclass" title="Permanent link">#</a></h2>
 					<p>CSS class(es) used for the <code>&lt;div&gt;</code>
 						containing the Table of Contents.</p>
 					<p><strong><em>Type:</em></strong>
