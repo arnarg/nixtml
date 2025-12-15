@@ -1,7 +1,7 @@
 { lib, config, ... }:
 let
   inherit (config.website) baseURL baseURI metadata;
-  contentOutput = config.website.content.output;
+  contentPages = config.website.content.pages;
 in
 {
   options.website = with lib; {
@@ -116,7 +116,7 @@ in
               };
 
               config = {
-                items = lib.pipe contentOutput [
+                items = lib.pipe contentPages [
                   (lib.filterAttrs (n: v: lib.hasPrefix config.path n))
                   (lib.mapAttrsToList (
                     n: v:

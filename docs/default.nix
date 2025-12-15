@@ -235,7 +235,7 @@ in
       };
     };
 
-    content.mdProcessor = {
+    content.processors.md = {
       settings = {
         toc = {
           permalink = "#";

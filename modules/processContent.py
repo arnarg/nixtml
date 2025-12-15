@@ -55,10 +55,6 @@ class YamlMetadataPreprocessor(Preprocessor):
 
 
 def process_post(post: str, options: dict) -> str:
-    settings = {}
-    if "settings" in options:
-        settings = options["settings"]
-
     md = Markdown(
         extensions=[
             YamlMetadataExtension(),
@@ -73,19 +69,19 @@ def process_post(post: str, options: dict) -> str:
         ],
         extension_configs={
             "toc": {
-                "marker": settings["toc"]["marker"],
-                "title": settings["toc"]["title"],
-                "title_class": settings["toc"]["titleClass"],
-                "toc_class": settings["toc"]["tocClass"],
-                "anchorlink": settings["toc"]["anchorlink"],
-                "anchorlink_class": settings["toc"]["anchorlinkClass"],
-                "permalink": settings["toc"]["permalink"],
-                "permalink_class": settings["toc"]["permalinkClass"],
+                "marker": options["toc"]["marker"],
+                "title": options["toc"]["title"],
+                "title_class": options["toc"]["titleClass"],
+                "toc_class": options["toc"]["tocClass"],
+                "anchorlink": options["toc"]["anchorlink"],
+                "anchorlink_class": options["toc"]["anchorlinkClass"],
+                "permalink": options["toc"]["permalink"],
+                "permalink_class": options["toc"]["permalinkClass"],
             },
             "pymdownx.highlight": {
                 "noclasses": True,
                 "use_pygments": True,
-                "pygments_style": settings["highlight"]["style"],
+                "pygments_style": options["highlight"]["style"],
             },
         },
     )

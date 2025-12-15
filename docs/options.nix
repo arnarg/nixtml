@@ -13,7 +13,7 @@ let
     name = "${repo}/${subpath}";
   };
 
-  options =
+  inherit
     (lib.evalModules {
       modules = [
         ../modules/nixtml.nix
@@ -25,7 +25,9 @@ let
       specialArgs = {
         inherit lib pkgs;
       };
-    }).options;
+    })
+    options
+    ;
 
   optionsDoc = pkgs.buildPackages.nixosOptionsDoc {
     options = removeAttrs options [ "_module" ];
@@ -113,46 +115,10 @@ let
         )
       ) optionsDoc.optionsNix)
     );
-
-  optsHTML =
-    let
-      py = pkgs.python3.withPackages (
-        ps:
-        with ps;
-        [
-          markdown
-          pymdown-extensions
-          pyyaml
-          pygments
-        ]
-        ++ config.website.content.mdProcessor.extraPythonPackages
-      );
-
-      options = pkgs.writeText "content-options-doc.json" (
-        builtins.toJSON {
-          inherit (config.website.content) dateFormat;
-          settings = config.website.content.mdProcessor.settings;
-        }
-      );
-
-      markdown = pkgs.writeText "content-options-doc.md" optsMd;
-
-      jsonData = pkgs.runCommand "content-data-doc-processed.json" { } ''
-        ${py}/bin/python ${../modules/processContent.py} ${toString markdown} ${toString options} > $out
-      '';
-
-      contentData = lib.importJSON jsonData;
-    in
-    {
-      inherit (contentData) metadata content;
-    };
 in
 {
-  website.pages."options" = {
-    layout = config.website.layouts.page;
-    extraContext = {
-      inherit (optsHTML) content metadata;
-      title = optsHTML.metadata.title;
-    };
+  website.content.pages."options" = {
+    text = optsMd;
+    processor = "md";
   };
 }
