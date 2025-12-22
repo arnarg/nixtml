@@ -45,7 +45,7 @@ let
     {
       modules,
       lib ? pkgs.lib,
-      specialArgs,
+      specialArgs ? { },
     }:
     nlib.evalModules {
       inherit
