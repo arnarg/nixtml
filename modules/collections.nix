@@ -113,6 +113,27 @@ in
                     );
                   internal = true;
                 };
+
+                taxonomyRSSFeeds = mkOption {
+                  type = types.attrsOf (
+                    types.attrsOf (
+                      types.submodule {
+                        options = {
+                          path = mkOption {
+                            type = types.str;
+                            internal = true;
+                          };
+                          result = mkOption {
+                            type = types.str;
+                            internal = true;
+                          };
+                        };
+                      }
+                    )
+                  );
+                  default = { };
+                  internal = true;
+                };
               };
 
               config = {
@@ -250,6 +271,62 @@ in
                   title = metadata.title or null;
                   lang = metadata.lang or null;
                 };
+
+                taxonomyRSSFeeds = lib.listToAttrs (
+                  lib.map (
+                    taxonomy:
+                    let
+                      sorted = lib.sortTaxonomy [ "metadata" taxonomy ] config.items;
+                    in
+                    {
+                      name = taxonomy;
+                      value = lib.mapAttrs (
+                        tag: items:
+                        let
+                          rssPath = lib.pipe config.path [
+                            (lib.splitString "/")
+                            (p: if p == [ ] then p else lib.take (lib.length p - 1) p)
+                            (
+                              p:
+                              p
+                              ++ [
+                                taxonomy
+                                tag
+                                "index.xml"
+                              ]
+                            )
+                            (lib.concatStringsSep "/")
+                          ];
+                          limitedItems = lib.take config.rss.limit items;
+                        in
+                        {
+                          path = rssPath;
+                          result = lib.mkRSSFeed {
+                            items = limitedItems;
+                            link = "${baseURL}/${
+                              lib.pipe config.path [
+                                (lib.splitString "/")
+                                (p: if p == [ ] then p else lib.take (lib.length p - 1) p)
+                                (
+                                  p:
+                                  p
+                                  ++ [
+                                    taxonomy
+                                    tag
+                                  ]
+                                )
+                                (lib.concatStringsSep "/")
+                              ]
+                            }";
+                            selfLink = "${baseURL}/${rssPath}";
+                            title = metadata.title or null;
+                            lang = metadata.lang or null;
+                          };
+                        }
+                      ) sorted;
+                    }
+                  ) config.taxonomies
+                );
               };
             }
           )
@@ -269,9 +346,20 @@ in
   };
 
   config = {
-    website.files = lib.concatMapAttrs (n: v: {
-      ${v.rss.path}.text = v.rss.result;
-    }) config.website.collections;
+    website.files = lib.concatMapAttrs (
+      n: v:
+      lib.optionalAttrs (v.rss.enable) (
+        {
+          ${v.rss.path}.text = v.rss.result;
+        }
+        // lib.concatMapAttrs (
+          taxonomy: tags:
+          lib.concatMapAttrs (tag: feed: {
+            ${feed.path}.text = feed.result;
+          }) tags
+        ) v.taxonomyRSSFeeds
+      )
+    ) config.website.collections;
 
     website.pages =
       let
