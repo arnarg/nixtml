@@ -21563,6 +21563,7 @@ has-background-danger.is-hoverable:active {
 
 div.highlight {
   background-color: transparent !important;
+  margin-bottom: var(--bulma-content-block-margin-bottom);
 }
 div.highlight pre {
   border-radius: 0.5em;

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/nixtml/css/main.css">
+		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="theme-color" content="#ffffff">
+		<link rel="icon" href="/favicon.png">
+		<title>
+			Taxonomies in nixtml | nixtml
+		</title>
+		<meta name="description" content="nixtml documentation">
+		<meta property="og:title" content="nixtml">
+		<meta property="twitter:title" content="nixtml">
+		<meta itemprop="name" content="nixtml">
+		<meta name="application-name" content="nixtml">
+		<meta property="og:site_name" content="nixtml">
+		<meta property="og:locale" content="en">
+		<meta property="og:type" content="article">
+	</head>
+	<body>
+		<section class="hero">
+			<div class="hero-body">
+				<div class="container is-max-desktop has-text-centered">
+					<img src="/nixtml/logo.svg">
+				</div>
+			</div>
+		</section>
+		<section class="section">
+			<div class="container is-max-desktop">
+				<h1 class="title">
+					Taxonomies in nixtml
+				</h1>
+				<div class="content">
+					<p>Taxonomies provide a way to classify and organize your content, making it easier for readers to find related posts. nixtml supports custom taxonomies like tags, categories, authors, series, and any other grouping you need.</p>
+					<h2 id="what-are-taxonomies">What Are Taxonomies?<a class="headerlink mx-2" href="#what-are-taxonomies" title="Permanent link">#</a></h2>
+					<p>Taxonomies are classification systems for your content. Each taxonomy has <strong>terms</strong>
+						(values), and content can have multiple terms per taxonomy.</p>
+					<p><strong>Common taxonomy examples:</strong></p>
+					<table>
+						<thead>
+							<tr>
+								<th>Taxonomy</th>
+								<th>Terms</th>
+								<th>Use Case</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>tags</code></td>
+								<td>nix, tutorial, beginner</td>
+								<td>Specific keywords</td>
+							</tr>
+							<tr>
+								<td><code>categories</code></td>
+								<td>programming, guides</td>
+								<td>Broad topics</td>
+							</tr>
+							<tr>
+								<td><code>authors</code></td>
+								<td>john-doe, jane-smith</td>
+								<td>Content creators</td>
+							</tr>
+							<tr>
+								<td><code>series</code></td>
+								<td>nix-basics, advanced-flakes</td>
+								<td>Multi-part content</td>
+							</tr>
+							<tr>
+								<td><code>difficulty</code></td>
+								<td>beginner, intermediate</td>
+								<td>Skill levels</td>
+							</tr>
+						</tbody>
+					</table>
+					<h2 id="quick-start">Quick Start<a class="headerlink mx-2" href="#quick-start" title="Permanent link">#</a></h2>
+					<h3 id="1-enable-taxonomies">1. Enable Taxonomies<a class="headerlink mx-2" href="#1-enable-taxonomies" title="Permanent link">#</a></h3>
+					<p>Add taxonomies to your collection:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>collections<span style="color: #179299">.</span><span style="color: #40A02B">blog</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+  <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;blog/posts&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">taxonomies</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;tags&quot;</span> <span style="color: #7C7F93">];</span>
+<span style="color: #7C7F93">};</span>
+</code></pre></div>
+					<h3 id="2-add-terms-to-content">2. Add Terms to Content<a class="headerlink mx-2" href="#2-add-terms-to-content" title="Permanent link">#</a></h3>
+					<p>In your markdown frontmatter:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+title: Getting Started with Nix
+date: 2026-01-19
+tags:
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>nix
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>beginner
+  - tutorial
+---
+
+Your content here...
+</code></pre></div>
+					<h3 id="3-define-the-taxonomy-template">3. Define the Taxonomy Template<a class="headerlink mx-2" href="#3-define-the-taxonomy-template" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">taxonomy</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> title<span style="color: #7C7F93">,</span> items<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+  <span style="color: #7C7F93">[</span>
+    <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Posts tagged: </span><span style="color: #EA76CB">${</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">])</span>
+    <span style="color: #7C7F93">(</span>ul <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>item<span style="color: #7C7F93">:</span> li <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span> items<span style="color: #7C7F93">))</span>
+  <span style="color: #7C7F93">];</span>
+</code></pre></div>
+					<p>That's it! nixtml automatically generates pages for each tag.</p>
+					<h2 id="generated-urls">Generated URLs<a class="headerlink mx-2" href="#generated-urls" title="Permanent link">#</a></h2>
+					<p>Taxonomy pages are created based on your collection's path:</p>
+					<h3 id="example-path-blogposts">Example: <code>path = "blog/posts"</code><a class="headerlink mx-2" href="#example-path-blogposts" title="Permanent link">#</a></h3>
+					<table>
+						<thead>
+							<tr>
+								<th>Content</th>
+								<th>Generated URL</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Tag page: nix</td>
+								<td><code>/blog/tags/nix/index.html</code></td>
+							</tr>
+							<tr>
+								<td>Tag page 2: nix</td>
+								<td><code>/blog/tags/nix/page/2/index.html</code></td>
+							</tr>
+							<tr>
+								<td>RSS feed: nix</td>
+								<td><code>/blog/tags/nix/index.xml</code></td>
+							</tr>
+							<tr>
+								<td>Category page</td>
+								<td><code>/blog/categories/tutorials/index.html</code></td>
+							</tr>
+						</tbody>
+					</table>
+					<h3 id="example-path-posts">Example: <code>path = "posts"</code><a class="headerlink mx-2" href="#example-path-posts" title="Permanent link">#</a></h3>
+					<table>
+						<thead>
+							<tr>
+								<th>Content</th>
+								<th>Generated URL</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Tag page: nix</td>
+								<td><code>/tags/nix/index.html</code></td>
+							</tr>
+							<tr>
+								<td>RSS feed: nix</td>
+								<td><code>/tags/nix/index.xml</code></td>
+							</tr>
+						</tbody>
+					</table>
+					<p>The pattern is: <code>/{collection-prefix}/{taxonomy}/{term}/</code></p>
+					<h2 id="taxonomy-template">Taxonomy Template<a class="headerlink mx-2" href="#taxonomy-template" title="Permanent link">#</a></h2>
+					<p>The <code>taxonomy</code>
+						layout receives these context variables:</p>
+					<table>
+						<thead>
+							<tr>
+								<th>Variable</th>
+								<th>Type</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>title</code></td>
+								<td>string</td>
+								<td>The taxonomy term (e.g., "nix")</td>
+							</tr>
+							<tr>
+								<td><code>pageNumber</code></td>
+								<td>int</td>
+								<td>Current page number (1-indexed)</td>
+							</tr>
+							<tr>
+								<td><code>totalPages</code></td>
+								<td>int</td>
+								<td>Total number of pages</td>
+							</tr>
+							<tr>
+								<td><code>items</code></td>
+								<td>list</td>
+								<td>Posts on this page</td>
+							</tr>
+							<tr>
+								<td><code>hasNext</code></td>
+								<td>bool</td>
+								<td>Whether next page exists</td>
+							</tr>
+							<tr>
+								<td><code>hasPrev</code></td>
+								<td>bool</td>
+								<td>Whether previous page exists</td>
+							</tr>
+							<tr>
+								<td><code>nextPageURL</code></td>
+								<td>string</td>
+								<td>URL to next page</td>
+							</tr>
+							<tr>
+								<td><code>prevPageURL</code></td>
+								<td>string</td>
+								<td>URL to previous page</td>
+							</tr>
+						</tbody>
+					</table>
+					<h3 id="complete-template-example">Complete Template Example<a class="headerlink mx-2" href="#complete-template-example" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span> lib<span style="color: #7C7F93">,</span> config<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+<span style="color: #8839EF">let</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span> div h1 h2 ul li a p span article<span style="color: #7C7F93">;</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #7C7F93">)</span> attrs<span style="color: #7C7F93">;</span>
+<span style="color: #8839EF">in</span>
+<span style="color: #7C7F93">{</span>
+  website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">taxonomy</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+    title<span style="color: #7C7F93">,</span>
+    pageNumber<span style="color: #7C7F93">,</span>
+    totalPages<span style="color: #7C7F93">,</span>
+    items<span style="color: #7C7F93">,</span>
+    hasNext<span style="color: #7C7F93">,</span>
+    hasPrev<span style="color: #7C7F93">,</span>
+    nextPageURL<span style="color: #7C7F93">,</span>
+    prevPageURL<span style="color: #7C7F93">,</span>
+    <span style="color: #179299">...</span>
+  <span style="color: #7C7F93">}:</span>
+    <span style="color: #7C7F93">[</span>
+      <span style="color: #7C7F93; font-style: italic"># Header with term name</span>
+      <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Posts tagged: #</span><span style="color: #EA76CB">${</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">])</span>
+
+      <span style="color: #7C7F93; font-style: italic"># Post count</span>
+      <span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;taxonomy-meta&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
+        <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;</span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">builtins</span><span style="color: #179299">.</span>length items<span style="color: #7C7F93">)</span><span style="color: #EA76CB">}</span><span style="color: #40A02B"> posts&quot;</span> <span style="color: #7C7F93">])</span>
+
+      <span style="color: #7C7F93; font-style: italic"># List of posts</span>
+      <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;post-list&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
+        <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>item<span style="color: #7C7F93">:</span>
+          article <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;post-preview&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+            <span style="color: #7C7F93">(</span>h2 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+              <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href item<span style="color: #179299">.</span>url<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;post-meta&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+              <span style="color: #7C7F93">(</span>span <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;date&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>date <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;summary&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>summary <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">]</span>
+        <span style="color: #7C7F93">)</span> items<span style="color: #7C7F93">)</span>
+      <span style="color: #7C7F93">)</span>
+
+      <span style="color: #7C7F93; font-style: italic"># Pagination</span>
+      <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;pagination&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+        <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> hasPrev
+          <span style="color: #8839EF">then</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href prevPageURL<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;prev&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;← Newer Posts&quot;</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #8839EF">else</span> <span style="color: #7C7F93">(</span>span <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;prev disabled&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;← Newer Posts&quot;</span> <span style="color: #7C7F93">]))</span>
+
+        <span style="color: #7C7F93">(</span>span <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;page-info&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
+          <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Page </span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> pageNumber<span style="color: #EA76CB">}</span><span style="color: #40A02B"> of </span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> totalPages<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">])</span>
+
+        <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> hasNext
+          <span style="color: #8839EF">then</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href nextPageURL<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;next&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Older Posts →&quot;</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #8839EF">else</span> <span style="color: #7C7F93">(</span>span <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;next disabled&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Older Posts →&quot;</span> <span style="color: #7C7F93">]))</span>
+      <span style="color: #7C7F93">])</span>
+    <span style="color: #7C7F93">];</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+					<h2 id="displaying-tags-on-posts">Displaying Tags on Posts<a class="headerlink mx-2" href="#displaying-tags-on-posts" title="Permanent link">#</a></h2>
+					<p>To show tags on individual posts, access them via <code>metadata</code>:</p>
+					<h3 id="in-the-page-template">In the Page Template<a class="headerlink mx-2" href="#in-the-page-template" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">page</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> metadata<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+  <span style="color: #8839EF">let</span>
+    <span style="color: #7C7F93; font-style: italic"># Get tags, defaulting to empty list</span>
+    <span style="color: #40A02B">tags</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>tags <span style="color: #179299">or</span> <span style="color: #7C7F93">[];</span>
+  <span style="color: #8839EF">in</span>
+  <span style="color: #7C7F93">[</span>
+    <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> metadata<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
+
+    <span style="color: #7C7F93; font-style: italic"># Show tags if present</span>
+    <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> tags <span style="color: #179299">!=</span> <span style="color: #7C7F93">[]</span> <span style="color: #8839EF">then</span>
+      <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;tags&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
+        <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>tag<span style="color: #7C7F93">:</span>
+          a <span style="color: #7C7F93">[</span>
+            <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/blog/tags/</span><span style="color: #EA76CB">${</span>tag<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span><span style="color: #7C7F93">)</span>
+            <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;tag&quot;</span><span style="color: #7C7F93">)</span>
+          <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;#</span><span style="color: #EA76CB">${</span>tag<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">]</span>
+        <span style="color: #7C7F93">)</span> tags<span style="color: #7C7F93">)</span>
+      <span style="color: #7C7F93">)</span>
+    <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+
+    <span style="color: #7C7F93; font-style: italic"># Post content</span>
+    <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;content&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> content <span style="color: #7C7F93">])</span>
+  <span style="color: #7C7F93">];</span>
+</code></pre></div>
+					<h3 id="in-collection-listings">In Collection Listings<a class="headerlink mx-2" href="#in-collection-listings" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">collection</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> items<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+  <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[]</span>
+    <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>item<span style="color: #7C7F93">:</span>
+      article <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+        <span style="color: #7C7F93">(</span>h2 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>date <span style="color: #7C7F93">])</span>
+
+        <span style="color: #7C7F93; font-style: italic"># Tags from item.metadata</span>
+        <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> <span style="color: #7C7F93">(</span>item<span style="color: #179299">.</span>metadata<span style="color: #179299">.</span>tags <span style="color: #179299">or</span> <span style="color: #7C7F93">[])</span> <span style="color: #179299">!=</span> <span style="color: #7C7F93">[]</span> <span style="color: #8839EF">then</span>
+          <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;tags&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
+            <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>tag<span style="color: #7C7F93">:</span>
+              a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/blog/tags/</span><span style="color: #EA76CB">${</span>tag<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;#</span><span style="color: #EA76CB">${</span>tag<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">]</span>
+            <span style="color: #7C7F93">)</span> item<span style="color: #179299">.</span>metadata<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span>
+          <span style="color: #7C7F93">)</span>
+        <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+      <span style="color: #7C7F93">]</span>
+    <span style="color: #7C7F93">)</span> items<span style="color: #7C7F93">)</span>
+  <span style="color: #7C7F93">);</span>
+</code></pre></div>
+					<h2 id="multiple-taxonomy-types">Multiple Taxonomy Types<a class="headerlink mx-2" href="#multiple-taxonomy-types" title="Permanent link">#</a></h2>
+					<p>You can have any number of taxonomies:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>collections<span style="color: #179299">.</span><span style="color: #40A02B">blog</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+  <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;blog/posts&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">taxonomies</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span>
+    <span style="color: #40A02B">&quot;tags&quot;</span>
+    <span style="color: #40A02B">&quot;categories&quot;</span>
+    <span style="color: #40A02B">&quot;authors&quot;</span>
+    <span style="color: #40A02B">&quot;series&quot;</span>
+  <span style="color: #7C7F93">];</span>
+<span style="color: #7C7F93">};</span>
+</code></pre></div>
+					<h3 id="content-with-multiple-taxonomies">Content with Multiple Taxonomies<a class="headerlink mx-2" href="#content-with-multiple-taxonomies" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+title: Building a Blog with Nix
+date: 2026-01-19
+tags:
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>nix
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>web
+categories:
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>tutorials
+authors:
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>john-doe
+series:
+  - nix-web-dev
+---
+</code></pre></div>
+					<p>This creates pages at:</p>
+					<ul>
+						<li><code>/blog/tags/nix/</code></li>
+						<li><code>/blog/tags/web/</code></li>
+						<li><code>/blog/categories/tutorials/</code></li>
+						<li><code>/blog/authors/john-doe/</code></li>
+						<li><code>/blog/series/nix-web-dev/</code></li>
+					</ul>
+					<h2 id="rss-feeds-for-taxonomies">RSS Feeds for Taxonomies<a class="headerlink mx-2" href="#rss-feeds-for-taxonomies" title="Permanent link">#</a></h2>
+					<p>Each taxonomy term automatically gets an RSS feed:</p>
+					<table>
+						<thead>
+							<tr>
+								<th>Term</th>
+								<th>RSS Feed URL</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>tags: nix</td>
+								<td><code>/blog/tags/nix/index.xml</code></td>
+							</tr>
+							<tr>
+								<td>categories: tutorials</td>
+								<td><code>/blog/categories/tutorials/index.xml</code></td>
+							</tr>
+						</tbody>
+					</table>
+					<p>Link to taxonomy RSS feeds in your templates:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">taxonomy</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> title<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+  <span style="color: #7C7F93">[</span>
+    <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Posts tagged: </span><span style="color: #EA76CB">${</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">])</span>
+
+    <span style="color: #7C7F93; font-style: italic"># RSS feed link</span>
+    <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span>
+      <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/blog/tags/</span><span style="color: #EA76CB">${</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B">/index.xml&quot;</span><span style="color: #7C7F93">)</span>
+      <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;rss-link&quot;</span><span style="color: #7C7F93">)</span>
+    <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;RSS Feed for #</span><span style="color: #EA76CB">${</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">])</span>
+
+    <span style="color: #7C7F93; font-style: italic"># ... rest of template</span>
+  <span style="color: #7C7F93">];</span>
+</code></pre></div>
+					<h2 id="taxonomy-naming-conventions">Taxonomy Naming Conventions<a class="headerlink mx-2" href="#taxonomy-naming-conventions" title="Permanent link">#</a></h2>
+					<h3 id="recommended-practices">Recommended Practices<a class="headerlink mx-2" href="#recommended-practices" title="Permanent link">#</a></h3>
+					<table>
+						<thead>
+							<tr>
+								<th>Do</th>
+								<th>Don't</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>nix-flakes</code></td>
+								<td><code>Nix Flakes</code></td>
+							</tr>
+							<tr>
+								<td><code>getting-started</code></td>
+								<td><code>Getting Started</code></td>
+							</tr>
+							<tr>
+								<td><code>javascript</code></td>
+								<td><code>JavaScript</code></td>
+							</tr>
+							<tr>
+								<td><code>john-doe</code></td>
+								<td><code>John Doe</code></td>
+							</tr>
+						</tbody>
+					</table>
+					<ul>
+						<li><strong>Use lowercase</strong>: Avoids case-sensitivity issues</li>
+						<li><strong>Use hyphens</strong>: Creates clean URLs</li>
+						<li><strong>Be consistent</strong>: Same term should always be spelled the same</li>
+					</ul>
+					<h3 id="url-safe-terms">URL-Safe Terms<a class="headerlink mx-2" href="#url-safe-terms" title="Permanent link">#</a></h3>
+					<p>Terms become part of URLs, so keep them URL-friendly:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #D20F39"># Good</span>
+tags:
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>nix-flakes
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>getting-started
+
+<span style="color: #D20F39"># Avoid</span>
+tags:
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>&quot;Nix Flakes&quot;      # Spaces in URLs
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>&quot;C++&quot;             # Special characters
+</code></pre></div>
+					<h2 id="complete-example">Complete Example<a class="headerlink mx-2" href="#complete-example" title="Permanent link">#</a></h2>
+					<h3 id="directory-structure">Directory Structure<a class="headerlink mx-2" href="#directory-structure" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>my-blog/
+├── flake.nix
+├── layouts.nix
+└── content/
+    └── blog/
+        └── posts/
+            ├── nix-intro.md
+            ├── flakes-deep-dive.md
+            └── nixos-config.md
+</code></pre></div>
+					<h3 id="contentblogpostsnix-intromd"><code>content/blog/posts/nix-intro.md</code><a class="headerlink mx-2" href="#contentblogpostsnix-intromd" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+title: Introduction to Nix
+date: 2026-01-15
+tags:
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>nix
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>beginner
+categories:
+  - tutorials
+---
+
+A beginner-friendly introduction to Nix.
+
+&lt;!--more--&gt;
+
+## What is Nix?
+
+Nix is a powerful package manager...
+</code></pre></div>
+					<h3 id="flakenix"><code>flake.nix</code><a class="headerlink mx-2" href="#flakenix" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span>
+  <span style="color: #40A02B">inputs</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+    nixpkgs<span style="color: #179299">.</span><span style="color: #40A02B">url</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;github:nixos/nixpkgs/nixos-unstable&quot;</span><span style="color: #7C7F93">;</span>
+    flake-utils<span style="color: #179299">.</span><span style="color: #40A02B">url</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;github:numtide/flake-utils&quot;</span><span style="color: #7C7F93">;</span>
+    nixtml<span style="color: #179299">.</span><span style="color: #40A02B">url</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;github:arnarg/nixtml&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #7C7F93">};</span>
+
+  <span style="color: #40A02B">outputs</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> self<span style="color: #7C7F93">,</span> nixpkgs<span style="color: #7C7F93">,</span> flake-utils<span style="color: #7C7F93">,</span> nixtml <span style="color: #7C7F93">}:</span>
+    flake-utils<span style="color: #179299">.</span>lib<span style="color: #179299">.</span>eachDefaultSystem <span style="color: #7C7F93">(</span>system<span style="color: #7C7F93">:</span>
+      <span style="color: #8839EF">let</span> <span style="color: #40A02B">pkgs</span> <span style="color: #179299">=</span> <span style="color: #FE640B; font-style: italic">import</span> nixpkgs <span style="color: #7C7F93">{</span> <span style="color: #8839EF">inherit</span> system<span style="color: #7C7F93">;</span> <span style="color: #7C7F93">};</span>
+      <span style="color: #8839EF">in</span> <span style="color: #7C7F93">{</span>
+        packages<span style="color: #179299">.</span><span style="color: #40A02B">default</span> <span style="color: #179299">=</span> nixtml<span style="color: #179299">.</span>lib<span style="color: #179299">.</span>mkWebsite <span style="color: #7C7F93">{</span>
+          <span style="color: #8839EF">inherit</span> pkgs<span style="color: #7C7F93">;</span>
+          <span style="color: #40A02B">name</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;my-blog&quot;</span><span style="color: #7C7F93">;</span>
+          <span style="color: #40A02B">baseURL</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;https://my-blog.com&quot;</span><span style="color: #7C7F93">;</span>
+
+          <span style="color: #40A02B">metadata</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+            <span style="color: #40A02B">lang</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;en&quot;</span><span style="color: #7C7F93">;</span>
+            <span style="color: #40A02B">title</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;My Blog&quot;</span><span style="color: #7C7F93">;</span>
+          <span style="color: #7C7F93">};</span>
+
+          content<span style="color: #179299">.</span><span style="color: #40A02B">dir</span> <span style="color: #179299">=</span> <span style="color: #40A02B">./content</span><span style="color: #7C7F93">;</span>
+
+          collections<span style="color: #179299">.</span><span style="color: #40A02B">blog</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+            <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;blog/posts&quot;</span><span style="color: #7C7F93">;</span>
+            pagination<span style="color: #179299">.</span><span style="color: #40A02B">perPage</span> <span style="color: #179299">=</span> <span style="color: #FE640B">5</span><span style="color: #7C7F93">;</span>
+            <span style="color: #40A02B">taxonomies</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;tags&quot;</span> <span style="color: #40A02B">&quot;categories&quot;</span> <span style="color: #7C7F93">];</span>
+          <span style="color: #7C7F93">};</span>
+
+          <span style="color: #40A02B">imports</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">./layouts.nix</span> <span style="color: #7C7F93">];</span>
+        <span style="color: #7C7F93">};</span>
+      <span style="color: #7C7F93">}</span>
+    <span style="color: #7C7F93">);</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+					<h3 id="layoutsnix"><code>layouts.nix</code><a class="headerlink mx-2" href="#layoutsnix" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span> lib<span style="color: #7C7F93">,</span> config<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+<span style="color: #8839EF">let</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>config<span style="color: #179299">.</span>website<span style="color: #7C7F93">)</span> metadata<span style="color: #7C7F93">;</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span> html head body div h1 h2 ul li a p span article nav<span style="color: #7C7F93">;</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span> title meta link<span style="color: #7C7F93">;</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #7C7F93">)</span> attrs<span style="color: #7C7F93">;</span>
+<span style="color: #8839EF">in</span>
+<span style="color: #7C7F93">{</span>
+  website<span style="color: #179299">.</span><span style="color: #40A02B">layouts</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+    <span style="color: #40A02B">base</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> path<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+      <span style="color: #40A02B">&quot;&lt;!DOCTYPE html&gt;</span><span style="color: #EA76CB">\n</span><span style="color: #40A02B">&quot;</span>
+      <span style="color: #179299">+</span> <span style="color: #7C7F93">(</span>html <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>lang metadata<span style="color: #179299">.</span>lang<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span>head <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+            <span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>charset <span style="color: #40A02B">&quot;UTF-8&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">(</span>title metadata<span style="color: #179299">.</span>title<span style="color: #7C7F93">)</span>
+          <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span>body <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> content <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">]);</span>
+
+    <span style="color: #40A02B">home</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span> content<span style="color: #7C7F93">;</span>
+
+    <span style="color: #40A02B">page</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> metadata<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+      <span style="color: #8839EF">let</span> <span style="color: #40A02B">tags</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>tags <span style="color: #179299">or</span> <span style="color: #7C7F93">[];</span>
+      <span style="color: #8839EF">in</span> <span style="color: #7C7F93">[</span>
+        <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> metadata<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> tags <span style="color: #179299">!=</span> <span style="color: #7C7F93">[]</span> <span style="color: #8839EF">then</span>
+          <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;tags&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
+            <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>tag<span style="color: #7C7F93">:</span> a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/blog/tags/</span><span style="color: #EA76CB">${</span>tag<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;#</span><span style="color: #EA76CB">${</span>tag<span style="color: #EA76CB">}</span><span style="color: #40A02B"> &quot;</span> <span style="color: #7C7F93">])</span> tags<span style="color: #7C7F93">)</span>
+          <span style="color: #7C7F93">)</span>
+        <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+        content
+      <span style="color: #7C7F93">];</span>
+
+    <span style="color: #40A02B">collection</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> pageNumber<span style="color: #7C7F93">,</span> totalPages<span style="color: #7C7F93">,</span> items<span style="color: #7C7F93">,</span> hasNext<span style="color: #7C7F93">,</span> hasPrev<span style="color: #7C7F93">,</span> nextPageURL<span style="color: #7C7F93">,</span> prevPageURL<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+      <span style="color: #7C7F93">[</span>
+        <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Blog&quot;</span> <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>item<span style="color: #7C7F93">:</span>
+          article <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+            <span style="color: #7C7F93">(</span>h2 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href item<span style="color: #179299">.</span>url<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span> <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>date <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">]</span>
+        <span style="color: #7C7F93">)</span> items<span style="color: #7C7F93">))</span>
+        <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> hasPrev <span style="color: #8839EF">then</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href prevPageURL<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;← Newer&quot;</span> <span style="color: #7C7F93">])</span> <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+          <span style="color: #40A02B">&quot; Page </span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> pageNumber<span style="color: #EA76CB">}</span><span style="color: #40A02B">/</span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> totalPages<span style="color: #EA76CB">}</span><span style="color: #40A02B"> &quot;</span>
+          <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> hasNext <span style="color: #8839EF">then</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href nextPageURL<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Older →&quot;</span> <span style="color: #7C7F93">])</span> <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+        <span style="color: #7C7F93">])</span>
+      <span style="color: #7C7F93">];</span>
+
+    <span style="color: #40A02B">taxonomy</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> title<span style="color: #7C7F93">,</span> pageNumber<span style="color: #7C7F93">,</span> totalPages<span style="color: #7C7F93">,</span> items<span style="color: #7C7F93">,</span> hasNext<span style="color: #7C7F93">,</span> hasPrev<span style="color: #7C7F93">,</span> nextPageURL<span style="color: #7C7F93">,</span> prevPageURL<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+      <span style="color: #7C7F93">[</span>
+        <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;#</span><span style="color: #EA76CB">${</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;</span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">builtins</span><span style="color: #179299">.</span>length items<span style="color: #7C7F93">)</span><span style="color: #EA76CB">}</span><span style="color: #40A02B"> posts&quot;</span> <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">(</span>ul <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>item<span style="color: #7C7F93">:</span>
+          li <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+            <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href item<span style="color: #179299">.</span>url<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
+            <span style="color: #40A02B">&quot; - </span><span style="color: #EA76CB">${</span>item<span style="color: #179299">.</span>date<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span>
+          <span style="color: #7C7F93">]</span>
+        <span style="color: #7C7F93">)</span> items<span style="color: #7C7F93">))</span>
+        <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> hasPrev <span style="color: #8839EF">then</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href prevPageURL<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;← Newer&quot;</span> <span style="color: #7C7F93">])</span> <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+          <span style="color: #40A02B">&quot; Page </span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> pageNumber<span style="color: #EA76CB">}</span><span style="color: #40A02B">/</span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> totalPages<span style="color: #EA76CB">}</span><span style="color: #40A02B"> &quot;</span>
+          <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> hasNext <span style="color: #8839EF">then</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href nextPageURL<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Older →&quot;</span> <span style="color: #7C7F93">])</span> <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+        <span style="color: #7C7F93">])</span>
+      <span style="color: #7C7F93">];</span>
+  <span style="color: #7C7F93">};</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+					<h2 id="best-practices">Best Practices<a class="headerlink mx-2" href="#best-practices" title="Permanent link">#</a></h2>
+					<h3 id="content-organization">Content Organization<a class="headerlink mx-2" href="#content-organization" title="Permanent link">#</a></h3>
+					<ul>
+						<li><strong>Tags</strong>
+						(5-15 per post): Specific, descriptive keywords</li>
+						<li><strong>Categories</strong>
+						(1-3 per post): Broad content types</li>
+						<li><strong>Series</strong>: Multi-part tutorials or related posts</li>
+						<li><strong>Authors</strong>: Multi-author blogs</li>
+					</ul>
+					<h3 id="performance">Performance<a class="headerlink mx-2" href="#performance" title="Permanent link">#</a></h3>
+					<ul>
+						<li>Keep taxonomy count reasonable (3-5 types max)</li>
+						<li>Use pagination for terms with many posts</li>
+						<li>RSS feed limits help with large sites</li>
+					</ul>
+					<h3 id="user-experience">User Experience<a class="headerlink mx-2" href="#user-experience" title="Permanent link">#</a></h3>
+					<ul>
+						<li>Display tags prominently on posts</li>
+						<li>Provide navigation between related tags</li>
+						<li>Consider a tag cloud or popular tags section</li>
+						<li>Link to RSS feeds for individual tags</li>
+					</ul>
+					<h3 id="seo">SEO<a class="headerlink mx-2" href="#seo" title="Permanent link">#</a></h3>
+					<ul>
+						<li>Use descriptive, keyword-rich terms</li>
+						<li>Keep URLs clean with lowercase hyphenated terms</li>
+						<li>Ensure taxonomy pages have good meta descriptions</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+		<footer class="footer">
+			<div class="content is-max-desktop has-text-centered">
+				<p>
+					This website is (obviously) generated with
+					<a href="https://github.com/arnarg/nixtml">
+						nixtml.
+					</a>
+				</p>
+			</div>
+		</footer>
+	</body>
+</html>

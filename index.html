@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/nixtml/css/main.css">
+		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="theme-color" content="#ffffff">
+		<link rel="icon" href="/favicon.png">
+		<title>
+			nixtml
+		</title>
+		<meta name="description" content="nixtml documentation">
+		<meta property="og:title" content="nixtml">
+		<meta property="twitter:title" content="nixtml">
+		<meta itemprop="name" content="nixtml">
+		<meta name="application-name" content="nixtml">
+		<meta property="og:site_name" content="nixtml">
+		<meta property="og:locale" content="en">
+		<meta property="og:type" content="website">
+	</head>
+	<body>
+		<section class="hero">
+			<div class="hero-body">
+				<div class="container is-max-desktop has-text-centered">
+					<img src="/nixtml/logo.svg">
+				</div>
+			</div>
+		</section>
+		<section class="section">
+			<div class="container is-max-desktop">
+				<h1 class="title">
+					Getting Started with nixtml
+				</h1>
+				<div class="content">
+					<p>nixtml is a static website generator written in Nix, inspired by Hugo. This guide will walk you through creating your first website from scratch.</p>
+					<h2 id="prerequisites">Prerequisites<a class="headerlink mx-2" href="#prerequisites" title="Permanent link">#</a></h2>
+					<ul>
+						<li><strong>Nix</strong>
+						installed with flakes enabled</li>
+						<li>Basic familiarity with Nix language</li>
+						<li>A text editor</li>
+					</ul>
+					<p>To enable flakes, add this to your <code>~/.config/nix/nix.conf</code>:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>experimental-features = nix-command flakes
+</code></pre></div>
+					<h2 id="project-structure">Project Structure<a class="headerlink mx-2" href="#project-structure" title="Permanent link">#</a></h2>
+					<p>By the end of this guide, your project will look like this:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>my-website/
+├── flake.nix          # Main configuration
+├── content/
+│   ├── index.md       # Homepage
+│   └── about.md       # About page
+└── static/            # Static assets (CSS, images, etc.)
+    └── css/
+        └── style.css
+</code></pre></div>
+					<h2 id="step-1-create-a-new-project">Step 1: Create a New Project<a class="headerlink mx-2" href="#step-1-create-a-new-project" title="Permanent link">#</a></h2>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>mkdir<span style="color: #4C4F69"> </span>my-website
+<span style="color: #FE640B; font-style: italic">cd</span><span style="color: #4C4F69"> </span>my-website
+</code></pre></div>
+					<h2 id="step-2-create-the-flake-configuration">Step 2: Create the Flake Configuration<a class="headerlink mx-2" href="#step-2-create-the-flake-configuration" title="Permanent link">#</a></h2>
+					<p>Create a <code>flake.nix</code>
+						file:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span>
+  <span style="color: #40A02B">description</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;My website generated using nixtml.&quot;</span><span style="color: #7C7F93">;</span>
+
+  <span style="color: #40A02B">inputs</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+    nixpkgs<span style="color: #179299">.</span><span style="color: #40A02B">url</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;github:nixos/nixpkgs/nixos-unstable&quot;</span><span style="color: #7C7F93">;</span>
+    flake-utils<span style="color: #179299">.</span><span style="color: #40A02B">url</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;github:numtide/flake-utils&quot;</span><span style="color: #7C7F93">;</span>
+    nixtml<span style="color: #179299">.</span><span style="color: #40A02B">url</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;github:arnarg/nixtml&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #7C7F93">};</span>
+
+  <span style="color: #40A02B">outputs</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+    self<span style="color: #7C7F93">,</span>
+    nixpkgs<span style="color: #7C7F93">,</span>
+    flake-utils<span style="color: #7C7F93">,</span>
+    nixtml<span style="color: #7C7F93">,</span>
+  <span style="color: #7C7F93">}:</span>
+    flake-utils<span style="color: #179299">.</span>lib<span style="color: #179299">.</span>eachDefaultSystem <span style="color: #7C7F93">(</span>
+      system<span style="color: #7C7F93">:</span>
+      <span style="color: #8839EF">let</span>
+        <span style="color: #40A02B">pkgs</span> <span style="color: #179299">=</span> <span style="color: #FE640B; font-style: italic">import</span> nixpkgs <span style="color: #7C7F93">{</span> <span style="color: #8839EF">inherit</span> system<span style="color: #7C7F93">;</span> <span style="color: #7C7F93">};</span>
+      <span style="color: #8839EF">in</span>
+      <span style="color: #7C7F93">{</span>
+        packages<span style="color: #179299">.</span><span style="color: #40A02B">default</span> <span style="color: #179299">=</span> nixtml<span style="color: #179299">.</span>lib<span style="color: #179299">.</span>mkWebsite <span style="color: #7C7F93">{</span>
+          <span style="color: #8839EF">inherit</span> pkgs<span style="color: #7C7F93">;</span>
+
+          <span style="color: #40A02B">name</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;my-website&quot;</span><span style="color: #7C7F93">;</span>
+          <span style="color: #40A02B">baseURL</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;https://my-website.com&quot;</span><span style="color: #7C7F93">;</span>
+
+          <span style="color: #7C7F93; font-style: italic"># Site-wide metadata available in templates</span>
+          <span style="color: #40A02B">metadata</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+            <span style="color: #40A02B">lang</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;en&quot;</span><span style="color: #7C7F93">;</span>
+            <span style="color: #40A02B">title</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;My Website&quot;</span><span style="color: #7C7F93">;</span>
+            <span style="color: #40A02B">description</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;Welcome to my website&quot;</span><span style="color: #7C7F93">;</span>
+          <span style="color: #7C7F93">};</span>
+
+          <span style="color: #7C7F93; font-style: italic"># Directory containing markdown content</span>
+          content<span style="color: #179299">.</span><span style="color: #40A02B">dir</span> <span style="color: #179299">=</span> <span style="color: #40A02B">./content</span><span style="color: #7C7F93">;</span>
+
+          <span style="color: #7C7F93; font-style: italic"># Optional: Directory for static assets</span>
+          <span style="color: #7C7F93; font-style: italic"># static.dir = ./static;</span>
+
+          <span style="color: #7C7F93; font-style: italic"># Import layout configuration from separate file</span>
+          <span style="color: #40A02B">imports</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">./layouts.nix</span> <span style="color: #7C7F93">];</span>
+        <span style="color: #7C7F93">};</span>
+
+        <span style="color: #7C7F93; font-style: italic"># Convenient local development server</span>
+        apps<span style="color: #179299">.</span><span style="color: #40A02B">serve</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+          <span style="color: #40A02B">type</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;app&quot;</span><span style="color: #7C7F93">;</span>
+          <span style="color: #40A02B">program</span> <span style="color: #179299">=</span>
+            <span style="color: #7C7F93">(</span>pkgs<span style="color: #179299">.</span>writeShellScript <span style="color: #40A02B">&quot;serve&quot;</span> <span style="color: #40A02B">&#39;&#39;</span>
+<span style="color: #40A02B">              echo &quot;Serving at http://localhost:8080&quot;</span>
+<span style="color: #40A02B">              </span><span style="color: #EA76CB">${</span>pkgs<span style="color: #179299">.</span>python3<span style="color: #EA76CB">}</span><span style="color: #40A02B">/bin/python -m http.server -d </span><span style="color: #EA76CB">${</span>self<span style="color: #179299">.</span>packages<span style="color: #179299">.</span><span style="color: #EA76CB">${</span>system<span style="color: #EA76CB">}</span><span style="color: #179299">.</span>default<span style="color: #EA76CB">}</span><span style="color: #40A02B"> 8080</span>
+<span style="color: #40A02B">            &#39;&#39;</span><span style="color: #7C7F93">)</span><span style="color: #179299">.</span>outPath<span style="color: #7C7F93">;</span>
+        <span style="color: #7C7F93">};</span>
+      <span style="color: #7C7F93">}</span>
+    <span style="color: #7C7F93">);</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+					<h2 id="step-3-create-the-layouts">Step 3: Create the Layouts<a class="headerlink mx-2" href="#step-3-create-the-layouts" title="Permanent link">#</a></h2>
+					<p>Create a <code>layouts.nix</code>
+						file to define how your pages look:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span> lib<span style="color: #7C7F93">,</span> config<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+<span style="color: #8839EF">let</span>
+  <span style="color: #7C7F93; font-style: italic"># Access site metadata defined in flake.nix</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>config<span style="color: #179299">.</span>website<span style="color: #7C7F93">)</span> metadata<span style="color: #7C7F93">;</span>
+
+  <span style="color: #7C7F93; font-style: italic"># Import HTML helper functions</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span>
+    html
+    head
+    body
+    div
+    h1
+    p
+    a
+    nav
+    ul
+    li
+    meta
+    <span style="color: #7C7F93">;</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span> title link<span style="color: #7C7F93">;</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #7C7F93">)</span> attrs<span style="color: #7C7F93">;</span>
+<span style="color: #8839EF">in</span>
+<span style="color: #7C7F93">{</span>
+  website<span style="color: #179299">.</span><span style="color: #40A02B">layouts</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+    <span style="color: #7C7F93; font-style: italic"># Base template wraps all pages</span>
+    <span style="color: #40A02B">base</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> path<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+      <span style="color: #40A02B">&quot;&lt;!DOCTYPE html&gt;</span><span style="color: #EA76CB">\n</span><span style="color: #40A02B">&quot;</span>
+      <span style="color: #179299">+</span> <span style="color: #7C7F93">(</span>html <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>lang metadata<span style="color: #179299">.</span>lang<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span>head <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+            <span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>charset <span style="color: #40A02B">&quot;UTF-8&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span>
+              <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>name <span style="color: #40A02B">&quot;viewport&quot;</span><span style="color: #7C7F93">)</span>
+              <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>content <span style="color: #40A02B">&quot;width=device-width, initial-scale=1.0&quot;</span><span style="color: #7C7F93">)</span>
+            <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span>
+              <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>name <span style="color: #40A02B">&quot;description&quot;</span><span style="color: #7C7F93">)</span>
+              <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>content metadata<span style="color: #179299">.</span>description<span style="color: #7C7F93">)</span>
+            <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">(</span>title metadata<span style="color: #179299">.</span>title<span style="color: #7C7F93">)</span>
+            <span style="color: #7C7F93; font-style: italic"># Uncomment when you add static/css/style.css</span>
+            <span style="color: #7C7F93; font-style: italic"># (link [</span>
+            <span style="color: #7C7F93; font-style: italic">#   (attrs.rel &quot;stylesheet&quot;)</span>
+            <span style="color: #7C7F93; font-style: italic">#   (attrs.href &quot;/css/style.css&quot;)</span>
+            <span style="color: #7C7F93; font-style: italic"># ])</span>
+          <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span>body <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+            <span style="color: #7C7F93">(</span>nav <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+              <span style="color: #7C7F93">(</span>ul <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+                <span style="color: #7C7F93">(</span>li <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Home&quot;</span> <span style="color: #7C7F93">])</span> <span style="color: #7C7F93">])</span>
+                <span style="color: #7C7F93">(</span>li <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/about&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;About&quot;</span> <span style="color: #7C7F93">])</span> <span style="color: #7C7F93">])</span>
+              <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;container&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> content <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">]);</span>
+
+    <span style="color: #7C7F93; font-style: italic"># Template for index.md (homepage)</span>
+    <span style="color: #40A02B">home</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span> content<span style="color: #7C7F93">;</span>
+
+    <span style="color: #7C7F93; font-style: italic"># Template for all other pages</span>
+    <span style="color: #40A02B">page</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> metadata<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span> <span style="color: #7C7F93">[</span>
+      <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> metadata<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
+      content
+    <span style="color: #7C7F93">];</span>
+
+    <span style="color: #7C7F93; font-style: italic"># Required for collections (can be minimal for now)</span>
+    <span style="color: #40A02B">collection</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> pageNumber<span style="color: #7C7F93">,</span> totalPages<span style="color: #7C7F93">,</span> items<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+      <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+        <span style="color: #7C7F93">(</span>ul <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>item<span style="color: #7C7F93">:</span> li <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span> items<span style="color: #7C7F93">))</span>
+        <span style="color: #40A02B">&quot;Page </span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> pageNumber<span style="color: #EA76CB">}</span><span style="color: #40A02B"> of </span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> totalPages<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span>
+      <span style="color: #7C7F93">]);</span>
+
+    <span style="color: #7C7F93; font-style: italic"># Required for taxonomies (can be minimal for now)</span>
+    <span style="color: #40A02B">taxonomy</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> title<span style="color: #7C7F93">,</span> pageNumber<span style="color: #7C7F93">,</span> totalPages<span style="color: #7C7F93">,</span> items<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+      <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+        <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> title <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">(</span>ul <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>item<span style="color: #7C7F93">:</span> li <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span> items<span style="color: #7C7F93">))</span>
+        <span style="color: #40A02B">&quot;Page </span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> pageNumber<span style="color: #EA76CB">}</span><span style="color: #40A02B"> of </span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> totalPages<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span>
+      <span style="color: #7C7F93">]);</span>
+  <span style="color: #7C7F93">};</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+					<h2 id="step-4-create-content">Step 4: Create Content<a class="headerlink mx-2" href="#step-4-create-content" title="Permanent link">#</a></h2>
+					<p>Create the content directory and your first pages:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>mkdir<span style="color: #4C4F69"> </span>-p<span style="color: #4C4F69"> </span>content
+</code></pre></div>
+					<h3 id="homepage-contentindexmd">Homepage (<code>content/index.md</code>)<a class="headerlink mx-2" href="#homepage-contentindexmd" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+title: Home
+date: 2026-01-19T00:00:00
+---
+
+<span style="color: #D20F39"># Welcome to My Website</span>
+
+This is the homepage of my nixtml-powered website.
+
+Built with <span style="color: #D20F39; font-weight: bold">**Nix**</span> for reproducible, declarative static site generation.
+</code></pre></div>
+					<h3 id="about-page-contentaboutmd">About Page (<code>content/about.md</code>)<a class="headerlink mx-2" href="#about-page-contentaboutmd" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+title: About
+date: 2026-01-19T00:00:00
+---
+
+This website was created using nixtml, a static site generator written in Nix.
+
+## Why nixtml?
+
+<span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>Declarative configuration
+<span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>Reproducible builds
+<span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>Native Nix integration
+<span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>Markdown content with frontmatter
+</code></pre></div>
+					<h2 id="step-5-build-your-website">Step 5: Build Your Website<a class="headerlink mx-2" href="#step-5-build-your-website" title="Permanent link">#</a></h2>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>nix<span style="color: #4C4F69"> </span>build<span style="color: #4C4F69"> </span>.#
+</code></pre></div>
+					<p>This creates a <code>result</code>
+						symlink pointing to your built website. Explore the output:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>ls<span style="color: #4C4F69"> </span>-la<span style="color: #4C4F69"> </span>result/
+</code></pre></div>
+					<p>You should see:</p>
+					<ul>
+						<li><code>index.html</code>
+						- Your homepage</li>
+						<li><code>about/index.html</code>
+						- Your about page</li>
+						<li><code>sitemap.xml</code>
+						- Auto-generated sitemap</li>
+					</ul>
+					<h2 id="step-6-serve-locally">Step 6: Serve Locally<a class="headerlink mx-2" href="#step-6-serve-locally" title="Permanent link">#</a></h2>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>nix<span style="color: #4C4F69"> </span>run<span style="color: #4C4F69"> </span>.#serve
+</code></pre></div>
+					<p>Open <a href="http://localhost:8080">http://localhost:8080</a>
+						in your browser to see your website.</p>
+					<h2 id="step-7-add-styling-optional">Step 7: Add Styling (Optional)<a class="headerlink mx-2" href="#step-7-add-styling-optional" title="Permanent link">#</a></h2>
+					<p>Create a static directory with CSS:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>mkdir<span style="color: #4C4F69"> </span>-p<span style="color: #4C4F69"> </span>static/css
+</code></pre></div>
+					<p>Create <code>static/css/style.css</code>:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #179299">*</span><span style="color: #4C4F69"> </span><span style="color: #7C7F93">{</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">box-sizing</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #1E66F5">border-box</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">}</span>
+
+<span style="color: #1E66F5">body</span><span style="color: #4C4F69"> </span><span style="color: #7C7F93">{</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">font-family</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #179299">-</span>apple-system<span style="color: #7C7F93">,</span><span style="color: #4C4F69"> </span>BlinkMacSystemFont<span style="color: #7C7F93">,</span><span style="color: #4C4F69"> </span><span style="color: #40A02B">&quot;Segoe UI&quot;</span><span style="color: #7C7F93">,</span><span style="color: #4C4F69"> </span>Roboto<span style="color: #7C7F93">,</span><span style="color: #4C4F69"> </span><span style="color: #1E66F5">sans-serif</span><span style="color: #7C7F93">;</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">line-height</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">1.6</span><span style="color: #7C7F93">;</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">color</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">#333</span><span style="color: #7C7F93">;</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">max-width</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">800</span><span style="color: #8839EF">px</span><span style="color: #7C7F93">;</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">margin</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">0</span><span style="color: #4C4F69"> </span><span style="color: #1E66F5">auto</span><span style="color: #7C7F93">;</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">padding</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">20</span><span style="color: #8839EF">px</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">}</span>
+
+<span style="color: #1E66F5">nav</span><span style="color: #4C4F69"> </span><span style="color: #1E66F5">ul</span><span style="color: #4C4F69"> </span><span style="color: #7C7F93">{</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">list-style</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #1E66F5">none</span><span style="color: #7C7F93">;</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">padding</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">0</span><span style="color: #7C7F93">;</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">display</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #1E66F5">flex</span><span style="color: #7C7F93">;</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">gap</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">20</span><span style="color: #8839EF">px</span><span style="color: #7C7F93">;</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">border-bottom</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">1</span><span style="color: #8839EF">px</span><span style="color: #4C4F69"> </span><span style="color: #1E66F5">solid</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">#eee</span><span style="color: #7C7F93">;</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">padding-bottom</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">10</span><span style="color: #8839EF">px</span><span style="color: #7C7F93">;</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">margin-bottom</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">20</span><span style="color: #8839EF">px</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">}</span>
+
+<span style="color: #1E66F5">nav</span><span style="color: #4C4F69"> </span><span style="color: #1E66F5">a</span><span style="color: #4C4F69"> </span><span style="color: #7C7F93">{</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">text-decoration</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #1E66F5">none</span><span style="color: #7C7F93">;</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">color</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">#0066cc</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">}</span>
+
+<span style="color: #1E66F5">nav</span><span style="color: #4C4F69"> </span><span style="color: #1E66F5">a</span><span style="color: #7C7F93">:</span><span style="color: #04A5E5; font-style: italic">hover</span><span style="color: #4C4F69"> </span><span style="color: #7C7F93">{</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">text-decoration</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #1E66F5">underline</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">}</span>
+
+<span style="color: #1E66F5">h1</span><span style="color: #4C4F69"> </span><span style="color: #7C7F93">{</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">color</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">#111</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">}</span>
+
+<span style="color: #7C7F93">.</span><span style="color: #DF8E1D">container</span><span style="color: #4C4F69"> </span><span style="color: #7C7F93">{</span>
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">padding</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">20</span><span style="color: #8839EF">px</span><span style="color: #4C4F69"> </span><span style="color: #FE640B">0</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+					<p>Then update your <code>flake.nix</code>
+						to include static files:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93; font-style: italic"># Uncomment this line in mkWebsite:</span>
+static<span style="color: #179299">.</span><span style="color: #40A02B">dir</span> <span style="color: #179299">=</span> <span style="color: #40A02B">./static</span><span style="color: #7C7F93">;</span>
+</code></pre></div>
+					<p>And uncomment the stylesheet link in <code>layouts.nix</code>.</p>
+					<p>Rebuild to see the changes:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>nix<span style="color: #4C4F69"> </span>run<span style="color: #4C4F69"> </span>.#serve
+</code></pre></div>
+					<h2 id="understanding-the-configuration">Understanding the Configuration<a class="headerlink mx-2" href="#understanding-the-configuration" title="Permanent link">#</a></h2>
+					<h3 id="mkwebsite-options"><code>mkWebsite</code>
+					Options<a class="headerlink mx-2" href="#mkwebsite-options" title="Permanent link">#</a></h3>
+					<table>
+						<thead>
+							<tr>
+								<th>Option</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>name</code></td>
+								<td>Website name (used in derivation name)</td>
+							</tr>
+							<tr>
+								<td><code>baseURL</code></td>
+								<td>Full URL where site will be hosted</td>
+							</tr>
+							<tr>
+								<td><code>metadata</code></td>
+								<td>Arbitrary data available in all templates</td>
+							</tr>
+							<tr>
+								<td><code>content.dir</code></td>
+								<td>Directory containing markdown files</td>
+							</tr>
+							<tr>
+								<td><code>static.dir</code></td>
+								<td>Directory with static assets</td>
+							</tr>
+							<tr>
+								<td><code>layouts</code></td>
+								<td>Template functions for rendering pages</td>
+							</tr>
+							<tr>
+								<td><code>imports</code></td>
+								<td>Additional Nix modules to import</td>
+							</tr>
+						</tbody>
+					</table>
+					<h3 id="template-context">Template Context<a class="headerlink mx-2" href="#template-context" title="Permanent link">#</a></h3>
+					<p>Each template receives a context object:</p>
+					<ul>
+						<li><strong>base</strong>: <code>{ path, content, ... }</code>
+						- receives rendered content from child templates</li>
+						<li><strong>home</strong>: <code>{ content, metadata, ... }</code>
+						- receives parsed markdown content</li>
+						<li><strong>page</strong>: <code>{ content, metadata, ... }</code>
+						- receives parsed markdown content</li>
+						<li><strong>collection</strong>: <code>{ pageNumber, totalPages, items, hasNext, hasPrev, ... }</code></li>
+						<li><strong>taxonomy</strong>: <code>{ title, taxonomoy, pageNumber, totalPages, items, hasNext, hasPrev, ... }</code></li>
+					</ul>
+					<h3 id="frontmatter">Frontmatter<a class="headerlink mx-2" href="#frontmatter" title="Permanent link">#</a></h3>
+					<p>Markdown files support YAML frontmatter:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+title: Page Title
+date: 2026-01-19T00:00:00
+customField: any value
+---
+
+Content here...
+</code></pre></div>
+					<p>The frontmatter is available as <code>metadata</code>
+						in your templates.</p>
+					<h2 id="next-steps">Next Steps<a class="headerlink mx-2" href="#next-steps" title="Permanent link">#</a></h2>
+					<p>Now that you have a basic website running:</p>
+					<ul>
+						<li><strong><a href="/nixtml/collections">Collections</a></strong>: Create a blog with pagination and RSS feeds</li>
+						<li><strong><a href="/nixtml/taxonomies">Taxonomies</a></strong>: Organize content with tags and categories</li>
+						<li><strong><a href="/nixtml/templating">Advanced Templating</a></strong>: Master the Nix HTML library and partials</li>
+						<li><strong><a href="/nixtml/options">Nixtml Module Options</a></strong>: View all available module options in nixtml</li>
+					</ul>
+					<h2 id="complete-example">Complete Example<a class="headerlink mx-2" href="#complete-example" title="Permanent link">#</a></h2>
+					<p>See the <a href="https://github.com/arnarg/nixtml/tree/main/examples">examples directory</a>
+						in the nixtml repository for complete working examples:</p>
+					<ul>
+						<li><strong>simple</strong>: Basic website with pages</li>
+						<li><strong>blog</strong>: Full blog with collections, taxonomies, and RSS feeds</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+		<footer class="footer">
+			<div class="content is-max-desktop has-text-centered">
+				<p>
+					This website is (obviously) generated with
+					<a href="https://github.com/arnarg/nixtml">
+						nixtml.
+					</a>
+				</p>
+			</div>
+		</footer>
+	</body>
+</html>

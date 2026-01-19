@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/nixtml/css/main.css">
+		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="theme-color" content="#ffffff">
+		<link rel="icon" href="/favicon.png">
+		<title>
+			Advanced Templating | nixtml
+		</title>
+		<meta name="description" content="nixtml documentation">
+		<meta property="og:title" content="nixtml">
+		<meta property="twitter:title" content="nixtml">
+		<meta itemprop="name" content="nixtml">
+		<meta name="application-name" content="nixtml">
+		<meta property="og:site_name" content="nixtml">
+		<meta property="og:locale" content="en">
+		<meta property="og:type" content="article">
+	</head>
+	<body>
+		<section class="hero">
+			<div class="hero-body">
+				<div class="container is-max-desktop has-text-centered">
+					<img src="/nixtml/logo.svg">
+				</div>
+			</div>
+		</section>
+		<section class="section">
+			<div class="container is-max-desktop">
+				<h1 class="title">
+					Advanced Templating
+				</h1>
+				<div class="content">
+					<p>nixtml provides a flexible templating system using pure Nix functions. You can use either string interpolation for simple templates or the functional HTML library for type-safe markup.</p>
+					<h2 id="template-types">Template Types<a class="headerlink mx-2" href="#template-types" title="Permanent link">#</a></h2>
+					<p>nixtml requires these templates:</p>
+					<table>
+						<thead>
+							<tr>
+								<th>Template</th>
+								<th>Purpose</th>
+								<th>Context</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>base</code></td>
+								<td>Wraps all pages (HTML skeleton)</td>
+								<td><code>path</code>, <code>content</code>, <code>title</code></td>
+							</tr>
+							<tr>
+								<td><code>home</code></td>
+								<td>Renders <code>index.md</code></td>
+								<td><code>metadata</code>, <code>content</code></td>
+							</tr>
+							<tr>
+								<td><code>page</code></td>
+								<td>Renders other markdown files</td>
+								<td><code>metadata</code>, <code>content</code></td>
+							</tr>
+							<tr>
+								<td><code>collection</code></td>
+								<td>Renders collection pagination</td>
+								<td><code>items</code>, <code>pageNumber</code>, etc.</td>
+							</tr>
+							<tr>
+								<td><code>taxonomy</code></td>
+								<td>Renders taxonomy pages</td>
+								<td><code>title</code>, <code>items</code>, etc.</td>
+							</tr>
+							<tr>
+								<td><code>partials</code></td>
+								<td>Reusable components</td>
+								<td>User-defined</td>
+							</tr>
+						</tbody>
+					</table>
+					<h2 id="two-approaches-to-templating">Two Approaches to Templating<a class="headerlink mx-2" href="#two-approaches-to-templating" title="Permanent link">#</a></h2>
+					<h3 id="1-string-templates-simple">1. String Templates (Simple)<a class="headerlink mx-2" href="#1-string-templates-simple" title="Permanent link">#</a></h3>
+					<p>Use Nix string interpolation:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">base</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> path<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span> <span style="color: #40A02B">&#39;&#39;</span>
+<span style="color: #40A02B">  &lt;!DOCTYPE html&gt;</span>
+<span style="color: #40A02B">  &lt;html lang=&quot;en&quot;&gt;</span>
+<span style="color: #40A02B">    &lt;head&gt;</span>
+<span style="color: #40A02B">      &lt;meta charset=&quot;UTF-8&quot;&gt;</span>
+<span style="color: #40A02B">      &lt;title&gt;My Website&lt;/title&gt;</span>
+<span style="color: #40A02B">    &lt;/head&gt;</span>
+<span style="color: #40A02B">    &lt;body&gt;</span>
+<span style="color: #40A02B">      </span><span style="color: #EA76CB">${</span>content<span style="color: #EA76CB">}</span>
+<span style="color: #40A02B">    &lt;/body&gt;</span>
+<span style="color: #40A02B">  &lt;/html&gt;</span>
+<span style="color: #40A02B">&#39;&#39;</span><span style="color: #7C7F93">;</span>
+</code></pre></div>
+					<h3 id="2-functional-html-fun">2. Functional HTML (Fun?)<a class="headerlink mx-2" href="#2-functional-html-fun" title="Permanent link">#</a></h3>
+					<p>Use nixtml's tag functions:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span> lib<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+<span style="color: #8839EF">let</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span> html head body meta title div<span style="color: #7C7F93">;</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #7C7F93">)</span> attrs<span style="color: #7C7F93">;</span>
+<span style="color: #8839EF">in</span>
+<span style="color: #7C7F93">{</span>
+  website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">base</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> path<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+    <span style="color: #40A02B">&quot;&lt;!DOCTYPE html&gt;</span><span style="color: #EA76CB">\n</span><span style="color: #40A02B">&quot;</span>
+    <span style="color: #179299">+</span> <span style="color: #7C7F93">(</span>html <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>lang <span style="color: #40A02B">&quot;en&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+        <span style="color: #7C7F93">(</span>head <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>charset <span style="color: #40A02B">&quot;UTF-8&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span>title <span style="color: #40A02B">&quot;My Website&quot;</span><span style="color: #7C7F93">)</span>
+        <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">(</span>body <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> content <span style="color: #7C7F93">])</span>
+      <span style="color: #7C7F93">]);</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+					<h2 id="the-functional-html-library">The Functional HTML Library<a class="headerlink mx-2" href="#the-functional-html-library" title="Permanent link">#</a></h2>
+					<h3 id="how-tags-work">How Tags Work<a class="headerlink mx-2" href="#how-tags-work" title="Permanent link">#</a></h3>
+					<p>Tag functions have this signature:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>tagName <span style="color: #7C7F93">[</span> attributes <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> children <span style="color: #7C7F93">]</span>
+</code></pre></div>
+					<ul>
+						<li><strong>First argument</strong>: List of attributes (can be empty <code>[]</code>)</li>
+						<li><strong>Second argument</strong>: List of children (strings or nested tags)</li>
+					</ul>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93; font-style: italic"># Examples</span>
+<span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Hello&quot;</span> <span style="color: #7C7F93">])</span>                    <span style="color: #7C7F93; font-style: italic"># &lt;div&gt;Hello&lt;/div&gt;</span>
+<span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;box&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Hi&quot;</span> <span style="color: #7C7F93">])</span>  <span style="color: #7C7F93; font-style: italic"># &lt;div class=&quot;box&quot;&gt;Hi&lt;/div&gt;</span>
+<span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Home&quot;</span> <span style="color: #7C7F93">])</span>     <span style="color: #7C7F93; font-style: italic"># &lt;a href=&quot;/&quot;&gt;Home&lt;/a&gt;</span>
+</code></pre></div>
+					<h3 id="available-tags">Available Tags<a class="headerlink mx-2" href="#available-tags" title="Permanent link">#</a></h3>
+					<h4 id="regular-tags-with-closing-tag">Regular Tags (with closing tag)<a class="headerlink mx-2" href="#regular-tags-with-closing-tag" title="Permanent link">#</a></h4>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span>
+  <span style="color: #7C7F93; font-style: italic"># Document structure</span>
+  html head body
+
+  <span style="color: #7C7F93; font-style: italic"># Sections</span>
+  header footer main nav section article aside
+
+  <span style="color: #7C7F93; font-style: italic"># Headings</span>
+  h1 h2 h3 h4 h5 h6
+
+  <span style="color: #7C7F93; font-style: italic"># Text content</span>
+  p div span pre blockquote
+
+  <span style="color: #7C7F93; font-style: italic"># Lists</span>
+  ul ol li dl dt dd
+
+  <span style="color: #7C7F93; font-style: italic"># Inline text</span>
+  a em strong code b i u s small
+
+  <span style="color: #7C7F93; font-style: italic"># Tables</span>
+  table thead tbody tfoot tr th td
+
+  <span style="color: #7C7F93; font-style: italic"># Forms</span>
+  form fieldset legend label button select option textarea
+
+  <span style="color: #7C7F93; font-style: italic"># Media</span>
+  figure figcaption picture audio video
+
+  <span style="color: #7C7F93; font-style: italic"># Other</span>
+  script style noscript template
+  <span style="color: #7C7F93">;</span>
+</code></pre></div>
+					<h4 id="void-tags-self-closing">Void Tags (self-closing)<a class="headerlink mx-2" href="#void-tags-self-closing" title="Permanent link">#</a></h4>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span>
+  meta link img input br hr
+  area base col embed source track wbr
+  <span style="color: #7C7F93">;</span>
+</code></pre></div>
+					<p>Void tags only take attributes:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>charset <span style="color: #40A02B">&quot;UTF-8&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>           <span style="color: #7C7F93; font-style: italic"># &lt;meta charset=&quot;UTF-8&quot;&gt;</span>
+<span style="color: #7C7F93">(</span>link <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>rel <span style="color: #40A02B">&quot;stylesheet&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/style.css&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+<span style="color: #7C7F93">(</span>img <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>src <span style="color: #40A02B">&quot;/logo.png&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>alt <span style="color: #40A02B">&quot;Logo&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+<span style="color: #7C7F93">(</span>br <span style="color: #7C7F93">[])</span>                                       <span style="color: #7C7F93; font-style: italic"># &lt;br&gt;</span>
+</code></pre></div>
+					<h4 id="special-title-tag">Special: title Tag<a class="headerlink mx-2" href="#special-title-tag" title="Permanent link">#</a></h4>
+					<p>The <code>title</code>
+						tag has a convenience form:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">(</span>title <span style="color: #40A02B">&quot;My Page Title&quot;</span><span style="color: #7C7F93">)</span>   <span style="color: #7C7F93; font-style: italic"># &lt;title&gt;My Page Title&lt;/title&gt;</span>
+</code></pre></div>
+					<h3 id="attributes-library">Attributes Library<a class="headerlink mx-2" href="#attributes-library" title="Permanent link">#</a></h3>
+					<p>The <code>attrs</code>
+						module provides attribute helpers:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #7C7F93">)</span> attrs<span style="color: #7C7F93">;</span>
+
+<span style="color: #7C7F93; font-style: italic"># Common attributes</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>id <span style="color: #40A02B">&quot;main&quot;</span><span style="color: #7C7F93">)</span>           <span style="color: #7C7F93; font-style: italic"># id=&quot;main&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;container&quot;</span><span style="color: #7C7F93">)</span>   <span style="color: #7C7F93; font-style: italic"># class=&quot;container&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/about&quot;</span><span style="color: #7C7F93">)</span>       <span style="color: #7C7F93; font-style: italic"># href=&quot;/about&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>src <span style="color: #40A02B">&quot;/image.png&quot;</span><span style="color: #7C7F93">)</span>    <span style="color: #7C7F93; font-style: italic"># src=&quot;/image.png&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>alt <span style="color: #40A02B">&quot;Description&quot;</span><span style="color: #7C7F93">)</span>   <span style="color: #7C7F93; font-style: italic"># alt=&quot;Description&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>type <span style="color: #40A02B">&quot;text&quot;</span><span style="color: #7C7F93">)</span>         <span style="color: #7C7F93; font-style: italic"># type=&quot;text&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>name <span style="color: #40A02B">&quot;email&quot;</span><span style="color: #7C7F93">)</span>        <span style="color: #7C7F93; font-style: italic"># name=&quot;email&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>content <span style="color: #40A02B">&quot;value&quot;</span><span style="color: #7C7F93">)</span>     <span style="color: #7C7F93; font-style: italic"># content=&quot;value&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>rel <span style="color: #40A02B">&quot;stylesheet&quot;</span><span style="color: #7C7F93">)</span>    <span style="color: #7C7F93; font-style: italic"># rel=&quot;stylesheet&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>lang <span style="color: #40A02B">&quot;en&quot;</span><span style="color: #7C7F93">)</span>           <span style="color: #7C7F93; font-style: italic"># lang=&quot;en&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>charset <span style="color: #40A02B">&quot;UTF-8&quot;</span><span style="color: #7C7F93">)</span>     <span style="color: #7C7F93; font-style: italic"># charset=&quot;UTF-8&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>target <span style="color: #40A02B">&quot;_blank&quot;</span><span style="color: #7C7F93">)</span>     <span style="color: #7C7F93; font-style: italic"># target=&quot;_blank&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>title <span style="color: #40A02B">&quot;Hover text&quot;</span><span style="color: #7C7F93">)</span>  <span style="color: #7C7F93; font-style: italic"># title=&quot;Hover text&quot;</span>
+
+<span style="color: #7C7F93; font-style: italic"># Width/height (accepts int or string)</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>width <span style="color: #FE640B">100</span><span style="color: #7C7F93">)</span>           <span style="color: #7C7F93; font-style: italic"># width=&quot;100&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>height <span style="color: #40A02B">&quot;auto&quot;</span><span style="color: #7C7F93">)</span>       <span style="color: #7C7F93; font-style: italic"># height=&quot;auto&quot;</span>
+
+<span style="color: #7C7F93; font-style: italic"># Multiple classes</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>classes <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;flex&quot;</span> <span style="color: #40A02B">&quot;items-center&quot;</span> <span style="color: #40A02B">&quot;gap-4&quot;</span> <span style="color: #7C7F93">])</span>  <span style="color: #7C7F93; font-style: italic"># class=&quot;flex items-center gap-4&quot;</span>
+
+<span style="color: #7C7F93; font-style: italic"># Data attributes</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>data <span style="color: #40A02B">&quot;theme&quot;</span> <span style="color: #40A02B">&quot;dark&quot;</span><span style="color: #7C7F93">)</span>   <span style="color: #7C7F93; font-style: italic"># data-theme=&quot;dark&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>data <span style="color: #40A02B">&quot;count&quot;</span> <span style="color: #40A02B">&quot;5&quot;</span><span style="color: #7C7F93">)</span>      <span style="color: #7C7F93; font-style: italic"># data-count=&quot;5&quot;</span>
+
+<span style="color: #7C7F93; font-style: italic"># ARIA attributes</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>aria <span style="color: #40A02B">&quot;label&quot;</span> <span style="color: #40A02B">&quot;Menu&quot;</span><span style="color: #7C7F93">)</span>   <span style="color: #7C7F93; font-style: italic"># aria-label=&quot;Menu&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>aria <span style="color: #40A02B">&quot;hidden&quot;</span> <span style="color: #40A02B">&quot;true&quot;</span><span style="color: #7C7F93">)</span>  <span style="color: #7C7F93; font-style: italic"># aria-hidden=&quot;true&quot;</span>
+
+<span style="color: #7C7F93; font-style: italic"># Meta attributes</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>property <span style="color: #40A02B">&quot;og:title&quot;</span><span style="color: #7C7F93">)</span>   <span style="color: #7C7F93; font-style: italic"># property=&quot;og:title&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>httpEquiv <span style="color: #40A02B">&quot;refresh&quot;</span><span style="color: #7C7F93">)</span>   <span style="color: #7C7F93; font-style: italic"># http-equiv=&quot;refresh&quot;</span>
+<span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>itemprop <span style="color: #40A02B">&quot;name&quot;</span><span style="color: #7C7F93">)</span>       <span style="color: #7C7F93; font-style: italic"># itemprop=&quot;name&quot;</span>
+</code></pre></div>
+					<h3 id="creating-custom-attributes">Creating Custom Attributes<a class="headerlink mx-2" href="#creating-custom-attributes" title="Permanent link">#</a></h3>
+					<p>Use <code>lib.mkAttr</code>
+						for attributes not in the library:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #8839EF">let</span>
+  <span style="color: #40A02B">customAttr</span> <span style="color: #179299">=</span> lib<span style="color: #179299">.</span>mkAttr <span style="color: #40A02B">&quot;data-custom&quot;</span> <span style="color: #40A02B">&quot;value&quot;</span><span style="color: #7C7F93">;</span>
+<span style="color: #8839EF">in</span>
+<span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> customAttr <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Content&quot;</span> <span style="color: #7C7F93">])</span>
+<span style="color: #7C7F93; font-style: italic"># &lt;div data-custom=&quot;value&quot;&gt;Content&lt;/div&gt;</span>
+</code></pre></div>
+					<h2 id="template-context-reference">Template Context Reference<a class="headerlink mx-2" href="#template-context-reference" title="Permanent link">#</a></h2>
+					<h3 id="base-template">Base Template<a class="headerlink mx-2" href="#base-template" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">base</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+  path<span style="color: #7C7F93">,</span>      <span style="color: #7C7F93; font-style: italic"># List of path segments: [ &quot;about&quot; &quot;index.html&quot; ]</span>
+  content<span style="color: #7C7F93">,</span>   <span style="color: #7C7F93; font-style: italic"># Rendered HTML from child template</span>
+  title<span style="color: #7C7F93">,</span>     <span style="color: #7C7F93; font-style: italic"># Page title (null for collection/taxonomy pages)</span>
+  <span style="color: #179299">...</span>        <span style="color: #7C7F93; font-style: italic"># Additional context passed from child templates</span>
+<span style="color: #7C7F93">}:</span> <span style="color: #179299">...</span><span style="color: #7C7F93">;</span>
+</code></pre></div>
+					<h3 id="home-template">Home Template<a class="headerlink mx-2" href="#home-template" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">home</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+  path<span style="color: #7C7F93">,</span>       <span style="color: #7C7F93; font-style: italic"># Always [ &quot;index.html&quot; ]</span>
+  metadata<span style="color: #7C7F93">,</span>   <span style="color: #7C7F93; font-style: italic"># Frontmatter from index.md</span>
+  content<span style="color: #7C7F93">,</span>    <span style="color: #7C7F93; font-style: italic"># HTML from markdown</span>
+  title<span style="color: #7C7F93">,</span>      <span style="color: #7C7F93; font-style: italic"># metadata.title</span>
+  <span style="color: #179299">...</span>
+<span style="color: #7C7F93">}:</span> <span style="color: #179299">...</span><span style="color: #7C7F93">;</span>
+</code></pre></div>
+					<h3 id="page-template">Page Template<a class="headerlink mx-2" href="#page-template" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">page</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+  path<span style="color: #7C7F93">,</span>       <span style="color: #7C7F93; font-style: italic"># [ &quot;about&quot; &quot;index.html&quot; ]</span>
+  metadata<span style="color: #7C7F93">,</span>   <span style="color: #7C7F93; font-style: italic"># Frontmatter from markdown file</span>
+  content<span style="color: #7C7F93">,</span>    <span style="color: #7C7F93; font-style: italic"># HTML from markdown</span>
+  title<span style="color: #7C7F93">,</span>      <span style="color: #7C7F93; font-style: italic"># metadata.title</span>
+  <span style="color: #179299">...</span>
+<span style="color: #7C7F93">}:</span> <span style="color: #179299">...</span><span style="color: #7C7F93">;</span>
+</code></pre></div>
+					<h3 id="collection-template">Collection Template<a class="headerlink mx-2" href="#collection-template" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">collection</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+  path<span style="color: #7C7F93">,</span>         <span style="color: #7C7F93; font-style: italic"># [ &quot;blog&quot; &quot;index.html&quot; ] or [ &quot;blog&quot; &quot;page&quot; &quot;2&quot; &quot;index.html&quot; ]</span>
+  pageNumber<span style="color: #7C7F93">,</span>   <span style="color: #7C7F93; font-style: italic"># Current page (1, 2, 3...)</span>
+  totalPages<span style="color: #7C7F93">,</span>   <span style="color: #7C7F93; font-style: italic"># Total number of pages</span>
+  items<span style="color: #7C7F93">,</span>        <span style="color: #7C7F93; font-style: italic"># List of posts on this page</span>
+  hasNext<span style="color: #7C7F93">,</span>      <span style="color: #7C7F93; font-style: italic"># true if next page exists</span>
+  hasPrev<span style="color: #7C7F93">,</span>      <span style="color: #7C7F93; font-style: italic"># true if previous page exists</span>
+  nextPageURL<span style="color: #7C7F93">,</span>  <span style="color: #7C7F93; font-style: italic"># URL string (throws if !hasNext)</span>
+  prevPageURL<span style="color: #7C7F93">,</span>  <span style="color: #7C7F93; font-style: italic"># URL string (throws if !hasPrev)</span>
+  title<span style="color: #7C7F93">,</span>        <span style="color: #7C7F93; font-style: italic"># Always null for collections</span>
+  <span style="color: #179299">...</span>
+<span style="color: #7C7F93">}:</span> <span style="color: #179299">...</span><span style="color: #7C7F93">;</span>
+</code></pre></div>
+					<h3 id="taxonomy-template">Taxonomy Template<a class="headerlink mx-2" href="#taxonomy-template" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">taxonomy</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+  path<span style="color: #7C7F93">,</span>         <span style="color: #7C7F93; font-style: italic"># [ &quot;blog&quot; &quot;tags&quot; &quot;nix&quot; &quot;index.html&quot; ]</span>
+  title<span style="color: #7C7F93">,</span>        <span style="color: #7C7F93; font-style: italic"># The taxonomy term (&quot;nix&quot;)</span>
+  pageNumber<span style="color: #7C7F93">,</span>   <span style="color: #7C7F93; font-style: italic"># Current page number</span>
+  totalPages<span style="color: #7C7F93">,</span>   <span style="color: #7C7F93; font-style: italic"># Total pages for this term</span>
+  items<span style="color: #7C7F93">,</span>        <span style="color: #7C7F93; font-style: italic"># Posts with this term</span>
+  hasNext<span style="color: #7C7F93">,</span>      <span style="color: #7C7F93; font-style: italic"># true if next page exists</span>
+  hasPrev<span style="color: #7C7F93">,</span>      <span style="color: #7C7F93; font-style: italic"># true if previous page exists</span>
+  nextPageURL<span style="color: #7C7F93">,</span>  <span style="color: #7C7F93; font-style: italic"># URL to next page</span>
+  prevPageURL<span style="color: #7C7F93">,</span>  <span style="color: #7C7F93; font-style: italic"># URL to previous page</span>
+  <span style="color: #179299">...</span>
+<span style="color: #7C7F93">}:</span> <span style="color: #179299">...</span><span style="color: #7C7F93">;</span>
+</code></pre></div>
+					<h2 id="partials">Partials<a class="headerlink mx-2" href="#partials" title="Permanent link">#</a></h2>
+					<p>Partials are reusable template functions:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span> lib<span style="color: #7C7F93">,</span> config<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+<span style="color: #8839EF">let</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span> header nav ul li a footer p div<span style="color: #7C7F93">;</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #7C7F93">)</span> attrs<span style="color: #7C7F93">;</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>config<span style="color: #179299">.</span>website<span style="color: #7C7F93">)</span> metadata<span style="color: #7C7F93">;</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>config<span style="color: #179299">.</span>website<span style="color: #179299">.</span>layouts<span style="color: #7C7F93">)</span> partials<span style="color: #7C7F93">;</span>
+<span style="color: #8839EF">in</span>
+<span style="color: #7C7F93">{</span>
+  website<span style="color: #179299">.</span><span style="color: #40A02B">layouts</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+    <span style="color: #40A02B">partials</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+      <span style="color: #7C7F93; font-style: italic"># Navigation partial</span>
+      <span style="color: #40A02B">navigation</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> currentPath <span style="color: #7C7F93">}:</span>
+        <span style="color: #8839EF">let</span>
+          <span style="color: #40A02B">isActive</span> <span style="color: #179299">=</span> href<span style="color: #7C7F93">:</span> <span style="color: #8839EF">if</span> <span style="color: #40A02B">href</span> <span style="color: #179299">==</span> currentPath <span style="color: #8839EF">then</span> <span style="color: #40A02B">&quot;active&quot;</span> <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">;</span>
+          <span style="color: #40A02B">navItem</span> <span style="color: #179299">=</span> href<span style="color: #7C7F93">:</span> label<span style="color: #7C7F93">:</span>
+            li <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #7C7F93">(</span>isActive href<span style="color: #7C7F93">))</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+              <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href href<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> label <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">];</span>
+        <span style="color: #8839EF">in</span>
+        nav <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;main-nav&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span>ul <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+            <span style="color: #7C7F93">(</span>navItem <span style="color: #40A02B">&quot;/&quot;</span> <span style="color: #40A02B">&quot;Home&quot;</span><span style="color: #7C7F93">)</span>
+            <span style="color: #7C7F93">(</span>navItem <span style="color: #40A02B">&quot;/blog&quot;</span> <span style="color: #40A02B">&quot;Blog&quot;</span><span style="color: #7C7F93">)</span>
+            <span style="color: #7C7F93">(</span>navItem <span style="color: #40A02B">&quot;/about&quot;</span> <span style="color: #40A02B">&quot;About&quot;</span><span style="color: #7C7F93">)</span>
+          <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">];</span>
+
+      <span style="color: #7C7F93; font-style: italic"># Footer partial</span>
+      <span style="color: #40A02B">siteFooter</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> <span style="color: #7C7F93">}:</span>
+        footer <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;site-footer&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;© 2026 </span><span style="color: #EA76CB">${</span>metadata<span style="color: #179299">.</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Built with nixtml&quot;</span> <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">];</span>
+
+      <span style="color: #7C7F93; font-style: italic"># Meta tags partial</span>
+      <span style="color: #40A02B">metaTags</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> title<span style="color: #7C7F93">,</span> description <span style="color: #179299">?</span> metadata<span style="color: #179299">.</span>description <span style="color: #7C7F93">}:</span>
+        <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>charset <span style="color: #40A02B">&quot;UTF-8&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>name <span style="color: #40A02B">&quot;viewport&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>content <span style="color: #40A02B">&quot;width=device-width, initial-scale=1&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>name <span style="color: #40A02B">&quot;description&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>content description<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>title title<span style="color: #7C7F93">)</span>
+        <span style="color: #7C7F93">];</span>
+    <span style="color: #7C7F93">};</span>
+
+    <span style="color: #7C7F93; font-style: italic"># Use partials in base template</span>
+    <span style="color: #40A02B">base</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> path<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> title<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+      <span style="color: #8839EF">let</span>
+        <span style="color: #40A02B">pageTitle</span> <span style="color: #179299">=</span> <span style="color: #8839EF">if</span> title <span style="color: #179299">!=</span> <span style="color: #1E66F5">null</span> <span style="color: #8839EF">then</span> <span style="color: #40A02B">&quot;</span><span style="color: #EA76CB">${</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B"> - </span><span style="color: #EA76CB">${</span>metadata<span style="color: #179299">.</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #8839EF">else</span> metadata<span style="color: #179299">.</span>title<span style="color: #7C7F93">;</span>
+        <span style="color: #40A02B">currentPath</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;/&quot;</span> <span style="color: #179299">+</span> lib<span style="color: #179299">.</span>concatStringsSep <span style="color: #40A02B">&quot;/&quot;</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>init path<span style="color: #7C7F93">);</span>
+      <span style="color: #8839EF">in</span>
+      <span style="color: #40A02B">&quot;&lt;!DOCTYPE html&gt;</span><span style="color: #EA76CB">\n</span><span style="color: #40A02B">&quot;</span>
+      <span style="color: #179299">+</span> <span style="color: #7C7F93">(</span>html <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>lang <span style="color: #40A02B">&quot;en&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span>head <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">(</span>partials<span style="color: #179299">.</span>metaTags <span style="color: #7C7F93">{</span> <span style="color: #40A02B">title</span> <span style="color: #179299">=</span> pageTitle<span style="color: #7C7F93">;</span> <span style="color: #7C7F93">}))</span>
+          <span style="color: #7C7F93">(</span>body <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+            <span style="color: #7C7F93">(</span>partials<span style="color: #179299">.</span>navigation <span style="color: #7C7F93">{</span> <span style="color: #8839EF">inherit</span> currentPath<span style="color: #7C7F93">;</span> <span style="color: #7C7F93">})</span>
+            <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;content&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> content <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">(</span>partials<span style="color: #179299">.</span>siteFooter <span style="color: #7C7F93">{})</span>
+          <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">]);</span>
+  <span style="color: #7C7F93">};</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+					<h2 id="conditional-rendering">Conditional Rendering<a class="headerlink mx-2" href="#conditional-rendering" title="Permanent link">#</a></h2>
+					<h3 id="simple-conditionals">Simple Conditionals<a class="headerlink mx-2" href="#simple-conditionals" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">page</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> metadata<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+  <span style="color: #7C7F93">[</span>
+    <span style="color: #7C7F93; font-style: italic"># Show title if it exists</span>
+    <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> metadata <span style="color: #179299">?</span> title <span style="color: #8839EF">then</span> <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> metadata<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span> <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+
+    content
+
+    <span style="color: #7C7F93; font-style: italic"># Show date if present</span>
+    <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> metadata <span style="color: #179299">?</span> date <span style="color: #8839EF">then</span> <span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;date&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> metadata<span style="color: #179299">.</span>date <span style="color: #7C7F93">])</span> <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+  <span style="color: #7C7F93">];</span>
+</code></pre></div>
+					<h3 id="with-default-values">With Default Values<a class="headerlink mx-2" href="#with-default-values" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">page</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> metadata<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+  <span style="color: #8839EF">let</span>
+    <span style="color: #7C7F93; font-style: italic"># Provide defaults</span>
+    <span style="color: #40A02B">pageTitle</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>title <span style="color: #179299">or</span> <span style="color: #40A02B">&quot;Untitled&quot;</span><span style="color: #7C7F93">;</span>
+    <span style="color: #40A02B">showToc</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>toc <span style="color: #179299">or</span> <span style="color: #1E66F5">false</span><span style="color: #7C7F93">;</span>
+    <span style="color: #40A02B">tags</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>tags <span style="color: #179299">or</span> <span style="color: #7C7F93">[];</span>
+  <span style="color: #8839EF">in</span>
+  <span style="color: #7C7F93">[</span>
+    <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> pageTitle <span style="color: #7C7F93">])</span>
+
+    <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> showToc <span style="color: #8839EF">then</span> <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;toc&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Table of Contents...&quot;</span> <span style="color: #7C7F93">])</span> <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+
+    content
+
+    <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> tags <span style="color: #179299">!=</span> <span style="color: #7C7F93">[]</span> <span style="color: #8839EF">then</span>
+      <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;tags&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
+        <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>tag<span style="color: #7C7F93">:</span> span <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;tag&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> tag <span style="color: #7C7F93">])</span> tags<span style="color: #7C7F93">))</span>
+    <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+  <span style="color: #7C7F93">];</span>
+</code></pre></div>
+					<h2 id="working-with-lists">Working with Lists<a class="headerlink mx-2" href="#working-with-lists" title="Permanent link">#</a></h2>
+					<h3 id="mapping-over-items">Mapping Over Items<a class="headerlink mx-2" href="#mapping-over-items" title="Permanent link">#</a></h3>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93; font-style: italic"># Simple list</span>
+<span style="color: #7C7F93">(</span>ul <span style="color: #7C7F93">[]</span>
+  <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>item<span style="color: #7C7F93">:</span> li <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span> items<span style="color: #7C7F93">))</span>
+
+<span style="color: #7C7F93; font-style: italic"># With links</span>
+<span style="color: #7C7F93">(</span>ul <span style="color: #7C7F93">[]</span>
+  <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>item<span style="color: #7C7F93">:</span>
+    li <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+      <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href item<span style="color: #179299">.</span>url<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
+    <span style="color: #7C7F93">]</span>
+  <span style="color: #7C7F93">)</span> items<span style="color: #7C7F93">))</span>
+
+<span style="color: #7C7F93; font-style: italic"># Complex items</span>
+<span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;posts&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
+  <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>item<span style="color: #7C7F93">:</span>
+    article <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;post&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+      <span style="color: #7C7F93">(</span>h2 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href item<span style="color: #179299">.</span>url<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span> <span style="color: #7C7F93">])</span>
+      <span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;date&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>date <span style="color: #7C7F93">])</span>
+      <span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;summary&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>summary <span style="color: #7C7F93">])</span>
+    <span style="color: #7C7F93">]</span>
+  <span style="color: #7C7F93">)</span> items<span style="color: #7C7F93">))</span>
+</code></pre></div>
+					<h2 id="string-returns-vs-list-returns">String Returns vs List Returns<a class="headerlink mx-2" href="#string-returns-vs-list-returns" title="Permanent link">#</a></h2>
+					<p>Templates can return either strings or lists:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93; font-style: italic"># String return</span>
+website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">page</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+  <span style="color: #40A02B">&quot;&lt;article&gt;</span><span style="color: #EA76CB">${</span>content<span style="color: #EA76CB">}</span><span style="color: #40A02B">&lt;/article&gt;&quot;</span><span style="color: #7C7F93">;</span>
+
+<span style="color: #7C7F93; font-style: italic"># List return (automatically joined with newlines)</span>
+website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">page</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> metadata<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+  <span style="color: #7C7F93">[</span>
+    <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> metadata<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
+    content
+  <span style="color: #7C7F93">];</span>
+
+<span style="color: #7C7F93; font-style: italic"># Mixed (nested lists are flattened)</span>
+website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">base</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+  <span style="color: #7C7F93">[</span>
+    <span style="color: #40A02B">&quot;&lt;!DOCTYPE html&gt;&quot;</span>
+    <span style="color: #7C7F93">(</span>html <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+      <span style="color: #7C7F93">(</span>head <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">])</span>
+      <span style="color: #7C7F93">(</span>body <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> content <span style="color: #7C7F93">])</span>
+    <span style="color: #7C7F93">])</span>
+  <span style="color: #7C7F93">];</span>
+</code></pre></div>
+					<h2 id="escaping-html">Escaping HTML<a class="headerlink mx-2" href="#escaping-html" title="Permanent link">#</a></h2>
+					<p>Use <code>lib.escapeHTML</code>
+						to escape user content:</p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #8839EF">let</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #7C7F93">)</span> escapeHTML<span style="color: #7C7F93">;</span>
+
+  <span style="color: #7C7F93; font-style: italic"># Escape special characters</span>
+  <span style="color: #40A02B">userInput</span> <span style="color: #179299">=</span> escapeHTML <span style="color: #40A02B">&quot;&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #7C7F93; font-style: italic"># Result: &quot;&amp;lt;script&amp;gt;alert(&#39;xss&#39;)&amp;lt;/script&amp;gt;&quot;</span>
+<span style="color: #8839EF">in</span>
+<span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> userInput <span style="color: #7C7F93">])</span>
+</code></pre></div>
+					<h2 id="accessing-site-configuration">Accessing Site Configuration<a class="headerlink mx-2" href="#accessing-site-configuration" title="Permanent link">#</a></h2>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span> lib<span style="color: #7C7F93">,</span> config<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+<span style="color: #8839EF">let</span>
+  <span style="color: #7C7F93; font-style: italic"># Access website configuration</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>config<span style="color: #179299">.</span>website<span style="color: #7C7F93">)</span> metadata baseURL baseURI<span style="color: #7C7F93">;</span>
+
+  <span style="color: #7C7F93; font-style: italic"># metadata contains your custom fields</span>
+  <span style="color: #40A02B">siteTitle</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>title<span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">siteLang</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>lang<span style="color: #7C7F93">;</span>
+
+  <span style="color: #7C7F93; font-style: italic"># URLs</span>
+  <span style="color: #40A02B">fullUrl</span> <span style="color: #179299">=</span> baseURL<span style="color: #7C7F93">;</span>       <span style="color: #7C7F93; font-style: italic"># &quot;https://example.com&quot;</span>
+  <span style="color: #40A02B">basePath</span> <span style="color: #179299">=</span> baseURI<span style="color: #7C7F93">;</span>      <span style="color: #7C7F93; font-style: italic"># &quot;/&quot; or &quot;/blog/&quot; if baseURL has path</span>
+<span style="color: #8839EF">in</span>
+<span style="color: #7C7F93">{</span>
+  website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">base</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> path<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+    <span style="color: #179299">...</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+					<h2 id="complete-example">Complete Example<a class="headerlink mx-2" href="#complete-example" title="Permanent link">#</a></h2>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span> lib<span style="color: #7C7F93">,</span> config<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+<span style="color: #8839EF">let</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>config<span style="color: #179299">.</span>website<span style="color: #7C7F93">)</span> metadata baseURL<span style="color: #7C7F93">;</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>config<span style="color: #179299">.</span>website<span style="color: #179299">.</span>layouts<span style="color: #7C7F93">)</span> partials<span style="color: #7C7F93">;</span>
+
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span>
+    html head body
+    header main footer nav
+    div section article
+    h1 h2 h3
+    p span a
+    ul ol li
+    meta link
+    time img
+    <span style="color: #7C7F93">;</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span> title<span style="color: #7C7F93">;</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #7C7F93">)</span> attrs escapeHTML<span style="color: #7C7F93">;</span>
+<span style="color: #8839EF">in</span>
+<span style="color: #7C7F93">{</span>
+  website<span style="color: #179299">.</span><span style="color: #40A02B">layouts</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+    <span style="color: #7C7F93; font-style: italic"># Reusable partials</span>
+    <span style="color: #40A02B">partials</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+      <span style="color: #40A02B">head</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> pageTitle<span style="color: #7C7F93">,</span> description <span style="color: #179299">?</span> metadata<span style="color: #179299">.</span>description <span style="color: #7C7F93">}:</span>
+        <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>charset <span style="color: #40A02B">&quot;UTF-8&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>name <span style="color: #40A02B">&quot;viewport&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>content <span style="color: #40A02B">&quot;width=device-width, initial-scale=1&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>name <span style="color: #40A02B">&quot;description&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>content description<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>property <span style="color: #40A02B">&quot;og:title&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>content pageTitle<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>property <span style="color: #40A02B">&quot;og:type&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>content <span style="color: #40A02B">&quot;website&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span>title pageTitle<span style="color: #7C7F93">)</span>
+          <span style="color: #7C7F93">(</span>link <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>rel <span style="color: #40A02B">&quot;stylesheet&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/css/style.css&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span>link <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>rel <span style="color: #40A02B">&quot;alternate&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>type <span style="color: #40A02B">&quot;application/rss+xml&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/blog/index.xml&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">];</span>
+
+      <span style="color: #40A02B">header</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> <span style="color: #7C7F93">}:</span>
+        header <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;site-header&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;container&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+            <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;logo&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> metadata<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">(</span>nav <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;main-nav&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+              <span style="color: #7C7F93">(</span>ul <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+                <span style="color: #7C7F93">(</span>li <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Home&quot;</span> <span style="color: #7C7F93">])</span> <span style="color: #7C7F93">])</span>
+                <span style="color: #7C7F93">(</span>li <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/blog&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Blog&quot;</span> <span style="color: #7C7F93">])</span> <span style="color: #7C7F93">])</span>
+                <span style="color: #7C7F93">(</span>li <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/about&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;About&quot;</span> <span style="color: #7C7F93">])</span> <span style="color: #7C7F93">])</span>
+              <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">];</span>
+
+      <span style="color: #40A02B">footer</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> <span style="color: #7C7F93">}:</span>
+        footer <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;site-footer&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;container&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+            <span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;© 2026 </span><span style="color: #EA76CB">${</span>metadata<span style="color: #179299">.</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B">. All rights reserved.&quot;</span> <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+              <span style="color: #40A02B">&quot;Built with &quot;</span>
+              <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;https://github.com/arnarg/nixtml&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;nixtml&quot;</span> <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">];</span>
+
+      <span style="color: #40A02B">postMeta</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> item <span style="color: #7C7F93">}:</span>
+        div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;post-meta&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span>time <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>data <span style="color: #40A02B">&quot;datetime&quot;</span> item<span style="color: #179299">.</span>dateW3C<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>date <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> <span style="color: #7C7F93">(</span>item<span style="color: #179299">.</span>metadata<span style="color: #179299">.</span>tags <span style="color: #179299">or</span> <span style="color: #7C7F93">[])</span> <span style="color: #179299">!=</span> <span style="color: #7C7F93">[]</span> <span style="color: #8839EF">then</span>
+            <span style="color: #7C7F93">(</span>span <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;tags&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
+              <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>tag<span style="color: #7C7F93">:</span>
+                a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/blog/tags/</span><span style="color: #EA76CB">${</span>tag<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;tag&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;#</span><span style="color: #EA76CB">${</span>tag<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">]</span>
+              <span style="color: #7C7F93">)</span> item<span style="color: #179299">.</span>metadata<span style="color: #179299">.</span>tags<span style="color: #7C7F93">))</span>
+          <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+        <span style="color: #7C7F93">];</span>
+    <span style="color: #7C7F93">};</span>
+
+    <span style="color: #7C7F93; font-style: italic"># Base template</span>
+    <span style="color: #40A02B">base</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> path<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> title<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+      <span style="color: #8839EF">let</span>
+        <span style="color: #40A02B">pageTitle</span> <span style="color: #179299">=</span> <span style="color: #8839EF">if</span> title <span style="color: #179299">!=</span> <span style="color: #1E66F5">null</span>
+          <span style="color: #8839EF">then</span> <span style="color: #40A02B">&quot;</span><span style="color: #EA76CB">${</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B"> - </span><span style="color: #EA76CB">${</span>metadata<span style="color: #179299">.</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span>
+          <span style="color: #8839EF">else</span> metadata<span style="color: #179299">.</span>title<span style="color: #7C7F93">;</span>
+      <span style="color: #8839EF">in</span>
+      <span style="color: #40A02B">&quot;&lt;!DOCTYPE html&gt;</span><span style="color: #EA76CB">\n</span><span style="color: #40A02B">&quot;</span>
+      <span style="color: #179299">+</span> <span style="color: #7C7F93">(</span>html <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>lang metadata<span style="color: #179299">.</span>lang<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span>head <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">(</span>partials<span style="color: #179299">.</span>head <span style="color: #7C7F93">{</span> <span style="color: #8839EF">inherit</span> pageTitle<span style="color: #7C7F93">;</span> <span style="color: #7C7F93">}))</span>
+          <span style="color: #7C7F93">(</span>body <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;page&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+            <span style="color: #7C7F93">(</span>partials<span style="color: #179299">.</span>header <span style="color: #7C7F93">{})</span>
+            <span style="color: #7C7F93">(</span>main <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;main-content&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+              <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;container&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> content <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">(</span>partials<span style="color: #179299">.</span>footer <span style="color: #7C7F93">{})</span>
+          <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">]);</span>
+
+    <span style="color: #7C7F93; font-style: italic"># Homepage</span>
+    <span style="color: #40A02B">home</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+      section <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;homepage&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+        content
+      <span style="color: #7C7F93">];</span>
+
+    <span style="color: #7C7F93; font-style: italic"># Regular pages</span>
+    <span style="color: #40A02B">page</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> metadata<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+      article <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;page-content&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+        <span style="color: #7C7F93">(</span>header <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> metadata<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> metadata <span style="color: #179299">?</span> date <span style="color: #8839EF">then</span>
+            <span style="color: #7C7F93">(</span>time <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> metadata<span style="color: #179299">.</span>date <span style="color: #7C7F93">])</span>
+          <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+        <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;content&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> content <span style="color: #7C7F93">])</span>
+      <span style="color: #7C7F93">];</span>
+
+    <span style="color: #7C7F93; font-style: italic"># Collection listing</span>
+    <span style="color: #40A02B">collection</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+      pageNumber<span style="color: #7C7F93">,</span>
+      totalPages<span style="color: #7C7F93">,</span>
+      items<span style="color: #7C7F93">,</span>
+      hasNext<span style="color: #7C7F93">,</span>
+      hasPrev<span style="color: #7C7F93">,</span>
+      nextPageURL<span style="color: #7C7F93">,</span>
+      prevPageURL<span style="color: #7C7F93">,</span>
+      <span style="color: #179299">...</span>
+    <span style="color: #7C7F93">}:</span>
+      <span style="color: #7C7F93">[</span>
+        <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Blog&quot;</span> <span style="color: #7C7F93">])</span>
+
+        <span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;posts&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
+          <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>item<span style="color: #7C7F93">:</span>
+            article <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;post-preview&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+              <span style="color: #7C7F93">(</span>h2 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href item<span style="color: #179299">.</span>url<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span> <span style="color: #7C7F93">])</span>
+              <span style="color: #7C7F93">(</span>partials<span style="color: #179299">.</span>postMeta <span style="color: #7C7F93">{</span> <span style="color: #8839EF">inherit</span> item<span style="color: #7C7F93">;</span> <span style="color: #7C7F93">})</span>
+              <span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;summary&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>summary <span style="color: #7C7F93">])</span>
+              <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href item<span style="color: #179299">.</span>url<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;read-more&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Read more →&quot;</span> <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">]</span>
+          <span style="color: #7C7F93">)</span> items<span style="color: #7C7F93">))</span>
+
+        <span style="color: #7C7F93">(</span>nav <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;pagination&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> hasPrev
+            <span style="color: #8839EF">then</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href prevPageURL<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;prev&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;← Newer Posts&quot;</span> <span style="color: #7C7F93">])</span>
+            <span style="color: #8839EF">else</span> <span style="color: #7C7F93">(</span>span <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;prev disabled&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;← Newer Posts&quot;</span> <span style="color: #7C7F93">]))</span>
+          <span style="color: #7C7F93">(</span>span <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;page-info&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Page </span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> pageNumber<span style="color: #EA76CB">}</span><span style="color: #40A02B"> of </span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> totalPages<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> hasNext
+            <span style="color: #8839EF">then</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href nextPageURL<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;next&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Older Posts →&quot;</span> <span style="color: #7C7F93">])</span>
+            <span style="color: #8839EF">else</span> <span style="color: #7C7F93">(</span>span <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;next disabled&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Older Posts →&quot;</span> <span style="color: #7C7F93">]))</span>
+        <span style="color: #7C7F93">])</span>
+      <span style="color: #7C7F93">];</span>
+
+    <span style="color: #7C7F93; font-style: italic"># Taxonomy pages</span>
+    <span style="color: #40A02B">taxonomy</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+      title<span style="color: #7C7F93">,</span>
+      pageNumber<span style="color: #7C7F93">,</span>
+      totalPages<span style="color: #7C7F93">,</span>
+      items<span style="color: #7C7F93">,</span>
+      hasNext<span style="color: #7C7F93">,</span>
+      hasPrev<span style="color: #7C7F93">,</span>
+      nextPageURL<span style="color: #7C7F93">,</span>
+      prevPageURL<span style="color: #7C7F93">,</span>
+      <span style="color: #179299">...</span>
+    <span style="color: #7C7F93">}:</span>
+      <span style="color: #7C7F93">[</span>
+        <span style="color: #7C7F93">(</span>h1 <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Posts tagged #</span><span style="color: #EA76CB">${</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">])</span>
+        <span style="color: #7C7F93">(</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;taxonomy-meta&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;</span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">builtins</span><span style="color: #179299">.</span>length items<span style="color: #7C7F93">)</span><span style="color: #EA76CB">}</span><span style="color: #40A02B"> posts&quot;</span> <span style="color: #7C7F93">])</span>
+
+        <span style="color: #7C7F93">(</span>ul <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;post-list&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
+          <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>item<span style="color: #7C7F93">:</span>
+            li <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span>
+              <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href item<span style="color: #179299">.</span>url<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
+              <span style="color: #7C7F93">(</span>span <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;date&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot; — </span><span style="color: #EA76CB">${</span>item<span style="color: #179299">.</span>date<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">])</span>
+            <span style="color: #7C7F93">]</span>
+          <span style="color: #7C7F93">)</span> items<span style="color: #7C7F93">))</span>
+
+        <span style="color: #7C7F93">(</span>nav <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;pagination&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+          <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> hasPrev <span style="color: #8839EF">then</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href prevPageURL<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;← Newer&quot;</span> <span style="color: #7C7F93">])</span> <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+          <span style="color: #7C7F93">(</span>span <span style="color: #7C7F93">[]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot; Page </span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> pageNumber<span style="color: #EA76CB">}</span><span style="color: #40A02B">/</span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> totalPages<span style="color: #EA76CB">}</span><span style="color: #40A02B"> &quot;</span> <span style="color: #7C7F93">])</span>
+          <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> hasNext <span style="color: #8839EF">then</span> <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href nextPageURL<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Older →&quot;</span> <span style="color: #7C7F93">])</span> <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">)</span>
+        <span style="color: #7C7F93">])</span>
+      <span style="color: #7C7F93">];</span>
+  <span style="color: #7C7F93">};</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+					<h2 id="tips-and-best-practices">Tips and Best Practices<a class="headerlink mx-2" href="#tips-and-best-practices" title="Permanent link">#</a></h2>
+					<ol>
+						<li><strong>Start simple</strong>: Begin with string templates, then refactor to functional HTML</li>
+						<li><strong>Use partials</strong>: Extract repeated markup into partials</li>
+						<li><strong>Prefer functional HTML</strong>: It catches typos and provides structure</li>
+						<li><strong>Escape user input</strong>: Use <code>escapeHTML</code>
+						for any dynamic content</li>
+						<li><strong>Keep templates focused</strong>: Complex logic should live outside templates</li>
+						<li><strong>Test incrementally</strong>: Build and check after each change</li>
+					</ol>
+				</div>
+			</div>
+		</section>
+		<footer class="footer">
+			<div class="content is-max-desktop has-text-centered">
+				<p>
+					This website is (obviously) generated with
+					<a href="https://github.com/arnarg/nixtml">
+						nixtml.
+					</a>
+				</p>
+			</div>
+		</footer>
+	</body>
+</html>
