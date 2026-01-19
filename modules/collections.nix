@@ -435,6 +435,7 @@ in
                       nextPageURL
                       prevPageURL
                       title
+                      taxonomy
                       ;
                   };
                   layout = config.website.layouts.taxonomy;

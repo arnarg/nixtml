@@ -12,6 +12,7 @@ $pink: #fa7c91;
 
 div.highlight {
   background-color: transparent !important;
+  margin-bottom: var(--bulma-content-block-margin-bottom);
 
   pre {
     border-radius: .5em;

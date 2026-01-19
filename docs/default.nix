@@ -135,7 +135,17 @@ in
               )
             ];
 
-      home = { content, ... }: content;
+      home =
+        { metadata, content, ... }:
+        [
+          (h1 [ (attrs.classes [ "title" ]) ] [ metadata.title ])
+          (div
+            [ (attrs.classes [ "content" ]) ]
+            [
+              content
+            ]
+          )
+        ];
 
       page =
         { metadata, content, ... }:
