@@ -64,6 +64,7 @@ def process_post(post: str, options: dict) -> str:
             "pymdownx.superfences",
             "pymdownx.highlight",
             "pymdownx.blocks.admonition",
+            "pymdownx.blocks.caption",
             "pymdownx.inlinehilite",
             "pymdownx.magiclink",
         ],
