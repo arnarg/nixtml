@@ -257,6 +257,16 @@
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 					</ul>
+					<h2 id="websitecontentprocessorsmdhighlightstylesheet">website.content.processors.md.highlightStylesheet<a class="headerlink mx-2" href="#websitecontentprocessorsmdhighlightstylesheet" title="Permanent link">#</a></h2>
+					<p>A CSS file with the pygments styles for <code>website.content.processors.md.settings.highlight.style</code>, scoped to <code>.highlight</code>.</p>
+					<p>Useful when <code>website.content.processors.md.settings.highlight.noclasses</code>
+						is set to <code>false</code>.</p>
+					<p><strong><em>Type:</em></strong>
+					package</p>
+					<p><strong><em>Declared by:</em></strong></p>
+					<ul>
+						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+					</ul>
 					<h2 id="websitecontentprocessorsmdsettingsdateformat">website.content.processors.md.settings.dateFormat<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsdateformat" title="Permanent link">#</a></h2>
 					<p>Format string for any datetime in content front matter.</p>
 					<p>This is a format string for python's <code>strftime</code>. See: <a href="https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior">https://docs.python.org/3/library/datetime.html#strftime-strptime-behavior</a></p>
@@ -264,6 +274,61 @@
 					string</p>
 					<p><strong><em>Default:</em></strong>
 					<code class="highlight"><span style="color: #40A02B">&quot;%b %-d, %Y&quot;</span></code></p>
+					<p><strong><em>Declared by:</em></strong></p>
+					<ul>
+						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+					</ul>
+					<h2 id="websitecontentprocessorsmdsettingshighlightextraconfig">website.content.processors.md.settings.highlight.extraConfig<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingshighlightextraconfig" title="Permanent link">#</a></h2>
+					<p>Extra config passed to the <code>pymdownx.highlight</code>
+						extension. Takes precedence over other highlight settings.</p>
+					<p>See: <a href="https://facelessuser.github.io/pymdown-extensions/extensions/highlight/#options">https://facelessuser.github.io/pymdown-extensions/extensions/highlight/#options</a></p>
+					<p><strong><em>Type:</em></strong>
+					attribute set of anything</p>
+					<p><strong><em>Default:</em></strong>
+					<code class="highlight"><span style="color: #7C7F93">{</span>
+					<span style="color: #7C7F93">}</span></code></p>
+					<p><strong><em>Example:</em></strong></p>
+					<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span>
+  <span style="color: #40A02B">anchor_linenums</span> <span style="color: #179299">=</span> <span style="color: #1E66F5">true</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">line_spans</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;__span&quot;</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+					<p><strong><em>Declared by:</em></strong></p>
+					<ul>
+						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+					</ul>
+					<h2 id="websitecontentprocessorsmdsettingshighlightlinenums">website.content.processors.md.settings.highlight.linenums<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingshighlightlinenums" title="Permanent link">#</a></h2>
+					<p>Enable line numbers for all code blocks. When <code>null</code>
+						line numbers can still be enabled per code block with <code>linenums="1"</code>.</p>
+					<p><strong><em>Type:</em></strong>
+					null or boolean</p>
+					<p><strong><em>Default:</em></strong>
+					<code class="highlight"><span style="color: #1E66F5">null</span></code></p>
+					<p><strong><em>Declared by:</em></strong></p>
+					<ul>
+						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+					</ul>
+					<h2 id="websitecontentprocessorsmdsettingshighlightlinenumsstyle">website.content.processors.md.settings.highlight.linenumsStyle<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingshighlightlinenumsstyle" title="Permanent link">#</a></h2>
+					<p>The line number style to use for code blocks.</p>
+					<p>See: <a href="https://facelessuser.github.io/pymdown-extensions/extensions/highlight/#line-number-styles">https://facelessuser.github.io/pymdown-extensions/extensions/highlight/#line-number-styles</a></p>
+					<p><strong><em>Type:</em></strong>
+					one of "table", "inline", "pymdownx-inline"</p>
+					<p><strong><em>Default:</em></strong>
+					<code class="highlight"><span style="color: #40A02B">&quot;table&quot;</span></code></p>
+					<p><strong><em>Declared by:</em></strong></p>
+					<ul>
+						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+					</ul>
+					<h2 id="websitecontentprocessorsmdsettingshighlightnoclasses">website.content.processors.md.settings.highlight.noclasses<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingshighlightnoclasses" title="Permanent link">#</a></h2>
+					<p>Whether to inline the pygments styles in the generated HTML instead of using CSS classes.</p>
+					<p>When set to <code>false</code>
+						a stylesheet for the chosen style is needed, see <code>website.content.processors.md.highlightStylesheet</code>.</p>
+					<p>Note that the <code>pymdownx-inline</code>
+						line number style requires this to be <code>false</code>.</p>
+					<p><strong><em>Type:</em></strong>
+					boolean</p>
+					<p><strong><em>Default:</em></strong>
+					<code class="highlight"><span style="color: #1E66F5">true</span></code></p>
 					<p><strong><em>Declared by:</em></strong></p>
 					<ul>
 						<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
