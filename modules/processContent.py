@@ -80,9 +80,12 @@ def process_post(post: str, options: dict) -> str:
                 "permalink_class": options["toc"]["permalinkClass"],
             },
             "pymdownx.highlight": {
-                "noclasses": True,
+                "noclasses": options["highlight"]["noclasses"],
                 "use_pygments": True,
                 "pygments_style": options["highlight"]["style"],
+                "linenums": options["highlight"]["linenums"],
+                "linenums_style": options["highlight"]["linenumsStyle"],
+                **options["highlight"]["extraConfig"],
             },
         },
     )

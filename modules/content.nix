@@ -7,6 +7,18 @@
 let
   inherit (config.website.content) processors;
 
+  pythonEnv = pkgs.python3.withPackages (
+    ps:
+    with ps;
+    [
+      markdown
+      pymdown-extensions
+      pyyaml
+      pygments
+    ]
+    ++ processors.md.extraPythonPackages
+  );
+
   readContentDir =
     dir:
     let
@@ -128,6 +140,50 @@ in
                   The pygments style to use for code block colorscheme.
                 '';
               };
+              noclasses = mkOption {
+                type = types.bool;
+                default = true;
+                description = ''
+                  Whether to inline the pygments styles in the generated HTML instead of using CSS classes.
+
+                  When set to `false` a stylesheet for the chosen style is needed, see `website.content.processors.md.highlightStylesheet`.
+
+                  Note that the `pymdownx-inline` line number style requires this to be `false`.
+                '';
+              };
+              linenums = mkOption {
+                type = with types; nullOr bool;
+                default = null;
+                description = ''
+                  Enable line numbers for all code blocks. When `null` line numbers can still be enabled per code block with `linenums="1"`.
+                '';
+              };
+              linenumsStyle = mkOption {
+                type = types.enum [
+                  "table"
+                  "inline"
+                  "pymdownx-inline"
+                ];
+                default = "table";
+                description = ''
+                  The line number style to use for code blocks.
+
+                  See: https://facelessuser.github.io/pymdown-extensions/extensions/highlight/#line-number-styles
+                '';
+              };
+              extraConfig = mkOption {
+                type = with types; attrsOf anything;
+                default = { };
+                example = {
+                  anchor_linenums = true;
+                  line_spans = "__span";
+                };
+                description = ''
+                  Extra config passed to the `pymdownx.highlight` extension. Takes precedence over other highlight settings.
+
+                  See: https://facelessuser.github.io/pymdown-extensions/extensions/highlight/#options
+                '';
+              };
             };
           };
           extraPythonPackages = mkOption {
@@ -135,6 +191,15 @@ in
             default = [ ];
             description = ''
               Extra python packages to use for processing markdown content.
+            '';
+          };
+          highlightStylesheet = mkOption {
+            type = types.package;
+            readOnly = true;
+            description = ''
+              A CSS file with the pygments styles for `website.content.processors.md.settings.highlight.style`, scoped to `.highlight`.
+
+              Useful when `website.content.processors.md.settings.highlight.noclasses` is set to `false`.
             '';
           };
           processor = mkOption {
@@ -247,20 +312,16 @@ in
           }) (readContentDir config.website.content.dir)
         );
 
+        processors.md.highlightStylesheet =
+          pkgs.runCommand "nixtml-highlight-${processors.md.settings.highlight.style}.css" { }
+            ''
+              ${pythonEnv}/bin/pygmentize -S ${lib.escapeShellArg processors.md.settings.highlight.style} -f html -a .highlight > $out
+            '';
+
         processors.md.processor =
           name: path:
           let
-            py = pkgs.python3.withPackages (
-              ps:
-              with ps;
-              [
-                markdown
-                pymdown-extensions
-                pyyaml
-                pygments
-              ]
-              ++ config.website.content.processors.md.extraPythonPackages
-            );
+            py = pythonEnv;
 
             options = pkgs.writeText "content-options-${name}.json" (
               builtins.toJSON config.website.content.processors.md.settings
