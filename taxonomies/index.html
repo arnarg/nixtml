@@ -180,23 +180,23 @@
 							<p>Taxonomies always belong to a collection; they do not independently classify every Markdown page on a site.</p>
 							<h2 id="enable-a-taxonomy">Enable a Taxonomy<a class="headerlink mx-2" href="#enable-a-taxonomy" title="Permanent link">#</a></h2>
 							<p>Declare the frontmatter keys to use on a collection:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>collections<span style="color: #179299">.</span><span style="color: #40A02B">blog</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;blog/posts&quot;</span><span style="color: #7C7F93">;</span>
-  pagination<span style="color: #179299">.</span><span style="color: #40A02B">perPage</span> <span style="color: #179299">=</span> <span style="color: #FE640B">5</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">taxonomies</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;tags&quot;</span> <span style="color: #40A02B">&quot;categories&quot;</span> <span style="color: #7C7F93">];</span>
-<span style="color: #7C7F93">};</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>collections<span class="o">.</span><span class="ss">blog</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">path</span> <span class="o">=</span> <span class="s2">&quot;blog/posts&quot;</span><span class="p">;</span>
+  pagination<span class="o">.</span><span class="ss">perPage</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+  <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;tags&quot;</span> <span class="s2">&quot;categories&quot;</span> <span class="p">];</span>
+<span class="p">};</span>
 </code></pre></div>
 							<p>Then assign terms in each item's frontmatter:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+							<div class="highlight"><pre><span></span><code>---
 title: Getting started with nixtml
 date: 2026-01-19T10:00:00
 tags:
-<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>nix
-<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>beginner
-<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>tutorial
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>nix
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>beginner
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>tutorial
 categories:
-  - guides
----
+<span class="gu">  - guides</span>
+<span class="gu">---</span>
 
 Post content...
 </code></pre></div>
@@ -241,21 +241,21 @@ Post content...
 							receives <code>title</code>
 							for the current term, <code>taxonomy</code>
 							for its type, and the collection pagination values:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">taxonomy</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> taxonomy<span style="color: #7C7F93">,</span> title<span style="color: #7C7F93">,</span> items<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
-  <span style="color: #7C7F93">[</span>
-    <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>h1 <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;</span><span style="color: #EA76CB">${</span>taxonomy<span style="color: #EA76CB">}</span><span style="color: #40A02B">: </span><span style="color: #EA76CB">${</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">])</span>
-    <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
-      <span style="color: #40A02B">&quot;</span><span style="color: #EA76CB">${</span><span style="color: #FE640B; font-style: italic">toString</span> <span style="color: #7C7F93">(</span><span style="color: #FE640B; font-style: italic">builtins</span><span style="color: #179299">.</span>length items<span style="color: #7C7F93">)</span><span style="color: #EA76CB">}</span><span style="color: #40A02B"> items on this page&quot;</span>
-    <span style="color: #7C7F93">])</span>
-    <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>ul <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">(</span>
-      <span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>item<span style="color: #7C7F93">:</span>
-        lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>li <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
-          <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>a <span style="color: #7C7F93">[</span>
-            <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>href item<span style="color: #179299">.</span>url<span style="color: #7C7F93">)</span>
-          <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
-        <span style="color: #7C7F93">])</span> items
-    <span style="color: #7C7F93">))</span>
-  <span style="color: #7C7F93">];</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">taxonomy</span> <span class="o">=</span> <span class="p">{</span> taxonomy<span class="p">,</span> title<span class="p">,</span> items<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+  <span class="p">[</span>
+    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;</span><span class="si">${</span>taxonomy<span class="si">}</span><span class="s2">: </span><span class="si">${</span>title<span class="si">}</span><span class="s2">&quot;</span> <span class="p">])</span>
+    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>p <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
+      <span class="s2">&quot;</span><span class="si">${</span><span class="nb">toString</span> <span class="p">(</span><span class="nb">builtins</span><span class="o">.</span>length items<span class="p">)</span><span class="si">}</span><span class="s2"> items on this page&quot;</span>
+    <span class="p">])</span>
+    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>ul <span class="p">[</span> <span class="p">]</span> <span class="p">(</span>
+      <span class="nb">map</span> <span class="p">(</span>item<span class="p">:</span>
+        lib<span class="o">.</span>tags<span class="o">.</span>li <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
+          <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>a <span class="p">[</span>
+            <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href item<span class="o">.</span>url<span class="p">)</span>
+          <span class="p">]</span> <span class="p">[</span> item<span class="o">.</span>title <span class="p">])</span>
+        <span class="p">])</span> items
+    <span class="p">))</span>
+  <span class="p">];</span>
 </code></pre></div>
 							<p>Pagination uses the same <code>hasNext</code>, <code>hasPrev</code>, <code>nextPageURL</code>, and <code>prevPageURL</code>
 								values as a collection layout. See <a href="/nixtml/templating/#collection-layouts">Layouts and partials</a>
@@ -264,29 +264,29 @@ Post content...
 							<p>Minima supplies a ready-made taxonomy listing layout.</p>
 							<h2 id="display-terms-on-posts">Display Terms on Posts<a class="headerlink mx-2" href="#display-terms-on-posts" title="Permanent link">#</a></h2>
 							<p>Page layouts receive terms through frontmatter metadata. This example renders a post's tags for the blog collection used above:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span> lib<span style="color: #7C7F93">,</span> config<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
-<span style="color: #7C7F93">{</span>
-  website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">page</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> metadata<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
-    <span style="color: #8839EF">let</span>
-      <span style="color: #40A02B">tags</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>tags <span style="color: #179299">or</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">];</span>
-    <span style="color: #8839EF">in</span>
-    <span style="color: #7C7F93">[</span>
-      <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>h1 <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> metadata<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
-      <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>optionalString <span style="color: #7C7F93">(</span>tags <span style="color: #179299">!=</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">])</span> <span style="color: #7C7F93">(</span>
-        lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>ul <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;tags&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">(</span>
-          <span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>tag<span style="color: #7C7F93">:</span>
-            lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>li <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
-              <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>a <span style="color: #7C7F93">[</span>
-                <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>href <span style="color: #7C7F93">(</span>
-                  config<span style="color: #179299">.</span>website<span style="color: #179299">.</span>baseURI <span style="color: #179299">+</span> <span style="color: #40A02B">&quot;blog/tags/</span><span style="color: #EA76CB">${</span>tag<span style="color: #EA76CB">}</span><span style="color: #40A02B">/&quot;</span>
-                <span style="color: #7C7F93">))</span>
-              <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> tag <span style="color: #7C7F93">])</span>
-            <span style="color: #7C7F93">])</span> tags
-        <span style="color: #7C7F93">)</span>
-      <span style="color: #7C7F93">))</span>
+							<div class="highlight"><pre><span></span><code><span class="p">{</span> lib<span class="p">,</span> config<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+<span class="p">{</span>
+  website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">page</span> <span class="o">=</span> <span class="p">{</span> metadata<span class="p">,</span> content<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+    <span class="k">let</span>
+      <span class="ss">tags</span> <span class="o">=</span> metadata<span class="o">.</span>tags <span class="ow">or</span> <span class="p">[</span> <span class="p">];</span>
+    <span class="k">in</span>
+    <span class="p">[</span>
+      <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> metadata<span class="o">.</span>title <span class="p">])</span>
+      <span class="p">(</span>lib<span class="o">.</span>optionalString <span class="p">(</span>tags <span class="o">!=</span> <span class="p">[</span> <span class="p">])</span> <span class="p">(</span>
+        lib<span class="o">.</span>tags<span class="o">.</span>ul <span class="p">[</span> <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>class <span class="s2">&quot;tags&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="p">(</span>
+          <span class="nb">map</span> <span class="p">(</span>tag<span class="p">:</span>
+            lib<span class="o">.</span>tags<span class="o">.</span>li <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
+              <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>a <span class="p">[</span>
+                <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href <span class="p">(</span>
+                  config<span class="o">.</span>website<span class="o">.</span>baseURI <span class="o">+</span> <span class="s2">&quot;blog/tags/</span><span class="si">${</span>tag<span class="si">}</span><span class="s2">/&quot;</span>
+                <span class="p">))</span>
+              <span class="p">]</span> <span class="p">[</span> tag <span class="p">])</span>
+            <span class="p">])</span> tags
+        <span class="p">)</span>
+      <span class="p">))</span>
       content
-    <span style="color: #7C7F93">];</span>
-<span style="color: #7C7F93">}</span>
+    <span class="p">];</span>
+<span class="p">}</span>
 </code></pre></div>
 							<p>The URL prefix depends on the collection path and taxonomy name. Adjust <code>blog/tags</code>
 								for your own setup.</p>
@@ -294,56 +294,56 @@ Post content...
 								rather than <code>metadata.tags</code>.</p>
 							<h2 id="multiple-taxonomy-types">Multiple Taxonomy Types<a class="headerlink mx-2" href="#multiple-taxonomy-types" title="Permanent link">#</a></h2>
 							<p>A collection can use any frontmatter keys that contain lists of strings:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>collections<span style="color: #179299">.</span><span style="color: #40A02B">blog</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;blog/posts&quot;</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">taxonomies</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;tags&quot;</span> <span style="color: #40A02B">&quot;categories&quot;</span> <span style="color: #40A02B">&quot;authors&quot;</span> <span style="color: #40A02B">&quot;series&quot;</span> <span style="color: #7C7F93">];</span>
-<span style="color: #7C7F93">};</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>collections<span class="o">.</span><span class="ss">blog</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">path</span> <span class="o">=</span> <span class="s2">&quot;blog/posts&quot;</span><span class="p">;</span>
+  <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;tags&quot;</span> <span class="s2">&quot;categories&quot;</span> <span class="s2">&quot;authors&quot;</span> <span class="s2">&quot;series&quot;</span> <span class="p">];</span>
+<span class="p">};</span>
 </code></pre></div>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+							<div class="highlight"><pre><span></span><code>---
 title: Building a blog with Nix
 date: 2026-01-19T10:00:00
 tags:
-<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>nix
-<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>web
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>nix
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>web
 categories:
-<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>tutorials
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>tutorials
 authors:
-<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>jane-doe
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>jane-doe
 series:
-  - nix-web-development
----
+<span class="gu">  - nix-web-development</span>
+<span class="gu">---</span>
 </code></pre></div>
 							<p>This creates separate page families under <code>blog/tags</code>, <code>blog/categories</code>, <code>blog/authors</code>, and <code>blog/series</code>. The taxonomy layout can use <code>taxonomy</code>
 								to adjust its heading or feed links rather than assuming every listing represents tags.</p>
 							<h2 id="link-a-term-feed">Link a Term Feed<a class="headerlink mx-2" href="#link-a-term-feed" title="Permanent link">#</a></h2>
 							<p>Add a term's feed to its taxonomy layout when readers may want to subscribe to that topic. This fragment assumes the surrounding module receives <code>config</code>:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">taxonomy</span> <span style="color: #179299">=</span>
-  <span style="color: #7C7F93">{</span> taxonomy<span style="color: #7C7F93">,</span> title<span style="color: #7C7F93">,</span> items<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
-  <span style="color: #7C7F93">[</span>
-    <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>a <span style="color: #7C7F93">[</span>
-      <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>rel <span style="color: #40A02B">&quot;alternate&quot;</span><span style="color: #7C7F93">)</span>
-      <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>type <span style="color: #40A02B">&quot;application/rss+xml&quot;</span><span style="color: #7C7F93">)</span>
-      <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>href <span style="color: #7C7F93">(</span>
-        config<span style="color: #179299">.</span>website<span style="color: #179299">.</span>baseURI
-        <span style="color: #179299">+</span> <span style="color: #40A02B">&quot;blog/</span><span style="color: #EA76CB">${</span>taxonomy<span style="color: #EA76CB">}</span><span style="color: #40A02B">/</span><span style="color: #EA76CB">${</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B">/index.xml&quot;</span>
-      <span style="color: #7C7F93">))</span>
-    <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;RSS feed for </span><span style="color: #EA76CB">${</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot;</span> <span style="color: #7C7F93">])</span>
-    <span style="color: #7C7F93; font-style: italic"># Render items and pagination...</span>
-  <span style="color: #7C7F93">];</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">taxonomy</span> <span class="o">=</span>
+  <span class="p">{</span> taxonomy<span class="p">,</span> title<span class="p">,</span> items<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+  <span class="p">[</span>
+    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>a <span class="p">[</span>
+      <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>rel <span class="s2">&quot;alternate&quot;</span><span class="p">)</span>
+      <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>type <span class="s2">&quot;application/rss+xml&quot;</span><span class="p">)</span>
+      <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href <span class="p">(</span>
+        config<span class="o">.</span>website<span class="o">.</span>baseURI
+        <span class="o">+</span> <span class="s2">&quot;blog/</span><span class="si">${</span>taxonomy<span class="si">}</span><span class="s2">/</span><span class="si">${</span>title<span class="si">}</span><span class="s2">/index.xml&quot;</span>
+      <span class="p">))</span>
+    <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;RSS feed for </span><span class="si">${</span>title<span class="si">}</span><span class="s2">&quot;</span> <span class="p">])</span>
+    <span class="c1"># Render items and pagination...</span>
+  <span class="p">];</span>
 </code></pre></div>
 							<p>Only generate this link when the collection's RSS support is enabled and its path is <code>blog/posts</code>.</p>
 							<h2 id="naming-terms">Naming Terms<a class="headerlink mx-2" href="#naming-terms" title="Permanent link">#</a></h2>
 							<p>Terms become URL path segments without slugification. Use consistent lowercase, hyphenated values:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93; font-style: italic"># Good</span>
-<span style="color: #1E66F5">tags</span><span style="color: #7C7F93">:</span>
-<span style="color: #4C4F69">  </span><span style="color: #7C7F93">-</span><span style="color: #4C4F69"> </span><span style="color: #40A02B">nix-flakes</span>
-<span style="color: #4C4F69">  </span><span style="color: #7C7F93">-</span><span style="color: #4C4F69"> </span><span style="color: #40A02B">getting-started</span>
+							<div class="highlight"><pre><span></span><code><span class="c1"># Good</span>
+<span class="nt">tags</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nix-flakes</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">getting-started</span>
 </code></pre></div>
 							<p>Avoid varying capitalization or punctuation for the same conceptual term, and avoid characters that need URL encoding. Keeping terms consistent prevents fragmented listings and makes generated URLs predictable.</p>
 							<h2 id="examples">Examples<a class="headerlink mx-2" href="#examples" title="Permanent link">#</a></h2>
 							<p>The <a href="https://github.com/arnarg/nixtml/tree/main/examples/minima">Minima example</a>
 								combines collection pagination, tags, excerpts, and feeds. Build it from a nixtml checkout with:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>nix<span style="color: #4C4F69"> </span>build<span style="color: #4C4F69"> </span>.#examples.minima
+							<div class="highlight"><pre><span></span><code>nix<span class="w"> </span>build<span class="w"> </span>.#examples.minima
 </code></pre></div>
 						</div>
 						<nav class="docs-pager" aria-label="Guide pagination">
@@ -369,7 +369,7 @@ series:
 			</div>
 		</section>
 		<footer class="footer">
-			<div class="content is-max-desktop has-text-centered">
+			<div class="container content is-max-desktop has-text-centered">
 				<p>
 					This website is (obviously) generated with
 					<a href="https://github.com/arnarg/nixtml">

@@ -179,7 +179,7 @@
 							<h2 id="rendering-order">Rendering Order<a class="headerlink mx-2" href="#rendering-order" title="Permanent link">#</a></h2>
 							<p>nixtml renders a page-specific layout first and then passes its output to <code>website.layouts.base</code>
 								as <code>content</code>:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>content file or generated page
+							<div class="highlight"><pre><span></span><code>content file or generated page
   → home, page, collection, or taxonomy layout
   → base layout
   → formatted HTML file
@@ -246,18 +246,18 @@
 							</table>
 							<p>For example, <code>content/about.md</code>
 								normally has this path:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;about&quot;</span> <span style="color: #40A02B">&quot;index.html&quot;</span> <span style="color: #7C7F93">]</span>
+							<div class="highlight"><pre><span></span><code><span class="p">[</span> <span class="s2">&quot;about&quot;</span> <span class="s2">&quot;index.html&quot;</span> <span class="p">]</span>
 </code></pre></div>
 							<p>Frontmatter can contain arbitrary values. Access optional fields with a default instead of assuming they exist:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">page</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> metadata<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
-  <span style="color: #8839EF">let</span>
-    <span style="color: #40A02B">description</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>description <span style="color: #179299">or</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">;</span>
-    <span style="color: #40A02B">tags</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>tags <span style="color: #179299">or</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">];</span>
-  <span style="color: #8839EF">in</span>
-  <span style="color: #7C7F93">[</span>
-    <span style="color: #7C7F93; font-style: italic"># Render the page using these values.</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">page</span> <span class="o">=</span> <span class="p">{</span> metadata<span class="p">,</span> content<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+  <span class="k">let</span>
+    <span class="ss">description</span> <span class="o">=</span> metadata<span class="o">.</span>description <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+    <span class="ss">tags</span> <span class="o">=</span> metadata<span class="o">.</span>tags <span class="ow">or</span> <span class="p">[</span> <span class="p">];</span>
+  <span class="k">in</span>
+  <span class="p">[</span>
+    <span class="c1"># Render the page using these values.</span>
     content
-  <span style="color: #7C7F93">];</span>
+  <span class="p">];</span>
 </code></pre></div>
 							<h2 id="collection-layouts">Collection Layouts<a class="headerlink mx-2" href="#collection-layouts" title="Permanent link">#</a></h2>
 							<p><code>website.layouts.collection</code>
@@ -346,7 +346,7 @@
 								</tbody>
 							</table>
 							<p>For a collection at <code>blog/posts</code>, a taxonomy page might have this path:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;blog&quot;</span> <span style="color: #40A02B">&quot;tags&quot;</span> <span style="color: #40A02B">&quot;nix&quot;</span> <span style="color: #40A02B">&quot;index.html&quot;</span> <span style="color: #7C7F93">]</span>
+							<div class="highlight"><pre><span></span><code><span class="p">[</span> <span class="s2">&quot;blog&quot;</span> <span class="s2">&quot;tags&quot;</span> <span class="s2">&quot;nix&quot;</span> <span class="s2">&quot;index.html&quot;</span> <span class="p">]</span>
 </code></pre></div>
 							<p>See <a href="/nixtml/taxonomies/">Taxonomies and RSS</a>
 								for term setup and generated URLs.</p>
@@ -415,29 +415,29 @@
 								</tbody>
 							</table>
 							<p>Taxonomy lists and other custom fields are available through <code>item.metadata</code>:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #8839EF">let</span>
-  <span style="color: #40A02B">tags</span> <span style="color: #179299">=</span> item<span style="color: #179299">.</span>metadata<span style="color: #179299">.</span>tags <span style="color: #179299">or</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">];</span>
-<span style="color: #8839EF">in</span>
-<span style="color: #7C7F93; font-style: italic"># Render tags for this item.</span>
+							<div class="highlight"><pre><span></span><code><span class="k">let</span>
+  <span class="ss">tags</span> <span class="o">=</span> item<span class="o">.</span>metadata<span class="o">.</span>tags <span class="ow">or</span> <span class="p">[</span> <span class="p">];</span>
+<span class="k">in</span>
+<span class="c1"># Render tags for this item.</span>
 tags
 </code></pre></div>
 							<p>Collection items require the standard title and date fields used by collection processing.</p>
 							<h2 id="partials">Partials<a class="headerlink mx-2" href="#partials" title="Permanent link">#</a></h2>
 							<p><code>website.layouts.partials</code>
 							is an attribute set of reusable functions. Partials do not have a fixed context: each partial defines its own arguments.</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span>partials<span style="color: #179299">.</span><span style="color: #40A02B">pageHeading</span> <span style="color: #179299">=</span>
-  <span style="color: #7C7F93">{</span> title<span style="color: #7C7F93">,</span> description <span style="color: #179299">?</span> <span style="color: #1E66F5">null</span> <span style="color: #7C7F93">}:</span>
-  <span style="color: #7C7F93">[</span>
-    <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>h1 <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> title <span style="color: #7C7F93">])</span>
-    <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>optionalString <span style="color: #7C7F93">(</span>description <span style="color: #179299">!=</span> <span style="color: #1E66F5">null</span><span style="color: #7C7F93">)</span>
-      <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> description <span style="color: #7C7F93">]))</span>
-  <span style="color: #7C7F93">];</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span>partials<span class="o">.</span><span class="ss">pageHeading</span> <span class="o">=</span>
+  <span class="p">{</span> title<span class="p">,</span> description <span class="o">?</span> <span class="no">null</span> <span class="p">}:</span>
+  <span class="p">[</span>
+    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> title <span class="p">])</span>
+    <span class="p">(</span>lib<span class="o">.</span>optionalString <span class="p">(</span>description <span class="o">!=</span> <span class="no">null</span><span class="p">)</span>
+      <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>p <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> description <span class="p">]))</span>
+  <span class="p">];</span>
 </code></pre></div>
 							<p>Call a partial with the values it declares:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>partials<span style="color: #179299">.</span>pageHeading <span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">title</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>title<span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">description</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>description <span style="color: #179299">or</span> <span style="color: #1E66F5">null</span><span style="color: #7C7F93">;</span>
-<span style="color: #7C7F93">}</span>
+							<div class="highlight"><pre><span></span><code>partials<span class="o">.</span>pageHeading <span class="p">{</span>
+  <span class="ss">title</span> <span class="o">=</span> metadata<span class="o">.</span>title<span class="p">;</span>
+  <span class="ss">description</span> <span class="o">=</span> metadata<span class="o">.</span>description <span class="ow">or</span> <span class="no">null</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre></div>
 							<p>The <a href="/nixtml/templating/">Layouts and partials guide</a>
 								shows how to include partials in complete layouts.</p>
@@ -447,7 +447,7 @@ tags
 			</div>
 		</section>
 		<footer class="footer">
-			<div class="content is-max-desktop has-text-centered">
+			<div class="container content is-max-desktop has-text-centered">
 				<p>
 					This website is (obviously) generated with
 					<a href="https://github.com/arnarg/nixtml">

@@ -178,42 +178,42 @@
 							<h2 id="import-a-theme">Import a Theme<a class="headerlink mx-2" href="#import-a-theme" title="Permanent link">#</a></h2>
 							<p>Pass a theme module through <code>imports</code>
 								in <code>mkWebsite</code>:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>nixtml<span style="color: #179299">.</span>lib<span style="color: #179299">.</span>mkWebsite <span style="color: #7C7F93">{</span>
-  <span style="color: #8839EF">inherit</span> pkgs<span style="color: #7C7F93">;</span>
+							<div class="highlight"><pre><span></span><code>nixtml<span class="o">.</span>lib<span class="o">.</span>mkWebsite <span class="p">{</span>
+  <span class="k">inherit</span> pkgs<span class="p">;</span>
 
-  <span style="color: #40A02B">name</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;my-website&quot;</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">baseURL</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;https://example.com&quot;</span><span style="color: #7C7F93">;</span>
-  content<span style="color: #179299">.</span><span style="color: #40A02B">dir</span> <span style="color: #179299">=</span> <span style="color: #40A02B">./content</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">imports</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> nixtml<span style="color: #179299">.</span>themes<span style="color: #179299">.</span>minima <span style="color: #7C7F93">];</span>
+  <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;my-website&quot;</span><span class="p">;</span>
+  <span class="ss">baseURL</span> <span class="o">=</span> <span class="s2">&quot;https://example.com&quot;</span><span class="p">;</span>
+  content<span class="o">.</span><span class="ss">dir</span> <span class="o">=</span> <span class="l">./content</span><span class="p">;</span>
+  <span class="ss">imports</span> <span class="o">=</span> <span class="p">[</span> nixtml<span class="o">.</span>themes<span class="o">.</span>minima <span class="p">];</span>
 
-  <span style="color: #40A02B">metadata</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-    <span style="color: #40A02B">lang</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;en&quot;</span><span style="color: #7C7F93">;</span>
-    <span style="color: #40A02B">title</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;My Website&quot;</span><span style="color: #7C7F93">;</span>
-    <span style="color: #40A02B">description</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;Notes about Nix&quot;</span><span style="color: #7C7F93">;</span>
-  <span style="color: #7C7F93">};</span>
-<span style="color: #7C7F93">}</span>
+  <span class="ss">metadata</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">lang</span> <span class="o">=</span> <span class="s2">&quot;en&quot;</span><span class="p">;</span>
+    <span class="ss">title</span> <span class="o">=</span> <span class="s2">&quot;My Website&quot;</span><span class="p">;</span>
+    <span class="ss">description</span> <span class="o">=</span> <span class="s2">&quot;Notes about Nix&quot;</span><span class="p">;</span>
+  <span class="p">};</span>
+<span class="p">}</span>
 </code></pre></div>
 							<p>Theme-specific settings remain under <code>themes</code>. Minima currently lives at <code>nixtml.themes.minima</code>, and its options are under <code>themes.minima</code>.</p>
 							<p>The <a href="/nixtml/">getting-started guide</a>
 								contains a complete flake with a preview server.</p>
 							<h2 id="configure-minima">Configure Minima<a class="headerlink mx-2" href="#configure-minima" title="Permanent link">#</a></h2>
 							<p>Minima is a proof-of-concept port of Jekyll's Minima 2.5.2. It provides a responsive header, static-page and post layouts, collection and taxonomy listings, pagination, footer links, and RSS discovery.</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>themes<span style="color: #179299">.</span><span style="color: #40A02B">minima</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">feedPath</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;index.xml&quot;</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">showExcerpts</span> <span style="color: #179299">=</span> <span style="color: #1E66F5">true</span><span style="color: #7C7F93">;</span>
+							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span><span class="ss">minima</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">feedPath</span> <span class="o">=</span> <span class="s2">&quot;index.xml&quot;</span><span class="p">;</span>
+  <span class="ss">showExcerpts</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
 
-  <span style="color: #40A02B">navigation</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span>
-    <span style="color: #7C7F93">{</span> <span style="color: #40A02B">title</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;About&quot;</span><span style="color: #7C7F93">;</span> <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;about/&quot;</span><span style="color: #7C7F93">;</span> <span style="color: #7C7F93">}</span>
-  <span style="color: #7C7F93">];</span>
+  <span class="ss">navigation</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="ss">title</span> <span class="o">=</span> <span class="s2">&quot;About&quot;</span><span class="p">;</span> <span class="ss">path</span> <span class="o">=</span> <span class="s2">&quot;about/&quot;</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">];</span>
 
-  <span style="color: #40A02B">socialLinks</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span>
-    <span style="color: #7C7F93">{</span>
-      <span style="color: #40A02B">platform</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;github&quot;</span><span style="color: #7C7F93">;</span>
-      <span style="color: #40A02B">username</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;arnarg/nixtml&quot;</span><span style="color: #7C7F93">;</span>
-      <span style="color: #40A02B">url</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;https://github.com/arnarg/nixtml&quot;</span><span style="color: #7C7F93">;</span>
-    <span style="color: #7C7F93">}</span>
-  <span style="color: #7C7F93">];</span>
-<span style="color: #7C7F93">};</span>
+  <span class="ss">socialLinks</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="ss">platform</span> <span class="o">=</span> <span class="s2">&quot;github&quot;</span><span class="p">;</span>
+      <span class="ss">username</span> <span class="o">=</span> <span class="s2">&quot;arnarg/nixtml&quot;</span><span class="p">;</span>
+      <span class="ss">url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/arnarg/nixtml&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">];</span>
+<span class="p">};</span>
 </code></pre></div>
 							<table>
 								<thead>
@@ -260,9 +260,9 @@
 							<h3 id="static-homepage">Static Homepage<a class="headerlink mx-2" href="#static-homepage" title="Permanent link">#</a></h3>
 							<p>With no root collection, <code>content/index.md</code>
 								uses Minima's home layout:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
-title: Welcome
----
+							<div class="highlight"><pre><span></span><code>---
+<span class="gu">title: Welcome</span>
+<span class="gu">---</span>
 
 Welcome to my website.
 </code></pre></div>
@@ -270,25 +270,25 @@ Welcome to my website.
 							<h3 id="homepage-post-list">Homepage Post List<a class="headerlink mx-2" href="#homepage-post-list" title="Permanent link">#</a></h3>
 							<p>A collection whose path is <code>posts</code>
 								places its first listing at the root index:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>collections<span style="color: #179299">.</span><span style="color: #40A02B">posts</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;posts&quot;</span><span style="color: #7C7F93">;</span>
-  pagination<span style="color: #179299">.</span><span style="color: #40A02B">perPage</span> <span style="color: #179299">=</span> <span style="color: #FE640B">5</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">taxonomies</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;tags&quot;</span> <span style="color: #7C7F93">];</span>
-  rss<span style="color: #179299">.</span><span style="color: #40A02B">enable</span> <span style="color: #179299">=</span> <span style="color: #1E66F5">true</span><span style="color: #7C7F93">;</span>
-<span style="color: #7C7F93">};</span>
+							<div class="highlight"><pre><span></span><code>collections<span class="o">.</span><span class="ss">posts</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">path</span> <span class="o">=</span> <span class="s2">&quot;posts&quot;</span><span class="p">;</span>
+  pagination<span class="o">.</span><span class="ss">perPage</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+  <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;tags&quot;</span> <span class="p">];</span>
+  rss<span class="o">.</span><span class="ss">enable</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+<span class="p">};</span>
 
-themes<span style="color: #179299">.</span>minima<span style="color: #179299">.</span><span style="color: #40A02B">feedPath</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;index.xml&quot;</span><span style="color: #7C7F93">;</span>
+themes<span class="o">.</span>minima<span class="o">.</span><span class="ss">feedPath</span> <span class="o">=</span> <span class="s2">&quot;index.xml&quot;</span><span class="p">;</span>
 </code></pre></div>
 							<p>Store its posts in <code>content/posts/</code>. Do not also define <code>content/index.md</code>, because that would target the same homepage path as the collection listing.</p>
 							<p>For a listing at <code>blog/index.html</code>
 								instead, use <code>path = "blog/posts"</code>, enable its feed, and set <code>themes.minima.feedPath = "blog/index.xml"</code>.</p>
 							<h2 id="dates-authors-and-excerpts">Dates, Authors, and Excerpts<a class="headerlink mx-2" href="#dates-authors-and-excerpts" title="Permanent link">#</a></h2>
 							<p>Minima displays an item's formatted date on collection listings. On individual pages it can display a date and optional author when their frontmatter is present:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+							<div class="highlight"><pre><span></span><code>---
 title: A dated post
 date: 2026-01-19T10:00:00
-author: Ada
----
+<span class="gu">author: Ada</span>
+<span class="gu">---</span>
 
 The introduction appears in listings when excerpts are enabled.
 
@@ -306,25 +306,25 @@ The rest of the post appears here and on its full page.
 							<h2 id="override-a-layout-or-partial">Override a Layout or Partial<a class="headerlink mx-2" href="#override-a-layout-or-partial" title="Permanent link">#</a></h2>
 							<p>Minima defines its layouts and partials with <code>lib.mkDefault</code>, allowing site configuration to replace them without priority workarounds.</p>
 							<p>For example, replace only the footer while retaining the other Minima layouts:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span> lib<span style="color: #7C7F93">,</span> config<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
-<span style="color: #7C7F93">{</span>
-  website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span>partials<span style="color: #179299">.</span><span style="color: #40A02B">siteFooter</span> <span style="color: #179299">=</span>
-    _<span style="color: #7C7F93">:</span>
-    lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>footer <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;site-footer&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
-      <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;wrapper&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
-        <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
-          <span style="color: #40A02B">&quot;Built with </span><span style="color: #EA76CB">${</span>config<span style="color: #179299">.</span>website<span style="color: #179299">.</span>metadata<span style="color: #179299">.</span>title<span style="color: #EA76CB">}</span><span style="color: #40A02B"> and nixtml&quot;</span>
-        <span style="color: #7C7F93">])</span>
-      <span style="color: #7C7F93">])</span>
-    <span style="color: #7C7F93">];</span>
-<span style="color: #7C7F93">}</span>
+							<div class="highlight"><pre><span></span><code><span class="p">{</span> lib<span class="p">,</span> config<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+<span class="p">{</span>
+  website<span class="o">.</span>layouts<span class="o">.</span>partials<span class="o">.</span><span class="ss">siteFooter</span> <span class="o">=</span>
+    _<span class="p">:</span>
+    lib<span class="o">.</span>tags<span class="o">.</span>footer <span class="p">[</span> <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>class <span class="s2">&quot;site-footer&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span>
+      <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>div <span class="p">[</span> <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>class <span class="s2">&quot;wrapper&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span>
+        <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>p <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
+          <span class="s2">&quot;Built with </span><span class="si">${</span>config<span class="o">.</span>website<span class="o">.</span>metadata<span class="o">.</span>title<span class="si">}</span><span class="s2"> and nixtml&quot;</span>
+        <span class="p">])</span>
+      <span class="p">])</span>
+    <span class="p">];</span>
+<span class="p">}</span>
 </code></pre></div>
 							<p>Standard layouts can be replaced the same way:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">page</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> metadata<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
-  lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>article <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
-    <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>h1 <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> metadata<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">page</span> <span class="o">=</span> <span class="p">{</span> metadata<span class="p">,</span> content<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+  lib<span class="o">.</span>tags<span class="o">.</span>article <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
+    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> metadata<span class="o">.</span>title <span class="p">])</span>
     content
-  <span style="color: #7C7F93">];</span>
+  <span class="p">];</span>
 </code></pre></div>
 							<p>When overriding a function, preserve the arguments used by its callers. The <a href="/nixtml/reference/templates/">Template Context Reference</a>
 								lists standard layout values; Minima's module shows each partial's specific signature.</p>
@@ -335,7 +335,7 @@ The rest of the post appears here and on its full page.
 							<p>The current proof-of-concept does not port Jekyll integrations such as Disqus or Google Analytics, every SEO metadata feature, or Minima's skin customization. Its default styling is intended to be overridden through layouts and site assets where necessary.</p>
 							<h2 id="buildable-example">Buildable Example<a class="headerlink mx-2" href="#buildable-example" title="Permanent link">#</a></h2>
 							<p>The repository includes a complete Minima blog with navigation, pagination, tags, excerpts, social links, and RSS:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>nix<span style="color: #4C4F69"> </span>build<span style="color: #4C4F69"> </span>.#examples.minima
+							<div class="highlight"><pre><span></span><code>nix<span class="w"> </span>build<span class="w"> </span>.#examples.minima
 </code></pre></div>
 							<p>Its source is in <a href="https://github.com/arnarg/nixtml/tree/main/examples/minima"><code>examples/minima</code></a>, and the theme implementation is in <a href="https://github.com/arnarg/nixtml/tree/main/themes/minima"><code>themes/minima</code></a>.</p>
 						</div>
@@ -354,7 +354,7 @@ The rest of the post appears here and on its full page.
 			</div>
 		</section>
 		<footer class="footer">
-			<div class="content is-max-desktop has-text-centered">
+			<div class="container content is-max-desktop has-text-centered">
 				<p>
 					This website is (obviously) generated with
 					<a href="https://github.com/arnarg/nixtml">

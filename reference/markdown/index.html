@@ -192,29 +192,29 @@
 								<li>Admonition and caption blocks through the corresponding PyMdown extensions.</li>
 							</ul>
 							<p>For example, a fenced code block can specify its language:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #40A02B">```nix</span>
-<span style="color: #7C7F93">{</span>
-  website<span style="color: #179299">.</span>sitemap<span style="color: #179299">.</span><span style="color: #40A02B">enable</span> <span style="color: #179299">=</span> <span style="color: #1E66F5">true</span><span style="color: #7C7F93">;</span>
-<span style="color: #7C7F93">}</span>
-<span style="color: #40A02B">```</span>
+							<div class="highlight"><pre><span></span><code><span class="sb">```nix</span>
+<span class="p">{</span>
+  website<span class="o">.</span>sitemap<span class="o">.</span><span class="ss">enable</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="sb">```</span>
 </code></pre></div>
 							<p>Consult the processor implementation when using extension-specific syntax, especially for PyMdown block plugins.</p>
 							<h2 id="tables-of-contents">Tables of Contents<a class="headerlink mx-2" href="#tables-of-contents" title="Permanent link">#</a></h2>
 							<p>Insert the configured marker where a table of contents should appear:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>[TOC]
+							<div class="highlight"><pre><span></span><code>[TOC]
 
-## First section
+<span class="gu">## First section</span>
 
-## Second section
+<span class="gu">## Second section</span>
 </code></pre></div>
 							<p>The default marker is <code>[TOC]</code>. Configure its behavior under <code>toc</code>:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>content<span style="color: #179299">.</span>processors<span style="color: #179299">.</span>md<span style="color: #179299">.</span>settings<span style="color: #179299">.</span><span style="color: #40A02B">toc</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">marker</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;[TOC]&quot;</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">title</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;On this page&quot;</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">tocClass</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;toc&quot;</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">permalink</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;#&quot;</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">permalinkClass</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;headerlink&quot;</span><span style="color: #7C7F93">;</span>
-<span style="color: #7C7F93">};</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>processors<span class="o">.</span>md<span class="o">.</span>settings<span class="o">.</span><span class="ss">toc</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">marker</span> <span class="o">=</span> <span class="s2">&quot;[TOC]&quot;</span><span class="p">;</span>
+  <span class="ss">title</span> <span class="o">=</span> <span class="s2">&quot;On this page&quot;</span><span class="p">;</span>
+  <span class="ss">tocClass</span> <span class="o">=</span> <span class="s2">&quot;toc&quot;</span><span class="p">;</span>
+  <span class="ss">permalink</span> <span class="o">=</span> <span class="s2">&quot;#&quot;</span><span class="p">;</span>
+  <span class="ss">permalinkClass</span> <span class="o">=</span> <span class="s2">&quot;headerlink&quot;</span><span class="p">;</span>
+<span class="p">};</span>
 </code></pre></div>
 							<table>
 								<thead>
@@ -271,11 +271,11 @@
 								marker, so headings can be linked directly.</p>
 							<h2 id="syntax-highlighting">Syntax Highlighting<a class="headerlink mx-2" href="#syntax-highlighting" title="Permanent link">#</a></h2>
 							<p>Highlighting is configured under <code>website.content.processors.md.settings.highlight</code>:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>content<span style="color: #179299">.</span>processors<span style="color: #179299">.</span>md<span style="color: #179299">.</span>settings<span style="color: #179299">.</span><span style="color: #40A02B">highlight</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">style</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;default&quot;</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">linenums</span> <span style="color: #179299">=</span> <span style="color: #1E66F5">true</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">linenumsStyle</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;table&quot;</span><span style="color: #7C7F93">;</span>
-<span style="color: #7C7F93">};</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>processors<span class="o">.</span>md<span class="o">.</span>settings<span class="o">.</span><span class="ss">highlight</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">style</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">;</span>
+  <span class="ss">linenums</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+  <span class="ss">linenumsStyle</span> <span class="o">=</span> <span class="s2">&quot;table&quot;</span><span class="p">;</span>
+<span class="p">};</span>
 </code></pre></div>
 							<table>
 								<thead>
@@ -323,15 +323,15 @@
 							<h2 id="date-formatting">Date Formatting<a class="headerlink mx-2" href="#date-formatting" title="Permanent link">#</a></h2>
 							<p>Date values in frontmatter are made available in several formats for collections and feeds. The ordinary <code>metadata.date</code>
 								string uses <code>dateFormat</code>:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>content<span style="color: #179299">.</span>processors<span style="color: #179299">.</span>md<span style="color: #179299">.</span>settings<span style="color: #179299">.</span><span style="color: #40A02B">dateFormat</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;%Y-%m-%d&quot;</span><span style="color: #7C7F93">;</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>processors<span class="o">.</span>md<span class="o">.</span>settings<span class="o">.</span><span class="ss">dateFormat</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-%d&quot;</span><span class="p">;</span>
 </code></pre></div>
 							<p>The value is a Python <code>strftime</code>
 								format string. Its default is <code>"%b %-d, %Y"</code>.</p>
 							<h2 id="additional-python-packages">Additional Python Packages<a class="headerlink mx-2" href="#additional-python-packages" title="Permanent link">#</a></h2>
 							<p>A site can extend the processor's Python environment:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>content<span style="color: #179299">.</span>processors<span style="color: #179299">.</span>md<span style="color: #179299">.</span><span style="color: #40A02B">extraPythonPackages</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span>
-  pkgs<span style="color: #179299">.</span>python3Packages<span style="color: #179299">.</span>pygments-styles
-<span style="color: #7C7F93">];</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>processors<span class="o">.</span>md<span class="o">.</span><span class="ss">extraPythonPackages</span> <span class="o">=</span> <span class="p">[</span>
+  pkgs<span class="o">.</span>python3Packages<span class="o">.</span>pygments-styles
+<span class="p">];</span>
 </code></pre></div>
 							<p>The package must provide or extend functionality used by the configured Markdown and highlighting setup. Adding a package alone does not enable a new Markdown extension.</p>
 							<h2 id="post-summaries">Post Summaries<a class="headerlink mx-2" href="#post-summaries" title="Permanent link">#</a></h2>
@@ -346,7 +346,7 @@
 			</div>
 		</section>
 		<footer class="footer">
-			<div class="content is-max-desktop has-text-centered">
+			<div class="container content is-max-desktop has-text-centered">
 				<p>
 					This website is (obviously) generated with
 					<a href="https://github.com/arnarg/nixtml">

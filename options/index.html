@@ -182,46 +182,46 @@
 							<p><strong><em>Type:</em></strong>
 							attribute set of package</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #7C7F93">{</span>
-							<span style="color: #7C7F93">}</span></code></p>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
 							<p><strong><em>Example:</em></strong></p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">stylesheetPackage</span> <span style="color: #179299">=</span>
-      <span style="color: #8839EF">let</span>
-        <span style="color: #40A02B">bulma</span> <span style="color: #179299">=</span> pkgs<span style="color: #179299">.</span>fetchFromGitHub <span style="color: #7C7F93">{</span>
-          <span style="color: #40A02B">owner</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;jgthms&quot;</span><span style="color: #7C7F93">;</span>
-          <span style="color: #40A02B">repo</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;bulma&quot;</span><span style="color: #7C7F93">;</span>
-          <span style="color: #40A02B">rev</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;1.0.4&quot;</span><span style="color: #7C7F93">;</span>
-          <span style="color: #40A02B">hash</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;sha256-hlejqBI6ayzhm15IymrzhTevkl3xffMfdTasZ2CmAas=&quot;</span><span style="color: #7C7F93">;</span>
-        <span style="color: #7C7F93">};</span>
+							<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="ss">stylesheetPackage</span> <span class="o">=</span>
+      <span class="k">let</span>
+        <span class="ss">bulma</span> <span class="o">=</span> pkgs<span class="o">.</span>fetchFromGitHub <span class="p">{</span>
+          <span class="ss">owner</span> <span class="o">=</span> <span class="s2">&quot;jgthms&quot;</span><span class="p">;</span>
+          <span class="ss">repo</span> <span class="o">=</span> <span class="s2">&quot;bulma&quot;</span><span class="p">;</span>
+          <span class="ss">rev</span> <span class="o">=</span> <span class="s2">&quot;1.0.4&quot;</span><span class="p">;</span>
+          <span class="ss">hash</span> <span class="o">=</span> <span class="s2">&quot;sha256-hlejqBI6ayzhm15IymrzhTevkl3xffMfdTasZ2CmAas=&quot;</span><span class="p">;</span>
+        <span class="p">};</span>
 
-        <span style="color: #40A02B">deps</span> <span style="color: #179299">=</span> pkgs<span style="color: #179299">.</span>linkFarm <span style="color: #40A02B">&quot;nixtml-docs-stylesheet-deps&quot;</span> <span style="color: #7C7F93">[</span>
-          <span style="color: #7C7F93">{</span>
-            <span style="color: #40A02B">name</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;bulma&quot;</span><span style="color: #7C7F93">;</span>
-            <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> bulma<span style="color: #7C7F93">;</span>
-          <span style="color: #7C7F93">}</span>
-        <span style="color: #7C7F93">];</span>
-      <span style="color: #8839EF">in</span>
-      pkgs<span style="color: #179299">.</span>stdenv<span style="color: #179299">.</span>mkDerivation <span style="color: #7C7F93">{</span>
-        <span style="color: #40A02B">name</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;nixtml-docs-stylesheet&quot;</span><span style="color: #7C7F93">;</span>
+        <span class="ss">deps</span> <span class="o">=</span> pkgs<span class="o">.</span>linkFarm <span class="s2">&quot;nixtml-docs-stylesheet-deps&quot;</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;bulma&quot;</span><span class="p">;</span>
+            <span class="ss">path</span> <span class="o">=</span> bulma<span class="p">;</span>
+          <span class="p">}</span>
+        <span class="p">];</span>
+      <span class="k">in</span>
+      pkgs<span class="o">.</span>stdenv<span class="o">.</span>mkDerivation <span class="p">{</span>
+        <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;nixtml-docs-stylesheet&quot;</span><span class="p">;</span>
 
-        <span style="color: #40A02B">src</span> <span style="color: #179299">=</span> <span style="color: #40A02B">./stylesheet</span><span style="color: #7C7F93">;</span>
+        <span class="ss">src</span> <span class="o">=</span> <span class="l">./stylesheet</span><span class="p">;</span>
 
-        <span style="color: #40A02B">buildInputs</span> <span style="color: #179299">=</span> <span style="color: #8839EF">with</span> pkgs<span style="color: #7C7F93">;</span> <span style="color: #7C7F93">[</span>
+        <span class="ss">buildInputs</span> <span class="o">=</span> <span class="k">with</span> pkgs<span class="p">;</span> <span class="p">[</span>
           dart-sass
-        <span style="color: #7C7F93">];</span>
+        <span class="p">];</span>
 
-        <span style="color: #40A02B">buildPhase</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&#39;&#39;</span>
-<span style="color: #40A02B">          sass --load-path &quot;</span><span style="color: #EA76CB">${</span>deps<span style="color: #EA76CB">}</span><span style="color: #40A02B">&quot; main.scss main.css</span>
-<span style="color: #40A02B">        &#39;&#39;</span><span style="color: #7C7F93">;</span>
+        <span class="ss">buildPhase</span> <span class="o">=</span> <span class="s s-Multiline">&#39;&#39;</span>
+<span class="s s-Multiline">          sass --load-path &quot;</span><span class="si">${</span>deps<span class="si">}</span><span class="s s-Multiline">&quot; main.scss main.css</span>
+<span class="s s-Multiline">        &#39;&#39;</span><span class="p">;</span>
 
-        <span style="color: #40A02B">installPhase</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&#39;&#39;</span>
-<span style="color: #40A02B">          mkdir -p $out/css</span>
+        <span class="ss">installPhase</span> <span class="o">=</span> <span class="s s-Multiline">&#39;&#39;</span>
+<span class="s s-Multiline">          mkdir -p $out/css</span>
 
-<span style="color: #40A02B">          cp main.css $out/css/main.css</span>
-<span style="color: #40A02B">        &#39;&#39;</span><span style="color: #7C7F93">;</span>
-      <span style="color: #7C7F93">};</span>
-<span style="color: #7C7F93">}</span>
+<span class="s s-Multiline">          cp main.css $out/css/main.css</span>
+<span class="s s-Multiline">        &#39;&#39;</span><span class="p">;</span>
+      <span class="p">};</span>
+<span class="p">}</span>
 </code></pre></div>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
@@ -248,14 +248,14 @@
 							<p><strong><em>Type:</em></strong>
 							attribute set of (submodule)</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #7C7F93">{</span>
-							<span style="color: #7C7F93">}</span></code></p>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
 							<p><strong><em>Example:</em></strong></p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;blog/posts&quot;</span><span style="color: #7C7F93">;</span>
-  pagination<span style="color: #179299">.</span><span style="color: #40A02B">perPage</span> <span style="color: #179299">=</span> <span style="color: #FE640B">5</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">taxonomies</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;tags&quot;</span> <span style="color: #7C7F93">];</span>
-<span style="color: #7C7F93">}</span>
+							<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="ss">path</span> <span class="o">=</span> <span class="s2">&quot;blog/posts&quot;</span><span class="p">;</span>
+  pagination<span class="o">.</span><span class="ss">perPage</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+  <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;tags&quot;</span> <span class="p">];</span>
+<span class="p">}</span>
 </code></pre></div>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
@@ -266,7 +266,7 @@
 							<p><strong><em>Type:</em></strong>
 							signed integer</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #FE640B">5</span></code></p>
+							<code class="highlight"><span class="mi">5</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/collections.nix">&lt;nixtml/modules/collections.nix&gt;</a></li>
@@ -289,7 +289,7 @@
 							<p><strong><em>Type:</em></strong>
 							boolean</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #1E66F5">true</span></code></p>
+							<code class="highlight"><span class="no">true</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/collections.nix">&lt;nixtml/modules/collections.nix&gt;</a></li>
@@ -299,7 +299,7 @@
 							<p><strong><em>Type:</em></strong>
 							signed integer</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #FE640B">50</span></code></p>
+							<code class="highlight"><span class="mi">50</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/collections.nix">&lt;nixtml/modules/collections.nix&gt;</a></li>
@@ -309,12 +309,12 @@
 							<p><strong><em>Type:</em></strong>
 							list of string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #7C7F93">[</span>
-							<span style="color: #7C7F93">]</span></code></p>
+							<code class="highlight"><span class="p">[</span>
+							<span class="p">]</span></code></p>
 							<p><strong><em>Example:</em></strong></p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">[</span>
-  <span style="color: #40A02B">&quot;tags&quot;</span>
-<span style="color: #7C7F93">]</span>
+							<div class="highlight"><pre><span></span><code><span class="p">[</span>
+  <span class="s2">&quot;tags&quot;</span>
+<span class="p">]</span>
 </code></pre></div>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
@@ -336,26 +336,26 @@
 							<p><strong><em>Type:</em></strong>
 							attribute set of (submodule)</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #7C7F93">{</span>
-							<span style="color: #7C7F93">}</span></code></p>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
 							<p><strong><em>Example:</em></strong></p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">&quot;index&quot;</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-    <span style="color: #40A02B">text</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&#39;&#39;</span>
-<span style="color: #40A02B">      ---</span>
-<span style="color: #40A02B">      title: Homepage</span>
-<span style="color: #40A02B">      ---</span>
-<span style="color: #40A02B">      # Welcome!</span>
+							<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="s2">&quot;index&quot;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">text</span> <span class="o">=</span> <span class="s s-Multiline">&#39;&#39;</span>
+<span class="s s-Multiline">      ---</span>
+<span class="s s-Multiline">      title: Homepage</span>
+<span class="s s-Multiline">      ---</span>
+<span class="s s-Multiline">      # Welcome!</span>
 
-<span style="color: #40A02B">      Welcome to the hompage</span>
-<span style="color: #40A02B">    &#39;&#39;</span><span style="color: #7C7F93">;</span>
-    <span style="color: #40A02B">processor</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;md&quot;</span><span style="color: #7C7F93">;</span>
-  <span style="color: #7C7F93">};</span>
-  <span style="color: #40A02B">&quot;nested/page&quot;</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-    <span style="color: #40A02B">source</span> <span style="color: #179299">=</span> <span style="color: #40A02B">./path/to/page.md</span><span style="color: #7C7F93">;</span>
-    <span style="color: #40A02B">processor</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;md&quot;</span><span style="color: #7C7F93">;</span>
-  <span style="color: #7C7F93">};</span>
-<span style="color: #7C7F93">}</span>
+<span class="s s-Multiline">      Welcome to the hompage</span>
+<span class="s s-Multiline">    &#39;&#39;</span><span class="p">;</span>
+    <span class="ss">processor</span> <span class="o">=</span> <span class="s2">&quot;md&quot;</span><span class="p">;</span>
+  <span class="p">};</span>
+  <span class="s2">&quot;nested/page&quot;</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">source</span> <span class="o">=</span> <span class="l">./path/to/page.md</span><span class="p">;</span>
+    <span class="ss">processor</span> <span class="o">=</span> <span class="s2">&quot;md&quot;</span><span class="p">;</span>
+  <span class="p">};</span>
+<span class="p">}</span>
 </code></pre></div>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
@@ -366,7 +366,7 @@
 							<p><strong><em>Type:</em></strong>
 							value "md" (singular enum)</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #40A02B">&quot;md&quot;</span></code></p>
+							<code class="highlight"><span class="s2">&quot;md&quot;</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -384,7 +384,7 @@
 							<p><strong><em>Type:</em></strong>
 							null or string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #1E66F5">null</span></code></p>
+							<code class="highlight"><span class="no">null</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -394,8 +394,8 @@
 							<p><strong><em>Type:</em></strong>
 							list of package</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #7C7F93">[</span>
-							<span style="color: #7C7F93">]</span></code></p>
+							<code class="highlight"><span class="p">[</span>
+							<span class="p">]</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -416,7 +416,7 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #40A02B">&quot;%b %-d, %Y&quot;</span></code></p>
+							<code class="highlight"><span class="s2">&quot;%b %-d, %Y&quot;</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -428,13 +428,13 @@
 							<p><strong><em>Type:</em></strong>
 							attribute set of anything</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #7C7F93">{</span>
-							<span style="color: #7C7F93">}</span></code></p>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
 							<p><strong><em>Example:</em></strong></p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">anchor_linenums</span> <span style="color: #179299">=</span> <span style="color: #1E66F5">true</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">line_spans</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;__span&quot;</span><span style="color: #7C7F93">;</span>
-<span style="color: #7C7F93">}</span>
+							<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="ss">anchor_linenums</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+  <span class="ss">line_spans</span> <span class="o">=</span> <span class="s2">&quot;__span&quot;</span><span class="p">;</span>
+<span class="p">}</span>
 </code></pre></div>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
@@ -446,7 +446,7 @@
 							<p><strong><em>Type:</em></strong>
 							null or boolean</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #1E66F5">null</span></code></p>
+							<code class="highlight"><span class="no">null</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -457,7 +457,7 @@
 							<p><strong><em>Type:</em></strong>
 							one of "table", "inline", "pymdownx-inline"</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #40A02B">&quot;table&quot;</span></code></p>
+							<code class="highlight"><span class="s2">&quot;table&quot;</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -471,7 +471,7 @@
 							<p><strong><em>Type:</em></strong>
 							boolean</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #1E66F5">true</span></code></p>
+							<code class="highlight"><span class="no">true</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -481,7 +481,7 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #40A02B">&quot;default&quot;</span></code></p>
+							<code class="highlight"><span class="s2">&quot;default&quot;</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -492,7 +492,7 @@
 							<p><strong><em>Type:</em></strong>
 							boolean</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #1E66F5">false</span></code></p>
+							<code class="highlight"><span class="no">false</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -502,7 +502,7 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #40A02B">&quot;toclink&quot;</span></code></p>
+							<code class="highlight"><span class="s2">&quot;toclink&quot;</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -513,7 +513,7 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #40A02B">&quot;[TOC]&quot;</span></code></p>
+							<code class="highlight"><span class="s2">&quot;[TOC]&quot;</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -526,7 +526,7 @@
 							<p><strong><em>Type:</em></strong>
 							boolean or string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #1E66F5">false</span></code></p>
+							<code class="highlight"><span class="no">false</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -536,7 +536,7 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #40A02B">&quot;headerlink&quot;</span></code></p>
+							<code class="highlight"><span class="s2">&quot;headerlink&quot;</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -546,7 +546,7 @@
 							<p><strong><em>Type:</em></strong>
 							null or string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #1E66F5">null</span></code></p>
+							<code class="highlight"><span class="no">null</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -556,7 +556,7 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #40A02B">&quot;toctitle&quot;</span></code></p>
+							<code class="highlight"><span class="s2">&quot;toctitle&quot;</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -567,7 +567,7 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #40A02B">&quot;toc&quot;</span></code></p>
+							<code class="highlight"><span class="s2">&quot;toc&quot;</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -577,8 +577,8 @@
 							<p><strong><em>Type:</em></strong>
 							attribute set of (submodule)</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #7C7F93">{</span>
-							<span style="color: #7C7F93">}</span></code></p>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
@@ -588,7 +588,7 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #40A02B">&quot;‹name›&quot;</span></code></p>
+							<code class="highlight"><span class="s2">&quot;‹name›&quot;</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
@@ -606,7 +606,7 @@
 							<p><strong><em>Type:</em></strong>
 							null or strings concatenated with "\n"</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #1E66F5">null</span></code></p>
+							<code class="highlight"><span class="no">null</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
@@ -616,50 +616,50 @@
 							<p><strong><em>Type:</em></strong>
 							function that evaluates to a(n) (string or (list of string) convertible to it)</p>
 							<p><strong><em>Example:</em></strong></p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #8839EF">let</span>
-  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span>
+							<div class="highlight"><pre><span></span><code><span class="k">let</span>
+  <span class="k">inherit</span> <span class="p">(</span>lib<span class="o">.</span>tags<span class="p">)</span>
     html
     head
     body
     title
     div
     meta
-    <span style="color: #7C7F93">;</span>
-  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #7C7F93">)</span> attrs<span style="color: #7C7F93">;</span>
-  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>config<span style="color: #179299">.</span>website<span style="color: #7C7F93">)</span> metadata<span style="color: #7C7F93">;</span>
-<span style="color: #8839EF">in</span> <span style="color: #7C7F93">{</span>path<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span><span style="color: #7C7F93">}:</span>
-  <span style="color: #40A02B">&quot;&lt;!DOCTYPE html&gt;</span><span style="color: #EA76CB">\n</span><span style="color: #40A02B">&quot;</span>
-  <span style="color: #179299">+</span>
+    <span class="p">;</span>
+  <span class="k">inherit</span> <span class="p">(</span>lib<span class="p">)</span> attrs<span class="p">;</span>
+  <span class="k">inherit</span> <span class="p">(</span>config<span class="o">.</span>website<span class="p">)</span> metadata<span class="p">;</span>
+<span class="k">in</span> <span class="p">{</span>path<span class="p">,</span> content<span class="p">,</span> <span class="o">...</span><span class="p">}:</span>
+  <span class="s2">&quot;&lt;!DOCTYPE html&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+  <span class="o">+</span>
     html
-      <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>lang metadata<span style="color: #179299">.</span>lang<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
-      <span style="color: #7C7F93">[</span>
-        <span style="color: #7C7F93">(</span>head
-          <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span>
-          <span style="color: #7C7F93">[</span>
-            <span style="color: #7C7F93">(</span>title metadata<span style="color: #179299">.</span>title<span style="color: #7C7F93">)</span>
-            <span style="color: #7C7F93">(</span>meta <span style="color: #7C7F93">[</span>
-              <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>property <span style="color: #40A02B">&quot;og:type&quot;</span><span style="color: #7C7F93">)</span>
-              <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>content <span style="color: #7C7F93">(</span><span style="color: #8839EF">if</span> <span style="color: #40A02B">path</span> <span style="color: #179299">==</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;index&quot;</span> <span style="color: #7C7F93">]</span> <span style="color: #8839EF">then</span> <span style="color: #40A02B">&quot;website&quot;</span> <span style="color: #8839EF">else</span> <span style="color: #40A02B">&quot;article&quot;</span><span style="color: #7C7F93">))</span>
-            <span style="color: #7C7F93">])</span>
-          <span style="color: #7C7F93">]</span>
-        <span style="color: #7C7F93">)</span>
-        <span style="color: #7C7F93">(</span>body
-          <span style="color: #7C7F93">[</span>
-            <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>classes <span style="color: #7C7F93">[</span>
-              <span style="color: #40A02B">&quot;font-sans&quot;</span>
-              <span style="color: #40A02B">&quot;bg-white&quot;</span>
-            <span style="color: #7C7F93">])</span>
-          <span style="color: #7C7F93">]</span>
-          <span style="color: #7C7F93">[</span>
-            <span style="color: #7C7F93">(</span>div
-              <span style="color: #7C7F93">[</span>
-                <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>classes <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;container&quot;</span> <span style="color: #7C7F93">])</span>
-              <span style="color: #7C7F93">]</span>
-              <span style="color: #7C7F93">[</span> content <span style="color: #7C7F93">]</span>
-            <span style="color: #7C7F93">)</span>
-          <span style="color: #7C7F93">]</span>
-        <span style="color: #7C7F93">)</span>
-      <span style="color: #7C7F93">]</span>
+      <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>lang metadata<span class="o">.</span>lang<span class="p">)</span> <span class="p">]</span>
+      <span class="p">[</span>
+        <span class="p">(</span>head
+          <span class="p">[</span> <span class="p">]</span>
+          <span class="p">[</span>
+            <span class="p">(</span>title metadata<span class="o">.</span>title<span class="p">)</span>
+            <span class="p">(</span>meta <span class="p">[</span>
+              <span class="p">(</span>attrs<span class="o">.</span>property <span class="s2">&quot;og:type&quot;</span><span class="p">)</span>
+              <span class="p">(</span>attrs<span class="o">.</span>content <span class="p">(</span><span class="k">if</span> <span class="ss">path</span> <span class="o">==</span> <span class="p">[</span> <span class="s2">&quot;index&quot;</span> <span class="p">]</span> <span class="k">then</span> <span class="s2">&quot;website&quot;</span> <span class="k">else</span> <span class="s2">&quot;article&quot;</span><span class="p">))</span>
+            <span class="p">])</span>
+          <span class="p">]</span>
+        <span class="p">)</span>
+        <span class="p">(</span>body
+          <span class="p">[</span>
+            <span class="p">(</span>attrs<span class="o">.</span>classes <span class="p">[</span>
+              <span class="s2">&quot;font-sans&quot;</span>
+              <span class="s2">&quot;bg-white&quot;</span>
+            <span class="p">])</span>
+          <span class="p">]</span>
+          <span class="p">[</span>
+            <span class="p">(</span>div
+              <span class="p">[</span>
+                <span class="p">(</span>attrs<span class="o">.</span>classes <span class="p">[</span> <span class="s2">&quot;container&quot;</span> <span class="p">])</span>
+              <span class="p">]</span>
+              <span class="p">[</span> content <span class="p">]</span>
+            <span class="p">)</span>
+          <span class="p">]</span>
+        <span class="p">)</span>
+      <span class="p">]</span>
 </code></pre></div>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
@@ -695,8 +695,8 @@
 							<p><strong><em>Type:</em></strong>
 							attribute set of function that evaluates to a(n) (string or (list of string) convertible to it)</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #7C7F93">{</span>
-							<span style="color: #7C7F93">}</span></code></p>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
@@ -714,8 +714,8 @@
 							<p><strong><em>Type:</em></strong>
 							attribute set of anything</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #7C7F93">{</span>
-							<span style="color: #7C7F93">}</span></code></p>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
@@ -737,8 +737,8 @@
 							<p><strong><em>Type:</em></strong>
 							attribute set of (submodule)</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #7C7F93">{</span>
-							<span style="color: #7C7F93">}</span></code></p>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
@@ -748,8 +748,8 @@
 							<p><strong><em>Type:</em></strong>
 							lazy attribute set of anything</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #7C7F93">{</span>
-							<span style="color: #7C7F93">}</span></code></p>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
@@ -760,7 +760,7 @@
 							<p><strong><em>Type:</em></strong>
 							null or string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #1E66F5">null</span></code></p>
+							<code class="highlight"><span class="no">null</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
@@ -791,7 +791,7 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #40A02B">&quot;‹name›&quot;</span></code></p>
+							<code class="highlight"><span class="s2">&quot;‹name›&quot;</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
@@ -801,7 +801,7 @@
 							<p><strong><em>Type:</em></strong>
 							boolean</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #1E66F5">true</span></code></p>
+							<code class="highlight"><span class="no">true</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
@@ -811,7 +811,7 @@
 							<p><strong><em>Type:</em></strong>
 							null or absolute path</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span style="color: #1E66F5">null</span></code></p>
+							<code class="highlight"><span class="no">null</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/static.nix">&lt;nixtml/modules/static.nix&gt;</a></li>
@@ -822,7 +822,7 @@
 			</div>
 		</section>
 		<footer class="footer">
-			<div class="content is-max-desktop has-text-centered">
+			<div class="container content is-max-desktop has-text-centered">
 				<p>
 					This website is (obviously) generated with
 					<a href="https://github.com/arnarg/nixtml">

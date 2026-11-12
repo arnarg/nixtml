@@ -177,81 +177,81 @@
 							<p>nixtml exposes HTML helpers through <code>lib.tags</code>
 								and attribute helpers through <code>lib.attrs</code>. They produce strings that can be returned directly by layouts or combined with ordinary Nix string interpolation.</p>
 							<h2 id="basic-usage">Basic Usage<a class="headerlink mx-2" href="#basic-usage" title="Permanent link">#</a></h2>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span> lib<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
-<span style="color: #8839EF">let</span>
-  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span> a div<span style="color: #7C7F93">;</span>
-  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #7C7F93">)</span> attrs<span style="color: #7C7F93">;</span>
-<span style="color: #8839EF">in</span>
-<span style="color: #7C7F93">{</span>
-  website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span>partials<span style="color: #179299">.</span><span style="color: #40A02B">example</span> <span style="color: #179299">=</span>
-    <span style="color: #7C7F93">{</span> <span style="color: #7C7F93">}:</span>
-    div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;container&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
-      <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Home&quot;</span> <span style="color: #7C7F93">])</span>
-    <span style="color: #7C7F93">];</span>
-<span style="color: #7C7F93">}</span>
+							<div class="highlight"><pre><span></span><code><span class="p">{</span> lib<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+<span class="k">let</span>
+  <span class="k">inherit</span> <span class="p">(</span>lib<span class="o">.</span>tags<span class="p">)</span> a div<span class="p">;</span>
+  <span class="k">inherit</span> <span class="p">(</span>lib<span class="p">)</span> attrs<span class="p">;</span>
+<span class="k">in</span>
+<span class="p">{</span>
+  website<span class="o">.</span>layouts<span class="o">.</span>partials<span class="o">.</span><span class="ss">example</span> <span class="o">=</span>
+    <span class="p">{</span> <span class="p">}:</span>
+    div <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>class <span class="s2">&quot;container&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span>
+      <span class="p">(</span>a <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>href <span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;Home&quot;</span> <span class="p">])</span>
+    <span class="p">];</span>
+<span class="p">}</span>
 </code></pre></div>
 							<p>A regular tag has two arguments: a list of attributes and a list of child strings.</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>tagName <span style="color: #7C7F93">[</span> attributes <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> children <span style="color: #7C7F93">]</span>
+							<div class="highlight"><pre><span></span><code>tagName <span class="p">[</span> attributes <span class="p">]</span> <span class="p">[</span> children <span class="p">]</span>
 </code></pre></div>
 							<p>For example:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Hello&quot;</span> <span style="color: #7C7F93">])</span>
-<span style="color: #7C7F93; font-style: italic"># &lt;div&gt;Hello&lt;/div&gt;</span>
+							<div class="highlight"><pre><span></span><code><span class="p">(</span>div <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;Hello&quot;</span> <span class="p">])</span>
+<span class="c1"># &lt;div&gt;Hello&lt;/div&gt;</span>
 
-<span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/about/&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;About&quot;</span> <span style="color: #7C7F93">])</span>
-<span style="color: #7C7F93; font-style: italic"># &lt;a href=&quot;/about/&quot;&gt;About&lt;/a&gt;</span>
+<span class="p">(</span>a <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>href <span class="s2">&quot;/about/&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;About&quot;</span> <span class="p">])</span>
+<span class="c1"># &lt;a href=&quot;/about/&quot;&gt;About&lt;/a&gt;</span>
 </code></pre></div>
 							<h2 id="regular-tags">Regular Tags<a class="headerlink mx-2" href="#regular-tags" title="Permanent link">#</a></h2>
 							<p>Regular tags have a closing tag and accept both attributes and children. Commonly used helpers include:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span>
-  <span style="color: #7C7F93; font-style: italic"># Document structure</span>
+							<div class="highlight"><pre><span></span><code><span class="k">inherit</span> <span class="p">(</span>lib<span class="o">.</span>tags<span class="p">)</span>
+  <span class="c1"># Document structure</span>
   html head body
 
-  <span style="color: #7C7F93; font-style: italic"># Sections</span>
+  <span class="c1"># Sections</span>
   address article aside footer header hgroup main nav section search
 
-  <span style="color: #7C7F93; font-style: italic"># Headings</span>
+  <span class="c1"># Headings</span>
   h1 h2 h3 h4 h5 h6
 
-  <span style="color: #7C7F93; font-style: italic"># Grouping and text content</span>
+  <span class="c1"># Grouping and text content</span>
   blockquote dd div dl dt figcaption figure li menu ol p pre ul
 
-  <span style="color: #7C7F93; font-style: italic"># Inline text</span>
+  <span class="c1"># Inline text</span>
   a abbr b bdi bdo cite code data del dfn em i ins kbd mark q rp rt ruby
   s samp small span strong sub sup time u var
 
-  <span style="color: #7C7F93; font-style: italic"># Tables</span>
+  <span class="c1"># Tables</span>
   caption colgroup table tbody td tfoot th thead tr
 
-  <span style="color: #7C7F93; font-style: italic"># Forms</span>
+  <span class="c1"># Forms</span>
   button datalist fieldset form label legend meter optgroup option output
   progress select textarea
 
-  <span style="color: #7C7F93; font-style: italic"># Media and embedded content</span>
-  audio canvas details dialog iframe <span style="color: #FE640B; font-style: italic">map</span> noscript object picture script
+  <span class="c1"># Media and embedded content</span>
+  audio canvas details dialog iframe <span class="nb">map</span> noscript object picture script
   summary template video
-  <span style="color: #7C7F93">;</span>
+  <span class="p">;</span>
 </code></pre></div>
 							<h3 id="page-titles">Page Titles<a class="headerlink mx-2" href="#page-titles" title="Permanent link">#</a></h3>
 							<p><code>lib.tags.title</code>
 							is a convenience function that accepts the title text directly:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>title <span style="color: #40A02B">&quot;My page&quot;</span>
+							<div class="highlight"><pre><span></span><code>lib<span class="o">.</span>tags<span class="o">.</span>title <span class="s2">&quot;My page&quot;</span>
 </code></pre></div>
 							<h2 id="void-tags">Void Tags<a class="headerlink mx-2" href="#void-tags" title="Permanent link">#</a></h2>
 							<p>Void tags accept attributes but no children:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span>
+							<div class="highlight"><pre><span></span><code><span class="k">inherit</span> <span class="p">(</span>lib<span class="o">.</span>tags<span class="p">)</span>
   area base br col embed hr img input link meta source track wbr
-  <span style="color: #7C7F93">;</span>
+  <span class="p">;</span>
 
-meta <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>charset <span style="color: #40A02B">&quot;UTF-8&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
-link <span style="color: #7C7F93">[</span>
-  <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>rel <span style="color: #40A02B">&quot;stylesheet&quot;</span><span style="color: #7C7F93">)</span>
-  <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/css/main.css&quot;</span><span style="color: #7C7F93">)</span>
-<span style="color: #7C7F93">]</span>
-img <span style="color: #7C7F93">[</span>
-  <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>src <span style="color: #40A02B">&quot;/logo.svg&quot;</span><span style="color: #7C7F93">)</span>
-  <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>alt <span style="color: #40A02B">&quot;Project logo&quot;</span><span style="color: #7C7F93">)</span>
-<span style="color: #7C7F93">]</span>
-br <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span>
+meta <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>charset <span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span> <span class="p">]</span>
+link <span class="p">[</span>
+  <span class="p">(</span>attrs<span class="o">.</span>rel <span class="s2">&quot;stylesheet&quot;</span><span class="p">)</span>
+  <span class="p">(</span>attrs<span class="o">.</span>href <span class="s2">&quot;/css/main.css&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+img <span class="p">[</span>
+  <span class="p">(</span>attrs<span class="o">.</span>src <span class="s2">&quot;/logo.svg&quot;</span><span class="p">)</span>
+  <span class="p">(</span>attrs<span class="o">.</span>alt <span class="s2">&quot;Project logo&quot;</span><span class="p">)</span>
+<span class="p">]</span>
+br <span class="p">[</span> <span class="p">]</span>
 </code></pre></div>
 							<h2 id="attribute-helpers">Attribute Helpers<a class="headerlink mx-2" href="#attribute-helpers" title="Permanent link">#</a></h2>
 							<p>Commonly used helpers include:</p>
@@ -326,21 +326,21 @@ br <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span>
 								</tbody>
 							</table>
 							<p>Width and height accept either integers or strings:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>attrs<span style="color: #179299">.</span>width <span style="color: #FE640B">100</span>
-attrs<span style="color: #179299">.</span>height <span style="color: #40A02B">&quot;auto&quot;</span>
+							<div class="highlight"><pre><span></span><code>attrs<span class="o">.</span>width <span class="mi">100</span>
+attrs<span class="o">.</span>height <span class="s2">&quot;auto&quot;</span>
 </code></pre></div>
 							<h3 id="data-and-aria-attributes">Data and ARIA Attributes<a class="headerlink mx-2" href="#data-and-aria-attributes" title="Permanent link">#</a></h3>
 							<p>The <code>data</code>
 								and <code>aria</code>
 								helpers take the suffix as their first argument:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>attrs<span style="color: #179299">.</span>data <span style="color: #40A02B">&quot;theme&quot;</span> <span style="color: #40A02B">&quot;dark&quot;</span>
-<span style="color: #7C7F93; font-style: italic"># data-theme=&quot;dark&quot;</span>
+							<div class="highlight"><pre><span></span><code>attrs<span class="o">.</span>data <span class="s2">&quot;theme&quot;</span> <span class="s2">&quot;dark&quot;</span>
+<span class="c1"># data-theme=&quot;dark&quot;</span>
 
-attrs<span style="color: #179299">.</span>aria <span style="color: #40A02B">&quot;label&quot;</span> <span style="color: #40A02B">&quot;Documentation&quot;</span>
-<span style="color: #7C7F93; font-style: italic"># aria-label=&quot;Documentation&quot;</span>
+attrs<span class="o">.</span>aria <span class="s2">&quot;label&quot;</span> <span class="s2">&quot;Documentation&quot;</span>
+<span class="c1"># aria-label=&quot;Documentation&quot;</span>
 
-attrs<span style="color: #179299">.</span>aria <span style="color: #40A02B">&quot;current&quot;</span> <span style="color: #40A02B">&quot;page&quot;</span>
-<span style="color: #7C7F93; font-style: italic"># aria-current=&quot;page&quot;</span>
+attrs<span class="o">.</span>aria <span class="s2">&quot;current&quot;</span> <span class="s2">&quot;page&quot;</span>
+<span class="c1"># aria-current=&quot;page&quot;</span>
 </code></pre></div>
 							<p>Other specialized helpers include <code>attrs.property</code>
 								for Open Graph metadata and <code>attrs.httpEquiv</code>
@@ -348,28 +348,28 @@ attrs<span style="color: #179299">.</span>aria <span style="color: #40A02B">&quo
 							<h3 id="custom-attributes">Custom Attributes<a class="headerlink mx-2" href="#custom-attributes" title="Permanent link">#</a></h3>
 							<p>Use <code>lib.mkAttr</code>
 								when no named helper exists:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>div <span style="color: #7C7F93">[</span>
-  <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>mkAttr <span style="color: #40A02B">&quot;data-custom&quot;</span> <span style="color: #40A02B">&quot;value&quot;</span><span style="color: #7C7F93">)</span>
-<span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Content&quot;</span> <span style="color: #7C7F93">]</span>
+							<div class="highlight"><pre><span></span><code>div <span class="p">[</span>
+  <span class="p">(</span>lib<span class="o">.</span>mkAttr <span class="s2">&quot;data-custom&quot;</span> <span class="s2">&quot;value&quot;</span><span class="p">)</span>
+<span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;Content&quot;</span> <span class="p">]</span>
 </code></pre></div>
 							<h2 id="conditional-attributes-and-children">Conditional Attributes and Children<a class="headerlink mx-2" href="#conditional-attributes-and-children" title="Permanent link">#</a></h2>
 							<p>Build attribute and child lists with normal Nix list operations:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>a <span style="color: #7C7F93">(</span>
-  <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href item<span style="color: #179299">.</span>url<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
-  <span style="color: #179299">++</span> lib<span style="color: #179299">.</span>optional isActive <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;is-active&quot;</span><span style="color: #7C7F93">)</span>
-  <span style="color: #179299">++</span> lib<span style="color: #179299">.</span>optional isActive <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>aria <span style="color: #40A02B">&quot;current&quot;</span> <span style="color: #40A02B">&quot;page&quot;</span><span style="color: #7C7F93">)</span>
-<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">]</span>
+							<div class="highlight"><pre><span></span><code>a <span class="p">(</span>
+  <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>href item<span class="o">.</span>url<span class="p">)</span> <span class="p">]</span>
+  <span class="o">++</span> lib<span class="o">.</span>optional isActive <span class="p">(</span>attrs<span class="o">.</span>class <span class="s2">&quot;is-active&quot;</span><span class="p">)</span>
+  <span class="o">++</span> lib<span class="o">.</span>optional isActive <span class="p">(</span>attrs<span class="o">.</span>aria <span class="s2">&quot;current&quot;</span> <span class="s2">&quot;page&quot;</span><span class="p">)</span>
+<span class="p">)</span> <span class="p">[</span> item<span class="o">.</span>title <span class="p">]</span>
 </code></pre></div>
 							<p>Use <code>lib.optionalString</code>
 								when a whole element is optional:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>lib<span style="color: #179299">.</span>optionalString <span style="color: #7C7F93">(</span>metadata <span style="color: #179299">?</span> description<span style="color: #7C7F93">)</span>
-  <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> metadata<span style="color: #179299">.</span>description <span style="color: #7C7F93">])</span>
+							<div class="highlight"><pre><span></span><code>lib<span class="o">.</span>optionalString <span class="p">(</span>metadata <span class="o">?</span> description<span class="p">)</span>
+  <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>p <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> metadata<span class="o">.</span>description <span class="p">])</span>
 </code></pre></div>
 							<h2 id="escaping">Escaping<a class="headerlink mx-2" href="#escaping" title="Permanent link">#</a></h2>
 							<p>HTML helpers do not automatically escape child strings. Markdown output and intentionally constructed tags must remain raw HTML, but untrusted or arbitrary plain text should be escaped with <code>lib.escapeHTML</code>:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
-  <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>escapeHTML userInput<span style="color: #7C7F93">)</span>
-<span style="color: #7C7F93">]</span>
+							<div class="highlight"><pre><span></span><code>lib<span class="o">.</span>tags<span class="o">.</span>p <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
+  <span class="p">(</span>lib<span class="o">.</span>escapeHTML userInput<span class="p">)</span>
+<span class="p">]</span>
 </code></pre></div>
 							<p>Do not escape rendered Markdown content before inserting it into a layout; doing so would display its HTML tags as text.</p>
 							<p>The <a href="/nixtml/templating/">Layouts and partials guide</a>
@@ -380,7 +380,7 @@ attrs<span style="color: #179299">.</span>aria <span style="color: #40A02B">&quo
 			</div>
 		</section>
 		<footer class="footer">
-			<div class="content is-max-desktop has-text-centered">
+			<div class="container content is-max-desktop has-text-centered">
 				<p>
 					This website is (obviously) generated with
 					<a href="https://github.com/arnarg/nixtml">

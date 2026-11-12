@@ -178,21 +178,21 @@
 							<p>For a ready-made blog presentation, Minima provides collection, pagination, and feed layouts. The configuration is the same with a custom theme.</p>
 							<h2 id="create-a-collection">Create a Collection<a class="headerlink mx-2" href="#create-a-collection" title="Permanent link">#</a></h2>
 							<p>Add a collection to <code>mkWebsite</code>:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>nixtml<span style="color: #179299">.</span>lib<span style="color: #179299">.</span>mkWebsite <span style="color: #7C7F93">{</span>
-  <span style="color: #7C7F93; font-style: italic"># Other settings...</span>
-  collections<span style="color: #179299">.</span><span style="color: #40A02B">blog</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-    <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;blog/posts&quot;</span><span style="color: #7C7F93">;</span>
-    pagination<span style="color: #179299">.</span><span style="color: #40A02B">perPage</span> <span style="color: #179299">=</span> <span style="color: #FE640B">5</span><span style="color: #7C7F93">;</span>
-    <span style="color: #40A02B">taxonomies</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;tags&quot;</span> <span style="color: #7C7F93">];</span>
-    rss<span style="color: #179299">.</span><span style="color: #40A02B">enable</span> <span style="color: #179299">=</span> <span style="color: #1E66F5">true</span><span style="color: #7C7F93">;</span>
-  <span style="color: #7C7F93">};</span>
-<span style="color: #7C7F93">}</span>
+							<div class="highlight"><pre><span></span><code>nixtml<span class="o">.</span>lib<span class="o">.</span>mkWebsite <span class="p">{</span>
+  <span class="c1"># Other settings...</span>
+  collections<span class="o">.</span><span class="ss">blog</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">path</span> <span class="o">=</span> <span class="s2">&quot;blog/posts&quot;</span><span class="p">;</span>
+    pagination<span class="o">.</span><span class="ss">perPage</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+    <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;tags&quot;</span> <span class="p">];</span>
+    rss<span class="o">.</span><span class="ss">enable</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+  <span class="p">};</span>
+<span class="p">}</span>
 </code></pre></div>
 							<p>Inside a nixtml module, use the equivalent option path:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>collections<span style="color: #179299">.</span><span style="color: #40A02B">blog</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;blog/posts&quot;</span><span style="color: #7C7F93">;</span>
-  pagination<span style="color: #179299">.</span><span style="color: #40A02B">perPage</span> <span style="color: #179299">=</span> <span style="color: #FE640B">5</span><span style="color: #7C7F93">;</span>
-<span style="color: #7C7F93">};</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>collections<span class="o">.</span><span class="ss">blog</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">path</span> <span class="o">=</span> <span class="s2">&quot;blog/posts&quot;</span><span class="p">;</span>
+  pagination<span class="o">.</span><span class="ss">perPage</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="p">};</span>
 </code></pre></div>
 							<p>The collection's attribute name (<code>blog</code>
 								here) identifies it in configuration. Its <code>path</code>
@@ -227,7 +227,7 @@
 							</table>
 							<p>Additional pages use <code>page/2</code>, <code>page/3</code>, and so on beneath the listing path.</p>
 							<p>For <code>path = "blog/posts"</code>, this input:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>content/
+							<div class="highlight"><pre><span></span><code>content/
 ├── about.md
 └── blog/
     └── posts/
@@ -235,7 +235,7 @@
         └── second-post.md
 </code></pre></div>
 							<p>produces the individual post pages plus:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>blog/index.html          # First collection page
+							<div class="highlight"><pre><span></span><code>blog/index.html          # First collection page
 blog/index.xml           # RSS, when enabled
 blog/posts/first-post/index.html
 blog/posts/second-post/index.html
@@ -245,13 +245,13 @@ blog/posts/second-post/index.html
 								creates its listing at <code>index.html</code>. Avoid combining that with a separate <code>content/index.md</code>, because both would target the homepage.</p>
 							<h2 id="write-collection-items">Write Collection Items<a class="headerlink mx-2" href="#write-collection-items" title="Permanent link">#</a></h2>
 							<p>Give each item a title and an unquoted ISO 8601 datetime:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+							<div class="highlight"><pre><span></span><code>---
 title: My first post
 date: 2026-01-19T10:00:00
 tags:
-<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>nix
-  - tutorial
----
+<span class="w">  </span><span class="k">-</span><span class="w"> </span>nix
+<span class="gu">  - tutorial</span>
+<span class="gu">---</span>
 
 This introduction becomes the summary in collection listings.
 
@@ -269,24 +269,24 @@ This additional content appears on the full post page.
 							<h2 id="render-a-listing">Render a Listing<a class="headerlink mx-2" href="#render-a-listing" title="Permanent link">#</a></h2>
 							<p>The <code>website.layouts.collection</code>
 								function receives the current page's <code>items</code>. Minimal post-preview markup might look like this:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #FE640B; font-style: italic">map</span> <span style="color: #7C7F93">(</span>item<span style="color: #7C7F93">:</span>
-  lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>article <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
-    <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>h2 <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
-      <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>a <span style="color: #7C7F93">[</span>
-        <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>href item<span style="color: #179299">.</span>url<span style="color: #7C7F93">)</span>
-      <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">])</span>
-    <span style="color: #7C7F93">])</span>
-    <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>time <span style="color: #7C7F93">[</span>
-      <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>mkAttr <span style="color: #40A02B">&quot;datetime&quot;</span> item<span style="color: #179299">.</span>dateW3C<span style="color: #7C7F93">)</span>
-    <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>date <span style="color: #7C7F93">])</span>
-    <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>div <span style="color: #7C7F93">[</span>
-      <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;summary&quot;</span><span style="color: #7C7F93">)</span>
-    <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>summary <span style="color: #7C7F93">])</span>
-    <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>a <span style="color: #7C7F93">[</span>
-      <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>href item<span style="color: #179299">.</span>url<span style="color: #7C7F93">)</span>
-    <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Read more&quot;</span> <span style="color: #7C7F93">])</span>
-  <span style="color: #7C7F93">]</span>
-<span style="color: #7C7F93">)</span> items
+							<div class="highlight"><pre><span></span><code><span class="nb">map</span> <span class="p">(</span>item<span class="p">:</span>
+  lib<span class="o">.</span>tags<span class="o">.</span>article <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
+    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h2 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
+      <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>a <span class="p">[</span>
+        <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href item<span class="o">.</span>url<span class="p">)</span>
+      <span class="p">]</span> <span class="p">[</span> item<span class="o">.</span>title <span class="p">])</span>
+    <span class="p">])</span>
+    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>time <span class="p">[</span>
+      <span class="p">(</span>lib<span class="o">.</span>mkAttr <span class="s2">&quot;datetime&quot;</span> item<span class="o">.</span>dateW3C<span class="p">)</span>
+    <span class="p">]</span> <span class="p">[</span> item<span class="o">.</span>date <span class="p">])</span>
+    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>div <span class="p">[</span>
+      <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>class <span class="s2">&quot;summary&quot;</span><span class="p">)</span>
+    <span class="p">]</span> <span class="p">[</span> item<span class="o">.</span>summary <span class="p">])</span>
+    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>a <span class="p">[</span>
+      <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href item<span class="o">.</span>url<span class="p">)</span>
+    <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;Read more&quot;</span> <span class="p">])</span>
+  <span class="p">]</span>
+<span class="p">)</span> items
 </code></pre></div>
 							<p>Commonly used item values are <code>title</code>, <code>date</code>, <code>dateW3C</code>, <code>url</code>, <code>permalink</code>, <code>content</code>, <code>summary</code>, and <code>metadata</code>. Custom frontmatter such as <code>tags</code>
 								is available through <code>item.metadata</code>; see the <a href="/nixtml/reference/templates/">Template Context Reference</a>
@@ -297,16 +297,16 @@ This additional content appears on the full post page.
 							<h2 id="taxonomies">Taxonomies<a class="headerlink mx-2" href="#taxonomies" title="Permanent link">#</a></h2>
 							<p>Set <code>taxonomies</code>
 								to a list of frontmatter keys used to group collection items:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>collections<span style="color: #179299">.</span><span style="color: #40A02B">blog</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;blog/posts&quot;</span><span style="color: #7C7F93">;</span>
-  <span style="color: #40A02B">taxonomies</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;tags&quot;</span> <span style="color: #40A02B">&quot;categories&quot;</span> <span style="color: #7C7F93">];</span>
-<span style="color: #7C7F93">};</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>collections<span class="o">.</span><span class="ss">blog</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">path</span> <span class="o">=</span> <span class="s2">&quot;blog/posts&quot;</span><span class="p">;</span>
+  <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;tags&quot;</span> <span class="s2">&quot;categories&quot;</span> <span class="p">];</span>
+<span class="p">};</span>
 </code></pre></div>
 							<p>nixtml then generates listing and feed pages for each declared taxonomy term. The dedicated <a href="/nixtml/taxonomies/">Taxonomies and RSS guide</a>
 								covers their URLs and templates without repeating the collection setup here.</p>
 							<h2 id="rss-feeds">RSS Feeds<a class="headerlink mx-2" href="#rss-feeds" title="Permanent link">#</a></h2>
 							<p>Collection RSS generation is enabled by default. Disable it when a collection does not need a feed:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>collections<span style="color: #179299">.</span>portfolio<span style="color: #179299">.</span>rss<span style="color: #179299">.</span><span style="color: #40A02B">enable</span> <span style="color: #179299">=</span> <span style="color: #1E66F5">false</span><span style="color: #7C7F93">;</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>collections<span class="o">.</span>portfolio<span class="o">.</span>rss<span class="o">.</span><span class="ss">enable</span> <span class="o">=</span> <span class="no">false</span><span class="p">;</span>
 </code></pre></div>
 							<p>The feed location follows the listing path:</p>
 							<table>
@@ -332,30 +332,30 @@ This additional content appears on the full post page.
 								</tbody>
 							</table>
 							<p>Add feed discovery to the base layout when appropriate:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>link <span style="color: #7C7F93">[</span>
-  <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>rel <span style="color: #40A02B">&quot;alternate&quot;</span><span style="color: #7C7F93">)</span>
-  <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>type <span style="color: #40A02B">&quot;application/rss+xml&quot;</span><span style="color: #7C7F93">)</span>
-  <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>title <span style="color: #40A02B">&quot;Blog RSS feed&quot;</span><span style="color: #7C7F93">)</span>
-  <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>href <span style="color: #7C7F93">(</span>config<span style="color: #179299">.</span>website<span style="color: #179299">.</span>baseURI <span style="color: #179299">+</span> <span style="color: #40A02B">&quot;blog/index.xml&quot;</span><span style="color: #7C7F93">))</span>
-<span style="color: #7C7F93">]</span>
+							<div class="highlight"><pre><span></span><code>lib<span class="o">.</span>tags<span class="o">.</span>link <span class="p">[</span>
+  <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>rel <span class="s2">&quot;alternate&quot;</span><span class="p">)</span>
+  <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>type <span class="s2">&quot;application/rss+xml&quot;</span><span class="p">)</span>
+  <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>title <span class="s2">&quot;Blog RSS feed&quot;</span><span class="p">)</span>
+  <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href <span class="p">(</span>config<span class="o">.</span>website<span class="o">.</span>baseURI <span class="o">+</span> <span class="s2">&quot;blog/index.xml&quot;</span><span class="p">))</span>
+<span class="p">]</span>
 </code></pre></div>
 							<p>Minima emits this discovery link when <code>themes.minima.feedPath</code>
 								matches the generated feed path.</p>
 							<h2 id="multiple-collections">Multiple Collections<a class="headerlink mx-2" href="#multiple-collections" title="Permanent link">#</a></h2>
 							<p>Collections are independent and can use different page sizes, taxonomies, and feed settings:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span><span style="color: #40A02B">collections</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">blog</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-    <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;blog/posts&quot;</span><span style="color: #7C7F93">;</span>
-    pagination<span style="color: #179299">.</span><span style="color: #40A02B">perPage</span> <span style="color: #179299">=</span> <span style="color: #FE640B">5</span><span style="color: #7C7F93">;</span>
-    <span style="color: #40A02B">taxonomies</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;tags&quot;</span> <span style="color: #7C7F93">];</span>
-  <span style="color: #7C7F93">};</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span><span class="ss">collections</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">blog</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">path</span> <span class="o">=</span> <span class="s2">&quot;blog/posts&quot;</span><span class="p">;</span>
+    pagination<span class="o">.</span><span class="ss">perPage</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+    <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;tags&quot;</span> <span class="p">];</span>
+  <span class="p">};</span>
 
-  <span style="color: #40A02B">projects</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-    <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;portfolio/projects&quot;</span><span style="color: #7C7F93">;</span>
-    pagination<span style="color: #179299">.</span><span style="color: #40A02B">perPage</span> <span style="color: #179299">=</span> <span style="color: #FE640B">12</span><span style="color: #7C7F93">;</span>
-    rss<span style="color: #179299">.</span><span style="color: #40A02B">enable</span> <span style="color: #179299">=</span> <span style="color: #1E66F5">false</span><span style="color: #7C7F93">;</span>
-  <span style="color: #7C7F93">};</span>
-<span style="color: #7C7F93">};</span>
+  <span class="ss">projects</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">path</span> <span class="o">=</span> <span class="s2">&quot;portfolio/projects&quot;</span><span class="p">;</span>
+    pagination<span class="o">.</span><span class="ss">perPage</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+    rss<span class="o">.</span><span class="ss">enable</span> <span class="o">=</span> <span class="no">false</span><span class="p">;</span>
+  <span class="p">};</span>
+<span class="p">};</span>
 </code></pre></div>
 							<p>All content paths remain relative to <code>website.content.dir</code>.</p>
 							<h2 id="complete-examples">Complete Examples<a class="headerlink mx-2" href="#complete-examples" title="Permanent link">#</a></h2>
@@ -390,7 +390,7 @@ This additional content appears on the full post page.
 			</div>
 		</section>
 		<footer class="footer">
-			<div class="content is-max-desktop has-text-centered">
+			<div class="container content is-max-desktop has-text-centered">
 				<p>
 					This website is (obviously) generated with
 					<a href="https://github.com/arnarg/nixtml">

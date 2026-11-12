@@ -180,17 +180,17 @@
 							<p>Install Nix and enable the <code>nix-command</code>
 								and <code>flakes</code>
 								experimental features:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93; font-style: italic"># ~/.config/nix/nix.conf</span>
-<span style="color: #DF8E1D">experimental-features</span><span style="color: #4C4F69"> </span><span style="color: #179299">=</span><span style="color: #4C4F69"> </span><span style="color: #40A02B">nix-command flakes</span>
+							<div class="highlight"><pre><span></span><code><span class="c1"># ~/.config/nix/nix.conf</span>
+<span class="na">experimental-features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">nix-command flakes</span>
 </code></pre></div>
 							<p>Basic familiarity with Nix expressions is helpful, but every file needed for the example is shown below.</p>
 							<h2 id="1-create-the-project">1. Create the Project<a class="headerlink mx-2" href="#1-create-the-project" title="Permanent link">#</a></h2>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>mkdir<span style="color: #4C4F69"> </span>my-website
-<span style="color: #FE640B; font-style: italic">cd</span><span style="color: #4C4F69"> </span>my-website
-mkdir<span style="color: #4C4F69"> </span>content
+							<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>my-website
+<span class="nb">cd</span><span class="w"> </span>my-website
+mkdir<span class="w"> </span>content
 </code></pre></div>
 							<p>The project will contain:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>my-website/
+							<div class="highlight"><pre><span></span><code>my-website/
 ├── flake.nix
 └── content/
     ├── index.md
@@ -198,90 +198,90 @@ mkdir<span style="color: #4C4F69"> </span>content
 </code></pre></div>
 							<h2 id="2-create-the-flake">2. Create the Flake<a class="headerlink mx-2" href="#2-create-the-flake" title="Permanent link">#</a></h2>
 							<p>Create <code>flake.nix</code>:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span>
-  <span style="color: #40A02B">description</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;My website generated with nixtml&quot;</span><span style="color: #7C7F93">;</span>
+							<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="ss">description</span> <span class="o">=</span> <span class="s2">&quot;My website generated with nixtml&quot;</span><span class="p">;</span>
 
-  <span style="color: #40A02B">inputs</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-    nixpkgs<span style="color: #179299">.</span><span style="color: #40A02B">url</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;github:NixOS/nixpkgs/nixos-unstable&quot;</span><span style="color: #7C7F93">;</span>
-    flake-utils<span style="color: #179299">.</span><span style="color: #40A02B">url</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;github:numtide/flake-utils&quot;</span><span style="color: #7C7F93">;</span>
-    nixtml<span style="color: #179299">.</span><span style="color: #40A02B">url</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;github:arnarg/nixtml&quot;</span><span style="color: #7C7F93">;</span>
-  <span style="color: #7C7F93">};</span>
+  <span class="ss">inputs</span> <span class="o">=</span> <span class="p">{</span>
+    nixpkgs<span class="o">.</span><span class="ss">url</span> <span class="o">=</span> <span class="s2">&quot;github:NixOS/nixpkgs/nixos-unstable&quot;</span><span class="p">;</span>
+    flake-utils<span class="o">.</span><span class="ss">url</span> <span class="o">=</span> <span class="s2">&quot;github:numtide/flake-utils&quot;</span><span class="p">;</span>
+    nixtml<span class="o">.</span><span class="ss">url</span> <span class="o">=</span> <span class="s2">&quot;github:arnarg/nixtml&quot;</span><span class="p">;</span>
+  <span class="p">};</span>
 
-  <span style="color: #40A02B">outputs</span> <span style="color: #179299">=</span>
-    <span style="color: #7C7F93">{</span>
-      self<span style="color: #7C7F93">,</span>
-      nixpkgs<span style="color: #7C7F93">,</span>
-      flake-utils<span style="color: #7C7F93">,</span>
-      nixtml<span style="color: #7C7F93">,</span>
-    <span style="color: #7C7F93">}:</span>
-    flake-utils<span style="color: #179299">.</span>lib<span style="color: #179299">.</span>eachDefaultSystem <span style="color: #7C7F93">(</span>
-      system<span style="color: #7C7F93">:</span>
-      <span style="color: #8839EF">let</span>
-        <span style="color: #40A02B">pkgs</span> <span style="color: #179299">=</span> <span style="color: #FE640B; font-style: italic">import</span> nixpkgs <span style="color: #7C7F93">{</span> <span style="color: #8839EF">inherit</span> system<span style="color: #7C7F93">;</span> <span style="color: #7C7F93">};</span>
-      <span style="color: #8839EF">in</span>
-      <span style="color: #7C7F93">{</span>
-        packages<span style="color: #179299">.</span><span style="color: #40A02B">default</span> <span style="color: #179299">=</span> nixtml<span style="color: #179299">.</span>lib<span style="color: #179299">.</span>mkWebsite <span style="color: #7C7F93">{</span>
-          <span style="color: #8839EF">inherit</span> pkgs<span style="color: #7C7F93">;</span>
+  <span class="ss">outputs</span> <span class="o">=</span>
+    <span class="p">{</span>
+      self<span class="p">,</span>
+      nixpkgs<span class="p">,</span>
+      flake-utils<span class="p">,</span>
+      nixtml<span class="p">,</span>
+    <span class="p">}:</span>
+    flake-utils<span class="o">.</span>lib<span class="o">.</span>eachDefaultSystem <span class="p">(</span>
+      system<span class="p">:</span>
+      <span class="k">let</span>
+        <span class="ss">pkgs</span> <span class="o">=</span> <span class="nb">import</span> nixpkgs <span class="p">{</span> <span class="k">inherit</span> system<span class="p">;</span> <span class="p">};</span>
+      <span class="k">in</span>
+      <span class="p">{</span>
+        packages<span class="o">.</span><span class="ss">default</span> <span class="o">=</span> nixtml<span class="o">.</span>lib<span class="o">.</span>mkWebsite <span class="p">{</span>
+          <span class="k">inherit</span> pkgs<span class="p">;</span>
 
-          <span style="color: #40A02B">name</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;my-website&quot;</span><span style="color: #7C7F93">;</span>
-          <span style="color: #7C7F93; font-style: italic"># Use your public URL when deploying the site.</span>
-          <span style="color: #40A02B">baseURL</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;http://localhost:8080&quot;</span><span style="color: #7C7F93">;</span>
+          <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;my-website&quot;</span><span class="p">;</span>
+          <span class="c1"># Use your public URL when deploying the site.</span>
+          <span class="ss">baseURL</span> <span class="o">=</span> <span class="s2">&quot;http://localhost:8080&quot;</span><span class="p">;</span>
 
-          <span style="color: #40A02B">metadata</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-            <span style="color: #40A02B">lang</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;en&quot;</span><span style="color: #7C7F93">;</span>
-            <span style="color: #40A02B">title</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;My Website&quot;</span><span style="color: #7C7F93">;</span>
-            <span style="color: #40A02B">description</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;A website built with nixtml&quot;</span><span style="color: #7C7F93">;</span>
-          <span style="color: #7C7F93">};</span>
+          <span class="ss">metadata</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="ss">lang</span> <span class="o">=</span> <span class="s2">&quot;en&quot;</span><span class="p">;</span>
+            <span class="ss">title</span> <span class="o">=</span> <span class="s2">&quot;My Website&quot;</span><span class="p">;</span>
+            <span class="ss">description</span> <span class="o">=</span> <span class="s2">&quot;A website built with nixtml&quot;</span><span class="p">;</span>
+          <span class="p">};</span>
 
-          content<span style="color: #179299">.</span><span style="color: #40A02B">dir</span> <span style="color: #179299">=</span> <span style="color: #40A02B">./content</span><span style="color: #7C7F93">;</span>
-          <span style="color: #40A02B">imports</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> nixtml<span style="color: #179299">.</span>themes<span style="color: #179299">.</span>minima <span style="color: #7C7F93">];</span>
+          content<span class="o">.</span><span class="ss">dir</span> <span class="o">=</span> <span class="l">./content</span><span class="p">;</span>
+          <span class="ss">imports</span> <span class="o">=</span> <span class="p">[</span> nixtml<span class="o">.</span>themes<span class="o">.</span>minima <span class="p">];</span>
 
-          themes<span style="color: #179299">.</span>minima<span style="color: #179299">.</span><span style="color: #40A02B">navigation</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span>
-            <span style="color: #7C7F93">{</span> <span style="color: #40A02B">title</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;About&quot;</span><span style="color: #7C7F93">;</span> <span style="color: #40A02B">path</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;about/&quot;</span><span style="color: #7C7F93">;</span> <span style="color: #7C7F93">}</span>
-          <span style="color: #7C7F93">];</span>
-        <span style="color: #7C7F93">};</span>
+          themes<span class="o">.</span>minima<span class="o">.</span><span class="ss">navigation</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">{</span> <span class="ss">title</span> <span class="o">=</span> <span class="s2">&quot;About&quot;</span><span class="p">;</span> <span class="ss">path</span> <span class="o">=</span> <span class="s2">&quot;about/&quot;</span><span class="p">;</span> <span class="p">}</span>
+          <span class="p">];</span>
+        <span class="p">};</span>
 
-        apps<span style="color: #179299">.</span><span style="color: #40A02B">serve</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
-          <span style="color: #40A02B">type</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;app&quot;</span><span style="color: #7C7F93">;</span>
-          <span style="color: #40A02B">program</span> <span style="color: #179299">=</span>
-            <span style="color: #7C7F93">(</span>pkgs<span style="color: #179299">.</span>writeShellScript <span style="color: #40A02B">&quot;serve-my-website&quot;</span> <span style="color: #40A02B">&#39;&#39;</span>
-<span style="color: #40A02B">              </span><span style="color: #EA76CB">${</span>pkgs<span style="color: #179299">.</span>python3<span style="color: #EA76CB">}</span><span style="color: #40A02B">/bin/python -m http.server 8080 \</span>
-<span style="color: #40A02B">                --directory </span><span style="color: #EA76CB">${</span>self<span style="color: #179299">.</span>packages<span style="color: #179299">.</span><span style="color: #EA76CB">${</span>system<span style="color: #EA76CB">}</span><span style="color: #179299">.</span>default<span style="color: #EA76CB">}</span>
-<span style="color: #40A02B">            &#39;&#39;</span><span style="color: #7C7F93">)</span><span style="color: #179299">.</span>outPath<span style="color: #7C7F93">;</span>
-        <span style="color: #7C7F93">};</span>
-      <span style="color: #7C7F93">}</span>
-    <span style="color: #7C7F93">);</span>
-<span style="color: #7C7F93">}</span>
+        apps<span class="o">.</span><span class="ss">serve</span> <span class="o">=</span> <span class="p">{</span>
+          <span class="ss">type</span> <span class="o">=</span> <span class="s2">&quot;app&quot;</span><span class="p">;</span>
+          <span class="ss">program</span> <span class="o">=</span>
+            <span class="p">(</span>pkgs<span class="o">.</span>writeShellScript <span class="s2">&quot;serve-my-website&quot;</span> <span class="s s-Multiline">&#39;&#39;</span>
+<span class="s s-Multiline">              </span><span class="si">${</span>pkgs<span class="o">.</span>python3<span class="si">}</span><span class="s s-Multiline">/bin/python -m http.server 8080 \</span>
+<span class="s s-Multiline">                --directory </span><span class="si">${</span>self<span class="o">.</span>packages<span class="o">.</span><span class="si">${</span>system<span class="si">}</span><span class="o">.</span>default<span class="si">}</span>
+<span class="s s-Multiline">            &#39;&#39;</span><span class="p">)</span><span class="o">.</span>outPath<span class="p">;</span>
+        <span class="p">};</span>
+      <span class="p">}</span>
+    <span class="p">);</span>
+<span class="p">}</span>
 </code></pre></div>
 							<p><code>mkWebsite</code>
 							creates a website derivation. The <code>apps.serve</code>
 							output serves that exact derivation, so the preview does not require a separate development build.</p>
 							<h2 id="3-add-the-content">3. Add the Content<a class="headerlink mx-2" href="#3-add-the-content" title="Permanent link">#</a></h2>
 							<p>Create <code>content/index.md</code>:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+							<div class="highlight"><pre><span></span><code>---
 title: Home
-description: Welcome to my website
----
+<span class="gu">description: Welcome to my website</span>
+<span class="gu">---</span>
 
 Welcome to my nixtml-powered website.
 
-It uses <span style="color: #D20F39; font-weight: bold">**Nix**</span> for declarative configuration and reproducible builds.
+It uses <span class="gs">**Nix**</span> for declarative configuration and reproducible builds.
 </code></pre></div>
 							<p>Create <code>content/about.md</code>:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+							<div class="highlight"><pre><span></span><code>---
 title: About
-description: About this website
----
+<span class="gu">description: About this website</span>
+<span class="gu">---</span>
 
 This website was created using nixtml and its Minima theme.
 </code></pre></div>
 							<p>The frontmatter is available to layouts as <code>metadata</code>. The Markdown body becomes the page's rendered <code>content</code>.</p>
 							<h2 id="4-build-the-website">4. Build the Website<a class="headerlink mx-2" href="#4-build-the-website" title="Permanent link">#</a></h2>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>nix<span style="color: #4C4F69"> </span>build
+							<div class="highlight"><pre><span></span><code>nix<span class="w"> </span>build
 </code></pre></div>
 							<p>The <code>result</code>
 								symlink points to the generated site. Its output includes:</p>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>result/
+							<div class="highlight"><pre><span></span><code>result/
 ├── index.html
 ├── about/
 │   └── index.html
@@ -291,7 +291,7 @@ This website was created using nixtml and its Minima theme.
 </code></pre></div>
 							<p>Inspect the generated HTML or asset files directly under <code>result/</code>. Rebuilding after a content or configuration change produces a new immutable website derivation.</p>
 							<h2 id="5-preview-locally">5. Preview Locally<a class="headerlink mx-2" href="#5-preview-locally" title="Permanent link">#</a></h2>
-							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>nix<span style="color: #4C4F69"> </span>run<span style="color: #4C4F69"> </span>.#serve
+							<div class="highlight"><pre><span></span><code>nix<span class="w"> </span>run<span class="w"> </span>.#serve
 </code></pre></div>
 							<p>Open <a href="http://localhost:8080">http://localhost:8080</a>. Stop the server with <kbd>Ctrl</kbd>+<kbd>C</kbd>, make changes, and run the command again to serve the rebuilt site.</p>
 							<p>When deploying, change <code>baseURL</code>
@@ -346,7 +346,7 @@ This website was created using nixtml and its Minima theme.
 			</div>
 		</section>
 		<footer class="footer">
-			<div class="content is-max-desktop has-text-centered">
+			<div class="container content is-max-desktop has-text-centered">
 				<p>
 					This website is (obviously) generated with
 					<a href="https://github.com/arnarg/nixtml">
