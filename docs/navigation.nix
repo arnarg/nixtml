@@ -36,6 +36,10 @@ let
           title = "Taxonomies and RSS";
           path = "taxonomies";
         }
+        {
+          title = "Using themes and Minima";
+          path = "themes";
+        }
       ];
     }
     {

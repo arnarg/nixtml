@@ -1,65 +1,62 @@
 ---
 title: Getting Started with nixtml
-date: 2026-01-19T21:00:00
-description: A step-by-step guide to creating your first website with nixtml
+description: Create, build, and serve your first nixtml website with the Minima theme
 ---
 
-nixtml is a static website generator written in Nix, inspired by Hugo. This guide will walk you through creating your first website from scratch.
+nixtml is a static website generator written in Nix and inspired by Hugo. This guide creates a small website with a homepage, an about page, and a local preview server.
+
+The built-in Minima theme supplies the layouts and styling, so no template code is needed for this first site.
 
 ## Prerequisites
 
-- **Nix** installed with flakes enabled
-- Basic familiarity with Nix language
-- A text editor
+Install Nix and enable the `nix-command` and `flakes` experimental features:
 
-To enable flakes, add this to your `~/.config/nix/nix.conf`:
-
-```
+```ini
+# ~/.config/nix/nix.conf
 experimental-features = nix-command flakes
 ```
 
-## Project Structure
+Basic familiarity with Nix expressions is helpful, but every file needed for the example is shown below.
 
-By the end of this guide, your project will look like this:
-
-```
-my-website/
-├── flake.nix          # Main configuration
-├── content/
-│   ├── index.md       # Homepage
-│   └── about.md       # About page
-└── static/            # Static assets (CSS, images, etc.)
-    └── css/
-        └── style.css
-```
-
-## Step 1: Create a New Project
+## 1. Create the Project
 
 ```bash
 mkdir my-website
 cd my-website
+mkdir content
 ```
 
-## Step 2: Create the Flake Configuration
+The project will contain:
 
-Create a `flake.nix` file:
+```text
+my-website/
+├── flake.nix
+└── content/
+    ├── index.md
+    └── about.md
+```
+
+## 2. Create the Flake
+
+Create `flake.nix`:
 
 ```nix
 {
-  description = "My website generated using nixtml.";
+  description = "My website generated with nixtml";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     nixtml.url = "github:arnarg/nixtml";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    flake-utils,
-    nixtml,
-  }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+      nixtml,
+    }:
     flake-utils.lib.eachDefaultSystem (
       system:
       let
@@ -70,32 +67,29 @@ Create a `flake.nix` file:
           inherit pkgs;
 
           name = "my-website";
-          baseURL = "https://my-website.com";
+          # Use your public URL when deploying the site.
+          baseURL = "http://localhost:8080";
 
-          # Site-wide metadata available in templates
           metadata = {
             lang = "en";
             title = "My Website";
-            description = "Welcome to my website";
+            description = "A website built with nixtml";
           };
 
-          # Directory containing markdown content
           content.dir = ./content;
+          imports = [ nixtml.themes.minima ];
 
-          # Optional: Directory for static assets
-          # static.dir = ./static;
-
-          # Import layout configuration from separate file
-          imports = [ ./layouts.nix ];
+          themes.minima.navigation = [
+            { title = "About"; path = "about/"; }
+          ];
         };
 
-        # Convenient local development server
         apps.serve = {
           type = "app";
           program =
-            (pkgs.writeShellScript "serve" ''
-              echo "Serving at http://localhost:8080"
-              ${pkgs.python3}/bin/python -m http.server -d ${self.packages.${system}.default} 8080
+            (pkgs.writeShellScript "serve-my-website" ''
+              ${pkgs.python3}/bin/python -m http.server 8080 \
+                --directory ${self.packages.${system}.default}
             '').outPath;
         };
       }
@@ -103,280 +97,88 @@ Create a `flake.nix` file:
 }
 ```
 
-## Step 3: Create the Layouts
+`mkWebsite` creates a website derivation. The `apps.serve` output serves that exact derivation, so the preview does not require a separate development build.
 
-Create a `layouts.nix` file to define how your pages look:
+## 3. Add the Content
 
-```nix
-{ lib, config, ... }:
-let
-  # Access site metadata defined in flake.nix
-  inherit (config.website) metadata;
-
-  # Import HTML helper functions
-  inherit (lib.tags)
-    html
-    head
-    body
-    div
-    h1
-    p
-    a
-    nav
-    ul
-    li
-    meta
-    ;
-  inherit (lib.tags) title link;
-  inherit (lib) attrs;
-in
-{
-  website.layouts = {
-    # Base template wraps all pages
-    base = { path, content, ... }:
-      "<!DOCTYPE html>\n"
-      + (html [ (attrs.lang metadata.lang) ] [
-          (head [] [
-            (meta [ (attrs.charset "UTF-8") ])
-            (meta [
-              (attrs.name "viewport")
-              (attrs.content "width=device-width, initial-scale=1.0")
-            ])
-            (meta [
-              (attrs.name "description")
-              (attrs.content metadata.description)
-            ])
-            (title metadata.title)
-            # Uncomment when you add static/css/style.css
-            # (link [
-            #   (attrs.rel "stylesheet")
-            #   (attrs.href "/css/style.css")
-            # ])
-          ])
-          (body [] [
-            (nav [] [
-              (ul [] [
-                (li [] [ (a [ (attrs.href "/") ] [ "Home" ]) ])
-                (li [] [ (a [ (attrs.href "/about") ] [ "About" ]) ])
-              ])
-            ])
-            (div [ (attrs.class "container") ] [ content ])
-          ])
-        ]);
-
-    # Template for index.md (homepage)
-    home = { content, ... }: content;
-
-    # Template for all other pages
-    page = { metadata, content, ... }: [
-      (h1 [] [ metadata.title ])
-      content
-    ];
-
-    # Required for collections (can be minimal for now)
-    collection = { pageNumber, totalPages, items, ... }:
-      (div [] [
-        (ul [] (map (item: li [] [ item.title ]) items))
-        "Page ${toString pageNumber} of ${toString totalPages}"
-      ]);
-
-    # Required for taxonomies (can be minimal for now)
-    taxonomy = { title, pageNumber, totalPages, items, ... }:
-      (div [] [
-        (h1 [] [ title ])
-        (ul [] (map (item: li [] [ item.title ]) items))
-        "Page ${toString pageNumber} of ${toString totalPages}"
-      ]);
-  };
-}
-```
-
-## Step 4: Create Content
-
-Create the content directory and your first pages:
-
-```bash
-mkdir -p content
-```
-
-### Homepage (`content/index.md`)
+Create `content/index.md`:
 
 ```markdown
 ---
 title: Home
-date: 2026-01-19T00:00:00
+description: Welcome to my website
 ---
 
-# Welcome to My Website
+Welcome to my nixtml-powered website.
 
-This is the homepage of my nixtml-powered website.
-
-Built with **Nix** for reproducible, declarative static site generation.
+It uses **Nix** for declarative configuration and reproducible builds.
 ```
 
-### About Page (`content/about.md`)
+Create `content/about.md`:
 
 ```markdown
 ---
 title: About
-date: 2026-01-19T00:00:00
+description: About this website
 ---
 
-This website was created using nixtml, a static site generator written in Nix.
-
-## Why nixtml?
-
-- Declarative configuration
-- Reproducible builds
-- Native Nix integration
-- Markdown content with frontmatter
+This website was created using nixtml and its Minima theme.
 ```
 
-## Step 5: Build Your Website
+The frontmatter is available to layouts as `metadata`. The Markdown body becomes the page's rendered `content`.
+
+## 4. Build the Website
 
 ```bash
-nix build .#
+nix build
 ```
 
-This creates a `result` symlink pointing to your built website. Explore the output:
+The `result` symlink points to the generated site. Its output includes:
 
-```bash
-ls -la result/
+```text
+result/
+├── index.html
+├── about/
+│   └── index.html
+├── assets/
+│   └── main.css
+└── sitemap.xml
 ```
 
-You should see:
+Inspect the generated HTML or asset files directly under `result/`. Rebuilding after a content or configuration change produces a new immutable website derivation.
 
-- `index.html` - Your homepage
-- `about/index.html` - Your about page
-- `sitemap.xml` - Auto-generated sitemap
-
-## Step 6: Serve Locally
+## 5. Preview Locally
 
 ```bash
 nix run .#serve
 ```
 
-Open [http://localhost:8080](http://localhost:8080) in your browser to see your website.
+Open [http://localhost:8080](http://localhost:8080). Stop the server with <kbd>Ctrl</kbd>+<kbd>C</kbd>, make changes, and run the command again to serve the rebuilt site.
 
-## Step 7: Add Styling (Optional)
+When deploying, change `baseURL` to the site's public URL. Internal links use the derived base URI, including a path prefix when the public URL contains one.
 
-Create a static directory with CSS:
+## Configuration Styles
 
-```bash
-mkdir -p static/css
-```
+nixtml examples use two related configuration styles:
 
-Create `static/css/style.css`:
+- **`mkWebsite` arguments:** `content.dir`, `collections.blog`, and `themes.minima` are passed directly to `nixtml.lib.mkWebsite`.
+- **Module options:** Inside an imported Nix module, the corresponding website settings are `website.content.dir`, `website.collections.blog`, and `themes.minima`.
 
-```css
-* {
-  box-sizing: border-box;
-}
+The guides label or show the surrounding context for their snippets. See [Configuration options](/nixtml/options/) for the underlying module option reference.
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  line-height: 1.6;
-  color: #333;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
+## What to Learn Next
 
-nav ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  gap: 20px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-}
+- [Content and frontmatter](/nixtml/content/) explains discovery, output paths, metadata, and static files.
+- [Using themes and Minima](/nixtml/themes/) covers navigation, feeds, excerpts, and layout overrides.
+- [Layouts and partials](/nixtml/templating/) shows how to replace the theme layouts with custom markup.
+- [Collections and pagination](/nixtml/collections/) turns the site into a dated blog with listings and feeds.
 
-nav a {
-  text-decoration: none;
-  color: #0066cc;
-}
+## Buildable Examples
 
-nav a:hover {
-  text-decoration: underline;
-}
+The repository contains complete examples that are built with the project's checks:
 
-h1 {
-  color: #111;
-}
+- [Simple website](https://github.com/arnarg/nixtml/tree/main/examples/simple): custom layouts and static pages.
+- [Blog](https://github.com/arnarg/nixtml/tree/main/examples/blog): collections and content configuration.
+- [Minima](https://github.com/arnarg/nixtml/tree/main/examples/minima): navigation, pagination, taxonomies, excerpts, and RSS.
 
-.container {
-  padding: 20px 0;
-}
-```
-
-Then update your `flake.nix` to include static files:
-
-```nix
-# Uncomment this line in mkWebsite:
-static.dir = ./static;
-```
-
-And uncomment the stylesheet link in `layouts.nix`.
-
-Rebuild to see the changes:
-
-```bash
-nix run .#serve
-```
-
-## Understanding the Configuration
-
-### `mkWebsite` Options
-
-| Option | Description |
-|--------|-------------|
-| `name` | Website name (used in derivation name) |
-| `baseURL` | Full URL where site will be hosted |
-| `metadata` | Arbitrary data available in all templates |
-| `content.dir` | Directory containing markdown files |
-| `static.dir` | Directory with static assets |
-| `layouts` | Template functions for rendering pages |
-| `imports` | Additional Nix modules to import |
-
-### Template Context
-
-Each template receives a context object:
-
-- **base**: `{ path, content, ... }` - receives rendered content from child templates
-- **home**: `{ content, metadata, ... }` - receives parsed markdown content
-- **page**: `{ content, metadata, ... }` - receives parsed markdown content
-- **collection**: `{ pageNumber, totalPages, items, hasNext, hasPrev, ... }`
-- **taxonomy**: `{ title, taxonomoy, pageNumber, totalPages, items, hasNext, hasPrev, ... }`
-
-### Frontmatter
-
-Markdown files support YAML frontmatter:
-
-```markdown
----
-title: Page Title
-date: 2026-01-19T00:00:00
-customField: any value
----
-
-Content here...
-```
-
-The frontmatter is available as `metadata` in your templates.
-
-## Next Steps
-
-Now that you have a basic website running:
-
-- **[Collections](/nixtml/collections)**: Create a blog with pagination and RSS feeds
-- **[Taxonomies](/nixtml/taxonomies)**: Organize content with tags and categories  
-- **[Advanced Templating](/nixtml/templating)**: Master the Nix HTML library and partials
-- **[Nixtml Module Options](/nixtml/options)**: View all available module options in nixtml
-
-## Complete Example
-
-See the [examples directory](https://github.com/arnarg/nixtml/tree/main/examples) in the nixtml repository for complete working examples:
-
-- **simple**: Basic website with pages
-- **blog**: Full blog with collections, taxonomies, and RSS feeds
+From a checkout of nixtml, build one with `nix build .#examples.minima` (or replace `minima` with `simple` or `blog`).

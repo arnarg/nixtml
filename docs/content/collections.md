@@ -1,234 +1,135 @@
 ---
-title: Collections in nixtml
-date: 2026-01-19T21:00:00
-description: Learn how to organize content with collections
+title: Collections and Pagination
+description: Group dated content into sorted listings, paginated pages, summaries, and RSS feeds
 ---
 
-Collections allow you to group, paginate, and list related content such as blog posts, portfolio pieces, or any other content type that benefits from organization and pagination.
+Collections gather dated pages from a content directory and generate sorted listing pages. Use them for blogs, portfolios, release notes, or other content that readers browse as a series.
 
-## What Collections Do
+For a ready-made blog presentation, Minima provides collection, pagination, and feed layouts. The configuration is the same with a custom theme.
 
-When you create a collection, nixtml automatically:
+## Create a Collection
 
-1. **Gathers content** from a specified directory
-2. **Sorts items** by date (newest first)
-3. **Creates pagination pages** for browsing items
-4. **Generates RSS feeds** for syndication
-5. **Creates taxonomy pages** for tags, categories, etc.
-
-## Basic Collection Setup
-
-Add a collection to your website configuration:
+Add a collection to `mkWebsite`:
 
 ```nix
-{
-  website.collections.blog = {
-    path = "posts";
+nixtml.lib.mkWebsite {
+  # Other settings...
+  collections.blog = {
+    path = "blog/posts";
     pagination.perPage = 5;
+    taxonomies = [ "tags" ];
+    rss.enable = true;
   };
 }
 ```
 
-### Understanding the Path
-
-The `path` option determines both where content is read from and where pagination pages are created:
-
-| `path` Value | Content Directory | Pagination URLs |
-|--------------|-------------------|-----------------|
-| `"posts"` | `./content/posts/` | `/index.html`, `/page/2/index.html` |
-| `"blog/posts"` | `./content/blog/posts/` | `/blog/index.html`, `/blog/page/2/index.html` |
-| `"writing/articles"` | `./content/writing/articles/` | `/writing/index.html`, `/writing/page/2/index.html` |
-
-The pagination pages are created in the **parent directory** of the path.
-
-## Directory Structure
-
-A typical blog setup looks like this:
-
-```
-my-website/
-├── flake.nix
-├── layouts.nix
-└── content/
-    ├── index.md              # Homepage
-    ├── about.md              # About page
-    └── blog/
-        └── posts/            # Collection content
-            ├── first-post.md
-            ├── second-post.md
-            └── third-post.md
-```
-
-With the configuration:
+Inside a nixtml module, use the equivalent option path:
 
 ```nix
 website.collections.blog = {
   path = "blog/posts";
-  pagination.perPage = 2;
+  pagination.perPage = 5;
 };
 ```
 
-This generates:
+The collection's attribute name (`blog` here) identifies it in configuration. Its `path` identifies the content location and influences generated listing URLs.
 
+## Paths and Generated Pages
+
+Collection listing pages are created in the parent of the configured content path:
+
+| `path` | Content read from | First listing page |
+| --- | --- | --- |
+| `"posts"` | `content/posts/` | `index.html` |
+| `"blog/posts"` | `content/blog/posts/` | `blog/index.html` |
+| `"writing/articles"` | `content/writing/articles/` | `writing/index.html` |
+
+Additional pages use `page/2`, `page/3`, and so on beneath the listing path.
+
+For `path = "blog/posts"`, this input:
+
+```text
+content/
+├── about.md
+└── blog/
+    └── posts/
+        ├── first-post.md
+        └── second-post.md
 ```
-result/
-├── index.html                # Homepage
-├── about/index.html          # About page
-├── blog/
-│   ├── index.html            # Collection page 1 (2 posts)
-│   ├── index.xml             # RSS feed
-│   └── page/
-│       └── 2/
-│           └── index.html    # Collection page 2 (1 post)
-└── blog/posts/
-    ├── first-post/index.html
-    ├── second-post/index.html
-    └── third-post/index.html
+
+produces the individual post pages plus:
+
+```text
+blog/index.html          # First collection page
+blog/index.xml           # RSS, when enabled
+blog/posts/first-post/index.html
+blog/posts/second-post/index.html
 ```
 
-## Writing Collection Content
+With enough items for another listing page, nixtml also produces `blog/page/2/index.html`.
 
-Each markdown file in the collection needs proper frontmatter:
+The special root collection path `"posts"` creates its listing at `index.html`. Avoid combining that with a separate `content/index.md`, because both would target the homepage.
+
+## Write Collection Items
+
+Give each item a title and an unquoted ISO 8601 datetime:
 
 ```markdown
 ---
-title: My First Blog Post
-date: 2026-01-15T10:00:00
+title: My first post
+date: 2026-01-19T10:00:00
 tags:
   - nix
   - tutorial
 ---
 
-This is the introduction paragraph that appears in listings.
+This introduction becomes the summary in collection listings.
 
 <!--more-->
 
-This content only appears on the full post page, not in summaries.
+This additional content appears on the full post page.
 ```
 
-### Required Frontmatter
+Items are sorted by date, newest first. Dates also supply the formatted values used by layouts, feeds, and sitemaps.
 
-| Field | Description |
-|-------|-------------|
-| `title` | Post title (displayed in listings) |
-| `date` | Publication date in ISO 8601 format |
+The exact HTML comment `<!--more-->` separates the summary from the rest of the post. `item.summary` contains the rendered content before that marker. Without a marker, it contains the full rendered content.
 
-### The `<!--more-->` Tag
+See [Content and frontmatter](/nixtml/content/) for metadata handling and [Taxonomies and RSS](/nixtml/taxonomies/) for tags such as those in this example.
 
-Use `<!--more-->` to mark where the summary ends:
+## Render a Listing
 
-```markdown
----
-title: Understanding Nix Flakes
-date: 2026-01-19
----
-
-Nix flakes provide a standard way to write Nix expressions
-with better reproducibility and composability.
-
-<!--more-->
-
-## What are Flakes?
-
-Flakes are an experimental feature...
-```
-
-The `item.summary` in templates contains everything **before** the `<!--more-->` tag. If omitted, `summary` contains the entire content.
-
-## Collection Configuration Options
+The `website.layouts.collection` function receives the current page's `items`. Minimal post-preview markup might look like this:
 
 ```nix
-website.collections.<name> = {
-  # Required: Path to content within content.dir
-  path = "posts";
-
-  # Pagination settings
-  pagination.perPage = 5;  # Default: 5
-
-  # Taxonomy groupings
-  taxonomies = [ "tags" "categories" ];  # Default: []
-
-  # RSS feed settings
-  rss.enable = true;   # Default: true
-  rss.limit = 50;      # Default: 50
-};
+map (item:
+  lib.tags.article [ ] [
+    (lib.tags.h2 [ ] [
+      (lib.tags.a [
+        (lib.attrs.href item.url)
+      ] [ item.title ])
+    ])
+    (lib.tags.time [
+      (lib.mkAttr "datetime" item.dateW3C)
+    ] [ item.date ])
+    (lib.tags.div [
+      (lib.attrs.class "summary")
+    ] [ item.summary ])
+    (lib.tags.a [
+      (lib.attrs.href item.url)
+    ] [ "Read more" ])
+  ]
+) items
 ```
 
-## Collection Item Properties
+Commonly used item values are `title`, `date`, `dateW3C`, `url`, `permalink`, `content`, `summary`, and `metadata`. Custom frontmatter such as `tags` is available through `item.metadata`; see the [Template Context Reference](/nixtml/reference/templates/) for the complete table.
 
-Each item in a collection has these properties available in templates:
+The layout also receives `pageNumber`, `totalPages`, `hasNext`, `hasPrev`, `nextPageURL`, and `prevPageURL`. [Layouts and partials](/nixtml/templating/#collection-layouts) includes pagination controls and explains how to guard the next and previous URLs.
 
-| Property | Type | Description |
-|----------|------|-------------|
-| `title` | string | Post title from frontmatter |
-| `date` | string | Formatted date (e.g., "Jan 15, 2026") |
-| `dateEpoch` | number | Unix timestamp |
-| `dateRFC822` | string | RFC 822 date for RSS feeds |
-| `dateW3C` | string | W3C date format (YYYY-MM-DD) |
-| `url` | string | Relative URL (e.g., `/blog/posts/my-post`) |
-| `permalink` | string | Full URL (e.g., `https://example.com/blog/posts/my-post`) |
-| `content` | string | Full HTML content |
-| `summary` | string | Content before `<!--more-->` |
-| `metadata` | attrs | All other frontmatter fields |
-
-## Collection Template
-
-The `collection` layout renders pagination pages:
-
-```nix
-{ lib, config, ... }:
-let
-  inherit (lib.tags) div h1 h2 ul li a p span article;
-  inherit (lib) attrs;
-in
-{
-  website.layouts.collection = {
-    pageNumber,    # Current page (1, 2, 3...)
-    totalPages,    # Total number of pages
-    items,         # List of posts on this page
-    hasNext,       # true if next page exists
-    hasPrev,       # true if previous page exists
-    nextPageURL,   # URL to next page (throws if !hasNext)
-    prevPageURL,   # URL to previous page (throws if !hasPrev)
-    ...
-  }:
-    [
-      (h1 [] [ "Blog" ])
-
-      # List of posts
-      (div [ (attrs.class "posts") ]
-        (map (item:
-          article [ (attrs.class "post-preview") ] [
-            (h2 [] [ (a [ (attrs.href item.url) ] [ item.title ]) ])
-            (p [ (attrs.class "date") ] [ item.date ])
-            (p [ (attrs.class "summary") ] [ item.summary ])
-            (a [ (attrs.href item.url) ] [ "Read more →" ])
-          ]
-        ) items)
-      )
-
-      # Pagination navigation
-      (div [ (attrs.class "pagination") ] [
-        (if hasPrev
-          then (a [ (attrs.href prevPageURL) (attrs.class "prev") ] [ "← Newer" ])
-          else (span [ (attrs.class "prev disabled") ] [ "← Newer" ]))
-
-        (span [ (attrs.class "page-info") ]
-          [ "Page ${toString pageNumber} of ${toString totalPages}" ])
-
-        (if hasNext
-          then (a [ (attrs.href nextPageURL) (attrs.class "next") ] [ "Older →" ])
-          else (span [ (attrs.class "next disabled") ] [ "Older →" ]))
-      ])
-    ];
-}
-```
+Themes such as Minima already implement this layout, including pagination and optional excerpts.
 
 ## Taxonomies
 
-Taxonomies let readers browse content by category. See the [Taxonomies Guide](/nixtml/taxonomies) for full documentation.
-
-### Quick Setup
+Set `taxonomies` to a list of frontmatter keys used to group collection items:
 
 ```nix
 website.collections.blog = {
@@ -237,225 +138,40 @@ website.collections.blog = {
 };
 ```
 
-### In Content
-
-```markdown
----
-title: Getting Started with Nix
-date: 2026-01-19
-tags:
-  - nix
-  - beginner
-categories:
-  - tutorials
----
-```
-
-### Generated Pages
-
-| Taxonomy Term | Page URL | RSS Feed |
-|---------------|----------|----------|
-| tags: nix | `/blog/tags/nix/index.html` | `/blog/tags/nix/index.xml` |
-| tags: beginner | `/blog/tags/beginner/index.html` | `/blog/tags/beginner/index.xml` |
-| categories: tutorials | `/blog/categories/tutorials/index.html` | `/blog/categories/tutorials/index.xml` |
-
-### Taxonomy Template
-
-```nix
-website.layouts.taxonomy = {
-  title,         # The taxonomy term (e.g., "nix")
-  pageNumber,
-  totalPages,
-  items,
-  hasNext,
-  hasPrev,
-  nextPageURL,
-  prevPageURL,
-  ...
-}:
-  [
-    (h1 [] [ "Tagged: ${title}" ])
-    (ul [] (map (item:
-      li [] [ (a [ (attrs.href item.url) ] [ item.title ]) ]
-    ) items))
-    # ... pagination controls
-  ];
-```
+nixtml then generates listing and feed pages for each declared taxonomy term. The dedicated [Taxonomies and RSS guide](/nixtml/taxonomies/) covers their URLs and templates without repeating the collection setup here.
 
 ## RSS Feeds
 
-RSS feeds are generated automatically when `rss.enable = true` (the default).
-
-### Feed Locations
-
-| Collection Config | RSS Feed URL |
-|-------------------|--------------|
-| `path = "posts"` | `/index.xml` |
-| `path = "blog/posts"` | `/blog/index.xml` |
-
-### Linking to RSS
-
-Add a link in your base template:
+Collection RSS generation is enabled by default. Disable it when a collection does not need a feed:
 
 ```nix
-(link [
-  (attrs.rel "alternate")
-  (attrs.type "application/rss+xml")
-  (attrs.title "RSS Feed")
-  (attrs.href "/blog/index.xml")
-])
+website.collections.portfolio.rss.enable = false;
 ```
 
-## Complete Example
+The feed location follows the listing path:
 
-Here's a full blog setup:
+| Collection path | Feed output |
+| --- | --- |
+| `"posts"` | `index.xml` |
+| `"blog/posts"` | `blog/index.xml` |
+| `"writing/articles"` | `writing/index.xml` |
 
-### `flake.nix`
+Add feed discovery to the base layout when appropriate:
 
 ```nix
-{
-  description = "My blog";
-
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
-    nixtml.url = "github:arnarg/nixtml";
-  };
-
-  outputs = { self, nixpkgs, flake-utils, nixtml }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = import nixpkgs { inherit system; };
-      in {
-        packages.default = nixtml.lib.mkWebsite {
-          inherit pkgs;
-          name = "my-blog";
-          baseURL = "https://my-blog.com";
-
-          metadata = {
-            lang = "en";
-            title = "My Blog";
-            description = "Thoughts on Nix and programming";
-          };
-
-          content.dir = ./content;
-
-          collections.blog = {
-            path = "blog/posts";
-            pagination.perPage = 5;
-            taxonomies = [ "tags" ];
-            rss.enable = true;
-          };
-
-          imports = [ ./layouts.nix ];
-        };
-      }
-    );
-}
+lib.tags.link [
+  (lib.attrs.rel "alternate")
+  (lib.attrs.type "application/rss+xml")
+  (lib.attrs.title "Blog RSS feed")
+  (lib.attrs.href (config.website.baseURI + "blog/index.xml"))
+]
 ```
 
-### `layouts.nix`
-
-```nix
-{ lib, config, ... }:
-let
-  inherit (config.website) metadata;
-  inherit (lib.tags) html head body div h1 h2 ul li a p article nav span;
-  inherit (lib.tags) title meta link;
-  inherit (lib) attrs;
-in
-{
-  website.layouts = {
-    base = { path, content, ... }:
-      "<!DOCTYPE html>\n"
-      + (html [ (attrs.lang metadata.lang) ] [
-          (head [] [
-            (meta [ (attrs.charset "UTF-8") ])
-            (title metadata.title)
-            (link [
-              (attrs.rel "alternate")
-              (attrs.type "application/rss+xml")
-              (attrs.href "/blog/index.xml")
-            ])
-          ])
-          (body [] [
-            (nav [] [
-              (a [ (attrs.href "/") ] [ "Home" ])
-              " | "
-              (a [ (attrs.href "/blog") ] [ "Blog" ])
-            ])
-            (div [ (attrs.class "content") ] [ content ])
-          ])
-        ]);
-
-    home = { content, ... }: content;
-
-    page = { metadata, content, ... }: [
-      (h1 [] [ metadata.title ])
-      content
-    ];
-
-    collection = { pageNumber, totalPages, items, hasNext, hasPrev, nextPageURL, prevPageURL, ... }:
-      [
-        (h1 [] [ "Blog" ])
-        (div [ (attrs.class "posts") ]
-          (map (item:
-            article [] [
-              (h2 [] [ (a [ (attrs.href item.url) ] [ item.title ]) ])
-              (p [] [ item.date ])
-              (p [] [ item.summary ])
-            ]
-          ) items)
-        )
-        (div [ (attrs.class "pagination") ] [
-          (if hasPrev then (a [ (attrs.href prevPageURL) ] [ "← Newer" ]) else "")
-          " Page ${toString pageNumber}/${toString totalPages} "
-          (if hasNext then (a [ (attrs.href nextPageURL) ] [ "Older →" ]) else "")
-        ])
-      ];
-
-    taxonomy = { title, pageNumber, totalPages, items, hasNext, hasPrev, nextPageURL, prevPageURL, ... }:
-      [
-        (h1 [] [ "Tagged: ${title}" ])
-        (ul []
-          (map (item: li [] [ (a [ (attrs.href item.url) ] [ item.title ]) ]) items)
-        )
-        (div [] [
-          (if hasPrev then (a [ (attrs.href prevPageURL) ] [ "← Prev" ]) else "")
-          " Page ${toString pageNumber}/${toString totalPages} "
-          (if hasNext then (a [ (attrs.href nextPageURL) ] [ "Next →" ]) else "")
-        ])
-      ];
-  };
-}
-```
-
-### `content/blog/posts/hello-world.md`
-
-```markdown
----
-title: Hello World
-date: 2026-01-19T10:00:00
-tags:
-  - announcements
----
-
-Welcome to my new blog! I'll be writing about Nix and programming.
-
-<!--more-->
-
-## What to Expect
-
-I plan to cover topics like:
-- Nix flakes
-- NixOS configuration
-- Functional programming
-
-Stay tuned!
-```
+Minima emits this discovery link when `themes.minima.feedPath` matches the generated feed path.
 
 ## Multiple Collections
 
-You can have multiple independent collections:
+Collections are independent and can use different page sizes, taxonomies, and feed settings:
 
 ```nix
 website.collections = {
@@ -467,25 +183,19 @@ website.collections = {
 
   projects = {
     path = "portfolio/projects";
-    pagination.perPage = 10;
-    rss.enable = false;  # No RSS for portfolio
-  };
-
-  notes = {
-    path = "notes";
-    pagination.perPage = 20;
-    taxonomies = [ "topics" ];
+    pagination.perPage = 12;
+    rss.enable = false;
   };
 };
 ```
 
-Each collection operates independently with its own pagination, taxonomies, and RSS feeds.
+All content paths remain relative to `website.content.dir`.
 
-## Best Practices
+## Complete Examples
 
-1. **Use descriptive paths**: `blog/posts` is clearer than just `posts`
-2. **Set appropriate pagination**: 5-10 items for blogs, more for portfolios
-3. **Always include dates**: Required for proper sorting
-4. **Use `<!--more-->` tags**: Keeps listing pages clean
-5. **Consistent taxonomy terms**: Use lowercase, hyphenated terms
-6. **Limit RSS feeds**: 20-50 items is usually sufficient
+Rather than maintaining duplicate full flakes in each guide, use the buildable repository examples:
+
+- [Blog example](https://github.com/arnarg/nixtml/tree/main/examples/blog)
+- [Minima blog example](https://github.com/arnarg/nixtml/tree/main/examples/minima)
+
+From a nixtml checkout, run `nix build .#examples.blog` or `nix build .#examples.minima`.
