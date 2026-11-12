@@ -401,7 +401,7 @@
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 							</ul>
 							<h2 id="websitecontentprocessorsmdhighlightstylesheet">website.content.processors.md.highlightStylesheet<a class="headerlink mx-2" href="#websitecontentprocessorsmdhighlightstylesheet" title="Permanent link">#</a></h2>
-							<p>A CSS file with the pygments styles for <code>website.content.processors.md.settings.highlight.style</code>, scoped to <code>.highlight</code>.</p>
+							<p>A CSS file with the configured Pygments styles from <code>website.content.processors.md.settings.highlight.style</code>, in their configured order.</p>
 							<p>Useful when <code>website.content.processors.md.settings.highlight.noclasses</code>
 								is set to <code>false</code>.</p>
 							<p><strong><em>Type:</em></strong>
@@ -477,11 +477,45 @@
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 							</ul>
 							<h2 id="websitecontentprocessorsmdsettingshighlightstyle">website.content.processors.md.settings.highlight.style<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingshighlightstyle" title="Permanent link">#</a></h2>
-							<p>The pygments style to use for code block colorscheme.</p>
+							<p>The Pygments styles to use for code block colorschemes.</p>
+							<p>A string is shorthand for a single style scoped to <code>.highlight</code>. A list can define
+								multiple styles with custom selectors and media feature conditions. The first style
+								is used for inline highlighting, and all styles are included in <code>highlightStylesheet</code>
+								in their configured order.</p>
+							<p><strong><em>Type:</em></strong>
+							(non-empty (list of (submodule))) or string convertible to it</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">[</span><span class="p">{</span><span class="ss">name</span>
+							<span class="o">=</span>
+							<span class="s2">&quot;default&quot;</span><span class="p">;</span><span class="p">}</span><span class="p">]</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingshighlightstylemedia">website.content.processors.md.settings.highlight.style.*.media<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingshighlightstylemedia" title="Permanent link">#</a></h2>
+							<p>An optional media feature condition, without parentheses.</p>
+							<p><strong><em>Type:</em></strong>
+							null or string</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">null</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingshighlightstylename">website.content.processors.md.settings.highlight.style.*.name<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingshighlightstylename" title="Permanent link">#</a></h2>
+							<p>The Pygments style name.</p>
+							<p><strong><em>Type:</em></strong>
+							string</p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingshighlightstyleselector">website.content.processors.md.settings.highlight.style.*.selector<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingshighlightstyleselector" title="Permanent link">#</a></h2>
+							<p>The CSS selector to scope this style to.</p>
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span class="s2">&quot;default&quot;</span></code></p>
+							<code class="highlight"><span class="s2">&quot;.highlight&quot;</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>

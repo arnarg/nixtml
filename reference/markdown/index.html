@@ -289,7 +289,7 @@
 									<tr>
 										<td><code>style</code></td>
 										<td><code>"default"</code></td>
-										<td>Pygments color style</td>
+										<td>Pygments style name or an ordered list of style variants</td>
 									</tr>
 									<tr>
 										<td><code>noclasses</code></td>
@@ -317,6 +317,36 @@
 							<p>With the default <code>noclasses = true</code>, generated code contains inline styles and no additional highlighting stylesheet is required.</p>
 							<p>When <code>noclasses = false</code>, provide CSS for the selected Pygments style. nixtml exposes a generated stylesheet as <code>website.content.processors.md.highlightStylesheet</code>; include it in the site output and link it from the base layout. The <code>pymdownx-inline</code>
 								line number style also requires <code>noclasses = false</code>.</p>
+							<h3 id="light-and-dark-styles">Light and Dark Styles<a class="headerlink mx-2" href="#light-and-dark-styles" title="Permanent link">#</a></h3>
+							<p>The <code>style</code>
+								setting also accepts an ordered list of variants for class-based highlighting. Each variant has a Pygments <code>name</code>, an optional CSS <code>selector</code>
+								defaulting to <code>.highlight</code>, and an optional <code>media</code>
+								feature condition without parentheses:</p>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>processors<span class="o">.</span>md<span class="o">.</span>settings<span class="o">.</span><span class="ss">highlight</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">noclasses</span> <span class="o">=</span> <span class="no">false</span><span class="p">;</span>
+  <span class="ss">style</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="p">{</span>
+      <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;monokai&quot;</span><span class="p">;</span>
+      <span class="ss">media</span> <span class="o">=</span> <span class="s2">&quot;prefers-color-scheme: dark&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="p">{</span>
+      <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">;</span>
+      <span class="ss">selector</span> <span class="o">=</span> <span class="s2">&quot;:where([data-theme=light], .theme-light) .highlight&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="p">{</span>
+      <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;monokai&quot;</span><span class="p">;</span>
+      <span class="ss">selector</span> <span class="o">=</span> <span class="s2">&quot;:where([data-theme=dark], .theme-dark) .highlight&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">];</span>
+<span class="p">};</span>
+</code></pre></div>
+							<p>The generated <code>highlightStylesheet</code>
+								contains all variants in their configured order. Later variants can therefore override earlier ones for explicit theme selectors. A string such as <code>style = "default";</code>
+								remains shorthand for one variant with the default selector and no media condition.</p>
+							<p>The first variant supplies the style used for inline highlighting. Additional variants are useful with <code>noclasses = false</code>, where their CSS can respond to the active theme.</p>
 							<h3 id="per-block-line-numbers">Per-Block Line Numbers<a class="headerlink mx-2" href="#per-block-line-numbers" title="Permanent link">#</a></h3>
 							<p>When global <code>linenums</code>
 								is <code>null</code>, individual code blocks can enable line numbers using the highlight extension's fenced-code options, such as <code>linenums="1"</code>.</p>
