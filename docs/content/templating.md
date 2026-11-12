@@ -1,6 +1,10 @@
 ---
 title: Layouts and Partials
 description: Build page layouts with Nix functions, reusable partials, and HTML helpers
+nav:
+  section: guides
+  order: 30
+  label: Layouts and partials
 ---
 
 nixtml layouts are ordinary Nix functions. They receive page data as an attribute set and return HTML as a string or a list of strings. This guide focuses on composing layouts; the linked references list the available contexts and HTML helpers.

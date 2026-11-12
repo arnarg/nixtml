@@ -1,6 +1,10 @@
 ---
 title: Using Themes and Minima
 description: Import theme modules, configure Minima, and override individual layouts or partials
+nav:
+  section: guides
+  order: 60
+  label: Using themes and Minima
 ---
 
 A nixtml theme is a Nix module that supplies layouts and, optionally, static assets. Themes use the same configuration mechanisms as any other nixtml module, so sites can adopt their defaults or replace individual pieces.

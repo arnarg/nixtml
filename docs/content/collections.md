@@ -1,6 +1,10 @@
 ---
 title: Collections and Pagination
 description: Group dated content into sorted listings, paginated pages, summaries, and RSS feeds
+nav:
+  section: guides
+  order: 40
+  label: Collections and pagination
 ---
 
 Collections gather dated pages from a content directory and generate sorted listing pages. Use them for blogs, portfolios, release notes, or other content that readers browse as a series.

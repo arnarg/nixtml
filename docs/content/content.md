@@ -1,6 +1,10 @@
 ---
 title: Content and Frontmatter
 description: Add Markdown pages, metadata, static files, and explicit content entries
+nav:
+  section: guides
+  order: 20
+  label: Content and frontmatter
 ---
 
 nixtml discovers Markdown files, parses their YAML frontmatter, and renders them through the `md` content processor. Content remains separate from layouts: a page supplies text and metadata, while a layout decides how to present them.
@@ -110,6 +114,25 @@ metadata = {
 ```
 
 In a layout, `config.website.metadata` contains these site-wide values. The `metadata` function argument contains the current page's frontmatter. Naming a local binding `siteMetadata` and the argument `metadata` can make that distinction clear.
+
+## Navigation Metadata on This Site
+
+The nixtml documentation theme uses an optional `nav` frontmatter attribute to include pages in its sidebar and guide pagination:
+
+```yaml
+nav:
+  section: guides
+  order: 20
+  label: Content and frontmatter
+```
+
+- `section` selects a section declared in `docs/navigation.nix`.
+- `order` controls ordering within that section. Leave gaps between numbers to make later insertions easier.
+- `label` optionally overrides the page title in navigation.
+
+Pages without `nav` metadata are left out of the sidebar. Section titles and section ordering remain in `docs/navigation.nix`; page paths and previous/next guide links are derived automatically from discovered content.
+
+This is a convention of this documentation theme, not a built-in nixtml navigation option. Other themes can use different metadata or navigation models.
 
 ## Explicit Content Pages
 

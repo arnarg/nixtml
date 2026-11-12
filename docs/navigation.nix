@@ -13,60 +13,64 @@ let
     ;
   inherit (lib) attrs;
 
-  navigation = [
+  sections = [
     {
+      id = "guides";
       title = "Guides";
-      items = [
-        {
-          title = "Getting started";
-          path = "";
-        }
-        {
-          title = "Content and frontmatter";
-          path = "content";
-        }
-        {
-          title = "Layouts and partials";
-          path = "templating";
-        }
-        {
-          title = "Collections and pagination";
-          path = "collections";
-        }
-        {
-          title = "Taxonomies and RSS";
-          path = "taxonomies";
-        }
-        {
-          title = "Using themes and Minima";
-          path = "themes";
-        }
-      ];
     }
     {
+      id = "reference";
       title = "Reference";
-      items = [
-        {
-          title = "Template contexts";
-          path = "reference/templates";
-        }
-        {
-          title = "HTML tags and attributes";
-          path = "reference/html";
-        }
-        {
-          title = "Markdown and highlighting";
-          path = "reference/markdown";
-        }
-        {
-          title = "Configuration options";
-          path = "options";
-        }
-      ];
     }
   ];
 
-  guideItems = (lib.head navigation).items;
+  navigationPages = lib.pipe config.website.content.pages [
+    (lib.filterAttrs (_: page: page.result.metadata ? nav))
+    (lib.mapAttrsToList (
+      name: page:
+      let
+        metadata = page.result.metadata;
+        navMetadata = metadata.nav;
+        sectionId =
+          navMetadata.section
+            or (throw "Content page '${name}' must define nav.section when it defines nav metadata.");
+        item = {
+          path = if name == "index" then "" else name;
+          title = navMetadata.label or (metadata.title or name);
+          order =
+            navMetadata.order
+              or (throw "Content page '${name}' must define nav.order when it defines nav metadata.");
+          section = sectionId;
+        };
+      in
+      if lib.any (section: section.id == sectionId) sections then
+        item
+      else
+        throw "Content page '${name}' uses unknown documentation navigation section '${sectionId}'."
+    ))
+    (lib.sort (
+      a: b:
+      if a.order != b.order then
+        a.order < b.order
+      else if a.title != b.title then
+        a.title < b.title
+      else
+        a.path < b.path
+    ))
+  ];
+
+  navigation = lib.pipe sections [
+    (map (
+      section:
+      section
+      // {
+        items = lib.filter (item: item.section == section.id) navigationPages;
+      }
+    ))
+    (lib.filter (section: section.items != [ ]))
+  ];
+
+  guideItems = (lib.findFirst (section: section.id == "guides") { items = [ ]; } navigation).items;
 
   pageKey =
     path:

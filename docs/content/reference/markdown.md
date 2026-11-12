@@ -1,6 +1,10 @@
 ---
 title: Markdown and Syntax Highlighting
 description: Markdown extensions, tables of contents, code highlighting, and processor settings
+nav:
+  section: reference
+  order: 30
+  label: Markdown and highlighting
 ---
 
 nixtml's built-in `md` content processor turns Markdown with YAML frontmatter into HTML. Its settings live under `website.content.processors.md.settings` when using nixtml modules directly.

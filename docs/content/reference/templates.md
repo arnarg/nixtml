@@ -1,6 +1,10 @@
 ---
 title: Template Context Reference
 description: The values passed to nixtml page, collection, taxonomy, and base layouts
+nav:
+  section: reference
+  order: 10
+  label: Template contexts
 ---
 
 Every nixtml layout is a function that receives an attribute set. The available attributes depend on the kind of page being rendered.

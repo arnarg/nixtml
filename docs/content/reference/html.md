@@ -1,6 +1,10 @@
 ---
 title: HTML Tags and Attributes
 description: Reference for nixtml's functional HTML helpers
+nav:
+  section: reference
+  order: 20
+  label: HTML tags and attributes
 ---
 
 nixtml exposes HTML helpers through `lib.tags` and attribute helpers through `lib.attrs`. They produce strings that can be returned directly by layouts or combined with ordinary Nix string interpolation.

@@ -1,6 +1,9 @@
 ---
 title: Taxonomies and RSS
 description: Classify collection items with tags, categories, authors, and other custom terms
+nav:
+  section: guides
+  order: 50
 ---
 
 Taxonomies classify the items in a collection. A taxonomy such as `tags` has terms such as `nix` or `tutorial`, and each term gets its own paginated listing and optional RSS feed.

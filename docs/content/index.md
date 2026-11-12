@@ -1,6 +1,10 @@
 ---
 title: Getting Started with nixtml
 description: Create, build, and serve your first nixtml website with the Minima theme
+nav:
+  section: guides
+  order: 10
+  label: Getting started
 ---
 
 nixtml is a static website generator written in Nix and inspired by Hugo. This guide creates a small website with a homepage, an about page, and a local preview server.

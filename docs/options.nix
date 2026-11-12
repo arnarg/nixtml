@@ -57,6 +57,10 @@ let
           ---
           title: Configuration Options
           description: Generated reference for the options exposed by nixtml's modules
+          nav:
+            section: reference
+            order: 40
+            label: Configuration options
           ---
 
           This reference is generated directly from nixtml's module options. In an imported module, use the full option names shown below. `mkWebsite` exposes common `website` settings as top-level arguments such as `content`, `collections`, and `layouts`.
