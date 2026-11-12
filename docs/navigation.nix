@@ -21,22 +21,38 @@ let
           path = "";
         }
         {
-          title = "Collections";
+          title = "Content and frontmatter";
+          path = "content";
+        }
+        {
+          title = "Layouts and partials";
+          path = "templating";
+        }
+        {
+          title = "Collections and pagination";
           path = "collections";
         }
         {
-          title = "Taxonomies";
+          title = "Taxonomies and RSS";
           path = "taxonomies";
-        }
-        {
-          title = "Templating";
-          path = "templating";
         }
       ];
     }
     {
       title = "Reference";
       items = [
+        {
+          title = "Template contexts";
+          path = "reference/templates";
+        }
+        {
+          title = "HTML tags and attributes";
+          path = "reference/html";
+        }
+        {
+          title = "Markdown and highlighting";
+          path = "reference/markdown";
+        }
         {
           title = "Configuration options";
           path = "options";
