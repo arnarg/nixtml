@@ -167,6 +167,23 @@ Each template in `website.layouts` has a specific purpose.
 - `website.layouts.taxonomy`: Used for pagination pages for taxonomies in collections.
 - `website.layouts.partials`: An attribute set of templates (functions to string or list of strings) that can be used to reduce repitition in the other standard templates.
 
+## Themes
+
+Themes are regular nixtml modules that provide layouts and static assets. Import one with `imports` in `mkWebsite`:
+
+```nix
+imports = [ nixtml.themes.minima ];
+
+themes.minima = {
+  showExcerpts = true;
+  navigation = [
+    { title = "About"; path = "about/"; }
+  ];
+};
+```
+
+The proof-of-concept [Minima theme](./themes/minima/) supports posts, static pages, collections, taxonomies, pagination, and RSS links. Build its complete example with `nix build .#examples.minima`.
+
 ## Content
 
 By setting `website.content.dir` nixtml will traverse that directory, transform any markdown file it finds and output an HTML file in the final website derivation with the same path. For example, `${content.dir}/about.md` becomes `about/index.html` in the final website derivation.

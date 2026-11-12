@@ -15,6 +15,7 @@
     {
       lib = import ./lib.nix;
       libTests = import ./lib/tests.nix { nixpkgslib = nixpkgs.lib; };
+      themes.minima = import ./themes/minima;
     }
     // (flake-utils.lib.eachDefaultSystem (
       system:
@@ -35,6 +36,10 @@
             blog = self.lib.evalModules {
               inherit pkgs;
               modules = [ ./examples/blog ];
+            };
+            minima = self.lib.evalModules {
+              inherit pkgs;
+              modules = [ ./examples/minima ];
             };
           };
         };

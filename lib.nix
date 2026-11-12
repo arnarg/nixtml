@@ -10,6 +10,7 @@ let
       static ? { },
       collections ? { },
       layouts ? { },
+      themes ? { },
       imports ? [ ],
     }:
     evalModules {
@@ -29,7 +30,8 @@ let
           };
         }
       ]
-      ++ imports;
+      ++ imports
+      ++ pkgs.lib.optional (themes != { }) { inherit themes; };
     };
 in
 {

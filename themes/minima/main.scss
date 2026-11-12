@@ -1,0 +1,24 @@
+@charset "utf-8";
+
+@import "minima";
+
+// nixtml additions for collections and taxonomy pages.
+.post-excerpt {
+  margin-top: $spacing-unit * 0.25;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: $spacing-unit * 0.5;
+  margin-top: $spacing-unit;
+
+  .next-page {
+    margin-left: auto;
+  }
+
+  .page-number {
+    color: $grey-color;
+    font-size: $small-font-size;
+  }
+}

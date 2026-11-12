@@ -57,6 +57,8 @@ let
     };
 in
 {
+  themes.minima = import ./themes/minima;
+
   lib = {
     inherit evalModules;
 
@@ -69,6 +71,7 @@ in
         static ? { },
         collections ? { },
         layouts ? { },
+        themes ? { },
         imports ? [ ],
       }:
       evalModules {
@@ -87,7 +90,8 @@ in
             };
           }
         ]
-        ++ imports;
+        ++ imports
+        ++ pkgs.lib.optional (themes != { }) { inherit themes; };
       };
   };
 }
