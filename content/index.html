@@ -277,6 +277,25 @@ metadata<span style="color: #179299">.</span>tags <span style="color: #179299">o
 								function argument contains the current page's frontmatter. Naming a local binding <code>siteMetadata</code>
 								and the argument <code>metadata</code>
 								can make that distinction clear.</p>
+							<h2 id="navigation-metadata-on-this-site">Navigation Metadata on This Site<a class="headerlink mx-2" href="#navigation-metadata-on-this-site" title="Permanent link">#</a></h2>
+							<p>The nixtml documentation theme uses an optional <code>nav</code>
+								frontmatter attribute to include pages in its sidebar and guide pagination:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #1E66F5">nav</span><span style="color: #7C7F93">:</span>
+<span style="color: #4C4F69">  </span><span style="color: #1E66F5">section</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #40A02B">guides</span>
+<span style="color: #4C4F69">  </span><span style="color: #1E66F5">order</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #40A02B">20</span>
+<span style="color: #4C4F69">  </span><span style="color: #1E66F5">label</span><span style="color: #7C7F93">:</span><span style="color: #4C4F69"> </span><span style="color: #40A02B">Content and frontmatter</span>
+</code></pre></div>
+							<ul>
+								<li><code>section</code>
+								selects a section declared in <code>docs/navigation.nix</code>.</li>
+								<li><code>order</code>
+								controls ordering within that section. Leave gaps between numbers to make later insertions easier.</li>
+								<li><code>label</code>
+								optionally overrides the page title in navigation.</li>
+							</ul>
+							<p>Pages without <code>nav</code>
+								metadata are left out of the sidebar. Section titles and section ordering remain in <code>docs/navigation.nix</code>; page paths and previous/next guide links are derived automatically from discovered content.</p>
+							<p>This is a convention of this documentation theme, not a built-in nixtml navigation option. Other themes can use different metadata or navigation models.</p>
 							<h2 id="explicit-content-pages">Explicit Content Pages<a class="headerlink mx-2" href="#explicit-content-pages" title="Permanent link">#</a></h2>
 							<p>In addition to directory discovery, modules can define content directly under <code>website.content.pages</code>.</p>
 							<p>Use a source file:</p>
