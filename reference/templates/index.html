@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/nixtml/css/main.css">
+		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="theme-color" content="#ffffff">
+		<link rel="icon" type="image/svg+xml" href="/nixtml/logo.svg">
+		<title>
+			Template Context Reference | nixtml
+		</title>
+		<meta name="description" content="The values passed to nixtml page, collection, taxonomy, and base layouts">
+		<meta property="og:title" content="Template Context Reference | nixtml">
+		<meta name="twitter:title" content="Template Context Reference | nixtml">
+		<meta itemprop="name" content="Template Context Reference | nixtml">
+		<meta property="og:description" content="The values passed to nixtml page, collection, taxonomy, and base layouts">
+		<meta name="twitter:description" content="The values passed to nixtml page, collection, taxonomy, and base layouts">
+		<meta name="application-name" content="nixtml">
+		<meta property="og:site_name" content="nixtml">
+		<meta property="og:locale" content="en">
+		<meta property="og:type" content="article">
+	</head>
+	<body>
+		<section class="hero docs-hero">
+			<div class="hero-body">
+				<div class="container is-max-desktop has-text-centered">
+					<a href="/nixtml/">
+						<img src="/nixtml/logo.svg" alt="nixtml">
+					</a>
+				</div>
+			</div>
+		</section>
+		<section class="section docs-section">
+			<div class="container is-max-widescreen">
+				<details class="docs-mobile-nav is-hidden-desktop">
+					<summary>
+						Browse documentation
+					</summary>
+					<nav class="menu" aria-label="Documentation">
+						<p class="menu-label">
+							Guides
+						</p>
+						<ul class="menu-list">
+							<li>
+								<a href="/nixtml/">
+									Getting started
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/content/">
+									Content and frontmatter
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/templating/">
+									Layouts and partials
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/collections/">
+									Collections and pagination
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/taxonomies/">
+									Taxonomies and RSS
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/themes/">
+									Using themes and Minima
+								</a>
+							</li>
+						</ul>
+						<p class="menu-label">
+							Reference
+						</p>
+						<ul class="menu-list">
+							<li>
+								<a href="/nixtml/reference/templates/" class="is-active" aria-current="page">
+									Template contexts
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/reference/html/">
+									HTML tags and attributes
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/reference/markdown/">
+									Markdown and highlighting
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/options/">
+									Configuration options
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</details>
+				<div class="columns">
+					<aside class="docs-sidebar column is-one-quarter-desktop is-hidden-touch">
+						<nav class="menu" aria-label="Documentation">
+							<p class="menu-label">
+								Guides
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/">
+										Getting started
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/content/">
+										Content and frontmatter
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/templating/">
+										Layouts and partials
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/collections/">
+										Collections and pagination
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/taxonomies/">
+										Taxonomies and RSS
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/themes/">
+										Using themes and Minima
+									</a>
+								</li>
+							</ul>
+							<p class="menu-label">
+								Reference
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/reference/templates/" class="is-active" aria-current="page">
+										Template contexts
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/reference/html/">
+										HTML tags and attributes
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/reference/markdown/">
+										Markdown and highlighting
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/options/">
+										Configuration options
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</aside>
+					<main class="docs-main column">
+						<h1 class="title">
+							Template Context Reference
+						</h1>
+						<p class="docs-lede">
+							The values passed to nixtml page, collection, taxonomy, and base layouts
+						</p>
+						<div class="content">
+							<p>Every nixtml layout is a function that receives an attribute set. The available attributes depend on the kind of page being rendered.</p>
+							<p>Layout functions can return either a string or a list of strings. Nested HTML helper calls return strings, so they can be included directly in those lists.</p>
+							<h2 id="rendering-order">Rendering Order<a class="headerlink mx-2" href="#rendering-order" title="Permanent link">#</a></h2>
+							<p>nixtml renders a page-specific layout first and then passes its output to <code>website.layouts.base</code>
+								as <code>content</code>:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>content file or generated page
+  → home, page, collection, or taxonomy layout
+  → base layout
+  → formatted HTML file
+</code></pre></div>
+							<p>The base layout receives the original page context as well as the rendered <code>content</code>. It can therefore use values such as <code>path</code>, <code>title</code>, and <code>metadata</code>
+								when they are present.</p>
+							<h2 id="common-values">Common Values<a class="headerlink mx-2" href="#common-values" title="Permanent link">#</a></h2>
+							<table>
+								<thead>
+									<tr>
+										<th>Value</th>
+										<th>Type</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>path</code></td>
+										<td>list of strings</td>
+										<td>Output path segments, including the final <code>index.html</code>
+											or other filename</td>
+									</tr>
+									<tr>
+										<td><code>title</code></td>
+										<td>string or <code>null</code></td>
+										<td>Page title, collection <code>null</code>
+											value, or taxonomy term</td>
+									</tr>
+								</tbody>
+							</table>
+							<p>Markdown page layouts also receive <code>content</code>
+								as HTML produced by the content processor. In the base layout, <code>content</code>
+								is instead the already-rendered result of every kind of page-specific layout.</p>
+							<h2 id="home-and-page-layouts">Home and Page Layouts<a class="headerlink mx-2" href="#home-and-page-layouts" title="Permanent link">#</a></h2>
+							<p><code>website.layouts.home</code>
+							renders <code>content/index.md</code>. Other Markdown files use <code>website.layouts.page</code>.</p>
+							<p>Both layouts receive:</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Value</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>path</code></td>
+										<td>Homepage: <code>[ "index.html" ]</code>; other pages: their output path segments</td>
+									</tr>
+									<tr>
+										<td><code>metadata</code></td>
+										<td>All parsed YAML frontmatter</td>
+									</tr>
+									<tr>
+										<td><code>content</code></td>
+										<td>HTML produced from the Markdown body</td>
+									</tr>
+									<tr>
+										<td><code>title</code></td>
+										<td><code>metadata.title</code>, or <code>null</code>
+										when no title is present</td>
+									</tr>
+								</tbody>
+							</table>
+							<p>For example, <code>content/about.md</code>
+								normally has this path:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;about&quot;</span> <span style="color: #40A02B">&quot;index.html&quot;</span> <span style="color: #7C7F93">]</span>
+</code></pre></div>
+							<p>Frontmatter can contain arbitrary values. Access optional fields with a default instead of assuming they exist:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span><span style="color: #40A02B">page</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span> metadata<span style="color: #7C7F93">,</span> content<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+  <span style="color: #8839EF">let</span>
+    <span style="color: #40A02B">description</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>description <span style="color: #179299">or</span> <span style="color: #40A02B">&quot;&quot;</span><span style="color: #7C7F93">;</span>
+    <span style="color: #40A02B">tags</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>tags <span style="color: #179299">or</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">];</span>
+  <span style="color: #8839EF">in</span>
+  <span style="color: #7C7F93">[</span>
+    <span style="color: #7C7F93; font-style: italic"># Render the page using these values.</span>
+    content
+  <span style="color: #7C7F93">];</span>
+</code></pre></div>
+							<h2 id="collection-layouts">Collection Layouts<a class="headerlink mx-2" href="#collection-layouts" title="Permanent link">#</a></h2>
+							<p><code>website.layouts.collection</code>
+							receives one pagination page at a time:</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Value</th>
+										<th>Type</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>path</code></td>
+										<td>list of strings</td>
+										<td>Current collection output path</td>
+									</tr>
+									<tr>
+										<td><code>pageNumber</code></td>
+										<td>integer</td>
+										<td>Current one-based page number</td>
+									</tr>
+									<tr>
+										<td><code>totalPages</code></td>
+										<td>integer</td>
+										<td>Total pages in this collection</td>
+									</tr>
+									<tr>
+										<td><code>items</code></td>
+										<td>list</td>
+										<td>Collection items on this page</td>
+									</tr>
+									<tr>
+										<td><code>hasNext</code></td>
+										<td>Boolean</td>
+										<td>Whether a later page exists</td>
+									</tr>
+									<tr>
+										<td><code>hasPrev</code></td>
+										<td>Boolean</td>
+										<td>Whether an earlier page exists</td>
+									</tr>
+									<tr>
+										<td><code>nextPageURL</code></td>
+										<td>string</td>
+										<td>URL of the next page; only access it when <code>hasNext</code>
+											is true</td>
+									</tr>
+									<tr>
+										<td><code>prevPageURL</code></td>
+										<td>string</td>
+										<td>URL of the previous page; only access it when <code>hasPrev</code>
+											is true</td>
+									</tr>
+									<tr>
+										<td><code>title</code></td>
+										<td><code>null</code></td>
+										<td>Collections do not have a taxonomy term title</td>
+									</tr>
+								</tbody>
+							</table>
+							<p>A first page at <code>blog/index.html</code>
+								has <code>[ "blog" "index.html" ]</code>
+								as its path. A later page can have a path such as <code>[ "blog" "page" "2" "index.html" ]</code>.</p>
+							<p>See <a href="/nixtml/collections/">Collections and pagination</a>
+								for configuration and a rendering example.</p>
+							<h2 id="taxonomy-layouts">Taxonomy Layouts<a class="headerlink mx-2" href="#taxonomy-layouts" title="Permanent link">#</a></h2>
+							<p>Taxonomy layouts receive the same pagination values as collection layouts, plus:</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Value</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>title</code></td>
+										<td>The current taxonomy term, such as <code>nix</code></td>
+									</tr>
+									<tr>
+										<td><code>taxonomy</code></td>
+										<td>The taxonomy name, such as <code>tags</code></td>
+									</tr>
+								</tbody>
+							</table>
+							<p>For a collection at <code>blog/posts</code>, a taxonomy page might have this path:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;blog&quot;</span> <span style="color: #40A02B">&quot;tags&quot;</span> <span style="color: #40A02B">&quot;nix&quot;</span> <span style="color: #40A02B">&quot;index.html&quot;</span> <span style="color: #7C7F93">]</span>
+</code></pre></div>
+							<p>See <a href="/nixtml/taxonomies/">Taxonomies and RSS</a>
+								for term setup and generated URLs.</p>
+							<h2 id="collection-item-values">Collection Item Values<a class="headerlink mx-2" href="#collection-item-values" title="Permanent link">#</a></h2>
+							<p>Each value in <code>items</code>
+								contains:</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Value</th>
+										<th>Type</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>title</code></td>
+										<td>string</td>
+										<td>Item title from frontmatter</td>
+									</tr>
+									<tr>
+										<td><code>date</code></td>
+										<td>string</td>
+										<td>Date formatted with the configured Markdown date format</td>
+									</tr>
+									<tr>
+										<td><code>dateEpoch</code></td>
+										<td>number</td>
+										<td>Timestamp used for newest-first sorting</td>
+									</tr>
+									<tr>
+										<td><code>dateRFC822</code></td>
+										<td>string</td>
+										<td>RFC 822 date used in RSS</td>
+									</tr>
+									<tr>
+										<td><code>dateW3C</code></td>
+										<td>string</td>
+										<td>W3C date (<code>YYYY-MM-DD</code>)</td>
+									</tr>
+									<tr>
+										<td><code>url</code></td>
+										<td>string</td>
+										<td>Base-URI-aware item URL</td>
+									</tr>
+									<tr>
+										<td><code>permalink</code></td>
+										<td>string</td>
+										<td>Absolute item URL based on <code>website.baseURL</code></td>
+									</tr>
+									<tr>
+										<td><code>content</code></td>
+										<td>string</td>
+										<td>Full rendered item HTML</td>
+									</tr>
+									<tr>
+										<td><code>summary</code></td>
+										<td>string</td>
+										<td>Rendered content before <code>&lt;!--more--&gt;</code>, or all content without a marker</td>
+									</tr>
+									<tr>
+										<td><code>metadata</code></td>
+										<td>attribute set</td>
+										<td>Remaining frontmatter after standard item values are removed</td>
+									</tr>
+								</tbody>
+							</table>
+							<p>Taxonomy lists and other custom fields are available through <code>item.metadata</code>:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #8839EF">let</span>
+  <span style="color: #40A02B">tags</span> <span style="color: #179299">=</span> item<span style="color: #179299">.</span>metadata<span style="color: #179299">.</span>tags <span style="color: #179299">or</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">];</span>
+<span style="color: #8839EF">in</span>
+<span style="color: #7C7F93; font-style: italic"># Render tags for this item.</span>
+tags
+</code></pre></div>
+							<p>Collection items require the standard title and date fields used by collection processing.</p>
+							<h2 id="partials">Partials<a class="headerlink mx-2" href="#partials" title="Permanent link">#</a></h2>
+							<p><code>website.layouts.partials</code>
+							is an attribute set of reusable functions. Partials do not have a fixed context: each partial defines its own arguments.</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span>partials<span style="color: #179299">.</span><span style="color: #40A02B">pageHeading</span> <span style="color: #179299">=</span>
+  <span style="color: #7C7F93">{</span> title<span style="color: #7C7F93">,</span> description <span style="color: #179299">?</span> <span style="color: #1E66F5">null</span> <span style="color: #7C7F93">}:</span>
+  <span style="color: #7C7F93">[</span>
+    <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>h1 <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> title <span style="color: #7C7F93">])</span>
+    <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>optionalString <span style="color: #7C7F93">(</span>description <span style="color: #179299">!=</span> <span style="color: #1E66F5">null</span><span style="color: #7C7F93">)</span>
+      <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> description <span style="color: #7C7F93">]))</span>
+  <span style="color: #7C7F93">];</span>
+</code></pre></div>
+							<p>Call a partial with the values it declares:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>partials<span style="color: #179299">.</span>pageHeading <span style="color: #7C7F93">{</span>
+  <span style="color: #40A02B">title</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>title<span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">description</span> <span style="color: #179299">=</span> metadata<span style="color: #179299">.</span>description <span style="color: #179299">or</span> <span style="color: #1E66F5">null</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+							<p>The <a href="/nixtml/templating/">Layouts and partials guide</a>
+								shows how to include partials in complete layouts.</p>
+						</div>
+					</main>
+				</div>
+			</div>
+		</section>
+		<footer class="footer">
+			<div class="content is-max-desktop has-text-centered">
+				<p>
+					This website is (obviously) generated with
+					<a href="https://github.com/arnarg/nixtml">
+						nixtml.
+					</a>
+				</p>
+			</div>
+		</footer>
+	</body>
+</html>

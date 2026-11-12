@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/nixtml/css/main.css">
+		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="theme-color" content="#ffffff">
+		<link rel="icon" type="image/svg+xml" href="/nixtml/logo.svg">
+		<title>
+			HTML Tags and Attributes | nixtml
+		</title>
+		<meta name="description" content="Reference for nixtml's functional HTML helpers">
+		<meta property="og:title" content="HTML Tags and Attributes | nixtml">
+		<meta name="twitter:title" content="HTML Tags and Attributes | nixtml">
+		<meta itemprop="name" content="HTML Tags and Attributes | nixtml">
+		<meta property="og:description" content="Reference for nixtml's functional HTML helpers">
+		<meta name="twitter:description" content="Reference for nixtml's functional HTML helpers">
+		<meta name="application-name" content="nixtml">
+		<meta property="og:site_name" content="nixtml">
+		<meta property="og:locale" content="en">
+		<meta property="og:type" content="article">
+	</head>
+	<body>
+		<section class="hero docs-hero">
+			<div class="hero-body">
+				<div class="container is-max-desktop has-text-centered">
+					<a href="/nixtml/">
+						<img src="/nixtml/logo.svg" alt="nixtml">
+					</a>
+				</div>
+			</div>
+		</section>
+		<section class="section docs-section">
+			<div class="container is-max-widescreen">
+				<details class="docs-mobile-nav is-hidden-desktop">
+					<summary>
+						Browse documentation
+					</summary>
+					<nav class="menu" aria-label="Documentation">
+						<p class="menu-label">
+							Guides
+						</p>
+						<ul class="menu-list">
+							<li>
+								<a href="/nixtml/">
+									Getting started
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/content/">
+									Content and frontmatter
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/templating/">
+									Layouts and partials
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/collections/">
+									Collections and pagination
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/taxonomies/">
+									Taxonomies and RSS
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/themes/">
+									Using themes and Minima
+								</a>
+							</li>
+						</ul>
+						<p class="menu-label">
+							Reference
+						</p>
+						<ul class="menu-list">
+							<li>
+								<a href="/nixtml/reference/templates/">
+									Template contexts
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/reference/html/" class="is-active" aria-current="page">
+									HTML tags and attributes
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/reference/markdown/">
+									Markdown and highlighting
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/options/">
+									Configuration options
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</details>
+				<div class="columns">
+					<aside class="docs-sidebar column is-one-quarter-desktop is-hidden-touch">
+						<nav class="menu" aria-label="Documentation">
+							<p class="menu-label">
+								Guides
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/">
+										Getting started
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/content/">
+										Content and frontmatter
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/templating/">
+										Layouts and partials
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/collections/">
+										Collections and pagination
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/taxonomies/">
+										Taxonomies and RSS
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/themes/">
+										Using themes and Minima
+									</a>
+								</li>
+							</ul>
+							<p class="menu-label">
+								Reference
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/reference/templates/">
+										Template contexts
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/reference/html/" class="is-active" aria-current="page">
+										HTML tags and attributes
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/reference/markdown/">
+										Markdown and highlighting
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/options/">
+										Configuration options
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</aside>
+					<main class="docs-main column">
+						<h1 class="title">
+							HTML Tags and Attributes
+						</h1>
+						<p class="docs-lede">
+							Reference for nixtml's functional HTML helpers
+						</p>
+						<div class="content">
+							<p>nixtml exposes HTML helpers through <code>lib.tags</code>
+								and attribute helpers through <code>lib.attrs</code>. They produce strings that can be returned directly by layouts or combined with ordinary Nix string interpolation.</p>
+							<h2 id="basic-usage">Basic Usage<a class="headerlink mx-2" href="#basic-usage" title="Permanent link">#</a></h2>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">{</span> lib<span style="color: #7C7F93">,</span> <span style="color: #179299">...</span> <span style="color: #7C7F93">}:</span>
+<span style="color: #8839EF">let</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span> a div<span style="color: #7C7F93">;</span>
+  <span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #7C7F93">)</span> attrs<span style="color: #7C7F93">;</span>
+<span style="color: #8839EF">in</span>
+<span style="color: #7C7F93">{</span>
+  website<span style="color: #179299">.</span>layouts<span style="color: #179299">.</span>partials<span style="color: #179299">.</span><span style="color: #40A02B">example</span> <span style="color: #179299">=</span>
+    <span style="color: #7C7F93">{</span> <span style="color: #7C7F93">}:</span>
+    div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;container&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+      <span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Home&quot;</span> <span style="color: #7C7F93">])</span>
+    <span style="color: #7C7F93">];</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+							<p>A regular tag has two arguments: a list of attributes and a list of child strings.</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>tagName <span style="color: #7C7F93">[</span> attributes <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> children <span style="color: #7C7F93">]</span>
+</code></pre></div>
+							<p>For example:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #7C7F93">(</span>div <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Hello&quot;</span> <span style="color: #7C7F93">])</span>
+<span style="color: #7C7F93; font-style: italic"># &lt;div&gt;Hello&lt;/div&gt;</span>
+
+<span style="color: #7C7F93">(</span>a <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/about/&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;About&quot;</span> <span style="color: #7C7F93">])</span>
+<span style="color: #7C7F93; font-style: italic"># &lt;a href=&quot;/about/&quot;&gt;About&lt;/a&gt;</span>
+</code></pre></div>
+							<h2 id="regular-tags">Regular Tags<a class="headerlink mx-2" href="#regular-tags" title="Permanent link">#</a></h2>
+							<p>Regular tags have a closing tag and accept both attributes and children. Commonly used helpers include:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span>
+  <span style="color: #7C7F93; font-style: italic"># Document structure</span>
+  html head body
+
+  <span style="color: #7C7F93; font-style: italic"># Sections</span>
+  address article aside footer header hgroup main nav section search
+
+  <span style="color: #7C7F93; font-style: italic"># Headings</span>
+  h1 h2 h3 h4 h5 h6
+
+  <span style="color: #7C7F93; font-style: italic"># Grouping and text content</span>
+  blockquote dd div dl dt figcaption figure li menu ol p pre ul
+
+  <span style="color: #7C7F93; font-style: italic"># Inline text</span>
+  a abbr b bdi bdo cite code data del dfn em i ins kbd mark q rp rt ruby
+  s samp small span strong sub sup time u var
+
+  <span style="color: #7C7F93; font-style: italic"># Tables</span>
+  caption colgroup table tbody td tfoot th thead tr
+
+  <span style="color: #7C7F93; font-style: italic"># Forms</span>
+  button datalist fieldset form label legend meter optgroup option output
+  progress select textarea
+
+  <span style="color: #7C7F93; font-style: italic"># Media and embedded content</span>
+  audio canvas details dialog iframe <span style="color: #FE640B; font-style: italic">map</span> noscript object picture script
+  summary template video
+  <span style="color: #7C7F93">;</span>
+</code></pre></div>
+							<h3 id="page-titles">Page Titles<a class="headerlink mx-2" href="#page-titles" title="Permanent link">#</a></h3>
+							<p><code>lib.tags.title</code>
+							is a convenience function that accepts the title text directly:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>title <span style="color: #40A02B">&quot;My page&quot;</span>
+</code></pre></div>
+							<h2 id="void-tags">Void Tags<a class="headerlink mx-2" href="#void-tags" title="Permanent link">#</a></h2>
+							<p>Void tags accept attributes but no children:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #8839EF">inherit</span> <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #7C7F93">)</span>
+  area base br col embed hr img input link meta source track wbr
+  <span style="color: #7C7F93">;</span>
+
+meta <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>charset <span style="color: #40A02B">&quot;UTF-8&quot;</span><span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
+link <span style="color: #7C7F93">[</span>
+  <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>rel <span style="color: #40A02B">&quot;stylesheet&quot;</span><span style="color: #7C7F93">)</span>
+  <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href <span style="color: #40A02B">&quot;/css/main.css&quot;</span><span style="color: #7C7F93">)</span>
+<span style="color: #7C7F93">]</span>
+img <span style="color: #7C7F93">[</span>
+  <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>src <span style="color: #40A02B">&quot;/logo.svg&quot;</span><span style="color: #7C7F93">)</span>
+  <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>alt <span style="color: #40A02B">&quot;Project logo&quot;</span><span style="color: #7C7F93">)</span>
+<span style="color: #7C7F93">]</span>
+br <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span>
+</code></pre></div>
+							<h2 id="attribute-helpers">Attribute Helpers<a class="headerlink mx-2" href="#attribute-helpers" title="Permanent link">#</a></h2>
+							<p>Commonly used helpers include:</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Helper</th>
+										<th>Result</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>attrs.id "main"</code></td>
+										<td><code>id="main"</code></td>
+									</tr>
+									<tr>
+										<td><code>attrs.class "container"</code></td>
+										<td><code>class="container"</code></td>
+									</tr>
+									<tr>
+										<td><code>attrs.classes [ "flex" "gap-4" ]</code></td>
+										<td><code>class="flex gap-4"</code></td>
+									</tr>
+									<tr>
+										<td><code>attrs.href "/about/"</code></td>
+										<td><code>href="/about/"</code></td>
+									</tr>
+									<tr>
+										<td><code>attrs.src "/image.png"</code></td>
+										<td><code>src="/image.png"</code></td>
+									</tr>
+									<tr>
+										<td><code>attrs.alt "Description"</code></td>
+										<td><code>alt="Description"</code></td>
+									</tr>
+									<tr>
+										<td><code>attrs.type "text"</code></td>
+										<td><code>type="text"</code></td>
+									</tr>
+									<tr>
+										<td><code>attrs.name "email"</code></td>
+										<td><code>name="email"</code></td>
+									</tr>
+									<tr>
+										<td><code>attrs.content "value"</code></td>
+										<td><code>content="value"</code></td>
+									</tr>
+									<tr>
+										<td><code>attrs.rel "stylesheet"</code></td>
+										<td><code>rel="stylesheet"</code></td>
+									</tr>
+									<tr>
+										<td><code>attrs.lang "en"</code></td>
+										<td><code>lang="en"</code></td>
+									</tr>
+									<tr>
+										<td><code>attrs.charset "UTF-8"</code></td>
+										<td><code>charset="UTF-8"</code></td>
+									</tr>
+									<tr>
+										<td><code>attrs.target "_blank"</code></td>
+										<td><code>target="_blank"</code></td>
+									</tr>
+									<tr>
+										<td><code>attrs.title "Hover text"</code></td>
+										<td><code>title="Hover text"</code></td>
+									</tr>
+									<tr>
+										<td><code>attrs.itemprop "name"</code></td>
+										<td><code>itemprop="name"</code></td>
+									</tr>
+								</tbody>
+							</table>
+							<p>Width and height accept either integers or strings:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>attrs<span style="color: #179299">.</span>width <span style="color: #FE640B">100</span>
+attrs<span style="color: #179299">.</span>height <span style="color: #40A02B">&quot;auto&quot;</span>
+</code></pre></div>
+							<h3 id="data-and-aria-attributes">Data and ARIA Attributes<a class="headerlink mx-2" href="#data-and-aria-attributes" title="Permanent link">#</a></h3>
+							<p>The <code>data</code>
+								and <code>aria</code>
+								helpers take the suffix as their first argument:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>attrs<span style="color: #179299">.</span>data <span style="color: #40A02B">&quot;theme&quot;</span> <span style="color: #40A02B">&quot;dark&quot;</span>
+<span style="color: #7C7F93; font-style: italic"># data-theme=&quot;dark&quot;</span>
+
+attrs<span style="color: #179299">.</span>aria <span style="color: #40A02B">&quot;label&quot;</span> <span style="color: #40A02B">&quot;Documentation&quot;</span>
+<span style="color: #7C7F93; font-style: italic"># aria-label=&quot;Documentation&quot;</span>
+
+attrs<span style="color: #179299">.</span>aria <span style="color: #40A02B">&quot;current&quot;</span> <span style="color: #40A02B">&quot;page&quot;</span>
+<span style="color: #7C7F93; font-style: italic"># aria-current=&quot;page&quot;</span>
+</code></pre></div>
+							<p>Other specialized helpers include <code>attrs.property</code>
+								for Open Graph metadata and <code>attrs.httpEquiv</code>
+								for HTTP-equivalent meta tags.</p>
+							<h3 id="custom-attributes">Custom Attributes<a class="headerlink mx-2" href="#custom-attributes" title="Permanent link">#</a></h3>
+							<p>Use <code>lib.mkAttr</code>
+								when no named helper exists:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>div <span style="color: #7C7F93">[</span>
+  <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>mkAttr <span style="color: #40A02B">&quot;data-custom&quot;</span> <span style="color: #40A02B">&quot;value&quot;</span><span style="color: #7C7F93">)</span>
+<span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> <span style="color: #40A02B">&quot;Content&quot;</span> <span style="color: #7C7F93">]</span>
+</code></pre></div>
+							<h2 id="conditional-attributes-and-children">Conditional Attributes and Children<a class="headerlink mx-2" href="#conditional-attributes-and-children" title="Permanent link">#</a></h2>
+							<p>Build attribute and child lists with normal Nix list operations:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>a <span style="color: #7C7F93">(</span>
+  <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>href item<span style="color: #179299">.</span>url<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">]</span>
+  <span style="color: #179299">++</span> lib<span style="color: #179299">.</span>optional isActive <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>class <span style="color: #40A02B">&quot;is-active&quot;</span><span style="color: #7C7F93">)</span>
+  <span style="color: #179299">++</span> lib<span style="color: #179299">.</span>optional isActive <span style="color: #7C7F93">(</span>attrs<span style="color: #179299">.</span>aria <span style="color: #40A02B">&quot;current&quot;</span> <span style="color: #40A02B">&quot;page&quot;</span><span style="color: #7C7F93">)</span>
+<span style="color: #7C7F93">)</span> <span style="color: #7C7F93">[</span> item<span style="color: #179299">.</span>title <span style="color: #7C7F93">]</span>
+</code></pre></div>
+							<p>Use <code>lib.optionalString</code>
+								when a whole element is optional:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>lib<span style="color: #179299">.</span>optionalString <span style="color: #7C7F93">(</span>metadata <span style="color: #179299">?</span> description<span style="color: #7C7F93">)</span>
+  <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span> metadata<span style="color: #179299">.</span>description <span style="color: #7C7F93">])</span>
+</code></pre></div>
+							<h2 id="escaping">Escaping<a class="headerlink mx-2" href="#escaping" title="Permanent link">#</a></h2>
+							<p>HTML helpers do not automatically escape child strings. Markdown output and intentionally constructed tags must remain raw HTML, but untrusted or arbitrary plain text should be escaped with <code>lib.escapeHTML</code>:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>p <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span> <span style="color: #7C7F93">[</span>
+  <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>escapeHTML userInput<span style="color: #7C7F93">)</span>
+<span style="color: #7C7F93">]</span>
+</code></pre></div>
+							<p>Do not escape rendered Markdown content before inserting it into a layout; doing so would display its HTML tags as text.</p>
+							<p>The <a href="/nixtml/templating/">Layouts and partials guide</a>
+								demonstrates these helpers in a complete page shell.</p>
+						</div>
+					</main>
+				</div>
+			</div>
+		</section>
+		<footer class="footer">
+			<div class="content is-max-desktop has-text-centered">
+				<p>
+					This website is (obviously) generated with
+					<a href="https://github.com/arnarg/nixtml">
+						nixtml.
+					</a>
+				</p>
+			</div>
+		</footer>
+	</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/nixtml/css/main.css">
+		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="theme-color" content="#ffffff">
+		<link rel="icon" type="image/svg+xml" href="/nixtml/logo.svg">
+		<title>
+			Content and Frontmatter | nixtml
+		</title>
+		<meta name="description" content="Add Markdown pages, metadata, static files, and explicit content entries">
+		<meta property="og:title" content="Content and Frontmatter | nixtml">
+		<meta name="twitter:title" content="Content and Frontmatter | nixtml">
+		<meta itemprop="name" content="Content and Frontmatter | nixtml">
+		<meta property="og:description" content="Add Markdown pages, metadata, static files, and explicit content entries">
+		<meta name="twitter:description" content="Add Markdown pages, metadata, static files, and explicit content entries">
+		<meta name="application-name" content="nixtml">
+		<meta property="og:site_name" content="nixtml">
+		<meta property="og:locale" content="en">
+		<meta property="og:type" content="article">
+	</head>
+	<body>
+		<section class="hero docs-hero">
+			<div class="hero-body">
+				<div class="container is-max-desktop has-text-centered">
+					<a href="/nixtml/">
+						<img src="/nixtml/logo.svg" alt="nixtml">
+					</a>
+				</div>
+			</div>
+		</section>
+		<section class="section docs-section">
+			<div class="container is-max-widescreen">
+				<details class="docs-mobile-nav is-hidden-desktop">
+					<summary>
+						Browse documentation
+					</summary>
+					<nav class="menu" aria-label="Documentation">
+						<p class="menu-label">
+							Guides
+						</p>
+						<ul class="menu-list">
+							<li>
+								<a href="/nixtml/">
+									Getting started
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/content/" class="is-active" aria-current="page">
+									Content and frontmatter
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/templating/">
+									Layouts and partials
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/collections/">
+									Collections and pagination
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/taxonomies/">
+									Taxonomies and RSS
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/themes/">
+									Using themes and Minima
+								</a>
+							</li>
+						</ul>
+						<p class="menu-label">
+							Reference
+						</p>
+						<ul class="menu-list">
+							<li>
+								<a href="/nixtml/reference/templates/">
+									Template contexts
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/reference/html/">
+									HTML tags and attributes
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/reference/markdown/">
+									Markdown and highlighting
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/options/">
+									Configuration options
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</details>
+				<div class="columns">
+					<aside class="docs-sidebar column is-one-quarter-desktop is-hidden-touch">
+						<nav class="menu" aria-label="Documentation">
+							<p class="menu-label">
+								Guides
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/">
+										Getting started
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/content/" class="is-active" aria-current="page">
+										Content and frontmatter
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/templating/">
+										Layouts and partials
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/collections/">
+										Collections and pagination
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/taxonomies/">
+										Taxonomies and RSS
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/themes/">
+										Using themes and Minima
+									</a>
+								</li>
+							</ul>
+							<p class="menu-label">
+								Reference
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/reference/templates/">
+										Template contexts
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/reference/html/">
+										HTML tags and attributes
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/reference/markdown/">
+										Markdown and highlighting
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/options/">
+										Configuration options
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</aside>
+					<main class="docs-main column">
+						<h1 class="title">
+							Content and Frontmatter
+						</h1>
+						<p class="docs-lede">
+							Add Markdown pages, metadata, static files, and explicit content entries
+						</p>
+						<div class="content">
+							<p>nixtml discovers Markdown files, parses their YAML frontmatter, and renders them through the <code>md</code>
+								content processor. Content remains separate from layouts: a page supplies text and metadata, while a layout decides how to present them.</p>
+							<h2 id="content-directory">Content Directory<a class="headerlink mx-2" href="#content-directory" title="Permanent link">#</a></h2>
+							<p>Set <code>content.dir</code>
+								in <code>mkWebsite</code>, or <code>website.content.dir</code>
+								in a nixtml module:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>nixtml<span style="color: #179299">.</span>lib<span style="color: #179299">.</span>mkWebsite <span style="color: #7C7F93">{</span>
+  <span style="color: #8839EF">inherit</span> pkgs<span style="color: #7C7F93">;</span>
+
+  <span style="color: #40A02B">name</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;my-website&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">baseURL</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;https://example.com&quot;</span><span style="color: #7C7F93">;</span>
+  content<span style="color: #179299">.</span><span style="color: #40A02B">dir</span> <span style="color: #179299">=</span> <span style="color: #40A02B">./content</span><span style="color: #7C7F93">;</span>
+
+  <span style="color: #40A02B">imports</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span> nixtml<span style="color: #179299">.</span>themes<span style="color: #179299">.</span>minima <span style="color: #7C7F93">];</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+							<p>nixtml recursively finds files ending in <code>.md</code>:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>content/
+├── index.md
+├── about.md
+└── guides/
+    └── first-steps.md
+</code></pre></div>
+							<p>These files normally produce:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>index.html
+about/index.html
+guides/first-steps/index.html
+</code></pre></div>
+							<p>The root <code>index.md</code>
+								uses <code>website.layouts.home</code>. Other discovered files use <code>website.layouts.page</code>. The rendered path is available to layouts as a list of path segments.</p>
+							<h2 id="yaml-frontmatter">YAML Frontmatter<a class="headerlink mx-2" href="#yaml-frontmatter" title="Permanent link">#</a></h2>
+							<p>Put frontmatter at the beginning of each Markdown file:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+title: About this site
+description: Why this site exists and who maintains it
+---
+
+The Markdown body starts here.
+</code></pre></div>
+							<p>Frontmatter becomes <code>metadata</code>
+								in home and page layouts. Common fields are:</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Field</th>
+										<th>Used for</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>title</code></td>
+										<td>Page heading, HTML title, collection listings, and feeds</td>
+									</tr>
+									<tr>
+										<td><code>description</code></td>
+										<td>Page-specific metadata or a summary rendered by a layout</td>
+									</tr>
+									<tr>
+										<td><code>date</code></td>
+										<td>Collection sorting, formatted dates, sitemaps, and feeds</td>
+									</tr>
+								</tbody>
+							</table>
+							<p>Standalone pages do not use every standard field. Collection items need the title and date values required by collection processing.</p>
+							<p>For dates, use an unquoted ISO 8601 datetime so the YAML parser produces a datetime value:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+title: A dated post
+date: 2026-01-19T10:00:00
+---
+</code></pre></div>
+							<p>Other fields are preserved for custom layouts:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>---
+title: A tagged post
+date: 2026-01-19T10:00:00
+tags:
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>nix
+<span style="color: #4C4F69">  </span><span style="color: #8839EF">-</span><span style="color: #4C4F69"> </span>websites
+featured: true
+---
+</code></pre></div>
+							<p>Inside a page layout, for example, <code>metadata.featured</code>
+								is <code>true</code>
+								and <code>metadata.tags</code>
+								is a list of strings. In collection listings, custom fields are under <code>item.metadata</code>.</p>
+							<p>Use defaults for optional fields:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>metadata<span style="color: #179299">.</span>description <span style="color: #179299">or</span> <span style="color: #40A02B">&quot;&quot;</span>
+metadata<span style="color: #179299">.</span>tags <span style="color: #179299">or</span> <span style="color: #7C7F93">[</span> <span style="color: #7C7F93">]</span>
+</code></pre></div>
+							<p>The <a href="/nixtml/reference/markdown/">Markdown reference</a>
+								covers date formatting, tables of contents, and highlighting settings.</p>
+							<h2 id="site-metadata-versus-page-metadata">Site Metadata Versus Page Metadata<a class="headerlink mx-2" href="#site-metadata-versus-page-metadata" title="Permanent link">#</a></h2>
+							<p>Site-wide values are separate from page frontmatter:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #40A02B">metadata</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+  <span style="color: #40A02B">lang</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;en&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">title</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;My Website&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">description</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;Notes about Nix&quot;</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">};</span>
+</code></pre></div>
+							<p>In a layout, <code>config.website.metadata</code>
+								contains these site-wide values. The <code>metadata</code>
+								function argument contains the current page's frontmatter. Naming a local binding <code>siteMetadata</code>
+								and the argument <code>metadata</code>
+								can make that distinction clear.</p>
+							<h2 id="explicit-content-pages">Explicit Content Pages<a class="headerlink mx-2" href="#explicit-content-pages" title="Permanent link">#</a></h2>
+							<p>In addition to directory discovery, modules can define content directly under <code>website.content.pages</code>.</p>
+							<p>Use a source file:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>content<span style="color: #179299">.</span>pages<span style="color: #179299">.</span><span style="color: #40A02B">&quot;guides/custom&quot;</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+  <span style="color: #40A02B">source</span> <span style="color: #179299">=</span> <span style="color: #40A02B">./custom.md</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">processor</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;md&quot;</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">};</span>
+</code></pre></div>
+							<p>Or provide text inline:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>content<span style="color: #179299">.</span>pages<span style="color: #179299">.</span><span style="color: #40A02B">&quot;about&quot;</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+  <span style="color: #40A02B">text</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&#39;&#39;</span>
+<span style="color: #40A02B">    ---</span>
+<span style="color: #40A02B">    title: About</span>
+<span style="color: #40A02B">    ---</span>
+
+<span style="color: #40A02B">    This page is declared directly in Nix.</span>
+<span style="color: #40A02B">  &#39;&#39;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">processor</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;md&quot;</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">};</span>
+</code></pre></div>
+							<p>The attribute name determines the output page path. This mechanism is also useful for generated Markdown, such as the configuration reference on this site.</p>
+							<h2 id="static-assets">Static Assets<a class="headerlink mx-2" href="#static-assets" title="Permanent link">#</a></h2>
+							<p>Set <code>static.dir</code>
+								to copy files into the final website without processing them:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>nixtml<span style="color: #179299">.</span>lib<span style="color: #179299">.</span>mkWebsite <span style="color: #7C7F93">{</span>
+  <span style="color: #7C7F93; font-style: italic"># Other settings...</span>
+  static<span style="color: #179299">.</span><span style="color: #40A02B">dir</span> <span style="color: #179299">=</span> <span style="color: #40A02B">./static</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">}</span>
+</code></pre></div>
+							<p>For example:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>static/
+├── css/
+│   └── main.css
+├── images/
+│   └── cover.png
+└── robots.txt
+</code></pre></div>
+							<p>These are emitted as <code>css/main.css</code>, <code>images/cover.png</code>, and <code>robots.txt</code>
+								in the website output. Prefix internal links with <code>config.website.baseURI</code>
+								so they also work when the site is hosted below a URL path:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>lib<span style="color: #179299">.</span>tags<span style="color: #179299">.</span>link <span style="color: #7C7F93">[</span>
+  <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>rel <span style="color: #40A02B">&quot;stylesheet&quot;</span><span style="color: #7C7F93">)</span>
+  <span style="color: #7C7F93">(</span>lib<span style="color: #179299">.</span>attrs<span style="color: #179299">.</span>href <span style="color: #7C7F93">(</span>config<span style="color: #179299">.</span>website<span style="color: #179299">.</span>baseURI <span style="color: #179299">+</span> <span style="color: #40A02B">&quot;css/main.css&quot;</span><span style="color: #7C7F93">))</span>
+<span style="color: #7C7F93">]</span>
+</code></pre></div>
+							<p>For individual generated or copied files, modules can also use <code>website.files</code>. A file entry accepts either <code>source</code>
+								or <code>text</code>
+								and can override its output <code>path</code>.</p>
+							<h2 id="sitemaps">Sitemaps<a class="headerlink mx-2" href="#sitemaps" title="Permanent link">#</a></h2>
+							<p>nixtml generates <code>sitemap.xml</code>
+								by default. Disable it in a module when needed:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>sitemap<span style="color: #179299">.</span><span style="color: #40A02B">enable</span> <span style="color: #179299">=</span> <span style="color: #1E66F5">false</span><span style="color: #7C7F93">;</span>
+</code></pre></div>
+							<p>Pages with a usable date can provide a last-modified value to the sitemap. Use <code>website.pages.&lt;name&gt;.lastModified</code>
+								for explicitly declared pages when automatic content metadata is not available.</p>
+							<h2 id="next-steps">Next Steps<a class="headerlink mx-2" href="#next-steps" title="Permanent link">#</a></h2>
+							<ul>
+								<li>Use <a href="/nixtml/templating/">Layouts and partials</a>
+									to render page metadata and content.</li>
+								<li>Build dated listings with <a href="/nixtml/collections/">Collections and pagination</a>.</li>
+								<li>Classify collection items with <a href="/nixtml/taxonomies/">Taxonomies and RSS</a>.</li>
+								<li>Consult the <a href="/nixtml/reference/templates/">Template Context Reference</a>
+									for all standard values.</li>
+							</ul>
+						</div>
+						<nav class="docs-pager" aria-label="Guide pagination">
+							<a class="docs-pager-link docs-pager-previous" href="/nixtml/">
+								<span class="docs-pager-label">
+									Previous guide
+								</span>
+								<span class="docs-pager-title">
+									Getting started
+								</span>
+							</a>
+							<a class="docs-pager-link docs-pager-next" href="/nixtml/templating/">
+								<span class="docs-pager-label">
+									Next guide
+								</span>
+								<span class="docs-pager-title">
+									Layouts and partials
+								</span>
+							</a>
+						</nav>
+					</main>
+				</div>
+			</div>
+		</section>
+		<footer class="footer">
+			<div class="content is-max-desktop has-text-centered">
+				<p>
+					This website is (obviously) generated with
+					<a href="https://github.com/arnarg/nixtml">
+						nixtml.
+					</a>
+				</p>
+			</div>
+		</footer>
+	</body>
+</html>

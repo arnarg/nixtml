@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="stylesheet" href="/nixtml/css/main.css">
+		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="theme-color" content="#ffffff">
+		<link rel="icon" type="image/svg+xml" href="/nixtml/logo.svg">
+		<title>
+			Markdown and Syntax Highlighting | nixtml
+		</title>
+		<meta name="description" content="Markdown extensions, tables of contents, code highlighting, and processor settings">
+		<meta property="og:title" content="Markdown and Syntax Highlighting | nixtml">
+		<meta name="twitter:title" content="Markdown and Syntax Highlighting | nixtml">
+		<meta itemprop="name" content="Markdown and Syntax Highlighting | nixtml">
+		<meta property="og:description" content="Markdown extensions, tables of contents, code highlighting, and processor settings">
+		<meta name="twitter:description" content="Markdown extensions, tables of contents, code highlighting, and processor settings">
+		<meta name="application-name" content="nixtml">
+		<meta property="og:site_name" content="nixtml">
+		<meta property="og:locale" content="en">
+		<meta property="og:type" content="article">
+	</head>
+	<body>
+		<section class="hero docs-hero">
+			<div class="hero-body">
+				<div class="container is-max-desktop has-text-centered">
+					<a href="/nixtml/">
+						<img src="/nixtml/logo.svg" alt="nixtml">
+					</a>
+				</div>
+			</div>
+		</section>
+		<section class="section docs-section">
+			<div class="container is-max-widescreen">
+				<details class="docs-mobile-nav is-hidden-desktop">
+					<summary>
+						Browse documentation
+					</summary>
+					<nav class="menu" aria-label="Documentation">
+						<p class="menu-label">
+							Guides
+						</p>
+						<ul class="menu-list">
+							<li>
+								<a href="/nixtml/">
+									Getting started
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/content/">
+									Content and frontmatter
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/templating/">
+									Layouts and partials
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/collections/">
+									Collections and pagination
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/taxonomies/">
+									Taxonomies and RSS
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/themes/">
+									Using themes and Minima
+								</a>
+							</li>
+						</ul>
+						<p class="menu-label">
+							Reference
+						</p>
+						<ul class="menu-list">
+							<li>
+								<a href="/nixtml/reference/templates/">
+									Template contexts
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/reference/html/">
+									HTML tags and attributes
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/reference/markdown/" class="is-active" aria-current="page">
+									Markdown and highlighting
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/options/">
+									Configuration options
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</details>
+				<div class="columns">
+					<aside class="docs-sidebar column is-one-quarter-desktop is-hidden-touch">
+						<nav class="menu" aria-label="Documentation">
+							<p class="menu-label">
+								Guides
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/">
+										Getting started
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/content/">
+										Content and frontmatter
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/templating/">
+										Layouts and partials
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/collections/">
+										Collections and pagination
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/taxonomies/">
+										Taxonomies and RSS
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/themes/">
+										Using themes and Minima
+									</a>
+								</li>
+							</ul>
+							<p class="menu-label">
+								Reference
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/reference/templates/">
+										Template contexts
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/reference/html/">
+										HTML tags and attributes
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/reference/markdown/" class="is-active" aria-current="page">
+										Markdown and highlighting
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/options/">
+										Configuration options
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</aside>
+					<main class="docs-main column">
+						<h1 class="title">
+							Markdown and Syntax Highlighting
+						</h1>
+						<p class="docs-lede">
+							Markdown extensions, tables of contents, code highlighting, and processor settings
+						</p>
+						<div class="content">
+							<p>nixtml's built-in <code>md</code>
+								content processor turns Markdown with YAML frontmatter into HTML. Its settings live under <code>website.content.processors.md.settings</code>
+								when using nixtml modules directly.</p>
+							<p>See <a href="/nixtml/content/">Content and frontmatter</a>
+								for content discovery and metadata.</p>
+							<h2 id="enabled-markdown-features">Enabled Markdown Features<a class="headerlink mx-2" href="#enabled-markdown-features" title="Permanent link">#</a></h2>
+							<p>The processor enables support for:</p>
+							<ul>
+								<li>Tables and footnotes.</li>
+								<li>Fenced code blocks through <code>pymdownx.superfences</code>.</li>
+								<li>Syntax highlighting through <code>pymdownx.highlight</code>.</li>
+								<li>Inline code highlighting through <code>pymdownx.inlinehilite</code>.</li>
+								<li>Automatic links through <code>pymdownx.magiclink</code>.</li>
+								<li>Heading identifiers and generated tables of contents through the <code>toc</code>
+									extension.</li>
+								<li>Admonition and caption blocks through the corresponding PyMdown extensions.</li>
+							</ul>
+							<p>For example, a fenced code block can specify its language:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code><span style="color: #40A02B">```nix</span>
+<span style="color: #7C7F93">{</span>
+  website<span style="color: #179299">.</span>sitemap<span style="color: #179299">.</span><span style="color: #40A02B">enable</span> <span style="color: #179299">=</span> <span style="color: #1E66F5">true</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">}</span>
+<span style="color: #40A02B">```</span>
+</code></pre></div>
+							<p>Consult the processor implementation when using extension-specific syntax, especially for PyMdown block plugins.</p>
+							<h2 id="tables-of-contents">Tables of Contents<a class="headerlink mx-2" href="#tables-of-contents" title="Permanent link">#</a></h2>
+							<p>Insert the configured marker where a table of contents should appear:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>[TOC]
+
+## First section
+
+## Second section
+</code></pre></div>
+							<p>The default marker is <code>[TOC]</code>. Configure its behavior under <code>toc</code>:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>content<span style="color: #179299">.</span>processors<span style="color: #179299">.</span>md<span style="color: #179299">.</span>settings<span style="color: #179299">.</span><span style="color: #40A02B">toc</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+  <span style="color: #40A02B">marker</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;[TOC]&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">title</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;On this page&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">tocClass</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;toc&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">permalink</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;#&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">permalinkClass</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;headerlink&quot;</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">};</span>
+</code></pre></div>
+							<table>
+								<thead>
+									<tr>
+										<th>Setting</th>
+										<th>Default</th>
+										<th>Purpose</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>marker</code></td>
+										<td><code>"[TOC]"</code></td>
+										<td>Text replaced by the table of contents; use an empty string to disable marker processing</td>
+									</tr>
+									<tr>
+										<td><code>title</code></td>
+										<td><code>null</code></td>
+										<td>Optional title inside the generated TOC</td>
+									</tr>
+									<tr>
+										<td><code>titleClass</code></td>
+										<td><code>"toctitle"</code></td>
+										<td>CSS class for the TOC title</td>
+									</tr>
+									<tr>
+										<td><code>tocClass</code></td>
+										<td><code>"toc"</code></td>
+										<td>CSS class for the TOC container</td>
+									</tr>
+									<tr>
+										<td><code>anchorlink</code></td>
+										<td><code>false</code></td>
+										<td>Make headings link to themselves</td>
+									</tr>
+									<tr>
+										<td><code>anchorlinkClass</code></td>
+										<td><code>"toclink"</code></td>
+										<td>CSS class for heading links</td>
+									</tr>
+									<tr>
+										<td><code>permalink</code></td>
+										<td><code>false</code></td>
+										<td>Add a permanent link to headings; accepts a Boolean or link text</td>
+									</tr>
+									<tr>
+										<td><code>permalinkClass</code></td>
+										<td><code>"headerlink"</code></td>
+										<td>CSS class for permanent links</td>
+									</tr>
+								</tbody>
+							</table>
+							<p>Heading identifiers are generated even when the page does not contain a <code>[TOC]</code>
+								marker, so headings can be linked directly.</p>
+							<h2 id="syntax-highlighting">Syntax Highlighting<a class="headerlink mx-2" href="#syntax-highlighting" title="Permanent link">#</a></h2>
+							<p>Highlighting is configured under <code>website.content.processors.md.settings.highlight</code>:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>content<span style="color: #179299">.</span>processors<span style="color: #179299">.</span>md<span style="color: #179299">.</span>settings<span style="color: #179299">.</span><span style="color: #40A02B">highlight</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">{</span>
+  <span style="color: #40A02B">style</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;default&quot;</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">linenums</span> <span style="color: #179299">=</span> <span style="color: #1E66F5">true</span><span style="color: #7C7F93">;</span>
+  <span style="color: #40A02B">linenumsStyle</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;table&quot;</span><span style="color: #7C7F93">;</span>
+<span style="color: #7C7F93">};</span>
+</code></pre></div>
+							<table>
+								<thead>
+									<tr>
+										<th>Setting</th>
+										<th>Default</th>
+										<th>Purpose</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>style</code></td>
+										<td><code>"default"</code></td>
+										<td>Pygments color style</td>
+									</tr>
+									<tr>
+										<td><code>noclasses</code></td>
+										<td><code>true</code></td>
+										<td>Inline Pygments styles instead of relying on a separate stylesheet</td>
+									</tr>
+									<tr>
+										<td><code>linenums</code></td>
+										<td><code>null</code></td>
+										<td>Enable line numbers globally, or allow each code block to choose</td>
+									</tr>
+									<tr>
+										<td><code>linenumsStyle</code></td>
+										<td><code>"table"</code></td>
+										<td>Line number rendering: <code>table</code>, <code>inline</code>, or <code>pymdownx-inline</code></td>
+									</tr>
+									<tr>
+										<td><code>extraConfig</code></td>
+										<td><code>{ }</code></td>
+										<td>Additional <code>pymdownx.highlight</code>
+											options; these override other highlight settings</td>
+									</tr>
+								</tbody>
+							</table>
+							<p>With the default <code>noclasses = true</code>, generated code contains inline styles and no additional highlighting stylesheet is required.</p>
+							<p>When <code>noclasses = false</code>, provide CSS for the selected Pygments style. nixtml exposes a generated stylesheet as <code>website.content.processors.md.highlightStylesheet</code>; include it in the site output and link it from the base layout. The <code>pymdownx-inline</code>
+								line number style also requires <code>noclasses = false</code>.</p>
+							<h3 id="per-block-line-numbers">Per-Block Line Numbers<a class="headerlink mx-2" href="#per-block-line-numbers" title="Permanent link">#</a></h3>
+							<p>When global <code>linenums</code>
+								is <code>null</code>, individual code blocks can enable line numbers using the highlight extension's fenced-code options, such as <code>linenums="1"</code>.</p>
+							<h2 id="date-formatting">Date Formatting<a class="headerlink mx-2" href="#date-formatting" title="Permanent link">#</a></h2>
+							<p>Date values in frontmatter are made available in several formats for collections and feeds. The ordinary <code>metadata.date</code>
+								string uses <code>dateFormat</code>:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>content<span style="color: #179299">.</span>processors<span style="color: #179299">.</span>md<span style="color: #179299">.</span>settings<span style="color: #179299">.</span><span style="color: #40A02B">dateFormat</span> <span style="color: #179299">=</span> <span style="color: #40A02B">&quot;%Y-%m-%d&quot;</span><span style="color: #7C7F93">;</span>
+</code></pre></div>
+							<p>The value is a Python <code>strftime</code>
+								format string. Its default is <code>"%b %-d, %Y"</code>.</p>
+							<h2 id="additional-python-packages">Additional Python Packages<a class="headerlink mx-2" href="#additional-python-packages" title="Permanent link">#</a></h2>
+							<p>A site can extend the processor's Python environment:</p>
+							<div class="highlight" style="background: #eff1f5"><pre style="line-height: 125%;"><span></span><code>website<span style="color: #179299">.</span>content<span style="color: #179299">.</span>processors<span style="color: #179299">.</span>md<span style="color: #179299">.</span><span style="color: #40A02B">extraPythonPackages</span> <span style="color: #179299">=</span> <span style="color: #7C7F93">[</span>
+  pkgs<span style="color: #179299">.</span>python3Packages<span style="color: #179299">.</span>pygments-styles
+<span style="color: #7C7F93">];</span>
+</code></pre></div>
+							<p>The package must provide or extend functionality used by the configured Markdown and highlighting setup. Adding a package alone does not enable a new Markdown extension.</p>
+							<h2 id="post-summaries">Post Summaries<a class="headerlink mx-2" href="#post-summaries" title="Permanent link">#</a></h2>
+							<p>The HTML before an exact <code>&lt;!--more--&gt;</code>
+								marker becomes <code>item.summary</code>
+								in collection and taxonomy layouts. Without the marker, the summary contains the entire rendered item.</p>
+							<p>See <a href="/nixtml/collections/">Collections and pagination</a>
+								for item values and listing templates.</p>
+						</div>
+					</main>
+				</div>
+			</div>
+		</section>
+		<footer class="footer">
+			<div class="content is-max-desktop has-text-centered">
+				<p>
+					This website is (obviously) generated with
+					<a href="https://github.com/arnarg/nixtml">
+						nixtml.
+					</a>
+				</p>
+			</div>
+		</footer>
+	</body>
+</html>
