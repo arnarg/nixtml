@@ -1,14 +1,30 @@
+@use "sass:meta";
+
 // Set your brand colors
 $purple: #8a4d76;
 $pink: #fa7c91;
 
-// Path to Bulma's sass folder
-@use "bulma/sass" with (
+@use "bulma/sass/utilities" with (
   $family-primary: '"Fira Sans", sans-serif',
   $family-code: '"Fira Mono", Inconsolata, Hack, SF Mono, Roboto Mono, Source Code Pro, Ubuntu Mono, monospace',
   $primary: $purple,
   $link: $pink,
 );
+@use "bulma/sass/utilities/mixins";
+
+@forward "bulma/sass/base";
+@forward "bulma/sass/grid/columns";
+@forward "bulma/sass/components/menu";
+@forward "bulma/sass/elements/content";
+@forward "bulma/sass/elements/title";
+@forward "bulma/sass/helpers/spacing";
+@forward "bulma/sass/helpers/typography";
+@forward "bulma/sass/helpers/visibility";
+@forward "bulma/sass/layout/container";
+@forward "bulma/sass/layout/footer";
+@forward "bulma/sass/layout/hero";
+@forward "bulma/sass/layout/section";
+@forward "bulma/sass/themes";
 
 .docs-hero {
   .hero-body {
@@ -22,7 +38,7 @@ $pink: #fa7c91;
     margin-inline: auto;
   }
 
-  @media (max-width: 48em) {
+  @include mixins.mobile {
     .hero-body {
       padding-block: 1.25rem;
     }
@@ -38,6 +54,8 @@ $pink: #fa7c91;
 }
 
 .docs-sidebar {
+  --bulma-menu-label-spacing: 1.5rem;
+
   position: sticky;
   top: 1.5rem;
   align-self: flex-start;
@@ -46,17 +64,9 @@ $pink: #fa7c91;
   padding-top: 0;
   scrollbar-width: thin;
 
-  .menu-label:not(:first-child) {
-    margin-top: 1.5rem;
-  }
-
   .menu-list a {
     overflow-wrap: anywhere;
   }
-}
-
-.menu-list a {
-  width: auto !important;
 }
 
 .docs-main {
@@ -112,7 +122,7 @@ $pink: #fa7c91;
   font-weight: var(--bulma-weight-semibold);
 }
 
-@media (max-width: 48em) {
+@include mixins.mobile {
   .docs-pager {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -135,13 +145,14 @@ $pink: #fa7c91;
   }
 
   .menu {
+    box-sizing: border-box;
     padding: 0 1rem 1rem;
   }
 }
 
 div.highlight {
-  background-color: transparent !important;
   margin-bottom: var(--bulma-content-block-margin-bottom);
+  border-radius: .5em;
 
   pre {
     border-radius: .5em;
@@ -215,12 +226,21 @@ h4 {
   }
 }
 
-@media (min-width: 64em) {
+@include mixins.desktop {
   .content > .toc > ul {
     column-count: 2;
     column-gap: 2rem;
   }
 }
+
+@include meta.load-css("highlight-light.css");
+
+@media (prefers-color-scheme: dark) {
+  @include meta.load-css("highlight-dark.css");
+}
+
+@include meta.load-css("highlight-light-explicit.css");
+@include meta.load-css("highlight-dark-explicit.css");
 
 // Fira Sans and Fira Mono
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans:wght@200;300;400');

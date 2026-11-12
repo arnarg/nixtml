@@ -149,6 +149,7 @@ in
                       (div
                         [
                           (attrs.classes [
+                            "container"
                             "content"
                             "is-max-desktop"
                             "has-text-centered"
@@ -300,7 +301,10 @@ in
           permalink = "#";
           permalinkClass = "headerlink mx-2";
         };
-        highlight.style = "catppuccin-latte";
+        highlight = {
+          style = "catppuccin-latte";
+          noclasses = false;
+        };
       };
       extraPythonPackages = [
         # Add pygments-styles: https://pygments-styles.org/
@@ -344,10 +348,40 @@ in
         hash = "sha256-hlejqBI6ayzhm15IymrzhTevkl3xffMfdTasZ2CmAas=";
       };
 
+      highlightPython = pkgs.python3.withPackages (
+        ps: [ ps.pygments ] ++ config.website.content.processors.md.extraPythonPackages
+      );
+
+      highlightStylesheet =
+        name: style: selector:
+        pkgs.runCommand "nixtml-highlight-${name}.css" { } ''
+          ${highlightPython}/bin/pygmentize -S ${lib.escapeShellArg style} -f html -a ${lib.escapeShellArg selector} > $out
+        '';
+
       deps = pkgs.linkFarm "nixtml-docs-stylesheet-deps" [
         {
           name = "bulma";
           path = bulma;
+        }
+        {
+          name = "highlight-light.css";
+          path = config.website.content.processors.md.highlightStylesheet;
+        }
+        {
+          name = "highlight-dark.css";
+          path = highlightStylesheet "dark" "catppuccin-mocha" ".highlight";
+        }
+        {
+          name = "highlight-light-explicit.css";
+          path =
+            highlightStylesheet "light-explicit" "catppuccin-latte"
+              ":where([data-theme=light], .theme-light) .highlight";
+        }
+        {
+          name = "highlight-dark-explicit.css";
+          path =
+            highlightStylesheet "dark-explicit" "catppuccin-mocha"
+              ":where([data-theme=dark], .theme-dark) .highlight";
         }
       ];
     in
@@ -361,7 +395,7 @@ in
       ];
 
       buildPhase = ''
-        sass --load-path "${deps}" main.scss main.css
+        sass --style=compressed --load-path "${deps}" main.scss main.css
       '';
 
       installPhase = ''
