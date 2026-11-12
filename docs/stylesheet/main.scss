@@ -21,6 +21,16 @@ $pink: #fa7c91;
     height: auto;
     margin-inline: auto;
   }
+
+  @media (max-width: 48em) {
+    .hero-body {
+      padding-block: 1.25rem;
+    }
+
+    img {
+      width: min(100%, 16rem);
+    }
+  }
 }
 
 .docs-section {
