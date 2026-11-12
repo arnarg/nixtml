@@ -21570,6 +21570,14 @@ has-background-danger.is-hoverable:active {
   height: auto;
   margin-inline: auto;
 }
+@media (max-width: 48em) {
+  .docs-hero .hero-body {
+    padding-block: 1.25rem;
+  }
+  .docs-hero img {
+    width: min(100%, 16rem);
+  }
+}
 
 .docs-section {
   padding-top: 2rem;
