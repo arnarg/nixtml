@@ -15,6 +15,7 @@ let
     html
     img
     link
+    main
     meta
     p
     section
@@ -25,6 +26,7 @@ let
 in
 {
   imports = [
+    ./navigation.nix
     ./options.nix
   ];
 
@@ -68,7 +70,12 @@ in
                 [ ]
                 [
                   (section
-                    [ (attrs.classes [ "hero" ]) ]
+                    [
+                      (attrs.classes [
+                        "hero"
+                        "docs-hero"
+                      ])
+                    ]
                     [
                       (div
                         [ (attrs.classes [ "hero-body" ]) ]
@@ -82,7 +89,15 @@ in
                               ])
                             ]
                             [
-                              (img [ (attrs.src (config.website.baseURI + "logo.svg")) ])
+                              (a
+                                [ (attrs.href config.website.baseURI) ]
+                                [
+                                  (img [
+                                    (attrs.src (config.website.baseURI + "logo.svg"))
+                                    (attrs.alt metadata.title)
+                                  ])
+                                ]
+                              )
                             ]
                           )
                         ]
@@ -90,16 +105,38 @@ in
                     ]
                   )
                   (section
-                    [ (attrs.classes [ "section" ]) ]
+                    [
+                      (attrs.classes [
+                        "section"
+                        "docs-section"
+                      ])
+                    ]
                     [
                       (div
                         [
                           (attrs.classes [
                             "container"
-                            "is-max-desktop"
+                            "is-max-widescreen"
                           ])
                         ]
-                        [ content ]
+                        [
+                          (partials.docsSidebar (context // { mobile = true; }))
+                          (div
+                            [ (attrs.class "columns") ]
+                            [
+                              (partials.docsSidebar context)
+                              (main
+                                [
+                                  (attrs.classes [
+                                    "docs-main"
+                                    "column"
+                                  ])
+                                ]
+                                [ content ]
+                              )
+                            ]
+                          )
+                        ]
                       )
                     ]
                   )

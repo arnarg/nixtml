@@ -10,6 +10,67 @@ $pink: #fa7c91;
   $link: $pink,
 );
 
+.docs-hero {
+  .hero-body {
+    padding-block: 2rem;
+  }
+
+  img {
+    display: block;
+    width: min(100%, 32rem);
+    height: auto;
+    margin-inline: auto;
+  }
+}
+
+.docs-section {
+  padding-top: 2rem;
+}
+
+.docs-sidebar {
+  position: sticky;
+  top: 1.5rem;
+  align-self: flex-start;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  padding-top: 0;
+  scrollbar-width: thin;
+
+  .menu-label:not(:first-child) {
+    margin-top: 1.5rem;
+  }
+
+  .menu-list a {
+    overflow-wrap: anywhere;
+  }
+}
+
+.docs-main {
+  min-width: 0;
+  padding-top: 0;
+
+  > .title,
+  > .content {
+    max-inline-size: 75ch;
+  }
+}
+
+.docs-mobile-nav {
+  margin-bottom: 2rem;
+  border: 1px solid var(--bulma-border);
+  border-radius: var(--bulma-radius);
+
+  summary {
+    padding: 0.75rem 1rem;
+    font-weight: var(--bulma-weight-semibold);
+    cursor: pointer;
+  }
+
+  .menu {
+    padding: 0 1rem 1rem;
+  }
+}
+
 div.highlight {
   background-color: transparent !important;
   margin-bottom: var(--bulma-content-block-margin-bottom);
@@ -31,7 +92,17 @@ h2 {
 
 .content {
   h2 {
-    word-wrap: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  pre {
+    overflow-x: auto;
+  }
+
+  table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
   }
 }
 
