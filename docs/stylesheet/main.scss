@@ -55,6 +55,60 @@ $pink: #fa7c91;
   }
 }
 
+.docs-lede {
+  max-inline-size: 65ch;
+  margin-bottom: 1.5rem;
+  font-size: 1.125rem;
+}
+
+.docs-pager {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  max-inline-size: 75ch;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--bulma-border);
+}
+
+.docs-pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--bulma-border);
+  border-radius: var(--bulma-radius);
+
+  &:hover {
+    border-color: var(--bulma-link);
+    text-decoration: none;
+  }
+}
+
+.docs-pager-next {
+  grid-column: 2;
+  text-align: right;
+}
+
+.docs-pager-label {
+  font-size: 0.875rem;
+}
+
+.docs-pager-title {
+  font-weight: var(--bulma-weight-semibold);
+}
+
+@media (max-width: 48em) {
+  .docs-pager {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .docs-pager-next {
+    grid-column: 1;
+    text-align: left;
+  }
+}
+
 .docs-mobile-nav {
   margin-bottom: 2rem;
   border: 1px solid var(--bulma-border);
@@ -80,18 +134,38 @@ div.highlight {
   }
 }
 
-h2 {
+h2,
+h3,
+h4 {
   a.headerlink {
-    display: none;
+    opacity: 0;
+    transition: opacity 120ms ease-in-out;
   }
 
-  &:hover a.headerlink {
-    display: inline-block;
+  &:hover a.headerlink,
+  &:focus-within a.headerlink {
+    opacity: 1;
+  }
+}
+
+@media (hover: none) {
+  h2,
+  h3,
+  h4 {
+    a.headerlink {
+      opacity: 0.75;
+    }
   }
 }
 
 .content {
-  h2 {
+  h2,
+  h3,
+  h4 {
+    overflow-wrap: anywhere;
+  }
+
+  :not(pre) > code {
     overflow-wrap: anywhere;
   }
 
@@ -103,6 +177,34 @@ h2 {
     display: block;
     max-width: 100%;
     overflow-x: auto;
+  }
+
+  > .toc {
+    margin-bottom: 2rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--bulma-border);
+    border-radius: var(--bulma-radius);
+
+    > ul {
+      margin: 0;
+      list-style: none;
+    }
+
+    li {
+      break-inside: avoid;
+      margin-bottom: 0.35rem;
+    }
+
+    a {
+      overflow-wrap: anywhere;
+    }
+  }
+}
+
+@media (min-width: 64em) {
+  .content > .toc > ul {
+    column-count: 2;
+    column-gap: 2rem;
   }
 }
 

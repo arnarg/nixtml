@@ -132,7 +132,10 @@ in
                                     "column"
                                   ])
                                 ]
-                                [ content ]
+                                [
+                                  content
+                                  (partials.docsPager context)
+                                ]
                               )
                             ]
                           )
@@ -173,30 +176,29 @@ in
             ];
 
       home =
-        { metadata, content, ... }:
+        { content, ... }@context:
         [
-          (h1 [ (attrs.classes [ "title" ]) ] [ metadata.title ])
-          (div
-            [ (attrs.classes [ "content" ]) ]
-            [
-              content
-            ]
-          )
+          (partials.pageHeader context)
+          (div [ (attrs.classes [ "content" ]) ] [ content ])
         ];
 
       page =
-        { metadata, content, ... }:
+        { content, ... }@context:
         [
-          (h1 [ (attrs.classes [ "title" ]) ] [ metadata.title ])
-          (div
-            [ (attrs.classes [ "content" ]) ]
-            [
-              content
-            ]
-          )
+          (partials.pageHeader context)
+          (div [ (attrs.classes [ "content" ]) ] [ content ])
         ];
 
       partials = {
+        pageHeader =
+          { metadata, ... }:
+          [
+            (h1 [ (attrs.classes [ "title" ]) ] [ metadata.title ])
+            (lib.optionalString (metadata ? description && metadata.description != "") (
+              p [ (attrs.classes [ "docs-lede" ]) ] [ metadata.description ]
+            ))
+          ];
+
         head =
           {
             path,
@@ -230,37 +232,47 @@ in
             ])
             (link [
               (attrs.rel "icon")
-              (attrs.href "/favicon.png")
+              (attrs.type "image/svg+xml")
+              (attrs.href (config.website.baseURI + "logo.svg"))
             ])
             (partials.meta context)
           ];
 
         meta =
-          { path, title, ... }:
+          { path, title, ... }@context:
           let
             pageTitle =
               if title != null && path != [ "index.html" ] then
                 "${title} | ${metadata.title}"
               else
                 metadata.title;
+            pageDescription = context.metadata.description or metadata.description;
           in
           [
             (lib.tags.title pageTitle)
             (meta [
               (attrs.name "description")
-              (attrs.content metadata.description)
+              (attrs.content pageDescription)
             ])
             (meta [
               (attrs.property "og:title")
-              (attrs.content metadata.title)
+              (attrs.content pageTitle)
             ])
             (meta [
-              (attrs.property "twitter:title")
-              (attrs.content metadata.title)
+              (attrs.name "twitter:title")
+              (attrs.content pageTitle)
             ])
             (meta [
               (attrs.itemprop "name")
-              (attrs.content metadata.title)
+              (attrs.content pageTitle)
+            ])
+            (meta [
+              (attrs.property "og:description")
+              (attrs.content pageDescription)
+            ])
+            (meta [
+              (attrs.name "twitter:description")
+              (attrs.content pageDescription)
             ])
             (meta [
               (attrs.name "application-name")

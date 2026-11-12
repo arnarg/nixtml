@@ -7,6 +7,7 @@ let
     li
     nav
     p
+    span
     summary
     ul
     ;
@@ -65,6 +66,8 @@ let
     }
   ];
 
+  guideItems = (lib.head navigation).items;
+
   pageKey =
     path:
     lib.pipe path [
@@ -106,6 +109,59 @@ let
       );
 in
 {
+  website.layouts.partials.docsPager =
+    { path, ... }:
+    let
+      currentPath = pageKey path;
+      indexedItems = lib.imap0 (index: item: item // { inherit index; }) guideItems;
+      current = lib.findFirst (item: item.path == currentPath) null indexedItems;
+      previous =
+        if current != null && current.index > 0 then lib.elemAt guideItems (current.index - 1) else null;
+      next =
+        if current != null && current.index + 1 < lib.length guideItems then
+          lib.elemAt guideItems (current.index + 1)
+        else
+          null;
+    in
+    if current == null then
+      ""
+    else
+      nav
+        [
+          (attrs.class "docs-pager")
+          (attrs.aria "label" "Guide pagination")
+        ]
+        (
+          lib.optional (previous != null) (
+            a
+              [
+                (attrs.classes [
+                  "docs-pager-link"
+                  "docs-pager-previous"
+                ])
+                (attrs.href (pageHref previous.path))
+              ]
+              [
+                (span [ (attrs.class "docs-pager-label") ] [ "Previous guide" ])
+                (span [ (attrs.class "docs-pager-title") ] [ previous.title ])
+              ]
+          )
+          ++ lib.optional (next != null) (
+            a
+              [
+                (attrs.classes [
+                  "docs-pager-link"
+                  "docs-pager-next"
+                ])
+                (attrs.href (pageHref next.path))
+              ]
+              [
+                (span [ (attrs.class "docs-pager-label") ] [ "Next guide" ])
+                (span [ (attrs.class "docs-pager-title") ] [ next.title ])
+              ]
+          )
+        );
+
   website.layouts.partials.docsSidebar =
     {
       path,
