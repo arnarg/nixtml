@@ -28,23 +28,19 @@ $pink: #fa7c91;
 
 .docs-hero {
   .hero-body {
-    padding-block: 2rem;
+    padding: 1rem;
   }
 
   img {
     display: block;
-    width: min(100%, 32rem);
+    width: min(100%, 18rem);
     height: auto;
     margin-inline: auto;
   }
 
   @include mixins.mobile {
-    .hero-body {
-      padding-block: 1.25rem;
-    }
-
     img {
-      width: min(100%, 16rem);
+      width: min(100%, 15rem);
     }
   }
 }

@@ -74,6 +74,7 @@ in
                       (attrs.classes [
                         "hero"
                         "docs-hero"
+                        "mt-5"
                       ])
                     ]
                     [
