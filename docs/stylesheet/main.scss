@@ -211,28 +211,10 @@ h4 {
   }
 }
 
-@media (max-width: 48em) {
-  .content > .toc {
-    display: none;
-  }
-}
-
 @media (min-width: 64em) {
-  .content:has(> .toc) {
-    max-inline-size: none;
-    padding-right: 18rem;
-  }
-
-  .content > .toc {
-    position: sticky;
-    top: 1.5rem;
-    float: right;
-    width: 16rem;
-    max-height: calc(100vh - 3rem);
-    margin: 0 -18rem 2rem 2rem;
-    overflow-y: auto;
-    font-size: 0.875rem;
-    scrollbar-width: thin;
+  .content > .toc > ul {
+    column-count: 2;
+    column-gap: 2rem;
   }
 }
 
