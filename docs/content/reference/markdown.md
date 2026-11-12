@@ -86,7 +86,7 @@ website.content.processors.md.settings.highlight = {
 
 | Setting | Default | Purpose |
 | --- | --- | --- |
-| `style` | `"default"` | Pygments color style |
+| `style` | `"default"` | Pygments style name or an ordered list of style variants |
 | `noclasses` | `true` | Inline Pygments styles instead of relying on a separate stylesheet |
 | `linenums` | `null` | Enable line numbers globally, or allow each code block to choose |
 | `linenumsStyle` | `"table"` | Line number rendering: `table`, `inline`, or `pymdownx-inline` |
@@ -95,6 +95,37 @@ website.content.processors.md.settings.highlight = {
 With the default `noclasses = true`, generated code contains inline styles and no additional highlighting stylesheet is required.
 
 When `noclasses = false`, provide CSS for the selected Pygments style. nixtml exposes a generated stylesheet as `website.content.processors.md.highlightStylesheet`; include it in the site output and link it from the base layout. The `pymdownx-inline` line number style also requires `noclasses = false`.
+
+### Light and Dark Styles
+
+The `style` setting also accepts an ordered list of variants for class-based highlighting. Each variant has a Pygments `name`, an optional CSS `selector` defaulting to `.highlight`, and an optional `media` feature condition without parentheses:
+
+```nix
+website.content.processors.md.settings.highlight = {
+  noclasses = false;
+  style = [
+    {
+      name = "default";
+    }
+    {
+      name = "monokai";
+      media = "prefers-color-scheme: dark";
+    }
+    {
+      name = "default";
+      selector = ":where([data-theme=light], .theme-light) .highlight";
+    }
+    {
+      name = "monokai";
+      selector = ":where([data-theme=dark], .theme-dark) .highlight";
+    }
+  ];
+};
+```
+
+The generated `highlightStylesheet` contains all variants in their configured order. Later variants can therefore override earlier ones for explicit theme selectors. A string such as `style = "default";` remains shorthand for one variant with the default selector and no media condition.
+
+The first variant supplies the style used for inline highlighting. Additional variants are useful with `noclasses = false`, where their CSS can respond to the active theme.
 
 ### Per-Block Line Numbers
 

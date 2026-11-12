@@ -229,14 +229,7 @@ h4 {
   }
 }
 
-@include meta.load-css("highlight-light.css");
-
-@media (prefers-color-scheme: dark) {
-  @include meta.load-css("highlight-dark.css");
-}
-
-@include meta.load-css("highlight-light-explicit.css");
-@include meta.load-css("highlight-dark-explicit.css");
+@include meta.load-css("highlight.css");
 
 // Fira Sans and Fira Mono
 @import url('https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans:wght@200;300;400');

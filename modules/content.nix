@@ -19,6 +19,9 @@ let
     ++ processors.md.extraPythonPackages
   );
 
+  highlightStyles = processors.md.settings.highlight.style;
+  baseHighlightStyle = (lib.head highlightStyles).name;
+
   readContentDir =
     dir:
     let
@@ -134,10 +137,36 @@ in
             };
             highlight = {
               style = mkOption {
-                type = types.str;
-                default = "default";
+                type =
+                  with types;
+                  coercedTo str (name: [ { inherit name; } ]) (
+                    nonEmptyListOf (submodule {
+                      options = {
+                        name = mkOption {
+                          type = str;
+                          description = "The Pygments style name.";
+                        };
+                        selector = mkOption {
+                          type = str;
+                          default = ".highlight";
+                          description = "The CSS selector to scope this style to.";
+                        };
+                        media = mkOption {
+                          type = nullOr str;
+                          default = null;
+                          description = "An optional media feature condition, without parentheses.";
+                        };
+                      };
+                    })
+                  );
+                default = [ { name = "default"; } ];
                 description = ''
-                  The pygments style to use for code block colorscheme.
+                  The Pygments styles to use for code block colorschemes.
+
+                  A string is shorthand for a single style scoped to `.highlight`. A list can define
+                  multiple styles with custom selectors and media feature conditions. The first style
+                  is used for inline highlighting, and all styles are included in `highlightStylesheet`
+                  in their configured order.
                 '';
               };
               noclasses = mkOption {
@@ -197,7 +226,7 @@ in
             type = types.package;
             readOnly = true;
             description = ''
-              A CSS file with the pygments styles for `website.content.processors.md.settings.highlight.style`, scoped to `.highlight`.
+              A CSS file with the configured Pygments styles from `website.content.processors.md.settings.highlight.style`, in their configured order.
 
               Useful when `website.content.processors.md.settings.highlight.noclasses` is set to `false`.
             '';
@@ -313,19 +342,42 @@ in
         );
 
         processors.md.highlightStylesheet =
-          pkgs.runCommand "nixtml-highlight-${processors.md.settings.highlight.style}.css" { }
-            ''
-              ${pythonEnv}/bin/pygmentize -S ${lib.escapeShellArg processors.md.settings.highlight.style} -f html -a .highlight > $out
-            '';
+          let
+            stylesheetCommands = lib.concatMapStringsSep "\n" (
+              variant:
+              let
+                pygmentize = ''
+                  ${pythonEnv}/bin/pygmentize -S ${lib.escapeShellArg variant.name} -f html -a ${lib.escapeShellArg variant.selector} >> $out
+                '';
+              in
+              if variant.media == null then
+                pygmentize
+              else
+                ''
+                  printf '%s\n' ${lib.escapeShellArg "@media (${variant.media}) {"} >> $out
+                  ${pygmentize}
+                  printf '%s\n' '}' >> $out
+                ''
+            ) highlightStyles;
+          in
+          pkgs.runCommand "nixtml-highlight-${baseHighlightStyle}.css" { } ''
+            : > $out
+            ${stylesheetCommands}
+          '';
 
         processors.md.processor =
           name: path:
           let
             py = pythonEnv;
 
-            options = pkgs.writeText "content-options-${name}.json" (
-              builtins.toJSON config.website.content.processors.md.settings
-            );
+            inherit (config.website.content.processors.md) settings;
+            processorSettings = settings // {
+              highlight = settings.highlight // {
+                style = baseHighlightStyle;
+              };
+            };
+
+            options = pkgs.writeText "content-options-${name}.json" (builtins.toJSON processorSettings);
 
             jsonData = pkgs.runCommand "content-data-${name}.json" { } ''
               ${py}/bin/python ${./processContent.py} ${toString path} ${toString options} > $out
