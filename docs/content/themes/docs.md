@@ -81,6 +81,15 @@ Pages in sections with `pager = true` link to the previous and next page in the 
 
 `logo.source` is copied into the website and displayed at the top of every page. It's also used as the favicon unless `logo.favicon` is `false`. Without a logo, the site title is displayed instead.
 
+A large logo can take up a lot of space above every page. Set `logo.compact.source` to a smaller logo, such as an icon, to display it at a reduced size on every page except the landing page, which keeps `logo.source` at full size. The compact logo is then also used as the favicon.
+
+```nix
+themes.docs.logo = {
+  source = ./logo.svg;
+  compact.source = ./icon.svg;
+};
+```
+
 The colors are [Bulma's colors](https://bulma.io/documentation/customize/concepts/), given as Sass color values. `primary` and `link` default to the colors of this website, and setting any color to `null` uses Bulma's default:
 
 | Option | Default |

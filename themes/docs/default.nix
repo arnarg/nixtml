@@ -48,11 +48,20 @@ let
     }
   ];
 
-  logoFile =
-    if cfg.logo.source == null then
+  fileExtension =
+    source:
+    lib.last (lib.splitString "." (builtins.unsafeDiscardStringContext (baseNameOf (toString source))));
+
+  logoFile = if cfg.logo.source == null then null else "logo.${fileExtension cfg.logo.source}";
+  compactLogoFile =
+    if cfg.logo.compact.source == null then
       null
     else
-      "logo.${lib.last (lib.splitString "." (builtins.unsafeDiscardStringContext (baseNameOf (toString cfg.logo.source))))}";
+      "logo-compact.${fileExtension cfg.logo.compact.source}";
+
+  # The compact logo is preferred for the favicon, as it's usually the one
+  # that's legible at small sizes.
+  faviconFile = if compactLogoFile != null then compactLogoFile else logoFile;
   logoMimeTypes = {
     svg = "image/svg+xml";
     png = "image/png";
@@ -62,7 +71,7 @@ let
     jpeg = "image/jpeg";
     gif = "image/gif";
   };
-  logoMimeType = logoMimeTypes.${lib.last (lib.splitString "." logoFile)} or null;
+  faviconMimeType = logoMimeTypes.${lib.last (lib.splitString "." faviconFile)} or null;
 
   themeColor = if cfg.colors.themeColor != null then cfg.colors.themeColor else cfg.colors.primary;
 
@@ -202,7 +211,17 @@ in
       favicon = mkOption {
         type = types.bool;
         default = true;
-        description = "Whether to use the logo as the favicon.";
+        description = "Whether to use the logo as the favicon. Uses `compact.source` when set.";
+      };
+      compact.source = mkOption {
+        type = with types; nullOr path;
+        default = null;
+        example = literalExpression "./icon.svg";
+        description = ''
+          Smaller logo displayed at the top of every page except the landing page, which keeps `source` at full size.
+
+          When `null`, `source` is displayed at full size on every page.
+        '';
       };
     };
 
@@ -383,9 +402,13 @@ in
     build.extraPackages.docsTheme = themeAssets;
 
     website = {
-      files = lib.mkIf (cfg.logo.source != null) {
-        ${logoFile}.source = cfg.logo.source;
-      };
+      files =
+        lib.optionalAttrs (logoFile != null) {
+          ${logoFile}.source = cfg.logo.source;
+        }
+        // lib.optionalAttrs (compactLogoFile != null) {
+          ${compactLogoFile}.source = cfg.logo.compact.source;
+        };
 
       pages."404.html" = lib.mkIf cfg.notFoundPage.enable {
         extraContext = {
@@ -495,13 +518,22 @@ in
         partials = {
           docsHero = lib.mkDefault (
             context:
+            let
+              # Every page except the landing page uses the compact logo,
+              # when one is configured.
+              compact = compactLogoFile != null && (context.path or [ ]) != [ "index.html" ];
+              heroLogoFile = if compact then compactLogoFile else logoFile;
+            in
             section
               [
-                (attrs.classes [
-                  "hero"
-                  "docs-hero"
-                  "mt-5"
-                ])
+                (attrs.classes (
+                  [
+                    "hero"
+                    "docs-hero"
+                    "mt-5"
+                  ]
+                  ++ lib.optional compact "is-compact"
+                ))
               ]
               [
                 (partials.docsTopbar context)
@@ -523,7 +555,7 @@ in
                             (
                               if logoFile != null then
                                 img [
-                                  (attrs.src (baseURI + logoFile))
+                                  (attrs.src (baseURI + heroLogoFile))
                                   (attrs.alt cfg.logo.alt)
                                 ]
                               else
@@ -665,13 +697,13 @@ in
               (attrs.name "theme-color")
               (attrs.content themeColor)
             ])
-            ++ lib.optional (logoFile != null && cfg.logo.favicon) (
+            ++ lib.optional (faviconFile != null && cfg.logo.favicon) (
               link (
                 [
                   (attrs.rel "icon")
-                  (attrs.href (baseURI + logoFile))
+                  (attrs.href (baseURI + faviconFile))
                 ]
-                ++ lib.optional (logoMimeType != null) (attrs.type logoMimeType)
+                ++ lib.optional (faviconMimeType != null) (attrs.type faviconMimeType)
               )
             )
             ++ lib.optional cfg.colorSchemeSwitcher.enable (script [ ] [ colorSchemeScript ])

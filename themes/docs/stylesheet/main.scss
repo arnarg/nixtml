@@ -41,6 +41,19 @@
       width: min(100%, 15rem);
     }
   }
+
+  // Pages other than the landing page, when a compact logo is configured.
+  &.is-compact {
+    img {
+      width: 4rem;
+    }
+
+    @include mixins.mobile {
+      img {
+        width: 3rem;
+      }
+    }
+  }
 }
 
 .docs-section {
