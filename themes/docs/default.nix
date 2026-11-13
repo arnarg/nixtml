@@ -254,7 +254,7 @@ in
         type = types.bool;
         default = true;
         description = ''
-          Whether to display buttons for switching between the system, light and dark color schemes. The reader's choice is saved in their browser.
+          Whether to display a button for cycling through the system, light and dark color schemes. The reader's choice is saved in their browser.
 
           The switcher requires JavaScript, and is hidden when it's unavailable.
         '';
@@ -278,17 +278,17 @@ in
         system = mkOption {
           type = types.str;
           default = "System color scheme";
-          description = "Accessible label of the system color scheme button.";
+          description = "Accessible label for the system color scheme.";
         };
         light = mkOption {
           type = types.str;
           default = "Light color scheme";
-          description = "Accessible label of the light color scheme button.";
+          description = "Accessible label for the light color scheme.";
         };
         dark = mkOption {
           type = types.str;
           default = "Dark color scheme";
-          description = "Accessible label of the dark color scheme button.";
+          description = "Accessible label for the dark color scheme.";
         };
       };
     };
@@ -606,8 +606,7 @@ in
           docsColorSchemeSwitcher = lib.mkDefault (
             _:
             let
-              schemeButton =
-                scheme:
+              switcherButton =
                 button
                   [
                     (attrs.type "button")
@@ -615,17 +614,19 @@ in
                       "button"
                       "is-small"
                     ])
-                    (attrs.data "color-scheme" scheme)
-                    (attrs.aria "pressed" (lib.boolToString (scheme == defaultColorScheme)))
-                    (attrs.aria "label" cfg.colorSchemeSwitcher.labels.${scheme})
-                    (attrs.title cfg.colorSchemeSwitcher.labels.${scheme})
+                    (attrs.data "color-scheme" defaultColorScheme)
+                    (attrs.data "label-system" cfg.colorSchemeSwitcher.labels.system)
+                    (attrs.data "label-light" cfg.colorSchemeSwitcher.labels.light)
+                    (attrs.data "label-dark" cfg.colorSchemeSwitcher.labels.dark)
+                    (attrs.aria "label" cfg.colorSchemeSwitcher.labels.${defaultColorScheme})
+                    (attrs.title cfg.colorSchemeSwitcher.labels.${defaultColorScheme})
                   ]
                   [
                     (span
                       [
                         (attrs.classes [
                           "docs-icon"
-                          "is-${scheme}"
+                          "is-${defaultColorScheme}"
                         ])
                         (attrs.aria "hidden" "true")
                       ]
@@ -636,24 +637,14 @@ in
             lib.optionalString cfg.colorSchemeSwitcher.enable (
               div
                 [
-                  (attrs.classes [
-                    "docs-color-scheme"
-                    "buttons"
-                    "has-addons"
-                  ])
+                  (attrs.class "docs-color-scheme")
                   (lib.mkAttr "role" "group")
                   (attrs.aria "label" cfg.colorSchemeSwitcher.labels.group)
                   (attrs.data "storage-key" cfg.colorSchemeSwitcher.storageKey)
                   (attrs.data "default" defaultColorScheme)
                   (lib.mkAttr "hidden" "")
                 ]
-                (
-                  map schemeButton [
-                    "system"
-                    "light"
-                    "dark"
-                  ]
-                )
+                [ switcherButton ]
             )
           );
 

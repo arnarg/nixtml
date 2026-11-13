@@ -402,7 +402,7 @@ $admonition-colors: (
   }
 
   // Bulma sizes buttons by their content, which would make the icon-only
-  // color scheme buttons shorter than the repository link. Using the control
+  // color scheme button shorter than the repository link. Using the control
   // height for all of them keeps the bar's items the same height.
   .button {
     height: var(--bulma-control-height);
@@ -425,10 +425,9 @@ $admonition-colors: (
     display: none;
   }
 
-  .button[aria-pressed="true"] {
-    z-index: 1;
-    border-color: var(--bulma-link);
-    color: var(--bulma-link);
+  .button {
+    aspect-ratio: 1;
+    padding: 0;
   }
 }
 
