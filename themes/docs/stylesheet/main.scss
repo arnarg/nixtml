@@ -23,8 +23,6 @@
 @forward "bulma/sass/themes";
 
 .docs-hero {
-  position: relative;
-
   .hero-body {
     padding: 1rem;
   }
@@ -39,19 +37,6 @@
   @include mixins.mobile {
     img {
       width: min(100%, 15rem);
-    }
-  }
-
-  // Pages other than the landing page, when a compact logo is configured.
-  &.is-compact {
-    img {
-      width: 4rem;
-    }
-
-    @include mixins.mobile {
-      img {
-        width: 3rem;
-      }
     }
   }
 }
@@ -155,10 +140,6 @@
   &[hidden] {
     display: none;
   }
-}
-
-.docs-mobile-nav-toggle {
-  margin-inline-end: auto;
 }
 
 // Repository link and close button at the top of the off-canvas navigation.
@@ -539,18 +520,25 @@ $admonition-colors: (
   }
 }
 
-// Bar in the top of the hero. It's in the top right corner on desktop. On
-// touch devices it spans the page, with the navigation toggle on the left and
-// the color scheme switcher on the right. The repository link is displayed at
-// the top of the off-canvas navigation instead.
+// Bar at the top of every page, with the site title on the left and the
+// repository link and color scheme switcher on the right. On touch devices
+// the navigation toggle is in front of the title, and the repository link is
+// displayed at the top of the off-canvas navigation instead.
 .docs-topbar {
-  position: absolute;
-  top: 0;
-  right: 1.5rem;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  padding: 1rem 1.5rem;
+
+  > .container,
+  .docs-topbar-end {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  // Keeps the repository link and color scheme switcher on the right, also
+  // on the landing page, which has no site title in the bar.
+  .docs-topbar-end {
+    margin-inline-start: auto;
+  }
 
   .buttons,
   .buttons .button {
@@ -566,9 +554,9 @@ $admonition-colors: (
   }
 
   @include mixins.touch {
-    position: static;
-    justify-content: flex-end;
-    margin: 0 1.5rem 0rem;
+    > .container {
+      gap: 0.75rem;
+    }
 
     .docs-repo {
       display: none;
@@ -578,6 +566,33 @@ $admonition-colors: (
       font-size: 1rem;
     }
   }
+}
+
+.docs-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  color: var(--bulma-text-strong);
+  font-size: 1.25rem;
+  font-weight: var(--bulma-weight-semibold);
+  line-height: 1.2;
+
+  &:hover {
+    color: var(--bulma-text-strong);
+  }
+
+  img {
+    flex-shrink: 0;
+    width: auto;
+    height: 2.25rem;
+  }
+}
+
+.docs-brand-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .docs-color-scheme {

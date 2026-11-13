@@ -13,6 +13,7 @@ let
     footer
     h1
     head
+    header
     html
     img
     link
@@ -199,7 +200,7 @@ in
         default = null;
         example = literalExpression "./logo.svg";
         description = ''
-          Logo displayed at the top of every page. When `null` the site title is displayed instead.
+          Logo displayed at the top of the landing page. When `null` the site title is displayed instead.
         '';
       };
       alt = mkOption {
@@ -218,9 +219,7 @@ in
         default = null;
         example = literalExpression "./icon.svg";
         description = ''
-          Smaller logo displayed at the top of every page except the landing page, which keeps `source` at full size.
-
-          When `null`, `source` is displayed at full size on every page.
+          Small logo, such as an icon, displayed in front of the site title in the bar at the top of every page.
         '';
       };
     };
@@ -452,6 +451,7 @@ in
                 (body
                   [ ]
                   [
+                    (partials.docsTopbar context)
                     (partials.docsHero context)
                     (section
                       [
@@ -516,65 +516,74 @@ in
         );
 
         partials = {
+          # Large logo, or the site title without one, displayed only on the
+          # landing page. Other pages show the site title in `docsTopbar`.
           docsHero = lib.mkDefault (
             context:
-            let
-              # Every page except the landing page uses the compact logo,
-              # when one is configured.
-              compact = compactLogoFile != null && (context.path or [ ]) != [ "index.html" ];
-              heroLogoFile = if compact then compactLogoFile else logoFile;
-            in
-            section
-              [
-                (attrs.classes (
-                  [
+            lib.optionalString ((context.path or [ ]) == [ "index.html" ]) (
+              section
+                [
+                  (attrs.classes [
                     "hero"
                     "docs-hero"
-                    "mt-5"
-                  ]
-                  ++ lib.optional compact "is-compact"
-                ))
-              ]
-              [
-                (partials.docsTopbar context)
-                (div
-                  [ (attrs.classes [ "hero-body" ]) ]
-                  [
-                    (div
-                      [
-                        (attrs.classes [
-                          "container"
-                          "is-max-desktop"
-                          "has-text-centered"
-                        ])
-                      ]
-                      [
-                        (a
-                          [ (attrs.href baseURI) ]
-                          [
-                            (
-                              if logoFile != null then
-                                img [
-                                  (attrs.src (baseURI + heroLogoFile))
-                                  (attrs.alt cfg.logo.alt)
+                  ])
+                ]
+                [
+                  (div
+                    [ (attrs.classes [ "hero-body" ]) ]
+                    [
+                      (div
+                        [
+                          (attrs.classes [
+                            "container"
+                            "is-max-desktop"
+                            "has-text-centered"
+                          ])
+                        ]
+                        [
+                          (
+                            if logoFile != null then
+                              img [
+                                (attrs.src (baseURI + logoFile))
+                                (attrs.alt cfg.logo.alt)
+                              ]
+                            else
+                              p
+                                [
+                                  (attrs.classes [
+                                    "title"
+                                    "docs-hero-title"
+                                  ])
                                 ]
-                              else
-                                p
-                                  [
-                                    (attrs.classes [
-                                      "title"
-                                      "docs-hero-title"
-                                    ])
-                                  ]
-                                  [ siteTitle ]
-                            )
-                          ]
-                        )
-                      ]
-                    )
-                  ]
-                )
-              ]
+                                [ siteTitle ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ]
+            )
+          );
+
+          # Site title linking to the landing page, with the compact logo in
+          # front of it when one is configured. The landing page displays
+          # `docsHero` instead.
+          docsBrand = lib.mkDefault (
+            context:
+            lib.optionalString ((context.path or [ ]) != [ "index.html" ]) (
+              a
+                [
+                  (attrs.class "docs-brand")
+                  (attrs.href baseURI)
+                ]
+                [
+                  (lib.optionalString (compactLogoFile != null) (img [
+                    (attrs.src (baseURI + compactLogoFile))
+                    (attrs.alt "")
+                  ]))
+                  (span [ (attrs.class "docs-brand-title") ] [ siteTitle ])
+                ]
+            )
           );
 
           docsFooter = lib.mkDefault (
@@ -626,12 +635,28 @@ in
 
           docsTopbar = lib.mkDefault (
             context:
-            div
+            header
               [ (attrs.class "docs-topbar") ]
               [
-                (partials.docsMobileNavToggle context)
-                (partials.docsRepository context)
-                (partials.docsColorSchemeSwitcher context)
+                (div
+                  [
+                    (attrs.classes [
+                      "container"
+                      "is-max-widescreen"
+                    ])
+                  ]
+                  [
+                    (partials.docsMobileNavToggle context)
+                    (partials.docsBrand context)
+                    (div
+                      [ (attrs.class "docs-topbar-end") ]
+                      [
+                        (partials.docsRepository context)
+                        (partials.docsColorSchemeSwitcher context)
+                      ]
+                    )
+                  ]
+                )
               ]
           );
 

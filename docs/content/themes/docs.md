@@ -6,7 +6,7 @@ nav:
   order: 20
 ---
 
-The docs theme is the theme used by this website. It provides a hero with a logo, a sidebar navigation built from page frontmatter, previous and next links between pages, edit links, light and dark color schemes and self-hosted fonts. It's built on [Bulma](https://bulma.io/), compiled from pinned Sass sources during the Nix build.
+The docs theme is the theme used by this website. It provides a logo on the landing page, a bar with the site title on other pages, a sidebar navigation built from page frontmatter, previous and next links between pages, edit links, light and dark color schemes and self-hosted fonts. It's built on [Bulma](https://bulma.io/), compiled from pinned Sass sources during the Nix build.
 
 See [Using themes](/nixtml/themes/) for how themes work in general.
 
@@ -80,9 +80,9 @@ Pages in sections with `pager = true` link to the previous and next page in the 
 
 ## Logo and Colors
 
-`logo.source` is copied into the website and displayed at the top of every page. It's also used as the favicon unless `logo.favicon` is `false`. Without a logo, the site title is displayed instead.
+Every page except the landing page has the site title, linking to the landing page, in the bar at the top. `logo.source` is copied into the website and displayed above the content of the landing page. It's also used as the favicon unless `logo.favicon` is `false`. Without a logo, the landing page displays the site title in large text instead.
 
-A large logo can take up a lot of space above every page. Set `logo.compact.source` to a smaller logo, such as an icon, to display it at a reduced size on every page except the landing page, which keeps `logo.source` at full size. The compact logo is then also used as the favicon.
+Set `logo.compact.source` to a small logo, such as an icon, to display it in front of the site title in the bar. The compact logo is then also used as the favicon.
 
 ```nix
 themes.docs.logo = {
@@ -128,7 +128,7 @@ Code blocks are highlighted with the Pygments styles in `codeStyles.light` and `
 
 ## Repository
 
-The theme can link to the project's repository in the top of every page, next to the color scheme buttons. Linking to a repository is opt-in:
+The theme can link to the project's repository in the bar at the top of every page, next to the color scheme buttons. Linking to a repository is opt-in:
 
 ```nix
 themes.docs.repository.url = "https://github.com/arnarg/nixtml";
@@ -225,8 +225,9 @@ The docs theme's layouts and partials can be replaced individually, as described
 | Partial | Purpose |
 | --- | --- |
 | `head` and `meta` | Contents of `<head>` |
-| `docsHero` | Logo or title at the top of the page |
-| `docsTopbar` | Bar in the top of the hero, containing the mobile navigation toggle, `docsRepository` and `docsColorSchemeSwitcher` |
+| `docsTopbar` | Bar at the top of every page, containing the mobile navigation toggle, `docsBrand`, `docsRepository` and `docsColorSchemeSwitcher` |
+| `docsBrand` | Site title linking to the landing page, with the compact logo in front of it. Empty on the landing page |
+| `docsHero` | Logo, or title without one, on the landing page |
 | `docsMobileNavToggle` | Hamburger button for the off-canvas navigation on small screens |
 | `docsRepository` | Repository link and stats |
 | `docsColorSchemeSwitcher` | Color scheme buttons |
