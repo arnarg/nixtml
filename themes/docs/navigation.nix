@@ -27,7 +27,8 @@ let
           navMetadata.section
             or (throw "Content page '${name}' must define nav.section when it defines nav metadata.");
         item = {
-          path = if name == "index" then "" else name;
+          # Pages named `index` are rendered as their directory's index.
+          path = if name == "index" then "" else lib.removeSuffix "/index" name;
           title = navMetadata.label or (metadata.title or name);
           order =
             navMetadata.order

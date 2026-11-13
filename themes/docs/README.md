@@ -26,6 +26,6 @@ nixtml.lib.mkWebsite {
 }
 ```
 
-See [Using the docs theme](https://arnarg.github.io/nixtml/docs-theme/) for all options.
+See [the docs theme documentation](https://arnarg.github.io/nixtml/themes/docs/) for all options.
 
 Bulma is fetched at a pinned release and compiled during the Nix build. Bulma is MIT licensed, and Fira Sans and Fira Mono are licensed under the SIL Open Font License 1.1.

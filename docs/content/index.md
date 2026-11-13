@@ -173,7 +173,7 @@ The guides label or show the surrounding context for their snippets. See [Config
 ## What to Learn Next
 
 - [Content and frontmatter](/nixtml/content/) explains discovery, output paths, metadata, and static files.
-- [Using themes and Minima](/nixtml/themes/) covers navigation, feeds, excerpts, and layout overrides.
+- [Using themes](/nixtml/themes/) covers importing themes and overriding their layouts, with dedicated pages for [Minima](/nixtml/themes/minima/) and the [docs theme](/nixtml/themes/docs/).
 - [Layouts and partials](/nixtml/templating/) shows how to replace the theme layouts with custom markup.
 - [Collections and pagination](/nixtml/collections/) turns the site into a dated blog with listings and feeds.
 

@@ -1,17 +1,16 @@
 ---
-title: Using Themes and Minima
-description: Import theme modules, configure Minima, and override individual layouts or partials
+title: Minima
+description: A blog theme with posts, collections, taxonomies, pagination and RSS
 nav:
-  section: guides
-  order: 60
-  label: Using themes and Minima
+  section: themes
+  order: 10
 ---
 
-A nixtml theme is a Nix module that supplies layouts and, optionally, static assets. Themes use the same configuration mechanisms as any other nixtml module, so sites can adopt their defaults or replace individual pieces.
+Minima is a proof-of-concept port of Jekyll's Minima 2.5.2. It provides a responsive header, static-page and post layouts, collection and taxonomy listings, pagination, footer links, and RSS discovery.
 
-## Import a Theme
+See [Using themes](/nixtml/themes/) for how themes work in general.
 
-Pass a theme module through `imports` in `mkWebsite`:
+## Import Minima
 
 ```nix
 nixtml.lib.mkWebsite {
@@ -30,13 +29,11 @@ nixtml.lib.mkWebsite {
 }
 ```
 
-Theme-specific settings remain under `themes`. Minima currently lives at `nixtml.themes.minima`, and its options are under `themes.minima`.
-
 The [getting-started guide](/nixtml/) contains a complete flake with a preview server.
 
 ## Configure Minima
 
-Minima is a proof-of-concept port of Jekyll's Minima 2.5.2. It provides a responsive header, static-page and post layouts, collection and taxonomy listings, pagination, footer links, and RSS discovery.
+Minima's settings live under `themes.minima`:
 
 ```nix
 themes.minima = {
@@ -129,9 +126,7 @@ Site-wide `website.metadata.author` and `website.metadata.email` also appear in 
 
 ## Override a Layout or Partial
 
-Minima defines its layouts and partials with `lib.mkDefault`, allowing site configuration to replace them without priority workarounds.
-
-For example, replace only the footer while retaining the other Minima layouts:
+Minima's layouts and partials can be replaced individually, as described in [Using themes](/nixtml/themes/#override-a-layout-or-partial). For example, replace only the footer while retaining the other Minima layouts:
 
 ```nix
 { lib, config, ... }:
@@ -148,19 +143,7 @@ For example, replace only the footer while retaining the other Minima layouts:
 }
 ```
 
-Standard layouts can be replaced the same way:
-
-```nix
-website.layouts.page = { metadata, content, ... }:
-  lib.tags.article [ ] [
-    (lib.tags.h1 [ ] [ metadata.title ])
-    content
-  ];
-```
-
-When overriding a function, preserve the arguments used by its callers. The [Template Context Reference](/nixtml/reference/templates/) lists standard layout values; Minima's module shows each partial's specific signature.
-
-See [Layouts and partials](/nixtml/templating/) when building a complete custom theme instead of overriding Minima.
+Minima's module shows each partial's specific signature.
 
 ## Assets and Reproducibility
 

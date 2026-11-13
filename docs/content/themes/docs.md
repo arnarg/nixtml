@@ -1,15 +1,16 @@
 ---
-title: Using the Docs Theme
-description: Build a documentation site with sidebar navigation, self-hosted fonts and light and dark color schemes
+title: Docs
+description: A documentation theme with sidebar navigation, self-hosted fonts and light and dark color schemes
 nav:
-  section: guides
-  order: 65
-  label: Using the docs theme
+  section: themes
+  order: 20
 ---
 
 The docs theme is the theme used by this website. It provides a hero with a logo, a sidebar navigation built from page frontmatter, previous and next links between pages, edit links, light and dark color schemes and self-hosted fonts. It's built on [Bulma](https://bulma.io/), compiled from pinned Sass sources during the Nix build.
 
-## Import the Theme
+See [Using themes](/nixtml/themes/) for how themes work in general.
+
+## Import the Docs Theme
 
 ```nix
 nixtml.lib.mkWebsite {
@@ -158,7 +159,7 @@ themes.docs.extraScss = ''
 
 ## Override Layouts and Partials
 
-Like Minima, the docs theme defines its layouts and partials with `lib.mkDefault`, so a site can replace any of them. The base layout is composed of these partials:
+The docs theme's layouts and partials can be replaced individually, as described in [Using themes](/nixtml/themes/#override-a-layout-or-partial). The base layout is composed of these partials:
 
 | Partial | Purpose |
 | --- | --- |
@@ -169,5 +170,3 @@ Like Minima, the docs theme defines its layouts and partials with `lib.mkDefault
 | `docsEditLink` | Edit link below the content |
 | `docsPager` | Previous and next links |
 | `docsFooter` | Footer |
-
-See [Using themes and Minima](/nixtml/themes/#override-a-layout-or-partial) for an example.

@@ -58,6 +58,22 @@
   themes.docs = {
     logo.source = ../logo.svg;
 
+    navigation.sections = [
+      {
+        id = "guides";
+        title = "Guides";
+        pager = true;
+      }
+      {
+        id = "themes";
+        title = "Themes";
+      }
+      {
+        id = "reference";
+        title = "Reference";
+      }
+    ];
+
     codeStyles = {
       light = "catppuccin-latte";
       dark = "catppuccin-mocha";
