@@ -18,7 +18,7 @@
 				} catch (error) {}
 			})();
 		</script>
-		<script src="/nixtml/js/color-scheme.js" defer="">
+		<script src="/nixtml/js/docs.js" defer="">
 		</script>
 		<title>
 			Docs | nixtml
@@ -36,19 +36,57 @@
 	</head>
 	<body>
 		<section class="hero docs-hero mt-5">
-			<div class="docs-color-scheme buttons has-addons" role="group" aria-label="Color scheme" data-storage-key="nixtml-docs-color-scheme" data-default="system" hidden="">
-				<button type="button" class="button is-small" data-color-scheme="system" aria-pressed="true" aria-label="System color scheme" title="System color scheme">
-					<span class="docs-color-scheme-icon is-system" aria-hidden="true">
+			<div class="docs-topbar">
+				<a class="docs-repo button is-small" href="https://github.com/arnarg/nixtml" data-provider="github" data-api="https://api.github.com/repos/arnarg/nixtml" data-storage-key="nixtml-docs-repository" data-version="true">
+					<span class="docs-icon is-github" aria-hidden="true">
 					</span>
-				</button>
-				<button type="button" class="button is-small" data-color-scheme="light" aria-pressed="false" aria-label="Light color scheme" title="Light color scheme">
-					<span class="docs-color-scheme-icon is-light" aria-hidden="true">
+					<span class="docs-repo-name">
+						arnarg/nixtml
 					</span>
-				</button>
-				<button type="button" class="button is-small" data-color-scheme="dark" aria-pressed="false" aria-label="Dark color scheme" title="Dark color scheme">
-					<span class="docs-color-scheme-icon is-dark" aria-hidden="true">
+					<span class="docs-repo-facts" hidden="">
+						<span class="docs-repo-fact" data-fact="version" hidden="">
+							<span class="docs-icon is-version" aria-hidden="true">
+							</span>
+							<span class="docs-visually-hidden">
+								Latest release
+							</span>
+							<span class="docs-repo-fact-value">
+							</span>
+						</span>
+						<span class="docs-repo-fact" data-fact="stars" hidden="">
+							<span class="docs-icon is-stars" aria-hidden="true">
+							</span>
+							<span class="docs-visually-hidden">
+								Stars
+							</span>
+							<span class="docs-repo-fact-value">
+							</span>
+						</span>
+						<span class="docs-repo-fact" data-fact="forks" hidden="">
+							<span class="docs-icon is-forks" aria-hidden="true">
+							</span>
+							<span class="docs-visually-hidden">
+								Forks
+							</span>
+							<span class="docs-repo-fact-value">
+							</span>
+						</span>
 					</span>
-				</button>
+				</a>
+				<div class="docs-color-scheme buttons has-addons" role="group" aria-label="Color scheme" data-storage-key="nixtml-docs-color-scheme" data-default="system" hidden="">
+					<button type="button" class="button is-small" data-color-scheme="system" aria-pressed="true" aria-label="System color scheme" title="System color scheme">
+						<span class="docs-icon is-system" aria-hidden="true">
+						</span>
+					</button>
+					<button type="button" class="button is-small" data-color-scheme="light" aria-pressed="false" aria-label="Light color scheme" title="Light color scheme">
+						<span class="docs-icon is-light" aria-hidden="true">
+						</span>
+					</button>
+					<button type="button" class="button is-small" data-color-scheme="dark" aria-pressed="false" aria-label="Dark color scheme" title="Dark color scheme">
+						<span class="docs-icon is-dark" aria-hidden="true">
+						</span>
+					</button>
+				</div>
 			</div>
 			<div class="hero-body">
 				<div class="container is-max-desktop has-text-centered">
@@ -390,6 +428,90 @@
 </code></pre></div>
 							<p>Websites served from the same origin share their browser storage. For example, all GitHub Pages project sites of a user are served from <code>&lt;user&gt;.github.io</code>. The default <code>storageKey</code> includes <code>website.name</code> to keep their choices separate.</p>
 							<p>Code blocks are highlighted with the Pygments styles in <code>codeStyles.light</code> and <code>codeStyles.dark</code>, which default to <code>default</code> and <code>monokai</code>. Styles from other Python packages need the package in <a href="/nixtml/reference/markdown/#additional-python-packages"><code>extraPythonPackages</code></a>.</p>
+							<h2 id="repository">Repository<a class="headerlink mx-2" href="#repository" title="Permanent link">#</a></h2>
+							<p>The theme can link to the project's repository in the top of every page, next to the color scheme buttons. Linking to a repository is opt-in:</p>
+							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span>docs<span class="o">.</span>repository<span class="o">.</span><span class="ss">url</span> <span class="o">=</span> <span class="s2">"https://github.com/arnarg/nixtml"</span><span class="p">;</span>
+</code></pre></div>
+							<p>The link displays the provider's icon and the repository's name, followed by its latest release, number of stars and number of forks. On small screens, only the icon and stats are displayed.</p>
+							<p>The stats are fetched from the provider's API by the reader's browser, and cached in their browser for an hour. This means readers' browsers send requests to the provider, which can be turned off with <code>repository.stats.enable = false</code>, leaving only the link. Values that can't be fetched, e.g. because the API's rate limit is reached, are left out. Repositories without releases don't display a version.</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Provider</th>
+										<th>Detected hosts</th>
+										<th>API</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>github</code></td>
+										<td><code>github.com</code></td>
+										<td><code>api.github.com</code>, or <code>/api/v3</code> on GitHub Enterprise</td>
+									</tr>
+									<tr>
+										<td><code>gitlab</code></td>
+										<td>Hosts containing <code>gitlab</code>, e.g. <code>gitlab.com</code></td>
+										<td><code>/api/v4</code></td>
+									</tr>
+									<tr>
+										<td><code>forgejo</code></td>
+										<td><code>codeberg.org</code></td>
+										<td><code>/api/v1</code></td>
+									</tr>
+									<tr>
+										<td><code>gitea</code></td>
+										<td><code>gitea.com</code></td>
+										<td><code>/api/v1</code></td>
+									</tr>
+								</tbody>
+							</table>
+							<p>Repositories on other hosts need their provider set, e.g. <code>repository.provider = "forgejo";</code> for a self-hosted Forgejo instance. Self-hosted Forgejo and Gitea instances don't allow requests from other websites by default, so their stats are only displayed when <a href="https://forgejo.org/docs/latest/admin/config-cheat-sheet/#cors-cors">CORS</a> is enabled on the instance.</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Option</th>
+										<th>Default</th>
+										<th>Purpose</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>repository.url</code></td>
+										<td><code>null</code></td>
+										<td>URL of the repository; <code>null</code> hides the link</td>
+									</tr>
+									<tr>
+										<td><code>repository.provider</code></td>
+										<td>Detected from <code>url</code></td>
+										<td><code>"github"</code>, <code>"gitlab"</code>, <code>"forgejo"</code> or <code>"gitea"</code></td>
+									</tr>
+									<tr>
+										<td><code>repository.name</code></td>
+										<td>Path of <code>url</code></td>
+										<td>Name displayed in the link</td>
+									</tr>
+									<tr>
+										<td><code>repository.stats.enable</code></td>
+										<td><code>true</code></td>
+										<td>Display the latest release, stars and forks</td>
+									</tr>
+									<tr>
+										<td><code>repository.stats.version</code></td>
+										<td><code>true</code></td>
+										<td>Display the latest release</td>
+									</tr>
+									<tr>
+										<td><code>repository.stats.storageKey</code></td>
+										<td><code>"&lt;website.name&gt;-repository"</code></td>
+										<td><code>localStorage</code> key of the cached stats</td>
+									</tr>
+									<tr>
+										<td><code>repository.stats.labels</code></td>
+										<td><code>version</code>, <code>stars</code> and <code>forks</code> labels</td>
+										<td>Accessible labels of the stats</td>
+									</tr>
+								</tbody>
+							</table>
 							<h2 id="fonts">Fonts<a class="headerlink mx-2" href="#fonts" title="Permanent link">#</a></h2>
 							<p>The theme uses Fira Sans and Fira Mono by default. The fonts are taken from the <code>fira-sans</code> and <code>fira-mono</code> packages in nixpkgs and served by the website itself, so pages don't load anything from third parties.</p>
 							<p>Fonts are split into the same subsets as Google Fonts serves them, each with a <code>unicode-range</code>, so browsers only download the files for the characters a page uses. By default, the <code>latin</code> and <code>latin-ext</code> subsets are included:</p>
@@ -449,8 +571,16 @@
 										<td>Logo or title at the top of the page</td>
 									</tr>
 									<tr>
+										<td><code>docsTopbar</code></td>
+										<td>Bar in the top of the hero, containing <code>docsRepository</code> and <code>docsColorSchemeSwitcher</code></td>
+									</tr>
+									<tr>
+										<td><code>docsRepository</code></td>
+										<td>Repository link and stats</td>
+									</tr>
+									<tr>
 										<td><code>docsColorSchemeSwitcher</code></td>
-										<td>Color scheme buttons, rendered by <code>docsHero</code></td>
+										<td>Color scheme buttons</td>
 									</tr>
 									<tr>
 										<td><code>docsSidebar</code></td>
