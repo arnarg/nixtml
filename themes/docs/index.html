@@ -104,6 +104,54 @@
 					<div class="docs-mobile-nav-overlay" aria-hidden="true">
 					</div>
 					<aside class="docs-mobile-nav-panel" id="docs-mobile-navigation">
+						<div class="docs-mobile-nav-header">
+							<a class="docs-repo button is-small" href="https://github.com/arnarg/nixtml" data-provider="github" data-api="https://api.github.com/repos/arnarg/nixtml" data-storage-key="nixtml-docs-repository" data-version="true">
+								<span class="docs-icon is-github" aria-hidden="true">
+								</span>
+								<span class="docs-repo-name">
+									arnarg/nixtml
+								</span>
+								<span class="docs-repo-facts" hidden="">
+									<span class="docs-repo-fact" data-fact="version" hidden="">
+										<span class="docs-icon is-version" aria-hidden="true">
+										</span>
+										<span class="docs-visually-hidden">
+											Latest release
+										</span>
+										<span class="docs-repo-fact-value">
+										</span>
+									</span>
+									<span class="docs-repo-fact" data-fact="stars" hidden="">
+										<span class="docs-icon is-stars" aria-hidden="true">
+										</span>
+										<span class="docs-visually-hidden">
+											Stars
+										</span>
+										<span class="docs-repo-fact-value">
+										</span>
+									</span>
+									<span class="docs-repo-fact" data-fact="forks" hidden="">
+										<span class="docs-icon is-forks" aria-hidden="true">
+										</span>
+										<span class="docs-visually-hidden">
+											Forks
+										</span>
+										<span class="docs-repo-fact-value">
+										</span>
+									</span>
+								</span>
+							</a>
+							<button type="button" class="navbar-burger is-active docs-mobile-nav-close" aria-label="Close navigation" aria-controls="docs-mobile-navigation" hidden="">
+								<span aria-hidden="true">
+								</span>
+								<span aria-hidden="true">
+								</span>
+								<span aria-hidden="true">
+								</span>
+								<span aria-hidden="true">
+								</span>
+							</button>
+						</div>
 						<nav class="menu" aria-label="Documentation">
 							<p class="menu-label">
 								Guides
@@ -349,6 +397,11 @@
 										<td>Label of the collapsible navigation on small screens</td>
 									</tr>
 									<tr>
+										<td><code>navigation.closeLabel</code></td>
+										<td><code>"Close navigation"</code></td>
+										<td>Label of the button closing the navigation on small screens</td>
+									</tr>
+									<tr>
 										<td><code>pager.previousLabel</code></td>
 										<td><code>"Previous"</code></td>
 										<td>Label of the link to the previous page</td>
@@ -441,7 +494,7 @@
 							<p>The theme can link to the project's repository in the top of every page, next to the color scheme buttons. Linking to a repository is opt-in:</p>
 							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span>docs<span class="o">.</span>repository<span class="o">.</span><span class="ss">url</span> <span class="o">=</span> <span class="s2">"https://github.com/arnarg/nixtml"</span><span class="p">;</span>
 </code></pre></div>
-							<p>The link displays the provider's icon and the repository's name, followed by its latest release, number of stars and number of forks. On small screens, only the icon and stats are displayed.</p>
+							<p>The link displays the provider's icon and the repository's name, followed by its latest release, number of stars and number of forks. On small screens, it's displayed at the top of the navigation instead, with only the icon and stats.</p>
 							<p>The stats are fetched from the provider's API by the reader's browser, and cached in their browser for an hour. This means readers' browsers send requests to the provider, which can be turned off with <code>repository.stats.enable = false</code>, leaving only the link. Values that can't be fetched, e.g. because the API's rate limit is reached, are left out. Repositories without releases don't display a version.</p>
 							<table>
 								<thead>
