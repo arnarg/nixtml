@@ -37,6 +37,16 @@
 	<body>
 		<section class="hero docs-hero mt-5">
 			<div class="docs-topbar">
+				<button type="button" class="navbar-burger docs-mobile-nav-toggle is-hidden-desktop" aria-label="Browse documentation" aria-expanded="false" aria-controls="docs-mobile-navigation" hidden="">
+					<span aria-hidden="true">
+					</span>
+					<span aria-hidden="true">
+					</span>
+					<span aria-hidden="true">
+					</span>
+					<span aria-hidden="true">
+					</span>
+				</button>
 				<a class="docs-repo button is-small" href="https://github.com/arnarg/nixtml" data-provider="github" data-api="https://api.github.com/repos/arnarg/nixtml" data-storage-key="nixtml-docs-repository" data-version="true">
 					<span class="docs-icon is-github" aria-hidden="true">
 					</span>
@@ -90,88 +100,89 @@
 		</section>
 		<section class="section docs-section">
 			<div class="container is-max-widescreen">
-				<details class="docs-mobile-nav is-hidden-desktop">
-					<summary>
-						Browse documentation
-					</summary>
-					<nav class="menu" aria-label="Documentation">
-						<p class="menu-label">
-							Guides
-						</p>
-						<ul class="menu-list">
-							<li>
-								<a href="/nixtml/">
-									Getting started
-								</a>
-							</li>
-							<li>
-								<a href="/nixtml/content/">
-									Content and frontmatter
-								</a>
-							</li>
-							<li>
-								<a href="/nixtml/templating/">
-									Layouts and partials
-								</a>
-							</li>
-							<li>
-								<a href="/nixtml/collections/">
-									Collections and pagination
-								</a>
-							</li>
-							<li>
-								<a href="/nixtml/taxonomies/">
-									Taxonomies and RSS
-								</a>
-							</li>
-							<li>
-								<a href="/nixtml/themes/">
-									Using themes
-								</a>
-							</li>
-						</ul>
-						<p class="menu-label">
-							Themes
-						</p>
-						<ul class="menu-list">
-							<li>
-								<a href="/nixtml/themes/minima/" class="is-active" aria-current="page">
-									Minima
-								</a>
-							</li>
-							<li>
-								<a href="/nixtml/themes/docs/">
-									Docs
-								</a>
-							</li>
-						</ul>
-						<p class="menu-label">
-							Reference
-						</p>
-						<ul class="menu-list">
-							<li>
-								<a href="/nixtml/reference/templates/">
-									Template contexts
-								</a>
-							</li>
-							<li>
-								<a href="/nixtml/reference/html/">
-									HTML tags and attributes
-								</a>
-							</li>
-							<li>
-								<a href="/nixtml/reference/markdown/">
-									Markdown and highlighting
-								</a>
-							</li>
-							<li>
-								<a href="/nixtml/options/">
-									Configuration options
-								</a>
-							</li>
-						</ul>
-					</nav>
-				</details>
+				<div class="docs-mobile-nav is-hidden-desktop">
+					<div class="docs-mobile-nav-overlay" aria-hidden="true">
+					</div>
+					<aside class="docs-mobile-nav-panel" id="docs-mobile-navigation">
+						<nav class="menu" aria-label="Documentation">
+							<p class="menu-label">
+								Guides
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/">
+										Getting started
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/content/">
+										Content and frontmatter
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/templating/">
+										Layouts and partials
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/collections/">
+										Collections and pagination
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/taxonomies/">
+										Taxonomies and RSS
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/themes/">
+										Using themes
+									</a>
+								</li>
+							</ul>
+							<p class="menu-label">
+								Themes
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/themes/minima/" class="is-active" aria-current="page">
+										Minima
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/themes/docs/">
+										Docs
+									</a>
+								</li>
+							</ul>
+							<p class="menu-label">
+								Reference
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/reference/templates/">
+										Template contexts
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/reference/html/">
+										HTML tags and attributes
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/reference/markdown/">
+										Markdown and highlighting
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/options/">
+										Configuration options
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</aside>
+				</div>
 				<div class="columns">
 					<aside class="docs-sidebar column is-one-quarter-desktop is-hidden-touch">
 						<nav class="menu" aria-label="Documentation">
