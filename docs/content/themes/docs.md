@@ -216,10 +216,11 @@ The docs theme's layouts and partials can be replaced individually, as described
 | --- | --- |
 | `head` and `meta` | Contents of `<head>` |
 | `docsHero` | Logo or title at the top of the page |
-| `docsTopbar` | Bar in the top of the hero, containing `docsRepository` and `docsColorSchemeSwitcher` |
+| `docsTopbar` | Bar in the top of the hero, containing the mobile navigation toggle, `docsRepository` and `docsColorSchemeSwitcher` |
+| `docsMobileNavToggle` | Hamburger button for the off-canvas navigation on small screens |
 | `docsRepository` | Repository link and stats |
 | `docsColorSchemeSwitcher` | Color scheme buttons |
-| `docsSidebar` | Navigation, called with `mobile = true` for small screens |
+| `docsSidebar` | Navigation, called with `mobile = true` for the off-canvas menu on small screens |
 | `pageHeader` | Page title and description |
 | `docsEditLink` | Edit link below the content |
 | `docsPager` | Previous and next links |

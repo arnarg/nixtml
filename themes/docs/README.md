@@ -2,7 +2,7 @@
 
 A documentation theme built on [Bulma](https://bulma.io/), used by [nixtml's documentation](https://arnarg.github.io/nixtml/).
 
-- Sidebar navigation built from `nav` frontmatter, with previous and next links within sections.
+- Sidebar navigation built from `nav` frontmatter, with an off-canvas hamburger menu on mobile and previous and next links within sections.
 - Configurable logo, colors, code highlighting styles, footer and edit links.
 - Light and dark color schemes, with a switcher saving the reader's choice.
 - Optional repository link with the latest release, stars and forks from GitHub, GitLab, Forgejo or Gitea.

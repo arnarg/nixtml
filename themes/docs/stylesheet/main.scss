@@ -9,6 +9,7 @@
 @forward "bulma/sass/base";
 @forward "bulma/sass/grid/columns";
 @forward "bulma/sass/components/menu";
+@forward "bulma/sass/components/navbar";
 @forward "bulma/sass/elements/button";
 @forward "bulma/sass/elements/content";
 @forward "bulma/sass/elements/title";
@@ -132,20 +133,96 @@
   }
 }
 
+// Without JavaScript, the mobile menu remains visible in normal flow. The
+// script adds `is-enhanced` before hiding it off screen and showing the burger.
 .docs-mobile-nav {
   margin-bottom: 2rem;
+}
+
+.docs-mobile-nav-toggle {
+  position: relative;
+  z-index: 42;
+  margin: 0;
+  margin-inline-end: auto;
   border: 1px solid var(--bulma-border);
   border-radius: var(--bulma-radius);
 
-  summary {
-    padding: 0.75rem 1rem;
-    font-weight: var(--bulma-weight-semibold);
-    cursor: pointer;
+  &.is-active {
+    background-color: var(--bulma-scheme-main);
+  }
+}
+
+.docs-mobile-nav-overlay {
+  display: none;
+}
+
+.docs-mobile-nav.is-enhanced {
+  margin-bottom: 0;
+
+  .docs-mobile-nav-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    display: block;
+    visibility: hidden;
+    background-color: hsl(var(--bulma-scheme-h), var(--bulma-scheme-s), var(--bulma-scheme-invert-l), 0.5);
+    opacity: 0;
+    transition:
+      opacity var(--bulma-duration) var(--bulma-easing),
+      visibility 0s linear var(--bulma-duration);
   }
 
-  .menu {
+  .docs-mobile-nav-panel {
+    --bulma-menu-label-spacing: 1.5rem;
+
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 41;
     box-sizing: border-box;
-    padding: 0 1rem 1rem;
+    width: min(22rem, calc(100vw - 3rem));
+    padding: 4.5rem 1.5rem 1.5rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    visibility: hidden;
+    background-color: var(--bulma-scheme-main);
+    border-inline-end: 1px solid var(--bulma-border);
+    box-shadow: 0 0 2rem hsl(var(--bulma-scheme-h), var(--bulma-scheme-s), var(--bulma-scheme-invert-l), 0.2);
+    transform: translateX(-100%);
+    transition:
+      transform var(--bulma-duration) var(--bulma-easing),
+      visibility 0s linear var(--bulma-duration);
+    -webkit-overflow-scrolling: touch;
+
+    .menu-list a {
+      overflow-wrap: anywhere;
+    }
+  }
+
+  &.is-active {
+    .docs-mobile-nav-overlay,
+    .docs-mobile-nav-panel {
+      visibility: visible;
+      transition-delay: 0s;
+    }
+
+    .docs-mobile-nav-overlay {
+      opacity: 1;
+    }
+
+    .docs-mobile-nav-panel {
+      transform: translateX(0);
+    }
+  }
+}
+
+html.docs-mobile-nav-open {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .docs-mobile-nav-overlay,
+  .docs-mobile-nav-panel {
+    transition: none;
   }
 }
 
@@ -422,9 +499,9 @@ $admonition-colors: (
   }
 }
 
-// Bar in the top of the hero, containing the repository link and the color
-// scheme switcher. It's in the top right corner on desktop, and spans the
-// width of the page on mobile, with the repository link on the left.
+// Bar in the top of the hero. It's in the top right corner on desktop. On
+// mobile it spans the page, with the navigation toggle on the left and the
+// repository link and color scheme switcher on the right.
 .docs-topbar {
   position: absolute;
   top: 0;
@@ -449,6 +526,9 @@ $admonition-colors: (
 
   @include mixins.mobile {
     position: static;
+    // Avoid trapping the navigation toggle below the off-canvas panel. As a
+    // flex item, the topbar's desktop z-index creates a stacking context.
+    z-index: auto;
     justify-content: flex-end;
     margin: 0 1.5rem 0rem;
 
@@ -478,8 +558,6 @@ $admonition-colors: (
 
   // The repository name stays readable by screen readers on mobile.
   @include mixins.mobile {
-    margin-right: auto;
-
     .docs-repo-name {
       position: absolute;
       width: 1px;

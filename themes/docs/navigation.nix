@@ -3,12 +3,12 @@ let
   inherit (lib.tags)
     a
     aside
-    details
+    button
+    div
     li
     nav
     p
     span
-    summary
     ul
     ;
   inherit (lib) attrs;
@@ -210,7 +210,7 @@ in
       mobileLabel = mkOption {
         type = types.str;
         default = "Browse documentation";
-        description = "Label of the collapsible navigation on small screens.";
+        description = "Accessible label of the navigation button on small screens.";
       };
     };
 
@@ -229,6 +229,24 @@ in
   };
 
   config.website.layouts.partials = {
+    docsMobileNavToggle = lib.mkDefault (
+      _:
+      button
+        [
+          (attrs.type "button")
+          (attrs.classes [
+            "navbar-burger"
+            "docs-mobile-nav-toggle"
+            "is-hidden-desktop"
+          ])
+          (attrs.aria "label" cfg.navigation.mobileLabel)
+          (attrs.aria "expanded" "false")
+          (attrs.aria "controls" "docs-mobile-navigation")
+          (lib.mkAttr "hidden" "")
+        ]
+        (lib.replicate 4 (span [ (attrs.aria "hidden" "true") ] [ ]))
+    );
+
     docsPager = lib.mkDefault (
       { path, ... }:
       let
@@ -287,7 +305,7 @@ in
         menu = navigationMenu (pageKey path);
       in
       if mobile then
-        details
+        div
           [
             (attrs.classes [
               "docs-mobile-nav"
@@ -295,8 +313,18 @@ in
             ])
           ]
           [
-            (summary [ ] [ cfg.navigation.mobileLabel ])
-            menu
+            (div
+              [
+                (attrs.class "docs-mobile-nav-overlay")
+                (attrs.aria "hidden" "true")
+              ]
+              [ ])
+            (aside
+              [
+                (attrs.class "docs-mobile-nav-panel")
+                (attrs.id "docs-mobile-navigation")
+              ]
+              [ menu ])
           ]
       else
         aside

@@ -138,9 +138,8 @@ let
     );
   };
 
-  # Whether any feature needs the theme's script.
-  scriptEnabled =
-    cfg.colorSchemeSwitcher.enable || (cfg.repository.url != null && cfg.repository.stats.enable);
+  # The mobile navigation always needs the theme's script.
+  scriptEnabled = true;
 
   defaultColorScheme = if cfg.colorScheme == "auto" then "system" else cfg.colorScheme;
 
@@ -595,14 +594,13 @@ in
 
           docsTopbar = lib.mkDefault (
             context:
-            lib.optionalString (cfg.repository.url != null || cfg.colorSchemeSwitcher.enable) (
-              div
-                [ (attrs.class "docs-topbar") ]
-                [
-                  (partials.docsRepository context)
-                  (partials.docsColorSchemeSwitcher context)
-                ]
-            )
+            div
+              [ (attrs.class "docs-topbar") ]
+              [
+                (partials.docsMobileNavToggle context)
+                (partials.docsRepository context)
+                (partials.docsColorSchemeSwitcher context)
+              ]
           );
 
           docsColorSchemeSwitcher = lib.mkDefault (

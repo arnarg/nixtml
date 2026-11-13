@@ -72,6 +72,106 @@
     switcher.hidden = false;
   };
 
+  // Mobile navigation.
+  //
+  // The menu is visible in normal flow until this feature is initialized, so
+  // it remains available when JavaScript is disabled. Once enhanced, Bulma's
+  // navbar burger toggles the off-canvas menu and its `is-active` state.
+  var setupMobileNavigation = function (container) {
+    var root = document.documentElement;
+    var toggle = document.querySelector(".docs-mobile-nav-toggle");
+    var overlay = container.querySelector(".docs-mobile-nav-overlay");
+    var sidebar = container.querySelector(".docs-mobile-nav-panel");
+    if (!toggle || !overlay || !sidebar) {
+      return;
+    }
+
+    var open = false;
+    var focusableSelector =
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    var focusableElements = function () {
+      return [toggle].concat(Array.prototype.slice.call(sidebar.querySelectorAll(focusableSelector)));
+    };
+
+    var setOpen = function (value, restoreFocus) {
+      open = value;
+      container.classList.toggle("is-active", open);
+      toggle.classList.toggle("is-active", open);
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      root.classList.toggle("docs-mobile-nav-open", open);
+
+      if (open) {
+        sidebar.removeAttribute("aria-hidden");
+        sidebar.removeAttribute("inert");
+        var elements = focusableElements();
+        (elements[1] || toggle).focus();
+      } else {
+        sidebar.setAttribute("aria-hidden", "true");
+        sidebar.setAttribute("inert", "");
+        if (restoreFocus) {
+          toggle.focus();
+        }
+      }
+    };
+
+    toggle.addEventListener("click", function () {
+      setOpen(!open, true);
+    });
+    overlay.addEventListener("click", function () {
+      setOpen(false, true);
+    });
+    sidebar.addEventListener("click", function (event) {
+      if (event.target.closest("a[href]")) {
+        setOpen(false, false);
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (!open) {
+        return;
+      }
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setOpen(false, true);
+        return;
+      }
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      var elements = focusableElements();
+      var first = elements[0];
+      var last = elements[elements.length - 1];
+      if (elements.length === 1) {
+        event.preventDefault();
+        toggle.focus();
+      } else if (
+        event.shiftKey &&
+        (document.activeElement === first ||
+          (!container.contains(document.activeElement) && document.activeElement !== toggle))
+      ) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    // An open mobile menu must not keep the page locked after switching to the
+    // desktop layout. Reading the layout also honors customized Bulma breakpoints.
+    window.addEventListener("resize", function () {
+      if (open && window.getComputedStyle(container).display === "none") {
+        setOpen(false, false);
+      }
+    });
+
+    container.classList.add("is-enhanced");
+    toggle.hidden = false;
+    setOpen(false, false);
+  };
+
   // Repository stats.
   //
   // Fetches the latest release, stars and forks of the repository from its
@@ -187,6 +287,7 @@
     );
   };
 
+  document.querySelectorAll(".docs-mobile-nav").forEach(setupMobileNavigation);
   document.querySelectorAll(".docs-color-scheme").forEach(setupColorScheme);
   document.querySelectorAll(".docs-repo[data-api]").forEach(setupRepository);
 })();
