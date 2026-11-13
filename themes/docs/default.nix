@@ -584,7 +584,9 @@ in
           pageHeader = lib.mkDefault (
             { metadata, ... }:
             [
-              (h1 [ (attrs.classes [ "title" ]) ] [ metadata.title ])
+              (lib.optionalString (metadata ? title) (
+                h1 [ (attrs.classes [ "title" ]) ] [ metadata.title ]
+              ))
               (lib.optionalString (metadata ? description && metadata.description != "") (
                 p [ (attrs.classes [ "docs-lede" ]) ] [ metadata.description ]
               ))

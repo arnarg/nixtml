@@ -17,7 +17,7 @@ class YamlMetadataExtension(Extension):
 
     def extendMarkdown(self, md: Markdown, *args, **kwargs) -> None:
         md.registerExtension(self)
-        md.Meta = None  # type: ignore
+        md.Meta = {}  # type: ignore
         md.preprocessors.register(
             YamlMetadataPreprocessor(md, self.getConfigs()), "yaml_metadata", 1
         )
@@ -31,7 +31,9 @@ class YamlMetadataPreprocessor(Preprocessor):
     def run(self, lines: List[str]) -> List[str]:
         meta_lines, lines = self.split_by_meta_and_content(lines)
 
-        self.md.Meta = yaml.load("\n".join(meta_lines), Loader=yaml.SafeLoader)
+        self.md.Meta = (
+            yaml.load("\n".join(meta_lines), Loader=yaml.SafeLoader) or {}
+        )
         return lines
 
     @staticmethod
@@ -39,7 +41,7 @@ class YamlMetadataPreprocessor(Preprocessor):
         lines: List[str],
     ) -> Tuple[List[str], List[str]]:
         meta_lines: List[str] = []
-        if lines[0].rstrip(" ") != "---":
+        if not lines or lines[0].rstrip(" ") != "---":
             return meta_lines, lines
 
         lines.pop(0)
