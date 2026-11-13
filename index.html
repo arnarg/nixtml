@@ -35,8 +35,8 @@
 		<meta property="og:type" content="website">
 	</head>
 	<body>
-		<section class="hero docs-hero mt-5">
-			<div class="docs-topbar">
+		<header class="docs-topbar">
+			<div class="container is-max-widescreen">
 				<button type="button" class="navbar-burger docs-mobile-nav-toggle is-hidden-desktop" aria-label="Browse documentation" aria-expanded="false" aria-controls="docs-mobile-navigation" hidden="">
 					<span aria-hidden="true">
 					</span>
@@ -47,54 +47,57 @@
 					<span aria-hidden="true">
 					</span>
 				</button>
-				<a class="docs-repo button is-small" href="https://github.com/arnarg/nixtml" data-provider="github" data-api="https://api.github.com/repos/arnarg/nixtml" data-storage-key="nixtml-docs-repository" data-version="true">
-					<span class="docs-icon is-github" aria-hidden="true">
-					</span>
-					<span class="docs-repo-name">
-						arnarg/nixtml
-					</span>
-					<span class="docs-repo-facts" hidden="">
-						<span class="docs-repo-fact" data-fact="version" hidden="">
-							<span class="docs-icon is-version" aria-hidden="true">
+
+				<div class="docs-topbar-end">
+					<a class="docs-repo button is-small" href="https://github.com/arnarg/nixtml" data-provider="github" data-api="https://api.github.com/repos/arnarg/nixtml" data-storage-key="nixtml-docs-repository" data-version="true">
+						<span class="docs-icon is-github" aria-hidden="true">
+						</span>
+						<span class="docs-repo-name">
+							arnarg/nixtml
+						</span>
+						<span class="docs-repo-facts" hidden="">
+							<span class="docs-repo-fact" data-fact="version" hidden="">
+								<span class="docs-icon is-version" aria-hidden="true">
+								</span>
+								<span class="docs-visually-hidden">
+									Latest release
+								</span>
+								<span class="docs-repo-fact-value">
+								</span>
 							</span>
-							<span class="docs-visually-hidden">
-								Latest release
+							<span class="docs-repo-fact" data-fact="stars" hidden="">
+								<span class="docs-icon is-stars" aria-hidden="true">
+								</span>
+								<span class="docs-visually-hidden">
+									Stars
+								</span>
+								<span class="docs-repo-fact-value">
+								</span>
 							</span>
-							<span class="docs-repo-fact-value">
+							<span class="docs-repo-fact" data-fact="forks" hidden="">
+								<span class="docs-icon is-forks" aria-hidden="true">
+								</span>
+								<span class="docs-visually-hidden">
+									Forks
+								</span>
+								<span class="docs-repo-fact-value">
+								</span>
 							</span>
 						</span>
-						<span class="docs-repo-fact" data-fact="stars" hidden="">
-							<span class="docs-icon is-stars" aria-hidden="true">
+					</a>
+					<div class="docs-color-scheme" role="group" aria-label="Color scheme" data-storage-key="nixtml-docs-color-scheme" data-default="system" hidden="">
+						<button type="button" class="button is-small" data-color-scheme="system" data-label-system="System color scheme" data-label-light="Light color scheme" data-label-dark="Dark color scheme" aria-label="System color scheme" title="System color scheme">
+							<span class="docs-icon is-system" aria-hidden="true">
 							</span>
-							<span class="docs-visually-hidden">
-								Stars
-							</span>
-							<span class="docs-repo-fact-value">
-							</span>
-						</span>
-						<span class="docs-repo-fact" data-fact="forks" hidden="">
-							<span class="docs-icon is-forks" aria-hidden="true">
-							</span>
-							<span class="docs-visually-hidden">
-								Forks
-							</span>
-							<span class="docs-repo-fact-value">
-							</span>
-						</span>
-					</span>
-				</a>
-				<div class="docs-color-scheme" role="group" aria-label="Color scheme" data-storage-key="nixtml-docs-color-scheme" data-default="system" hidden="">
-					<button type="button" class="button is-small" data-color-scheme="system" data-label-system="System color scheme" data-label-light="Light color scheme" data-label-dark="Dark color scheme" aria-label="System color scheme" title="System color scheme">
-						<span class="docs-icon is-system" aria-hidden="true">
-						</span>
-					</button>
+						</button>
+					</div>
 				</div>
 			</div>
+		</header>
+		<section class="hero docs-hero">
 			<div class="hero-body">
 				<div class="container is-max-desktop has-text-centered">
-					<a href="/nixtml/">
-						<img src="/nixtml/logo.svg" alt="nixtml">
-					</a>
+					<img src="/nixtml/logo.svg" alt="nixtml">
 				</div>
 			</div>
 		</section>

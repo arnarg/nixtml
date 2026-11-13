@@ -35,8 +35,8 @@
 		<meta property="og:type" content="article">
 	</head>
 	<body>
-		<section class="hero docs-hero mt-5">
-			<div class="docs-topbar">
+		<header class="docs-topbar">
+			<div class="container is-max-widescreen">
 				<button type="button" class="navbar-burger docs-mobile-nav-toggle is-hidden-desktop" aria-label="Browse documentation" aria-expanded="false" aria-controls="docs-mobile-navigation" hidden="">
 					<span aria-hidden="true">
 					</span>
@@ -47,57 +47,59 @@
 					<span aria-hidden="true">
 					</span>
 				</button>
-				<a class="docs-repo button is-small" href="https://github.com/arnarg/nixtml" data-provider="github" data-api="https://api.github.com/repos/arnarg/nixtml" data-storage-key="nixtml-docs-repository" data-version="true">
-					<span class="docs-icon is-github" aria-hidden="true">
-					</span>
-					<span class="docs-repo-name">
-						arnarg/nixtml
-					</span>
-					<span class="docs-repo-facts" hidden="">
-						<span class="docs-repo-fact" data-fact="version" hidden="">
-							<span class="docs-icon is-version" aria-hidden="true">
-							</span>
-							<span class="docs-visually-hidden">
-								Latest release
-							</span>
-							<span class="docs-repo-fact-value">
-							</span>
-						</span>
-						<span class="docs-repo-fact" data-fact="stars" hidden="">
-							<span class="docs-icon is-stars" aria-hidden="true">
-							</span>
-							<span class="docs-visually-hidden">
-								Stars
-							</span>
-							<span class="docs-repo-fact-value">
-							</span>
-						</span>
-						<span class="docs-repo-fact" data-fact="forks" hidden="">
-							<span class="docs-icon is-forks" aria-hidden="true">
-							</span>
-							<span class="docs-visually-hidden">
-								Forks
-							</span>
-							<span class="docs-repo-fact-value">
-							</span>
-						</span>
+				<a class="docs-brand" href="/nixtml/">
+
+					<span class="docs-brand-title">
+						nixtml
 					</span>
 				</a>
-				<div class="docs-color-scheme" role="group" aria-label="Color scheme" data-storage-key="nixtml-docs-color-scheme" data-default="system" hidden="">
-					<button type="button" class="button is-small" data-color-scheme="system" data-label-system="System color scheme" data-label-light="Light color scheme" data-label-dark="Dark color scheme" aria-label="System color scheme" title="System color scheme">
-						<span class="docs-icon is-system" aria-hidden="true">
+				<div class="docs-topbar-end">
+					<a class="docs-repo button is-small" href="https://github.com/arnarg/nixtml" data-provider="github" data-api="https://api.github.com/repos/arnarg/nixtml" data-storage-key="nixtml-docs-repository" data-version="true">
+						<span class="docs-icon is-github" aria-hidden="true">
 						</span>
-					</button>
-				</div>
-			</div>
-			<div class="hero-body">
-				<div class="container is-max-desktop has-text-centered">
-					<a href="/nixtml/">
-						<img src="/nixtml/logo.svg" alt="nixtml">
+						<span class="docs-repo-name">
+							arnarg/nixtml
+						</span>
+						<span class="docs-repo-facts" hidden="">
+							<span class="docs-repo-fact" data-fact="version" hidden="">
+								<span class="docs-icon is-version" aria-hidden="true">
+								</span>
+								<span class="docs-visually-hidden">
+									Latest release
+								</span>
+								<span class="docs-repo-fact-value">
+								</span>
+							</span>
+							<span class="docs-repo-fact" data-fact="stars" hidden="">
+								<span class="docs-icon is-stars" aria-hidden="true">
+								</span>
+								<span class="docs-visually-hidden">
+									Stars
+								</span>
+								<span class="docs-repo-fact-value">
+								</span>
+							</span>
+							<span class="docs-repo-fact" data-fact="forks" hidden="">
+								<span class="docs-icon is-forks" aria-hidden="true">
+								</span>
+								<span class="docs-visually-hidden">
+									Forks
+								</span>
+								<span class="docs-repo-fact-value">
+								</span>
+							</span>
+						</span>
 					</a>
+					<div class="docs-color-scheme" role="group" aria-label="Color scheme" data-storage-key="nixtml-docs-color-scheme" data-default="system" hidden="">
+						<button type="button" class="button is-small" data-color-scheme="system" data-label-system="System color scheme" data-label-light="Light color scheme" data-label-dark="Dark color scheme" aria-label="System color scheme" title="System color scheme">
+							<span class="docs-icon is-system" aria-hidden="true">
+							</span>
+						</button>
+					</div>
 				</div>
 			</div>
-		</section>
+		</header>
+
 		<section class="section docs-section">
 			<div class="container is-max-widescreen">
 				<div class="docs-mobile-nav is-hidden-desktop">
@@ -319,7 +321,7 @@
 							A documentation theme with sidebar navigation, self-hosted fonts and light and dark color schemes
 						</p>
 						<div class="content">
-							<p>The docs theme is the theme used by this website. It provides a hero with a logo, a sidebar navigation built from page frontmatter, previous and next links between pages, edit links, light and dark color schemes and self-hosted fonts. It's built on <a href="https://bulma.io/">Bulma</a>, compiled from pinned Sass sources during the Nix build.</p>
+							<p>The docs theme is the theme used by this website. It provides a logo on the landing page, a bar with the site title on other pages, a sidebar navigation built from page frontmatter, previous and next links between pages, edit links, light and dark color schemes and self-hosted fonts. It's built on <a href="https://bulma.io/">Bulma</a>, compiled from pinned Sass sources during the Nix build.</p>
 							<p>See <a href="/nixtml/themes/">Using themes</a> for how themes work in general.</p>
 							<h2 id="import-the-docs-theme">Import the Docs Theme<a class="headerlink mx-2" href="#import-the-docs-theme" title="Permanent link">#</a></h2>
 							<div class="highlight"><pre><span></span><code>nixtml<span class="o">.</span>lib<span class="o">.</span>mkWebsite <span class="p">{</span>
@@ -414,8 +416,8 @@
 								</tbody>
 							</table>
 							<h2 id="logo-and-colors">Logo and Colors<a class="headerlink mx-2" href="#logo-and-colors" title="Permanent link">#</a></h2>
-							<p><code>logo.source</code> is copied into the website and displayed at the top of every page. It's also used as the favicon unless <code>logo.favicon</code> is <code>false</code>. Without a logo, the site title is displayed instead.</p>
-							<p>A large logo can take up a lot of space above every page. Set <code>logo.compact.source</code> to a smaller logo, such as an icon, to display it at a reduced size on every page except the landing page, which keeps <code>logo.source</code> at full size. The compact logo is then also used as the favicon.</p>
+							<p>Every page except the landing page has the site title, linking to the landing page, in the bar at the top. <code>logo.source</code> is copied into the website and displayed above the content of the landing page. It's also used as the favicon unless <code>logo.favicon</code> is <code>false</code>. Without a logo, the landing page displays the site title in large text instead.</p>
+							<p>Set <code>logo.compact.source</code> to a small logo, such as an icon, to display it in front of the site title in the bar. The compact logo is then also used as the favicon.</p>
 							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span>docs<span class="o">.</span><span class="ss">logo</span> <span class="o">=</span> <span class="p">{</span>
   <span class="ss">source</span> <span class="o">=</span> <span class="l">./logo.svg</span><span class="p">;</span>
   compact<span class="o">.</span><span class="ss">source</span> <span class="o">=</span> <span class="l">./icon.svg</span><span class="p">;</span>
@@ -491,7 +493,7 @@
 							<p>Websites served from the same origin share their browser storage. For example, all GitHub Pages project sites of a user are served from <code>&lt;user&gt;.github.io</code>. The default <code>storageKey</code> includes <code>website.name</code> to keep their choices separate.</p>
 							<p>Code blocks are highlighted with the Pygments styles in <code>codeStyles.light</code> and <code>codeStyles.dark</code>, which default to <code>default</code> and <code>monokai</code>. Styles from other Python packages need the package in <a href="/nixtml/reference/markdown/#additional-python-packages"><code>extraPythonPackages</code></a>.</p>
 							<h2 id="repository">Repository<a class="headerlink mx-2" href="#repository" title="Permanent link">#</a></h2>
-							<p>The theme can link to the project's repository in the top of every page, next to the color scheme buttons. Linking to a repository is opt-in:</p>
+							<p>The theme can link to the project's repository in the bar at the top of every page, next to the color scheme buttons. Linking to a repository is opt-in:</p>
 							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span>docs<span class="o">.</span>repository<span class="o">.</span><span class="ss">url</span> <span class="o">=</span> <span class="s2">"https://github.com/arnarg/nixtml"</span><span class="p">;</span>
 </code></pre></div>
 							<p>The link displays the provider's icon and the repository's name, followed by its latest release, number of stars and number of forks. On small screens, it's displayed at the top of the navigation instead, with only the icon and stats.</p>
@@ -629,12 +631,16 @@
 										<td>Contents of <code>&lt;head&gt;</code></td>
 									</tr>
 									<tr>
-										<td><code>docsHero</code></td>
-										<td>Logo or title at the top of the page</td>
+										<td><code>docsTopbar</code></td>
+										<td>Bar at the top of every page, containing the mobile navigation toggle, <code>docsBrand</code>, <code>docsRepository</code> and <code>docsColorSchemeSwitcher</code></td>
 									</tr>
 									<tr>
-										<td><code>docsTopbar</code></td>
-										<td>Bar in the top of the hero, containing the mobile navigation toggle, <code>docsRepository</code> and <code>docsColorSchemeSwitcher</code></td>
+										<td><code>docsBrand</code></td>
+										<td>Site title linking to the landing page, with the compact logo in front of it. Empty on the landing page</td>
+									</tr>
+									<tr>
+										<td><code>docsHero</code></td>
+										<td>Logo, or title without one, on the landing page</td>
 									</tr>
 									<tr>
 										<td><code>docsMobileNavToggle</code></td>
