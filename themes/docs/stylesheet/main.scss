@@ -1,15 +1,7 @@
-@use "sass:meta";
-
-// Set your brand colors
-$purple: #8a4d76;
-$pink: #fa7c91;
-
-@use "bulma/sass/utilities" with (
-  $family-primary: '"Fira Sans", sans-serif',
-  $family-code: '"Fira Mono", Inconsolata, Hack, SF Mono, Roboto Mono, Source Code Pro, Ubuntu Mono, monospace',
-  $primary: $purple,
-  $link: $pink,
-);
+// Styles for the nixtml docs theme.
+//
+// Bulma's utilities are configured by the generated entrypoint before this
+// module is loaded, so loading them here uses the configured values.
 @use "bulma/sass/utilities/mixins";
 
 @forward "bulma/sass/base";
@@ -382,7 +374,13 @@ $admonition-colors: (
   }
 }
 
-@include meta.load-css("highlight.css");
+.docs-hero-title {
+  font-size: 2.5rem;
+}
 
-// Fira Sans and Fira Mono
-@import url('https://fonts.googleapis.com/css2?family=Fira+Mono&family=Fira+Sans:wght@200;300;400');
+.docs-edit-link {
+  max-inline-size: 75ch;
+  margin-top: 2rem;
+  font-size: 0.875rem;
+}
+

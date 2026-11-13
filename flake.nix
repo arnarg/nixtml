@@ -15,7 +15,10 @@
     {
       lib = import ./lib.nix;
       libTests = import ./lib/tests.nix { nixpkgslib = nixpkgs.lib; };
-      themes.minima = import ./themes/minima;
+      themes = {
+        docs = import ./themes/docs;
+        minima = import ./themes/minima;
+      };
     }
     // (flake-utils.lib.eachDefaultSystem (
       system:

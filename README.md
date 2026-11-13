@@ -184,6 +184,17 @@ themes.minima = {
 
 The proof-of-concept [Minima theme](./themes/minima/) supports posts, static pages, collections, taxonomies, pagination, and RSS links. Build its complete example with `nix build .#examples.minima`.
 
+The [docs theme](./themes/docs/), used by nixtml's own documentation, provides sidebar navigation from page frontmatter, light and dark color schemes and self-hosted fonts:
+
+```nix
+imports = [ nixtml.themes.docs ];
+
+themes.docs = {
+  logo.source = ./logo.svg;
+  colors.primary = "#3e7cb1";
+};
+```
+
 ## Content
 
 By setting `website.content.dir` nixtml will traverse that directory, transform any markdown file it finds and output an HTML file in the final website derivation with the same path. For example, `${content.dir}/about.md` becomes `about/index.html` in the final website derivation.
