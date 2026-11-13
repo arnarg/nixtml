@@ -60,12 +60,6 @@
   padding-top: 2rem;
 }
 
-@include mixins.mobile {
-  .docs-section {
-    padding-top: 0rem;
-  }
-}
-
 .docs-sidebar {
   --bulma-menu-label-spacing: 1.5rem;
 
