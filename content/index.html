@@ -6,6 +6,20 @@
 		<link rel="stylesheet" href="/nixtml/css/main.css">
 		<meta name="theme-color" content="#8a4d76">
 		<link rel="icon" href="/nixtml/logo.svg" type="image/svg+xml">
+		<script>
+			(function () {
+				try {
+					var scheme = window.localStorage.getItem("nixtml-docs-color-scheme");
+					if (scheme === "system") {
+						document.documentElement.removeAttribute("data-theme");
+					} else if (scheme === "light" || scheme === "dark") {
+						document.documentElement.setAttribute("data-theme", scheme);
+					}
+				} catch (error) {}
+			})();
+		</script>
+		<script src="/nixtml/js/color-scheme.js" defer="">
+		</script>
 		<title>
 			Content and Frontmatter | nixtml
 		</title>
@@ -22,6 +36,20 @@
 	</head>
 	<body>
 		<section class="hero docs-hero mt-5">
+			<div class="docs-color-scheme buttons has-addons" role="group" aria-label="Color scheme" data-storage-key="nixtml-docs-color-scheme" data-default="system" hidden="">
+				<button type="button" class="button is-small" data-color-scheme="system" aria-pressed="true" aria-label="System color scheme" title="System color scheme">
+					<span class="docs-color-scheme-icon is-system" aria-hidden="true">
+					</span>
+				</button>
+				<button type="button" class="button is-small" data-color-scheme="light" aria-pressed="false" aria-label="Light color scheme" title="Light color scheme">
+					<span class="docs-color-scheme-icon is-light" aria-hidden="true">
+					</span>
+				</button>
+				<button type="button" class="button is-small" data-color-scheme="dark" aria-pressed="false" aria-label="Dark color scheme" title="Dark color scheme">
+					<span class="docs-color-scheme-icon is-dark" aria-hidden="true">
+					</span>
+				</button>
+			</div>
 			<div class="hero-body">
 				<div class="container is-max-desktop has-text-centered">
 					<a href="/nixtml/">

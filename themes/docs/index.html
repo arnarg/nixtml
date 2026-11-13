@@ -6,6 +6,20 @@
 		<link rel="stylesheet" href="/nixtml/css/main.css">
 		<meta name="theme-color" content="#8a4d76">
 		<link rel="icon" href="/nixtml/logo.svg" type="image/svg+xml">
+		<script>
+			(function () {
+				try {
+					var scheme = window.localStorage.getItem("nixtml-docs-color-scheme");
+					if (scheme === "system") {
+						document.documentElement.removeAttribute("data-theme");
+					} else if (scheme === "light" || scheme === "dark") {
+						document.documentElement.setAttribute("data-theme", scheme);
+					}
+				} catch (error) {}
+			})();
+		</script>
+		<script src="/nixtml/js/color-scheme.js" defer="">
+		</script>
 		<title>
 			Docs | nixtml
 		</title>
@@ -22,6 +36,20 @@
 	</head>
 	<body>
 		<section class="hero docs-hero mt-5">
+			<div class="docs-color-scheme buttons has-addons" role="group" aria-label="Color scheme" data-storage-key="nixtml-docs-color-scheme" data-default="system" hidden="">
+				<button type="button" class="button is-small" data-color-scheme="system" aria-pressed="true" aria-label="System color scheme" title="System color scheme">
+					<span class="docs-color-scheme-icon is-system" aria-hidden="true">
+					</span>
+				</button>
+				<button type="button" class="button is-small" data-color-scheme="light" aria-pressed="false" aria-label="Light color scheme" title="Light color scheme">
+					<span class="docs-color-scheme-icon is-light" aria-hidden="true">
+					</span>
+				</button>
+				<button type="button" class="button is-small" data-color-scheme="dark" aria-pressed="false" aria-label="Dark color scheme" title="Dark color scheme">
+					<span class="docs-color-scheme-icon is-dark" aria-hidden="true">
+					</span>
+				</button>
+			</div>
 			<div class="hero-body">
 				<div class="container is-max-desktop has-text-centered">
 					<a href="/nixtml/">
@@ -321,7 +349,46 @@
 								</tbody>
 							</table>
 							<p>The <code>info</code>, <code>success</code>, <code>warning</code> and <code>danger</code> colors are also used by <a href="/nixtml/reference/markdown/#blocks">admonitions</a>.</p>
-							<p><code>colorScheme</code> follows the reader's system preference by default. Set it to <code>"light"</code> or <code>"dark"</code> to always use one of them.</p>
+							<h2 id="color-schemes">Color Schemes<a class="headerlink mx-2" href="#color-schemes" title="Permanent link">#</a></h2>
+							<p>The theme has a light and a dark color scheme, and follows the reader's system preference by default. Buttons in the top right corner let readers choose between the system, light and dark color schemes. Their choice is saved in their browser and applied before each page is rendered, so pages don't flash in the wrong color scheme.</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Option</th>
+										<th>Default</th>
+										<th>Purpose</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>colorScheme</code></td>
+										<td><code>"auto"</code></td>
+										<td>Color scheme used until the reader chooses one: <code>"auto"</code> follows the system preference, <code>"light"</code> or <code>"dark"</code></td>
+									</tr>
+									<tr>
+										<td><code>colorSchemeSwitcher.enable</code></td>
+										<td><code>true</code></td>
+										<td>Display the color scheme buttons</td>
+									</tr>
+									<tr>
+										<td><code>colorSchemeSwitcher.storageKey</code></td>
+										<td><code>"&lt;website.name&gt;-color-scheme"</code></td>
+										<td><code>localStorage</code> key of the reader's choice</td>
+									</tr>
+									<tr>
+										<td><code>colorSchemeSwitcher.labels</code></td>
+										<td><code>group</code>, <code>system</code>, <code>light</code> and <code>dark</code> labels</td>
+										<td>Accessible labels of the switcher and its buttons</td>
+									</tr>
+								</tbody>
+							</table>
+							<p>The switcher requires JavaScript and is hidden without it, leaving the color scheme from <code>colorScheme</code>. To always use one color scheme, set <code>colorScheme</code> and disable the switcher:</p>
+							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span><span class="ss">docs</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">colorScheme</span> <span class="o">=</span> <span class="s2">"dark"</span><span class="p">;</span>
+  colorSchemeSwitcher<span class="o">.</span><span class="ss">enable</span> <span class="o">=</span> <span class="no">false</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+							<p>Websites served from the same origin share their browser storage. For example, all GitHub Pages project sites of a user are served from <code>&lt;user&gt;.github.io</code>. The default <code>storageKey</code> includes <code>website.name</code> to keep their choices separate.</p>
 							<p>Code blocks are highlighted with the Pygments styles in <code>codeStyles.light</code> and <code>codeStyles.dark</code>, which default to <code>default</code> and <code>monokai</code>. Styles from other Python packages need the package in <a href="/nixtml/reference/markdown/#additional-python-packages"><code>extraPythonPackages</code></a>.</p>
 							<h2 id="fonts">Fonts<a class="headerlink mx-2" href="#fonts" title="Permanent link">#</a></h2>
 							<p>The theme uses Fira Sans and Fira Mono by default. The fonts are taken from the <code>fira-sans</code> and <code>fira-mono</code> packages in nixpkgs and served by the website itself, so pages don't load anything from third parties.</p>
@@ -380,6 +447,10 @@
 									<tr>
 										<td><code>docsHero</code></td>
 										<td>Logo or title at the top of the page</td>
+									</tr>
+									<tr>
+										<td><code>docsColorSchemeSwitcher</code></td>
+										<td>Color scheme buttons, rendered by <code>docsHero</code></td>
 									</tr>
 									<tr>
 										<td><code>docsSidebar</code></td>
