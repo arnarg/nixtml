@@ -5,6 +5,7 @@ A documentation theme built on [Bulma](https://bulma.io/), used by [nixtml's doc
 - Sidebar navigation built from `nav` frontmatter, with previous and next links within sections.
 - Configurable logo, colors, code highlighting styles, footer and edit links.
 - Light and dark color schemes, with a switcher saving the reader's choice.
+- Optional repository link with the latest release, stars and forks from GitHub, GitLab, Forgejo or Gitea.
 - Self-hosted Fira Sans and Fira Mono from nixpkgs, subset like Google Fonts.
 
 ## Usage
@@ -28,4 +29,4 @@ nixtml.lib.mkWebsite {
 
 See [the docs theme documentation](https://arnarg.github.io/nixtml/themes/docs/) for all options.
 
-Bulma is fetched at a pinned release and compiled during the Nix build. Bulma is MIT licensed, and Fira Sans and Fira Mono are licensed under the SIL Open Font License 1.1.
+Bulma is fetched at a pinned release and compiled during the Nix build. Bulma is MIT licensed, and Fira Sans and Fira Mono are licensed under the SIL Open Font License 1.1. Provider logos are from [Simple Icons](https://simpleicons.org/) (CC0 1.0), and the release, star and fork icons are from [Octicons](https://primer.style/octicons/) (MIT).

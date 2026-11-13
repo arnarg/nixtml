@@ -58,6 +58,8 @@
   themes.docs = {
     logo.source = ../logo.svg;
 
+    repository.url = "https://github.com/arnarg/nixtml";
+
     navigation.sections = [
       {
         id = "guides";

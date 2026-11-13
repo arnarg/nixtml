@@ -113,7 +113,7 @@ let
       ''
         mkdir -p src $out/css
         cp ${entrypoint} src/index.scss
-        cp ${./stylesheet/main.scss} src/main.scss
+        cp ${./stylesheet}/*.scss src/
         cp ${cfg.internal.fonts}/fonts.scss src/fonts.scss
         cp ${config.website.content.processors.md.highlightStylesheet} src/highlight.css
         cp ${pkgs.writeText "extra.scss" cfg.extraScss} src/extra.scss
@@ -130,13 +130,17 @@ let
         cp -r ${cfg.internal.fonts}/fonts $out/fonts
       '')
     ]
-    ++ lib.optional cfg.colorSchemeSwitcher.enable (
+    ++ lib.optional scriptEnabled (
       pkgs.runCommand "nixtml-docs-theme-scripts" { } ''
         mkdir -p $out/js
-        cp ${./color-scheme.js} $out/js/color-scheme.js
+        cp ${./docs.js} $out/js/docs.js
       ''
     );
   };
+
+  # Whether any feature needs the theme's script.
+  scriptEnabled =
+    cfg.colorSchemeSwitcher.enable || (cfg.repository.url != null && cfg.repository.stats.enable);
 
   defaultColorScheme = if cfg.colorScheme == "auto" then "system" else cfg.colorScheme;
 
@@ -177,6 +181,7 @@ in
   imports = [
     ./fonts.nix
     ./navigation.nix
+    ./repository.nix
   ];
 
   options.themes.docs = with lib; {
@@ -500,7 +505,7 @@ in
                 ])
               ]
               [
-                (partials.docsColorSchemeSwitcher context)
+                (partials.docsTopbar context)
                 (div
                   [ (attrs.classes [ "hero-body" ]) ]
                   [
@@ -586,6 +591,18 @@ in
             ]
           );
 
+          docsTopbar = lib.mkDefault (
+            context:
+            lib.optionalString (cfg.repository.url != null || cfg.colorSchemeSwitcher.enable) (
+              div
+                [ (attrs.class "docs-topbar") ]
+                [
+                  (partials.docsRepository context)
+                  (partials.docsColorSchemeSwitcher context)
+                ]
+            )
+          );
+
           docsColorSchemeSwitcher = lib.mkDefault (
             _:
             let
@@ -607,7 +624,7 @@ in
                     (span
                       [
                         (attrs.classes [
-                          "docs-color-scheme-icon"
+                          "docs-icon"
                           "is-${scheme}"
                         ])
                         (attrs.aria "hidden" "true")
@@ -666,16 +683,15 @@ in
                 ++ lib.optional (logoMimeType != null) (attrs.type logoMimeType)
               )
             )
-            ++ lib.optionals cfg.colorSchemeSwitcher.enable [
-              (script [ ] [ colorSchemeScript ])
-              (script
+            ++ lib.optional cfg.colorSchemeSwitcher.enable (script [ ] [ colorSchemeScript ])
+            ++ lib.optional scriptEnabled (
+              script
                 [
-                  (attrs.src (baseURI + "js/color-scheme.js"))
+                  (attrs.src (baseURI + "js/docs.js"))
                   (lib.mkAttr "defer" "")
                 ]
                 [ ]
-              )
-            ]
+            )
             ++ [ (partials.meta context) ]
           );
 

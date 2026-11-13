@@ -3,6 +3,7 @@
 // Bulma's utilities are configured by the generated entrypoint before this
 // module is loaded, so loading them here uses the configured values.
 @use "bulma/sass/utilities/mixins";
+@use "icons";
 
 @forward "bulma/sass/base";
 @forward "bulma/sass/grid/columns";
@@ -377,21 +378,40 @@ $admonition-colors: (
   }
 }
 
-// Color scheme switcher, displayed in the top right corner of the hero.
-.docs-color-scheme {
+// Bar in the top of the hero, containing the repository link and the color
+// scheme switcher. It's in the top right corner on desktop, and spans the
+// width of the page on mobile, with the repository link on the left.
+.docs-topbar {
   position: absolute;
   top: 0;
   right: 1.5rem;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 
-  &[hidden] {
-    display: none;
+  .buttons,
+  .buttons .button {
+    margin-bottom: 0;
+  }
+
+  // Bulma sizes buttons by their content, which would make the icon-only
+  // color scheme buttons shorter than the repository link. Using the control
+  // height for all of them keeps the bar's items the same height.
+  .button {
+    height: var(--bulma-control-height);
   }
 
   @include mixins.mobile {
     position: static;
     justify-content: flex-end;
     margin: 0 1.5rem -0.5rem;
+  }
+}
+
+.docs-color-scheme {
+  &[hidden] {
+    display: none;
   }
 
   .button[aria-pressed="true"] {
@@ -401,14 +421,66 @@ $admonition-colors: (
   }
 }
 
-$color-scheme-icons: (
-  "system": "%3Crect x='2' y='3' width='20' height='14' rx='2'/%3E%3Cpath d='M8 21h8M12 17v4'/%3E",
-  "light": "%3Ccircle cx='12' cy='12' r='4'/%3E%3Cpath d='M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41'/%3E",
-  "dark": "%3Cpath d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z'/%3E",
-);
+.docs-repo {
+  gap: 0.5em;
 
-.docs-color-scheme-icon {
+  &.button {
+    padding-inline: 0.75em;
+  }
+
+  // The repository name stays readable by screen readers on mobile.
+  @include mixins.mobile {
+    margin-right: auto;
+
+    .docs-repo-name {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+}
+
+.docs-repo-name {
+  font-weight: var(--bulma-weight-semibold);
+}
+
+.docs-repo-facts,
+.docs-repo-fact {
+  display: inline-flex;
+  align-items: center;
+}
+
+.docs-repo-facts {
+  gap: 0.75em;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.docs-repo-fact {
+  gap: 0.25em;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.docs-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.docs-icon {
   display: inline-block;
+  flex-shrink: 0;
   width: 1.1em;
   height: 1.1em;
   background-color: currentColor;
@@ -416,9 +488,9 @@ $color-scheme-icons: (
   mask-repeat: no-repeat;
   mask-size: contain;
 
-  @each $name, $shape in $color-scheme-icons {
+  @each $name, $icon in icons.$icons {
     &.is-#{$name} {
-      mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E#{$shape}%3C/svg%3E");
+      mask-image: url("#{$icon}");
     }
   }
 }

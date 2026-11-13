@@ -116,6 +116,37 @@ Websites served from the same origin share their browser storage. For example, a
 
 Code blocks are highlighted with the Pygments styles in `codeStyles.light` and `codeStyles.dark`, which default to `default` and `monokai`. Styles from other Python packages need the package in [`extraPythonPackages`](/nixtml/reference/markdown/#additional-python-packages).
 
+## Repository
+
+The theme can link to the project's repository in the top of every page, next to the color scheme buttons. Linking to a repository is opt-in:
+
+```nix
+themes.docs.repository.url = "https://github.com/arnarg/nixtml";
+```
+
+The link displays the provider's icon and the repository's name, followed by its latest release, number of stars and number of forks. On small screens, only the icon and stats are displayed.
+
+The stats are fetched from the provider's API by the reader's browser, and cached in their browser for an hour. This means readers' browsers send requests to the provider, which can be turned off with `repository.stats.enable = false`, leaving only the link. Values that can't be fetched, e.g. because the API's rate limit is reached, are left out. Repositories without releases don't display a version.
+
+| Provider | Detected hosts | API |
+| --- | --- | --- |
+| `github` | `github.com` | `api.github.com`, or `/api/v3` on GitHub Enterprise |
+| `gitlab` | Hosts containing `gitlab`, e.g. `gitlab.com` | `/api/v4` |
+| `forgejo` | `codeberg.org` | `/api/v1` |
+| `gitea` | `gitea.com` | `/api/v1` |
+
+Repositories on other hosts need their provider set, e.g. `repository.provider = "forgejo";` for a self-hosted Forgejo instance. Self-hosted Forgejo and Gitea instances don't allow requests from other websites by default, so their stats are only displayed when [CORS](https://forgejo.org/docs/latest/admin/config-cheat-sheet/#cors-cors) is enabled on the instance.
+
+| Option | Default | Purpose |
+| --- | --- | --- |
+| `repository.url` | `null` | URL of the repository; `null` hides the link |
+| `repository.provider` | Detected from `url` | `"github"`, `"gitlab"`, `"forgejo"` or `"gitea"` |
+| `repository.name` | Path of `url` | Name displayed in the link |
+| `repository.stats.enable` | `true` | Display the latest release, stars and forks |
+| `repository.stats.version` | `true` | Display the latest release |
+| `repository.stats.storageKey` | `"<website.name>-repository"` | `localStorage` key of the cached stats |
+| `repository.stats.labels` | `version`, `stars` and `forks` labels | Accessible labels of the stats |
+
 ## Fonts
 
 The theme uses Fira Sans and Fira Mono by default. The fonts are taken from the `fira-sans` and `fira-mono` packages in nixpkgs and served by the website itself, so pages don't load anything from third parties.
@@ -185,7 +216,9 @@ The docs theme's layouts and partials can be replaced individually, as described
 | --- | --- |
 | `head` and `meta` | Contents of `<head>` |
 | `docsHero` | Logo or title at the top of the page |
-| `docsColorSchemeSwitcher` | Color scheme buttons, rendered by `docsHero` |
+| `docsTopbar` | Bar in the top of the hero, containing `docsRepository` and `docsColorSchemeSwitcher` |
+| `docsRepository` | Repository link and stats |
+| `docsColorSchemeSwitcher` | Color scheme buttons |
 | `docsSidebar` | Navigation, called with `mobile = true` for small screens |
 | `pageHeader` | Page title and description |
 | `docsEditLink` | Edit link below the content |
