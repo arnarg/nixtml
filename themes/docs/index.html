@@ -362,6 +362,12 @@
 							</table>
 							<h2 id="logo-and-colors">Logo and Colors<a class="headerlink mx-2" href="#logo-and-colors" title="Permanent link">#</a></h2>
 							<p><code>logo.source</code> is copied into the website and displayed at the top of every page. It's also used as the favicon unless <code>logo.favicon</code> is <code>false</code>. Without a logo, the site title is displayed instead.</p>
+							<p>A large logo can take up a lot of space above every page. Set <code>logo.compact.source</code> to a smaller logo, such as an icon, to display it at a reduced size on every page except the landing page, which keeps <code>logo.source</code> at full size. The compact logo is then also used as the favicon.</p>
+							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span>docs<span class="o">.</span><span class="ss">logo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">source</span> <span class="o">=</span> <span class="l">./logo.svg</span><span class="p">;</span>
+  compact<span class="o">.</span><span class="ss">source</span> <span class="o">=</span> <span class="l">./icon.svg</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
 							<p>The colors are <a href="https://bulma.io/documentation/customize/concepts/">Bulma's colors</a>, given as Sass color values. <code>primary</code> and <code>link</code> default to the colors of this website, and setting any color to <code>null</code> uses Bulma's default:</p>
 							<table>
 								<thead>
