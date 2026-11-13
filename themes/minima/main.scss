@@ -22,3 +22,180 @@
     font-size: $small-font-size;
   }
 }
+
+// Markdown extensions: admonitions, details, tabs, definitions, task lists
+// and captions.
+$admonition-colors: (
+  "note": #2a7ae2,
+  "hint": #00a67d,
+  "tip": #00a67d,
+  "important": #7c4dff,
+  "attention": #e6a700,
+  "caution": #e6a700,
+  "warning": #e6a700,
+  "danger": #d93f3f,
+  "error": #d93f3f,
+) !default;
+
+// Number of tabs per tab set that get styles.
+$tabbed-max-tabs: 20 !default;
+
+.admonition,
+details {
+  --admonition-color: #{$grey-color};
+
+  margin-bottom: $spacing-unit * 0.5;
+  padding: 0 $spacing-unit * 0.5 $spacing-unit * 0.5;
+  border-left: 4px solid var(--admonition-color);
+  border-radius: 3px;
+  background-color: rgba($grey-color-light, 0.35);
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  @each $name, $color in $admonition-colors {
+    &.#{$name} {
+      --admonition-color: #{$color};
+    }
+  }
+}
+
+.admonition-title,
+details > summary {
+  margin: 0 (-$spacing-unit * 0.5) ($spacing-unit * 0.5);
+  padding: $spacing-unit * 0.25 $spacing-unit * 0.5;
+  font-weight: 600;
+  color: var(--admonition-color);
+}
+
+.admonition-title {
+  border-bottom: 1px solid $grey-color-light;
+}
+
+details {
+  &:not([open]) {
+    padding-bottom: 0;
+  }
+
+  > summary {
+    margin-bottom: 0;
+    cursor: pointer;
+  }
+
+  &[open] > summary {
+    margin-bottom: $spacing-unit * 0.5;
+    border-bottom: 1px solid $grey-color-light;
+  }
+}
+
+.tabbed-set {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: $spacing-unit * 0.5;
+
+  > input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+.tabbed-labels {
+  display: flex;
+  width: 100%;
+  overflow-x: auto;
+  border-bottom: 1px solid $grey-color-light;
+
+  > label {
+    flex-shrink: 0;
+    padding: $spacing-unit * 0.25 $spacing-unit * 0.5;
+    border-bottom: 2px solid transparent;
+    color: $grey-color;
+    font-size: $small-font-size;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      color: $text-color;
+    }
+  }
+}
+
+.tabbed-content {
+  width: 100%;
+  padding-top: $spacing-unit * 0.5;
+
+  > .tabbed-block {
+    display: none;
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@for $i from 1 through $tabbed-max-tabs {
+  .tabbed-set > input:nth-child(#{$i}) {
+    &:checked ~ .tabbed-labels > :nth-child(#{$i}) {
+      border-bottom-color: $brand-color;
+      color: $brand-color;
+    }
+
+    &:focus-visible ~ .tabbed-labels > :nth-child(#{$i}) {
+      outline: 2px solid $brand-color;
+      outline-offset: -2px;
+    }
+
+    &:checked ~ .tabbed-content > :nth-child(#{$i}) {
+      display: block;
+    }
+  }
+}
+
+dl {
+  margin-bottom: $spacing-unit * 0.5;
+
+  dt {
+    font-weight: 600;
+  }
+
+  dd {
+    margin-bottom: $spacing-unit * 0.25;
+    margin-left: $spacing-unit;
+  }
+}
+
+.task-list {
+  list-style: none;
+  margin-left: 0;
+
+  .task-list {
+    margin-left: $spacing-unit;
+  }
+
+  input[type="checkbox"] {
+    margin-right: 0.4em;
+  }
+}
+
+figure {
+  > figcaption {
+    margin-top: $spacing-unit * 0.25;
+    color: $grey-color;
+    font-size: $small-font-size;
+    text-align: center;
+
+    > p {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.caption-prefix {
+  font-weight: 600;
+}

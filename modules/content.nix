@@ -22,6 +22,301 @@ let
   highlightStyles = processors.md.settings.highlight.style;
   baseHighlightStyle = (lib.head highlightStyles).name;
 
+  pymdownxDocs = path: "https://facelessuser.github.io/pymdown-extensions/extensions/${path}/";
+  pythonMarkdownDocs = name: "https://python-markdown.github.io/extensions/${name}/";
+
+  mkFeatureEnable =
+    feature: default:
+    lib.mkOption {
+      type = lib.types.bool;
+      inherit default;
+      description = "Whether to enable ${feature}.";
+    };
+
+  mkExtraConfig =
+    module: docs:
+    lib.mkOption {
+      type = with lib.types; attrsOf anything;
+      default = { };
+      description = ''
+        Extra config passed to the `${module}` extension. Takes precedence over the other settings for this extension.
+
+        See: ${docs}
+      '';
+    };
+
+  # A block type is either a name, or a name with an optional CSS class and
+  # title. Used by the admonition and details blocks.
+  blockType = lib.types.either lib.types.str (
+    lib.types.submodule {
+      options = {
+        name = lib.mkOption {
+          type = lib.types.str;
+          description = "Name of the block, e.g. `note` for `/// note`.";
+        };
+        class = lib.mkOption {
+          type = with lib.types; nullOr str;
+          default = null;
+          description = "CSS class for the block. Defaults to `name`.";
+        };
+        title = lib.mkOption {
+          type = with lib.types; nullOr str;
+          default = null;
+          description = "Default title for the block. Defaults to a title cased `class`.";
+        };
+      };
+    }
+  );
+
+  captionType = lib.types.either lib.types.str (
+    lib.types.submodule {
+      options = {
+        name = lib.mkOption {
+          type = lib.types.str;
+          description = "Name of the caption block, e.g. `figure-caption`.";
+        };
+        prefix = lib.mkOption {
+          type = with lib.types; nullOr str;
+          default = null;
+          description = "Prefix template for the caption. Must contain `{}` where the number goes.";
+        };
+      };
+    }
+  );
+
+  toPythonType = value: if lib.isString value then value else lib.filterAttrs (_: v: v != null) value;
+
+  # Markdown extensions managed by nixtml through named settings, in the order
+  # they're passed to Python-Markdown.
+  #
+  # `supersedes` lists older extensions providing the same feature. Adding one
+  # of those to `settings.extensions` while the newer one is enabled is an error
+  # when `strict` is set, as they produce broken output together, and a warning
+  # otherwise.
+  builtinFeatures = [
+    {
+      name = "tables";
+      module = "tables";
+      toConfig = cfg: cfg.extraConfig;
+    }
+    {
+      name = "footnotes";
+      module = "footnotes";
+      toConfig = cfg: cfg.extraConfig;
+    }
+    {
+      name = "attrList";
+      module = "attr_list";
+      toConfig = _: { };
+    }
+    {
+      name = "quotes";
+      module = "pymdownx.quotes";
+      toConfig = cfg: { inherit (cfg) callouts; } // cfg.extraConfig;
+    }
+    {
+      name = "fancylists";
+      module = "pymdownx.fancylists";
+      supersedes = [ "sane_lists" ];
+      strict = true;
+      toConfig =
+        cfg:
+        {
+          additional_ordered_styles = cfg.additionalOrderedStyles;
+          inject_style = cfg.injectStyle;
+          inject_class = cfg.injectClass;
+        }
+        // cfg.extraConfig;
+    }
+    {
+      name = "tasklist";
+      module = "pymdownx.tasklist";
+      toConfig =
+        cfg:
+        {
+          custom_checkbox = cfg.customCheckbox;
+          clickable_checkbox = cfg.clickableCheckbox;
+        }
+        // cfg.extraConfig;
+    }
+    {
+      name = "magiclink";
+      module = "pymdownx.magiclink";
+      toConfig =
+        cfg:
+        {
+          inherit (cfg) provider;
+          hide_protocol = cfg.hideProtocol;
+          repo_url_shortener = cfg.repoUrlShortener;
+          repo_url_shorthand = cfg.repoUrlShorthand;
+        }
+        // lib.optionalAttrs (cfg.user != null) { inherit (cfg) user; }
+        // lib.optionalAttrs (cfg.repo != null) { inherit (cfg) repo; }
+        // cfg.extraConfig;
+    }
+    {
+      name = "admonition";
+      module = "pymdownx.blocks.admonition";
+      supersedes = [ "admonition" ];
+      toConfig = cfg: { types = map toPythonType cfg.types; } // cfg.extraConfig;
+    }
+    {
+      name = "details";
+      module = "pymdownx.blocks.details";
+      supersedes = [ "pymdownx.details" ];
+      toConfig = cfg: { types = map toPythonType cfg.types; } // cfg.extraConfig;
+    }
+    {
+      name = "tab";
+      module = "pymdownx.blocks.tab";
+      supersedes = [ "pymdownx.tabbed" ];
+      strict = true;
+      toConfig = cfg: { alternate_style = cfg.alternateStyle; } // cfg.extraConfig;
+    }
+    {
+      name = "definition";
+      module = "pymdownx.blocks.definition";
+      supersedes = [ "def_list" ];
+      strict = true;
+      toConfig = _: { };
+    }
+    {
+      name = "caption";
+      module = "pymdownx.blocks.caption";
+      toConfig =
+        cfg:
+        {
+          types = map toPythonType cfg.types;
+          inherit (cfg) prepend auto;
+          auto_level = cfg.autoLevel;
+        }
+        // cfg.extraConfig;
+    }
+  ];
+
+  # Extensions that are always enabled, configured through `toc` and `highlight`.
+  alwaysEnabledModules = [
+    "toc"
+    "pymdownx.superfences"
+    "pymdownx.highlight"
+    "pymdownx.inlinehilite"
+  ];
+
+  # Extensions that bundle other extensions.
+  extensionBundles = {
+    "extra" = [
+      "abbr"
+      "attr_list"
+      "def_list"
+      "fenced_code"
+      "footnotes"
+      "md_in_html"
+      "tables"
+    ];
+    "pymdownx.extra" = [
+      "pymdownx.betterem"
+      "pymdownx.superfences"
+      "footnotes"
+      "attr_list"
+      "def_list"
+      "tables"
+      "abbr"
+      "md_in_html"
+    ];
+  };
+
+  normalizeModule = lib.removePrefix "markdown.extensions.";
+  expandModule =
+    name:
+    let
+      module = normalizeModule name;
+    in
+    [ module ] ++ (extensionBundles.${module} or [ ]);
+
+  # Resolves the markdown settings into the list of Python-Markdown extensions
+  # and their configs, after checking for conflicting extensions.
+  resolveMarkdownExtensions =
+    settings:
+    let
+      managedModules = alwaysEnabledModules ++ map (feature: feature.module) builtinFeatures;
+      enabledFeatures = lib.filter (feature: settings.${feature.name}.enable) builtinFeatures;
+
+      extraExtensions = lib.filterAttrs (_: ext: ext.enable) settings.extensions;
+      extraModules = lib.concatMap expandModule (lib.attrNames extraExtensions);
+
+      managedErrors = lib.concatMap (
+        name:
+        lib.optional (lib.elem (normalizeModule name) managedModules) "`${name}` in `website.content.processors.md.settings.extensions` is managed by nixtml, configure it through its named setting instead."
+      ) (lib.attrNames settings.extensions);
+
+      supersededBy =
+        feature: lib.filter (module: lib.elem module extraModules) (feature.supersedes or [ ]);
+      supersededMessage =
+        feature: module:
+        "`${module}` (enabled through `website.content.processors.md.settings.extensions`) "
+        + "conflicts with `${feature.module}`. Set `website.content.processors.md.settings.${feature.name}.enable = false` to use it.";
+
+      supersededErrors = lib.concatMap (
+        feature:
+        lib.optionals (feature.strict or false) (map (supersededMessage feature) (supersededBy feature))
+      ) enabledFeatures;
+      supersededWarnings = lib.concatMap (
+        feature:
+        lib.optionals (!(feature.strict or false)) (map (supersededMessage feature) (supersededBy feature))
+      ) enabledFeatures;
+
+      errors = managedErrors ++ supersededErrors;
+
+      inherit (settings) toc highlight;
+
+      result = {
+        extensions =
+          alwaysEnabledModules
+          ++ map (feature: feature.module) enabledFeatures
+          ++ lib.attrNames extraExtensions;
+        configs = {
+          toc = {
+            inherit (toc)
+              marker
+              title
+              permalink
+              anchorlink
+              ;
+            title_class = toc.titleClass;
+            toc_class = toc.tocClass;
+            anchorlink_class = toc.anchorlinkClass;
+            permalink_class = toc.permalinkClass;
+          };
+          "pymdownx.highlight" = {
+            inherit (highlight) noclasses linenums;
+            use_pygments = true;
+            pygments_style = baseHighlightStyle;
+            linenums_style = highlight.linenumsStyle;
+          }
+          // highlight.extraConfig;
+        }
+        // lib.listToAttrs (
+          map (
+            feature: lib.nameValuePair feature.module (feature.toConfig settings.${feature.name})
+          ) enabledFeatures
+        )
+        // lib.mapAttrs (_: ext: ext.config) extraExtensions;
+      };
+    in
+    if errors != [ ] then
+      throw ("nixtml: invalid markdown extensions:\n" + lib.concatMapStringsSep "\n" (e: "- ${e}") errors)
+    else
+      lib.foldr lib.warn result supersededWarnings;
+
+  markdownExtensions = resolveMarkdownExtensions processors.md.settings;
+
+  processorOptions = pkgs.writeText "nixtml-content-options.json" (
+    builtins.toJSON {
+      inherit (processors.md.settings) dateFormat;
+      inherit (markdownExtensions) extensions configs;
+    }
+  );
+
   readContentDir =
     dir:
     let
@@ -214,6 +509,262 @@ in
                 '';
               };
             };
+
+            tables = {
+              enable = mkFeatureEnable "tables" true;
+              extraConfig = mkExtraConfig "tables" (pythonMarkdownDocs "tables");
+            };
+
+            footnotes = {
+              enable = mkFeatureEnable "footnotes" true;
+              extraConfig = mkExtraConfig "footnotes" (pythonMarkdownDocs "footnotes");
+            };
+
+            attrList = {
+              enable = mkFeatureEnable "attribute lists, e.g. `{: .class #id }`" true;
+            };
+
+            quotes = {
+              enable = mkFeatureEnable "`pymdownx.quotes` blockquotes, which replace the default blockquote handling" true;
+              callouts = mkOption {
+                type = types.bool;
+                default = true;
+                description = ''
+                  Whether to enable GitHub/Obsidian style callouts, e.g. `> [!NOTE]`.
+
+                  Callouts render with the same markup as admonitions, or as collapsible details when followed by `-` or `+`.
+                '';
+              };
+              extraConfig = mkExtraConfig "pymdownx.quotes" (pymdownxDocs "quotes");
+            };
+
+            fancylists = {
+              enable = mkFeatureEnable "`pymdownx.fancylists`, supporting alphabetical and roman numeral ordered lists" true;
+              additionalOrderedStyles = mkOption {
+                type =
+                  with types;
+                  listOf (enum [
+                    "roman"
+                    "alpha"
+                    "generic"
+                  ]);
+                default = [
+                  "roman"
+                  "alpha"
+                  "generic"
+                ];
+                description = ''
+                  Ordered list styles to support in addition to decimal numbers. `generic` enables `#.` as a list marker.
+                '';
+              };
+              injectStyle = mkOption {
+                type = types.bool;
+                default = false;
+                description = "Whether to inject a `list-style-type` style attribute on ordered lists.";
+              };
+              injectClass = mkOption {
+                type = types.bool;
+                default = false;
+                description = "Whether to inject a class indicating the `list-style-type` on ordered lists.";
+              };
+              extraConfig = mkExtraConfig "pymdownx.fancylists" (pymdownxDocs "fancylists");
+            };
+
+            tasklist = {
+              enable = mkFeatureEnable "task lists, e.g. `- [x] done`" true;
+              customCheckbox = mkOption {
+                type = types.bool;
+                default = false;
+                description = "Whether to add an empty `<label>` after each checkbox to allow for custom styling.";
+              };
+              clickableCheckbox = mkOption {
+                type = types.bool;
+                default = false;
+                description = "Whether checkboxes can be checked and unchecked by the reader.";
+              };
+              extraConfig = mkExtraConfig "pymdownx.tasklist" (pymdownxDocs "tasklist");
+            };
+
+            magiclink = {
+              enable = mkFeatureEnable "automatic linking of URLs and email addresses" true;
+              hideProtocol = mkOption {
+                type = types.bool;
+                default = false;
+                description = "Whether to display links without the `https://` (or similar) prefix.";
+              };
+              provider = mkOption {
+                type = types.enum [
+                  "github"
+                  "gitlab"
+                  "bitbucket"
+                ];
+                default = "github";
+                description = "Provider used for repository shorthand links.";
+              };
+              user = mkOption {
+                type = with types; nullOr str;
+                default = null;
+                description = "Default user for repository shorthand links.";
+              };
+              repo = mkOption {
+                type = with types; nullOr str;
+                default = null;
+                description = "Default repository for repository shorthand links.";
+              };
+              repoUrlShortener = mkOption {
+                type = types.bool;
+                default = false;
+                description = "Whether to shorten links to repository issues, pull requests and commits.";
+              };
+              repoUrlShorthand = mkOption {
+                type = types.bool;
+                default = false;
+                description = ''
+                  Whether to convert shorthand references such as `#123` or `user/repo#123` to links. Requires `user` and `repo` to be set for the short forms.
+                '';
+              };
+              extraConfig = mkExtraConfig "pymdownx.magiclink" (pymdownxDocs "magiclink");
+            };
+
+            admonition = {
+              enable = mkFeatureEnable "admonition blocks, e.g. `/// note`" true;
+              types = mkOption {
+                type = types.listOf blockType;
+                default = [
+                  "note"
+                  "attention"
+                  "caution"
+                  "danger"
+                  "error"
+                  "tip"
+                  "hint"
+                  "warning"
+                  "important"
+                ];
+                example = literalExpression ''
+                  [
+                    "note"
+                    "warning"
+                    { name = "example"; title = "Try it"; }
+                  ]
+                '';
+                description = ''
+                  Admonition types to create shorthand blocks for, e.g. `note` allows `/// note` instead of `/// admonition | Note`.
+                '';
+              };
+              extraConfig = mkExtraConfig "pymdownx.blocks.admonition" (pymdownxDocs "blocks/plugins/admonition");
+            };
+
+            details = {
+              enable = mkFeatureEnable "collapsible details blocks, e.g. `/// details | Summary`" true;
+              types = mkOption {
+                type = types.listOf blockType;
+                default = [ ];
+                example = [
+                  "note"
+                  "warning"
+                ];
+                description = ''
+                  Details types to create shorthand blocks for, e.g. `note` allows `/// note | Summary` as a collapsible block with the `note` class.
+
+                  Note that these share names with admonition types, so a type should only be defined in one of them.
+                '';
+              };
+              extraConfig = mkExtraConfig "pymdownx.blocks.details" (pymdownxDocs "blocks/plugins/details");
+            };
+
+            tab = {
+              enable = mkFeatureEnable "tab blocks, e.g. `/// tab | Title`" true;
+              alternateStyle = mkOption {
+                type = types.bool;
+                default = true;
+                description = ''
+                  Whether to use the alternate tab markup, which is easier to style and handles overflowing tabs better.
+
+                  See: https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/tab/#alternate-style
+                '';
+              };
+              extraConfig = mkExtraConfig "pymdownx.blocks.tab" (pymdownxDocs "blocks/plugins/tab");
+            };
+
+            definition = {
+              enable = mkFeatureEnable "definition list blocks, e.g. `/// define`" true;
+            };
+
+            caption = {
+              enable = mkFeatureEnable "caption blocks, e.g. `/// caption`" true;
+              types = mkOption {
+                type = types.listOf captionType;
+                default = [
+                  "caption"
+                  {
+                    name = "figure-caption";
+                    prefix = "Figure {}.";
+                  }
+                  {
+                    name = "table-caption";
+                    prefix = "Table {}.";
+                  }
+                ];
+                description = ''
+                  Caption types to create blocks for. Types with a `prefix` are numbered.
+                '';
+              };
+              prepend = mkOption {
+                type = types.bool;
+                default = false;
+                description = "Whether to place captions before the content instead of after it.";
+              };
+              auto = mkOption {
+                type = types.bool;
+                default = true;
+                description = "Whether to automatically number captions of types with a `prefix`.";
+              };
+              autoLevel = mkOption {
+                type = types.ints.unsigned;
+                default = 0;
+                description = ''
+                  Depth of nested figures to automatically number. `0` numbers all levels, `1` only the outermost figures, and so on.
+                '';
+              };
+              extraConfig = mkExtraConfig "pymdownx.blocks.caption" (pymdownxDocs "blocks/plugins/caption");
+            };
+
+            extensions = mkOption {
+              type =
+                with types;
+                attrsOf (submodule {
+                  options = {
+                    enable = mkOption {
+                      type = bool;
+                      default = true;
+                      description = "Whether to enable this extension.";
+                    };
+                    config = mkOption {
+                      type = attrsOf anything;
+                      default = { };
+                      description = "Config passed to the extension.";
+                    };
+                  };
+                });
+              default = { };
+              example = literalExpression ''
+                {
+                  "pymdownx.arithmatex".config.generic = true;
+                  "pymdownx.emoji" = { };
+                  abbr = { };
+                }
+              '';
+              description = ''
+                Additional Python-Markdown extensions to enable, keyed by their import name, along with their config.
+
+                Extensions from packages other than `markdown` and `pymdown-extensions` need to be added to `website.content.processors.md.extraPythonPackages`.
+
+                Extensions that nixtml manages through named settings, e.g. `toc` or `pymdownx.blocks.tab`, can't be added here. Older extensions superseded by the enabled
+                built-in ones conflict with them: `def_list` with `definition`, `pymdownx.tabbed` with `tab` and `sane_lists` with `fancylists` are errors, while
+                `admonition` and `pymdownx.details` only warn. Disable the built-in setting to use the older extension.
+              '';
+            };
           };
           extraPythonPackages = mkOption {
             type = with types; listOf package;
@@ -368,19 +919,8 @@ in
         processors.md.processor =
           name: path:
           let
-            py = pythonEnv;
-
-            inherit (config.website.content.processors.md) settings;
-            processorSettings = settings // {
-              highlight = settings.highlight // {
-                style = baseHighlightStyle;
-              };
-            };
-
-            options = pkgs.writeText "content-options-${name}.json" (builtins.toJSON processorSettings);
-
             jsonData = pkgs.runCommand "content-data-${name}.json" { } ''
-              ${py}/bin/python ${./processContent.py} ${toString path} ${toString options} > $out
+              ${pythonEnv}/bin/python ${./processContent.py} ${toString path} ${processorOptions} > $out
             '';
 
             contentData = lib.importJSON jsonData;

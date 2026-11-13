@@ -13,15 +13,28 @@ See [Content and frontmatter](/nixtml/content/) for content discovery and metada
 
 ## Enabled Markdown Features
 
-The processor enables support for:
+The processor always enables:
 
-- Tables and footnotes.
 - Fenced code blocks through `pymdownx.superfences`.
-- Syntax highlighting through `pymdownx.highlight`.
-- Inline code highlighting through `pymdownx.inlinehilite`.
-- Automatic links through `pymdownx.magiclink`.
+- Syntax highlighting through `pymdownx.highlight` and inline code highlighting through `pymdownx.inlinehilite`.
 - Heading identifiers and generated tables of contents through the `toc` extension.
-- Admonition and caption blocks through the corresponding PyMdown extensions.
+
+The following features are enabled by default. Each has a setting under `website.content.processors.md.settings` with an `enable` option, and most also have an `extraConfig` option for passing extra config to the underlying extension:
+
+| Setting | Extension | Syntax |
+| --- | --- | --- |
+| `tables` | `tables` | Pipe tables |
+| `footnotes` | `footnotes` | `[^1]` references and definitions |
+| `attrList` | `attr_list` | `{: .class #id }` attributes |
+| `quotes` | `pymdownx.quotes` | Blockquotes, with optional `> [!NOTE]` callouts |
+| `fancylists` | `pymdownx.fancylists` | Ordered lists using `a.`, `i.` or `#.` |
+| `tasklist` | `pymdownx.tasklist` | `- [x]` task lists |
+| `magiclink` | `pymdownx.magiclink` | Automatic links for URLs and email addresses |
+| `admonition` | `pymdownx.blocks.admonition` | `/// note` blocks |
+| `details` | `pymdownx.blocks.details` | `/// details` collapsible blocks |
+| `tab` | `pymdownx.blocks.tab` | `/// tab` blocks |
+| `definition` | `pymdownx.blocks.definition` | `/// define` definition lists |
+| `caption` | `pymdownx.blocks.caption` | `/// caption` blocks |
 
 For example, a fenced code block can specify its language:
 
@@ -33,7 +46,132 @@ For example, a fenced code block can specify its language:
 ```
 ````
 
-Consult the processor implementation when using extension-specific syntax, especially for PyMdown block plugins.
+`pymdownx.quotes` handles blockquotes differently from plain Python-Markdown: consecutive blockquotes separated by a blank line stay separate instead of being merged. `pymdownx.fancylists` treats lines starting with `a.` or `i.` as list items.
+
+### Blocks
+
+Admonitions, details, tabs, definitions and captions use PyMdown's `///` block syntax. See the [PyMdown blocks documentation](https://facelessuser.github.io/pymdown-extensions/extensions/blocks/) for all options.
+
+```markdown
+/// note | Title
+Admonition content.
+///
+
+/// details | Summary
+    open: true
+Collapsible content.
+///
+
+/// tab | Nix
+Tab content.
+///
+
+/// tab | Python
+More tab content.
+///
+
+/// define
+Term
+
+- Definition of the term.
+///
+```
+
+/// note | Example
+This is a `note` admonition.
+///
+
+/// details | A collapsible `details` block
+Hidden until opened.
+///
+
+/// tab | Nix
+```nix
+{ website.sitemap.enable = true; }
+```
+///
+
+/// tab | Markdown
+```markdown
+/// tab | Nix
+...
+///
+```
+///
+
+/// define
+Admonition
+
+- A block that draws attention to its content.
+///
+
+The `admonition.types` and `details.types` settings define shorthand block names such as `/// warning`:
+
+```nix
+website.content.processors.md.settings = {
+  admonition.types = [
+    "note"
+    "warning"
+    { name = "example"; title = "Try it"; }
+  ];
+  details.types = [ "faq" ];
+};
+```
+
+With `quotes.callouts` enabled, which is the default, GitHub style callouts render as admonitions, and as collapsible details when followed by `-` or `+`:
+
+```markdown
+> [!TIP]
+> Shown as a `tip` admonition.
+
+> [!WARNING]-
+> Shown as a collapsed `warning` details block.
+```
+
+> [!TIP]
+> This is a callout.
+
+Tabs use the [alternate style](https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/tab/#alternate-style) markup by default, controlled by `tab.alternateStyle`.
+
+### Styling
+
+Admonitions, details, tabs and task lists need CSS. The `minima` theme includes styles for all of them. Custom layouts need to style the following classes:
+
+| Feature | Markup |
+| --- | --- |
+| Admonitions | `div.admonition.<type>` with a `p.admonition-title` |
+| Details | `details.<type>` with a `summary` |
+| Tabs | `div.tabbed-set.tabbed-alternate` containing `input`s, `div.tabbed-labels` and `div.tabbed-content > div.tabbed-block` |
+| Task lists | `ul.task-list > li.task-list-item` with a checkbox `input` |
+| Captions | `figure` with a `figcaption` and an optional `span.caption-prefix` |
+
+Tabs in particular don't work without CSS. See the [tab styling documentation](https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/tab/#styling-with-css) for an example.
+
+### Additional Extensions
+
+Other Python-Markdown extensions are enabled through `extensions`, keyed by their import name:
+
+```nix
+website.content.processors.md.settings.extensions = {
+  abbr = { };
+  "pymdownx.arithmatex".config.generic = true;
+  "pymdownx.emoji".enable = false;
+};
+```
+
+Extensions from other Python packages also need the package in [`extraPythonPackages`](#additional-python-packages).
+
+Extensions that nixtml manages through named settings, such as `toc` or `pymdownx.blocks.tab`, can't be added to `extensions`. Some older extensions provide the same feature as an enabled built-in one and conflict with it:
+
+| Extension | Conflicts with | Result |
+| --- | --- | --- |
+| `def_list` | `definition` | Error, adjacent definition lists merge |
+| `pymdownx.tabbed` | `tab` | Error, tab sets merge and share element IDs |
+| `sane_lists` | `fancylists` | Error, both replace the list parsers |
+| `admonition` | `admonition` | Warning |
+| `pymdownx.details` | `details` | Warning |
+
+Bundles such as `extra` and `pymdownx.extra` are checked for the extensions they include. To use an older extension, disable the conflicting setting, e.g. `definition.enable = false;`.
 
 ## Tables of Contents
 
@@ -151,7 +289,7 @@ website.content.processors.md.extraPythonPackages = [
 ];
 ```
 
-The package must provide or extend functionality used by the configured Markdown and highlighting setup. Adding a package alone does not enable a new Markdown extension.
+The package must provide or extend functionality used by the configured Markdown and highlighting setup. Adding a package alone does not enable a new Markdown extension, add it to [`extensions`](#additional-extensions) as well.
 
 ## Post Summaries
 

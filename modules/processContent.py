@@ -56,38 +56,8 @@ class YamlMetadataPreprocessor(Preprocessor):
 
 def process_post(post: str, options: dict) -> str:
     md = Markdown(
-        extensions=[
-            YamlMetadataExtension(),
-            "tables",
-            "footnotes",
-            "toc",
-            "pymdownx.superfences",
-            "pymdownx.highlight",
-            "pymdownx.blocks.admonition",
-            "pymdownx.blocks.caption",
-            "pymdownx.inlinehilite",
-            "pymdownx.magiclink",
-        ],
-        extension_configs={
-            "toc": {
-                "marker": options["toc"]["marker"],
-                "title": options["toc"]["title"],
-                "title_class": options["toc"]["titleClass"],
-                "toc_class": options["toc"]["tocClass"],
-                "anchorlink": options["toc"]["anchorlink"],
-                "anchorlink_class": options["toc"]["anchorlinkClass"],
-                "permalink": options["toc"]["permalink"],
-                "permalink_class": options["toc"]["permalinkClass"],
-            },
-            "pymdownx.highlight": {
-                "noclasses": options["highlight"]["noclasses"],
-                "use_pygments": True,
-                "pygments_style": options["highlight"]["style"],
-                "linenums": options["highlight"]["linenums"],
-                "linenums_style": options["highlight"]["linenumsStyle"],
-                **options["highlight"]["extraConfig"],
-            },
-        },
+        extensions=[YamlMetadataExtension(), *options["extensions"]],
+        extension_configs=options["configs"],
     )
     rendered = md.convert(post)
 

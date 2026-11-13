@@ -198,6 +198,10 @@ h4 {
     display: block;
     max-width: 100%;
     overflow-x: auto;
+
+    :not(pre) > code {
+      overflow-wrap: normal;
+    }
   }
 
   > .toc {
@@ -226,6 +230,155 @@ h4 {
   .content > .toc > ul {
     column-count: 2;
     column-gap: 2rem;
+  }
+}
+
+// Markdown extensions: admonitions, details, tabs and task lists.
+$admonition-colors: (
+  "note": var(--bulma-info),
+  "hint": var(--bulma-success),
+  "tip": var(--bulma-success),
+  "important": var(--bulma-primary),
+  "attention": var(--bulma-warning),
+  "caution": var(--bulma-warning),
+  "warning": var(--bulma-warning),
+  "danger": var(--bulma-danger),
+  "error": var(--bulma-danger),
+);
+
+.content {
+  .admonition,
+  details {
+    --admonition-color: var(--bulma-text-weak);
+
+    margin-bottom: var(--bulma-content-block-margin-bottom);
+    padding: 0 1rem 0.75rem;
+    border-left: 4px solid var(--admonition-color);
+    border-radius: var(--bulma-radius);
+    background-color: var(--bulma-scheme-main-bis);
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+
+    @each $name, $color in $admonition-colors {
+      &.#{$name} {
+        --admonition-color: #{$color};
+      }
+    }
+  }
+
+  .admonition-title,
+  details > summary {
+    margin: 0 -1rem 0.75rem;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--bulma-border);
+    color: var(--admonition-color);
+    font-weight: var(--bulma-weight-semibold);
+  }
+
+  details {
+    &:not([open]) {
+      padding-bottom: 0;
+    }
+
+    > summary {
+      margin-bottom: 0;
+      border-bottom-color: transparent;
+      cursor: pointer;
+    }
+
+    &[open] > summary {
+      margin-bottom: 0.75rem;
+      border-bottom-color: var(--bulma-border);
+    }
+  }
+
+  .tabbed-set {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: var(--bulma-content-block-margin-bottom);
+
+    > input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+
+  .tabbed-labels {
+    display: flex;
+    width: 100%;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--bulma-border);
+    scrollbar-width: thin;
+
+    > label {
+      flex-shrink: 0;
+      padding: 0.5rem 1rem;
+      border-bottom: 2px solid transparent;
+      color: var(--bulma-text-weak);
+      font-size: 0.875rem;
+      font-weight: var(--bulma-weight-semibold);
+      white-space: nowrap;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--bulma-text-strong);
+      }
+    }
+  }
+
+  .tabbed-content {
+    width: 100%;
+    padding-top: 0.75rem;
+
+    > .tabbed-block {
+      display: none;
+
+      > :last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  @for $i from 1 through 20 {
+    .tabbed-set > input:nth-child(#{$i}) {
+      &:checked ~ .tabbed-labels > :nth-child(#{$i}) {
+        border-bottom-color: var(--bulma-link);
+        color: var(--bulma-link);
+      }
+
+      &:focus-visible ~ .tabbed-labels > :nth-child(#{$i}) {
+        outline: 2px solid var(--bulma-link);
+        outline-offset: -2px;
+      }
+
+      &:checked ~ .tabbed-content > :nth-child(#{$i}) {
+        display: block;
+      }
+    }
+  }
+
+  ul.task-list {
+    margin-left: 0;
+    list-style: none;
+
+    ul.task-list {
+      margin-left: 1.5em;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 0.4em;
+    }
+  }
+
+  figure > figcaption {
+    color: var(--bulma-text-weak);
+    font-size: 0.875rem;
   }
 }
 
