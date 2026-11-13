@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="/nixtml/css/main.css">
+		<meta name="theme-color" content="#8a4d76">
+		<link rel="icon" href="/nixtml/logo.svg" type="image/svg+xml">
+		<title>
+			Using the Docs Theme | nixtml
+		</title>
+		<meta name="description" content="Build a documentation site with sidebar navigation, self-hosted fonts and light and dark color schemes">
+		<meta property="og:title" content="Using the Docs Theme | nixtml">
+		<meta name="twitter:title" content="Using the Docs Theme | nixtml">
+		<meta itemprop="name" content="Using the Docs Theme | nixtml">
+		<meta property="og:description" content="Build a documentation site with sidebar navigation, self-hosted fonts and light and dark color schemes">
+		<meta name="twitter:description" content="Build a documentation site with sidebar navigation, self-hosted fonts and light and dark color schemes">
+		<meta name="application-name" content="nixtml">
+		<meta property="og:site_name" content="nixtml">
+		<meta property="og:locale" content="en">
+		<meta property="og:type" content="article">
+	</head>
+	<body>
+		<section class="hero docs-hero mt-5">
+			<div class="hero-body">
+				<div class="container is-max-desktop has-text-centered">
+					<a href="/nixtml/">
+						<img src="/nixtml/logo.svg" alt="nixtml">
+					</a>
+				</div>
+			</div>
+		</section>
+		<section class="section docs-section">
+			<div class="container is-max-widescreen">
+				<details class="docs-mobile-nav is-hidden-desktop">
+					<summary>
+						Browse documentation
+					</summary>
+					<nav class="menu" aria-label="Documentation">
+						<p class="menu-label">
+							Guides
+						</p>
+						<ul class="menu-list">
+							<li>
+								<a href="/nixtml/">
+									Getting started
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/content/">
+									Content and frontmatter
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/templating/">
+									Layouts and partials
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/collections/">
+									Collections and pagination
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/taxonomies/">
+									Taxonomies and RSS
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/themes/">
+									Using themes and Minima
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/docs-theme/" class="is-active" aria-current="page">
+									Using the docs theme
+								</a>
+							</li>
+						</ul>
+						<p class="menu-label">
+							Reference
+						</p>
+						<ul class="menu-list">
+							<li>
+								<a href="/nixtml/reference/templates/">
+									Template contexts
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/reference/html/">
+									HTML tags and attributes
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/reference/markdown/">
+									Markdown and highlighting
+								</a>
+							</li>
+							<li>
+								<a href="/nixtml/options/">
+									Configuration options
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</details>
+				<div class="columns">
+					<aside class="docs-sidebar column is-one-quarter-desktop is-hidden-touch">
+						<nav class="menu" aria-label="Documentation">
+							<p class="menu-label">
+								Guides
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/">
+										Getting started
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/content/">
+										Content and frontmatter
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/templating/">
+										Layouts and partials
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/collections/">
+										Collections and pagination
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/taxonomies/">
+										Taxonomies and RSS
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/themes/">
+										Using themes and Minima
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/docs-theme/" class="is-active" aria-current="page">
+										Using the docs theme
+									</a>
+								</li>
+							</ul>
+							<p class="menu-label">
+								Reference
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/reference/templates/">
+										Template contexts
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/reference/html/">
+										HTML tags and attributes
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/reference/markdown/">
+										Markdown and highlighting
+									</a>
+								</li>
+								<li>
+									<a href="/nixtml/options/">
+										Configuration options
+									</a>
+								</li>
+							</ul>
+						</nav>
+					</aside>
+					<main class="docs-main column">
+						<h1 class="title">
+							Using the Docs Theme
+						</h1>
+						<p class="docs-lede">
+							Build a documentation site with sidebar navigation, self-hosted fonts and light and dark color schemes
+						</p>
+						<div class="content">
+							<p>The docs theme is the theme used by this website. It provides a hero with a logo, a sidebar navigation built from page frontmatter, previous and next links between pages, edit links, light and dark color schemes and self-hosted fonts. It's built on <a href="https://bulma.io/">Bulma</a>, compiled from pinned Sass sources during the Nix build.</p>
+							<h2 id="import-the-theme">Import the Theme<a class="headerlink mx-2" href="#import-the-theme" title="Permanent link">#</a></h2>
+							<div class="highlight"><pre><span></span><code>nixtml<span class="o">.</span>lib<span class="o">.</span>mkWebsite <span class="p">{</span>
+  <span class="k">inherit</span> pkgs<span class="p">;</span>
+
+  <span class="ss">name</span> <span class="o">=</span> <span class="s2">"my-docs"</span><span class="p">;</span>
+  <span class="ss">baseURL</span> <span class="o">=</span> <span class="s2">"https://example.com"</span><span class="p">;</span>
+  content<span class="o">.</span><span class="ss">dir</span> <span class="o">=</span> <span class="l">./content</span><span class="p">;</span>
+  <span class="ss">imports</span> <span class="o">=</span> <span class="p">[</span> nixtml<span class="o">.</span>themes<span class="o">.</span>docs <span class="p">];</span>
+
+  <span class="ss">metadata</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">lang</span> <span class="o">=</span> <span class="s2">"en"</span><span class="p">;</span>
+    <span class="ss">title</span> <span class="o">=</span> <span class="s2">"My Project"</span><span class="p">;</span>
+    <span class="ss">description</span> <span class="o">=</span> <span class="s2">"Documentation for my project"</span><span class="p">;</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</code></pre></div>
+							<p>Theme settings live under <code>themes.docs</code>:</p>
+							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span><span class="ss">docs</span> <span class="o">=</span> <span class="p">{</span>
+  logo<span class="o">.</span><span class="ss">source</span> <span class="o">=</span> <span class="l">./logo.svg</span><span class="p">;</span>
+
+  <span class="ss">colors</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">primary</span> <span class="o">=</span> <span class="s2">"#3e7cb1"</span><span class="p">;</span>
+    <span class="ss">link</span> <span class="o">=</span> <span class="s2">"#f2545b"</span><span class="p">;</span>
+  <span class="p">};</span>
+
+  navigation<span class="o">.</span><span class="ss">sections</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="ss">id</span> <span class="o">=</span> <span class="s2">"guides"</span><span class="p">;</span> <span class="ss">title</span> <span class="o">=</span> <span class="s2">"Guides"</span><span class="p">;</span> <span class="ss">pager</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">{</span> <span class="ss">id</span> <span class="o">=</span> <span class="s2">"reference"</span><span class="p">;</span> <span class="ss">title</span> <span class="o">=</span> <span class="s2">"Reference"</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">];</span>
+
+  editLink<span class="o">.</span><span class="ss">baseURL</span> <span class="o">=</span> <span class="s2">"https://github.com/me/my-project/edit/main/docs/content/"</span><span class="p">;</span>
+  <span class="ss">footer</span> <span class="o">=</span> <span class="s s-Multiline">''Built with &lt;a href="https://github.com/arnarg/nixtml"&gt;nixtml&lt;/a&gt;.''</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+							<h2 id="navigation">Navigation<a class="headerlink mx-2" href="#navigation" title="Permanent link">#</a></h2>
+							<p>Pages are added to the sidebar through their frontmatter:</p>
+							<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">title</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Getting Started</span>
+<span class="nt">nav</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">section</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">guides</span>
+<span class="w">  </span><span class="nt">order</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">  </span><span class="nt">label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Getting started</span><span class="w"> </span><span class="c1"># Optional, defaults to the title</span>
+<span class="nn">---</span>
+</code></pre></div>
+							<p><code>section</code> refers to the <code>id</code> of one of <code>themes.docs.navigation.sections</code>, which also defines the order of the sections. Within a section, pages are sorted by <code>order</code>. Pages without <code>nav</code> frontmatter aren't listed, and using an undefined section is an error.</p>
+							<p>Pages in sections with <code>pager = true</code> link to the previous and next page in the same section.</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Option</th>
+										<th>Default</th>
+										<th>Purpose</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>navigation.sections</code></td>
+										<td><code>guides</code> with a pager, <code>reference</code></td>
+										<td>Navigation sections, as <code>{ id; title; pager; }</code></td>
+									</tr>
+									<tr>
+										<td><code>navigation.links</code></td>
+										<td><code>[ ]</code></td>
+										<td>Extra links at the end of the navigation, as <code>{ title; url; }</code></td>
+									</tr>
+									<tr>
+										<td><code>navigation.linksTitle</code></td>
+										<td><code>"Links"</code></td>
+										<td>Title above <code>links</code></td>
+									</tr>
+									<tr>
+										<td><code>navigation.mobileLabel</code></td>
+										<td><code>"Browse documentation"</code></td>
+										<td>Label of the collapsible navigation on small screens</td>
+									</tr>
+									<tr>
+										<td><code>pager.previousLabel</code></td>
+										<td><code>"Previous"</code></td>
+										<td>Label of the link to the previous page</td>
+									</tr>
+									<tr>
+										<td><code>pager.nextLabel</code></td>
+										<td><code>"Next"</code></td>
+										<td>Label of the link to the next page</td>
+									</tr>
+								</tbody>
+							</table>
+							<h2 id="logo-and-colors">Logo and Colors<a class="headerlink mx-2" href="#logo-and-colors" title="Permanent link">#</a></h2>
+							<p><code>logo.source</code> is copied into the website and displayed at the top of every page. It's also used as the favicon unless <code>logo.favicon</code> is <code>false</code>. Without a logo, the site title is displayed instead.</p>
+							<p>The colors are <a href="https://bulma.io/documentation/customize/concepts/">Bulma's colors</a>, given as Sass color values. <code>primary</code> and <code>link</code> default to the colors of this website, and setting any color to <code>null</code> uses Bulma's default:</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Option</th>
+										<th>Default</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>colors.primary</code></td>
+										<td><code>"#8a4d76"</code></td>
+									</tr>
+									<tr>
+										<td><code>colors.link</code></td>
+										<td><code>"#fa7c91"</code></td>
+									</tr>
+									<tr>
+										<td><code>colors.info</code>, <code>colors.success</code>, <code>colors.warning</code>, <code>colors.danger</code></td>
+										<td><code>null</code></td>
+									</tr>
+									<tr>
+										<td><code>colors.themeColor</code></td>
+										<td><code>null</code>, using <code>primary</code> for the <code>theme-color</code> meta tag</td>
+									</tr>
+								</tbody>
+							</table>
+							<p>The <code>info</code>, <code>success</code>, <code>warning</code> and <code>danger</code> colors are also used by <a href="/nixtml/reference/markdown/#blocks">admonitions</a>.</p>
+							<p><code>colorScheme</code> follows the reader's system preference by default. Set it to <code>"light"</code> or <code>"dark"</code> to always use one of them.</p>
+							<p>Code blocks are highlighted with the Pygments styles in <code>codeStyles.light</code> and <code>codeStyles.dark</code>, which default to <code>default</code> and <code>monokai</code>. Styles from other Python packages need the package in <a href="/nixtml/reference/markdown/#additional-python-packages"><code>extraPythonPackages</code></a>.</p>
+							<h2 id="fonts">Fonts<a class="headerlink mx-2" href="#fonts" title="Permanent link">#</a></h2>
+							<p>The theme uses Fira Sans and Fira Mono by default. The fonts are taken from the <code>fira-sans</code> and <code>fira-mono</code> packages in nixpkgs and served by the website itself, so pages don't load anything from third parties.</p>
+							<p>Fonts are split into the same subsets as Google Fonts serves them, each with a <code>unicode-range</code>, so browsers only download the files for the characters a page uses. By default, the <code>latin</code> and <code>latin-ext</code> subsets are included:</p>
+							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span>docs<span class="o">.</span>fonts<span class="o">.</span><span class="ss">subset</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">"latin"</span> <span class="s2">"latin-ext"</span> <span class="s2">"cyrillic"</span> <span class="p">];</span>
+</code></pre></div>
+							<p>Set <code>fonts.subset = null</code> to include the font files as they are.</p>
+							<p>Other fonts can be used by replacing <code>fonts.faces</code> and the font stacks:</p>
+							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span>docs<span class="o">.</span><span class="ss">fonts</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">primary</span> <span class="o">=</span> <span class="s s-Multiline">''"Inter", sans-serif''</span><span class="p">;</span>
+  <span class="ss">code</span> <span class="o">=</span> <span class="s s-Multiline">''"JetBrains Mono", monospace''</span><span class="p">;</span>
+  <span class="ss">faces</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span> <span class="ss">family</span> <span class="o">=</span> <span class="s2">"Inter"</span><span class="p">;</span> <span class="ss">weight</span> <span class="o">=</span> <span class="mi">400</span><span class="p">;</span> <span class="ss">source</span> <span class="o">=</span> <span class="l">./fonts/Inter-Regular.woff2</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">{</span> <span class="ss">family</span> <span class="o">=</span> <span class="s2">"Inter"</span><span class="p">;</span> <span class="ss">weight</span> <span class="o">=</span> <span class="mi">700</span><span class="p">;</span> <span class="ss">source</span> <span class="o">=</span> <span class="l">./fonts/Inter-Bold.woff2</span><span class="p">;</span> <span class="p">}</span>
+    <span class="p">{</span> <span class="ss">family</span> <span class="o">=</span> <span class="s2">"JetBrains Mono"</span><span class="p">;</span> <span class="ss">source</span> <span class="o">=</span> <span class="l">./fonts/JetBrainsMono-Regular.woff2</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">];</span>
+<span class="p">};</span>
+</code></pre></div>
+							<p>Setting <code>fonts.primary</code> or <code>fonts.code</code> to <code>null</code> uses Bulma's system font stacks.</p>
+							<h2 id="edit-links-footer-and-404-page">Edit Links, Footer and 404 Page<a class="headerlink mx-2" href="#edit-links-footer-and-404-page" title="Permanent link">#</a></h2>
+							<p>With <code>editLink.baseURL</code> set, every page from <code>website.content.dir</code> links to its source file. The page's path within the content directory is appended to the base URL, e.g. <code>guides/intro.md</code>.</p>
+							<p><code>footer</code> is the HTML content of the footer, and <code>null</code> removes it.</p>
+							<p>The theme also generates <code>404.html</code>, configured through <code>notFoundPage.title</code> and <code>notFoundPage.content</code>, or disabled with <code>notFoundPage.enable = false</code>.</p>
+							<h2 id="customizing-styles">Customizing Styles<a class="headerlink mx-2" href="#customizing-styles" title="Permanent link">#</a></h2>
+							<p>Other <a href="https://bulma.io/documentation/customize/list-of-sass-variables/">Bulma Sass variables</a> can be set through <code>sassVariables</code>, without the <code>$</code>:</p>
+							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span>docs<span class="o">.</span><span class="ss">sassVariables</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">radius</span> <span class="o">=</span> <span class="s2">"0.5rem"</span><span class="p">;</span>
+  <span class="ss">weight-extrabold</span> <span class="o">=</span> <span class="s2">"700"</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+							<p><code>extraScss</code> is appended to the theme's stylesheet, after the code highlighting styles. Bulma's modules can be loaded with <code>@use</code>:</p>
+							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span>docs<span class="o">.</span><span class="ss">extraScss</span> <span class="o">=</span> <span class="s s-Multiline">''</span>
+<span class="s s-Multiline">  @use "bulma/sass/utilities/mixins";</span>
+
+<span class="s s-Multiline">  @include mixins.mobile {</span>
+<span class="s s-Multiline">    .docs-hero img {</span>
+<span class="s s-Multiline">      width: 10rem;</span>
+<span class="s s-Multiline">    }</span>
+<span class="s s-Multiline">  }</span>
+<span class="s s-Multiline">''</span><span class="p">;</span>
+</code></pre></div>
+							<h2 id="override-layouts-and-partials">Override Layouts and Partials<a class="headerlink mx-2" href="#override-layouts-and-partials" title="Permanent link">#</a></h2>
+							<p>Like Minima, the docs theme defines its layouts and partials with <code>lib.mkDefault</code>, so a site can replace any of them. The base layout is composed of these partials:</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Partial</th>
+										<th>Purpose</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>head</code> and <code>meta</code></td>
+										<td>Contents of <code>&lt;head&gt;</code></td>
+									</tr>
+									<tr>
+										<td><code>docsHero</code></td>
+										<td>Logo or title at the top of the page</td>
+									</tr>
+									<tr>
+										<td><code>docsSidebar</code></td>
+										<td>Navigation, called with <code>mobile = true</code> for small screens</td>
+									</tr>
+									<tr>
+										<td><code>pageHeader</code></td>
+										<td>Page title and description</td>
+									</tr>
+									<tr>
+										<td><code>docsEditLink</code></td>
+										<td>Edit link below the content</td>
+									</tr>
+									<tr>
+										<td><code>docsPager</code></td>
+										<td>Previous and next links</td>
+									</tr>
+									<tr>
+										<td><code>docsFooter</code></td>
+										<td>Footer</td>
+									</tr>
+								</tbody>
+							</table>
+							<p>See <a href="/nixtml/themes/#override-a-layout-or-partial">Using themes and Minima</a> for an example.</p>
+						</div>
+						<p class="docs-edit-link">
+							<a href="https://github.com/arnarg/nixtml/edit/main/docs/content/docs-theme.md">
+								Edit this page
+							</a>
+						</p>
+						<nav class="docs-pager" aria-label="Pagination">
+							<a class="docs-pager-link docs-pager-previous" href="/nixtml/themes/">
+								<span class="docs-pager-label">
+									Previous guide
+								</span>
+								<span class="docs-pager-title">
+									Using themes and Minima
+								</span>
+							</a>
+						</nav>
+					</main>
+				</div>
+			</div>
+		</section>
+		<footer class="footer">
+			<div class="container content is-max-desktop has-text-centered">
+				<p>
+					This website is (obviously) generated with <a href="https://github.com/arnarg/nixtml">nixtml.</a>
+				</p>
+			</div>
+		</footer>
+	</body>
+</html>
