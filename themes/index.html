@@ -7,14 +7,14 @@
 		<meta name="theme-color" content="#8a4d76">
 		<link rel="icon" href="/nixtml/logo.svg" type="image/svg+xml">
 		<title>
-			Using Themes and Minima | nixtml
+			Using Themes | nixtml
 		</title>
-		<meta name="description" content="Import theme modules, configure Minima, and override individual layouts or partials">
-		<meta property="og:title" content="Using Themes and Minima | nixtml">
-		<meta name="twitter:title" content="Using Themes and Minima | nixtml">
-		<meta itemprop="name" content="Using Themes and Minima | nixtml">
-		<meta property="og:description" content="Import theme modules, configure Minima, and override individual layouts or partials">
-		<meta name="twitter:description" content="Import theme modules, configure Minima, and override individual layouts or partials">
+		<meta name="description" content="Import theme modules, configure them, and override individual layouts or partials">
+		<meta property="og:title" content="Using Themes | nixtml">
+		<meta name="twitter:title" content="Using Themes | nixtml">
+		<meta itemprop="name" content="Using Themes | nixtml">
+		<meta property="og:description" content="Import theme modules, configure them, and override individual layouts or partials">
+		<meta name="twitter:description" content="Import theme modules, configure them, and override individual layouts or partials">
 		<meta name="application-name" content="nixtml">
 		<meta property="og:site_name" content="nixtml">
 		<meta property="og:locale" content="en">
@@ -68,12 +68,22 @@
 							</li>
 							<li>
 								<a href="/nixtml/themes/" class="is-active" aria-current="page">
-									Using themes and Minima
+									Using themes
+								</a>
+							</li>
+						</ul>
+						<p class="menu-label">
+							Themes
+						</p>
+						<ul class="menu-list">
+							<li>
+								<a href="/nixtml/themes/minima/">
+									Minima
 								</a>
 							</li>
 							<li>
-								<a href="/nixtml/docs-theme/">
-									Using the docs theme
+								<a href="/nixtml/themes/docs/">
+									Docs
 								</a>
 							</li>
 						</ul>
@@ -138,12 +148,22 @@
 								</li>
 								<li>
 									<a href="/nixtml/themes/" class="is-active" aria-current="page">
-										Using themes and Minima
+										Using themes
+									</a>
+								</li>
+							</ul>
+							<p class="menu-label">
+								Themes
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/themes/minima/">
+										Minima
 									</a>
 								</li>
 								<li>
-									<a href="/nixtml/docs-theme/">
-										Using the docs theme
+									<a href="/nixtml/themes/docs/">
+										Docs
 									</a>
 								</li>
 							</ul>
@@ -176,13 +196,18 @@
 					</aside>
 					<main class="docs-main column">
 						<h1 class="title">
-							Using Themes and Minima
+							Using Themes
 						</h1>
 						<p class="docs-lede">
-							Import theme modules, configure Minima, and override individual layouts or partials
+							Import theme modules, configure them, and override individual layouts or partials
 						</p>
 						<div class="content">
-							<p>A nixtml theme is a Nix module that supplies layouts and, optionally, static assets. Themes use the same configuration mechanisms as any other nixtml module, so sites can adopt their defaults or replace individual pieces.</p>
+							<p>A nixtml theme is a Nix module that supplies layouts and, optionally, static assets and options. Themes use the same configuration mechanisms as any other nixtml module, so sites can adopt their defaults or replace individual pieces.</p>
+							<p>nixtml includes two themes:</p>
+							<ul>
+								<li><a href="/nixtml/themes/minima/">Minima</a>, a blog theme with posts, collections, taxonomies, pagination and RSS.</li>
+								<li><a href="/nixtml/themes/docs/">Docs</a>, a documentation theme with sidebar navigation, used by this website.</li>
+							</ul>
 							<h2 id="import-a-theme">Import a Theme<a class="headerlink mx-2" href="#import-a-theme" title="Permanent link">#</a></h2>
 							<p>Pass a theme module through <code>imports</code> in <code>mkWebsite</code>:</p>
 							<div class="highlight"><pre><span></span><code>nixtml<span class="o">.</span>lib<span class="o">.</span>mkWebsite <span class="p">{</span>
@@ -200,136 +225,70 @@
   <span class="p">};</span>
 <span class="p">}</span>
 </code></pre></div>
-							<p>Theme-specific settings remain under <code>themes</code>. Minima currently lives at <code>nixtml.themes.minima</code>, and its options are under <code>themes.minima</code>.</p>
+							<p>Each theme's settings live under <code>themes.&lt;name&gt;</code>, e.g. <code>themes.minima</code> or <code>themes.docs</code>.</p>
 							<p>The <a href="/nixtml/">getting-started guide</a> contains a complete flake with a preview server.</p>
-							<h2 id="configure-minima">Configure Minima<a class="headerlink mx-2" href="#configure-minima" title="Permanent link">#</a></h2>
-							<p>Minima is a proof-of-concept port of Jekyll's Minima 2.5.2. It provides a responsive header, static-page and post layouts, collection and taxonomy listings, pagination, footer links, and RSS discovery.</p>
-							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span><span class="ss">minima</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">feedPath</span> <span class="o">=</span> <span class="s2">"index.xml"</span><span class="p">;</span>
-  <span class="ss">showExcerpts</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
-
-  <span class="ss">navigation</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span> <span class="ss">title</span> <span class="o">=</span> <span class="s2">"About"</span><span class="p">;</span> <span class="ss">path</span> <span class="o">=</span> <span class="s2">"about/"</span><span class="p">;</span> <span class="p">}</span>
-  <span class="p">];</span>
-
-  <span class="ss">socialLinks</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="ss">platform</span> <span class="o">=</span> <span class="s2">"github"</span><span class="p">;</span>
-      <span class="ss">username</span> <span class="o">=</span> <span class="s2">"arnarg/nixtml"</span><span class="p">;</span>
-      <span class="ss">url</span> <span class="o">=</span> <span class="s2">"https://github.com/arnarg/nixtml"</span><span class="p">;</span>
-    <span class="p">}</span>
-  <span class="p">];</span>
-<span class="p">};</span>
-</code></pre></div>
-							<table>
-								<thead>
-									<tr>
-										<th>Option</th>
-										<th>Default</th>
-										<th>Purpose</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td><code>navigation</code></td>
-										<td><code>[ ]</code></td>
-										<td>Header links with <code>title</code> and site-relative <code>path</code> fields</td>
-									</tr>
-									<tr>
-										<td><code>showExcerpts</code></td>
-										<td><code>false</code></td>
-										<td>Show each item's <code>summary</code> in collection and taxonomy listings</td>
-									</tr>
-									<tr>
-										<td><code>feedPath</code></td>
-										<td><code>null</code></td>
-										<td>Site-relative RSS path used for collection subscription and feed-discovery links; <code>null</code> disables those links</td>
-									</tr>
-									<tr>
-										<td><code>socialLinks</code></td>
-										<td><code>[ ]</code></td>
-										<td>Footer profiles with <code>platform</code>, <code>username</code>, and absolute <code>url</code> fields</td>
-									</tr>
-								</tbody>
-							</table>
-							<p>Paths in theme options are relative to <code>website.baseURI</code>, not full public URLs. For example, use <code>about/</code>, not <code>/about/</code> or <code>https://example.com/about/</code>.</p>
-							<p><code>feedPath</code> should match the actual collection feed. If RSS is disabled for every collection, leave it <code>null</code>.</p>
-							<h2 id="homepage-styles">Homepage Styles<a class="headerlink mx-2" href="#homepage-styles" title="Permanent link">#</a></h2>
-							<p>Minima supports both ordinary content homepages and a homepage containing the latest posts.</p>
-							<h3 id="static-homepage">Static Homepage<a class="headerlink mx-2" href="#static-homepage" title="Permanent link">#</a></h3>
-							<p>With no root collection, <code>content/index.md</code> uses Minima's home layout:</p>
-							<div class="highlight"><pre><span></span><code>---
-<span class="gu">title: Welcome</span>
-<span class="gu">---</span>
-
-Welcome to my website.
-</code></pre></div>
-							<p>Other content files, such as <code>content/about.md</code>, use the page layout.</p>
-							<h3 id="homepage-post-list">Homepage Post List<a class="headerlink mx-2" href="#homepage-post-list" title="Permanent link">#</a></h3>
-							<p>A collection whose path is <code>posts</code> places its first listing at the root index:</p>
-							<div class="highlight"><pre><span></span><code>collections<span class="o">.</span><span class="ss">posts</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">path</span> <span class="o">=</span> <span class="s2">"posts"</span><span class="p">;</span>
-  pagination<span class="o">.</span><span class="ss">perPage</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
-  <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">"tags"</span> <span class="p">];</span>
-  rss<span class="o">.</span><span class="ss">enable</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
-<span class="p">};</span>
-
-themes<span class="o">.</span>minima<span class="o">.</span><span class="ss">feedPath</span> <span class="o">=</span> <span class="s2">"index.xml"</span><span class="p">;</span>
-</code></pre></div>
-							<p>Store its posts in <code>content/posts/</code>. Do not also define <code>content/index.md</code>, because that would target the same homepage path as the collection listing.</p>
-							<p>For a listing at <code>blog/index.html</code> instead, use <code>path = "blog/posts"</code>, enable its feed, and set <code>themes.minima.feedPath = "blog/index.xml"</code>.</p>
-							<h2 id="dates-authors-and-excerpts">Dates, Authors, and Excerpts<a class="headerlink mx-2" href="#dates-authors-and-excerpts" title="Permanent link">#</a></h2>
-							<p>Minima displays an item's formatted date on collection listings. On individual pages it can display a date and optional author when their frontmatter is present:</p>
-							<div class="highlight"><pre><span></span><code>---
-title: A dated post
-date: 2026-01-19T10:00:00
-<span class="gu">author: Ada</span>
-<span class="gu">---</span>
-
-The introduction appears in listings when excerpts are enabled.
-
-&lt;!--more--&gt;
-
-The rest of the post appears here and on its full page.
-</code></pre></div>
-							<p><code>showExcerpts = true</code> uses the content before <code>&lt;!--more--&gt;</code> as the listing excerpt. Without the marker, the full rendered content becomes the summary. Without <code>showExcerpts</code>, Minima still lists posts but omits the summary body.</p>
-							<p>Site-wide <code>website.metadata.author</code> and <code>website.metadata.email</code> also appear in the footer. Use the page's <code>author</code> field for a per-post byline.</p>
 							<h2 id="override-a-layout-or-partial">Override a Layout or Partial<a class="headerlink mx-2" href="#override-a-layout-or-partial" title="Permanent link">#</a></h2>
-							<p>Minima defines its layouts and partials with <code>lib.mkDefault</code>, allowing site configuration to replace them without priority workarounds.</p>
-							<p>For example, replace only the footer while retaining the other Minima layouts:</p>
-							<div class="highlight"><pre><span></span><code><span class="p">{</span> lib<span class="p">,</span> config<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+							<p>Themes define their layouts and partials with <code>lib.mkDefault</code>, allowing site configuration to replace them without priority workarounds.</p>
+							<p>For example, replace a theme's page layout while keeping its other layouts:</p>
+							<div class="highlight"><pre><span></span><code><span class="p">{</span> lib<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
 <span class="p">{</span>
-  website<span class="o">.</span>layouts<span class="o">.</span>partials<span class="o">.</span><span class="ss">siteFooter</span> <span class="o">=</span>
-    _<span class="p">:</span>
-    lib<span class="o">.</span>tags<span class="o">.</span>footer <span class="p">[</span> <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>class <span class="s2">"site-footer"</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span>
-      <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>div <span class="p">[</span> <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>class <span class="s2">"wrapper"</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span>
-        <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>p <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
-          <span class="s2">"Built with </span><span class="si">${</span>config<span class="o">.</span>website<span class="o">.</span>metadata<span class="o">.</span>title<span class="si">}</span><span class="s2"> and nixtml"</span>
-        <span class="p">])</span>
-      <span class="p">])</span>
+  website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">page</span> <span class="o">=</span>
+    <span class="p">{</span> metadata<span class="p">,</span> content<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+    lib<span class="o">.</span>tags<span class="o">.</span>article <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
+      <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> metadata<span class="o">.</span>title <span class="p">])</span>
+      content
     <span class="p">];</span>
 <span class="p">}</span>
 </code></pre></div>
-							<p>Standard layouts can be replaced the same way:</p>
-							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">page</span> <span class="o">=</span> <span class="p">{</span> metadata<span class="p">,</span> content<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
-  lib<span class="o">.</span>tags<span class="o">.</span>article <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
-    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> metadata<span class="o">.</span>title <span class="p">])</span>
-    content
-  <span class="p">];</span>
+							<p>Partials are replaced the same way, through <code>website.layouts.partials.&lt;name&gt;</code>.</p>
+							<p>When overriding a function, preserve the arguments used by its callers. The <a href="/nixtml/reference/templates/">Template Context Reference</a> lists standard layout values, and the theme's module shows each partial's specific signature.</p>
+							<h2 id="write-a-theme">Write a Theme<a class="headerlink mx-2" href="#write-a-theme" title="Permanent link">#</a></h2>
+							<p>A theme is an ordinary module, so writing one uses the same tools as building a site. See <a href="/nixtml/templating/">Layouts and partials</a> for writing layouts. The included themes follow these conventions:</p>
+							<ul>
+								<li><strong>Layouts and partials</strong> are set with <code>lib.mkDefault</code>, so sites can override them.</li>
+								<li><strong>Options</strong> are declared under <code>themes.&lt;name&gt;</code>, keeping them separate from <code>website</code> options and from other themes.</li>
+								<li><strong>Assets</strong>, such as compiled stylesheets, are built as packages and added to <code>build.extraPackages</code>, which joins them with the website output.</li>
+								<li><strong>Sources</strong> of third-party assets, such as Sass frameworks, are pinned with a fixed revision and hash.</li>
+							</ul>
+							<p>A minimal theme module looks like this:</p>
+							<div class="highlight"><pre><span></span><code><span class="p">{</span> lib<span class="p">,</span> config<span class="p">,</span> pkgs<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+<span class="k">let</span>
+  <span class="ss">cfg</span> <span class="o">=</span> config<span class="o">.</span>themes<span class="o">.</span>simple<span class="p">;</span>
+<span class="k">in</span>
+<span class="p">{</span>
+  options<span class="o">.</span>themes<span class="o">.</span><span class="ss">simple</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">accentColor</span> <span class="o">=</span> lib<span class="o">.</span>mkOption <span class="p">{</span>
+      <span class="ss">type</span> <span class="o">=</span> lib<span class="o">.</span>types<span class="o">.</span>str<span class="p">;</span>
+      <span class="ss">default</span> <span class="o">=</span> <span class="s2">"#8a4d76"</span><span class="p">;</span>
+      <span class="ss">description</span> <span class="o">=</span> <span class="s2">"Accent color of the theme."</span><span class="p">;</span>
+    <span class="p">};</span>
+  <span class="p">};</span>
+
+  <span class="ss">config</span> <span class="o">=</span> <span class="p">{</span>
+    build<span class="o">.</span>extraPackages<span class="o">.</span><span class="ss">simpleTheme</span> <span class="o">=</span> pkgs<span class="o">.</span>writeTextDir <span class="s2">"css/main.css"</span> <span class="s s-Multiline">''</span>
+<span class="s s-Multiline">      a { color: </span><span class="si">${</span>cfg<span class="o">.</span>accentColor<span class="si">}</span><span class="s s-Multiline">; }</span>
+<span class="s s-Multiline">    ''</span><span class="p">;</span>
+
+    website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">base</span> <span class="o">=</span> lib<span class="o">.</span>mkDefault <span class="p">(</span>
+      <span class="p">{</span> content<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+      <span class="s2">"&lt;!DOCTYPE html&gt;</span><span class="se">\n</span><span class="s2">"</span>
+      <span class="o">+</span> lib<span class="o">.</span>tags<span class="o">.</span>html <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
+        <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>head <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
+          <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>link <span class="p">[</span>
+            <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>rel <span class="s2">"stylesheet"</span><span class="p">)</span>
+            <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href <span class="p">(</span>config<span class="o">.</span>website<span class="o">.</span>baseURI <span class="o">+</span> <span class="s2">"css/main.css"</span><span class="p">))</span>
+          <span class="p">])</span>
+        <span class="p">])</span>
+        <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>body <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> content <span class="p">])</span>
+      <span class="p">]</span>
+    <span class="p">);</span>
+  <span class="p">};</span>
+<span class="p">}</span>
 </code></pre></div>
-							<p>When overriding a function, preserve the arguments used by its callers. The <a href="/nixtml/reference/templates/">Template Context Reference</a> lists standard layout values; Minima's module shows each partial's specific signature.</p>
-							<p>See <a href="/nixtml/templating/">Layouts and partials</a> when building a complete custom theme instead of overriding Minima.</p>
-							<h2 id="assets-and-reproducibility">Assets and Reproducibility<a class="headerlink mx-2" href="#assets-and-reproducibility" title="Permanent link">#</a></h2>
-							<p>Minima compiles its pinned upstream Sass sources during the Nix build and emits its stylesheet and social icon sprite under <code>assets/</code>. The upstream source revision and hash are fixed in the theme module, and its MIT license is retained in the theme source and generated asset package.</p>
-							<p>The current proof-of-concept does not port Jekyll integrations such as Disqus or Google Analytics, every SEO metadata feature, or Minima's skin customization. Its default styling is intended to be overridden through layouts and site assets where necessary.</p>
-							<h2 id="buildable-example">Buildable Example<a class="headerlink mx-2" href="#buildable-example" title="Permanent link">#</a></h2>
-							<p>The repository includes a complete Minima blog with navigation, pagination, tags, excerpts, social links, and RSS:</p>
-							<div class="highlight"><pre><span></span><code>nix<span class="w"> </span>build<span class="w"> </span>.#examples.minima
-</code></pre></div>
-							<p>Its source is in <a href="https://github.com/arnarg/nixtml/tree/main/examples/minima"><code>examples/minima</code></a>, and the theme implementation is in <a href="https://github.com/arnarg/nixtml/tree/main/themes/minima"><code>themes/minima</code></a>.</p>
+							<p>The sources of <a href="https://github.com/arnarg/nixtml/tree/main/themes/minima">Minima</a> and the <a href="https://github.com/arnarg/nixtml/tree/main/themes/docs">docs theme</a> are complete examples.</p>
 						</div>
 						<p class="docs-edit-link">
-							<a href="https://github.com/arnarg/nixtml/edit/main/docs/content/themes.md">
+							<a href="https://github.com/arnarg/nixtml/edit/main/docs/content/themes/index.md">
 								Edit this page
 							</a>
 						</p>
@@ -340,14 +299,6 @@ The rest of the post appears here and on its full page.
 								</span>
 								<span class="docs-pager-title">
 									Taxonomies and RSS
-								</span>
-							</a>
-							<a class="docs-pager-link docs-pager-next" href="/nixtml/docs-theme/">
-								<span class="docs-pager-label">
-									Next guide
-								</span>
-								<span class="docs-pager-title">
-									Using the docs theme
 								</span>
 							</a>
 						</nav>

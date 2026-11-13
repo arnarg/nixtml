@@ -7,14 +7,14 @@
 		<meta name="theme-color" content="#8a4d76">
 		<link rel="icon" href="/nixtml/logo.svg" type="image/svg+xml">
 		<title>
-			Using the Docs Theme | nixtml
+			Docs | nixtml
 		</title>
-		<meta name="description" content="Build a documentation site with sidebar navigation, self-hosted fonts and light and dark color schemes">
-		<meta property="og:title" content="Using the Docs Theme | nixtml">
-		<meta name="twitter:title" content="Using the Docs Theme | nixtml">
-		<meta itemprop="name" content="Using the Docs Theme | nixtml">
-		<meta property="og:description" content="Build a documentation site with sidebar navigation, self-hosted fonts and light and dark color schemes">
-		<meta name="twitter:description" content="Build a documentation site with sidebar navigation, self-hosted fonts and light and dark color schemes">
+		<meta name="description" content="A documentation theme with sidebar navigation, self-hosted fonts and light and dark color schemes">
+		<meta property="og:title" content="Docs | nixtml">
+		<meta name="twitter:title" content="Docs | nixtml">
+		<meta itemprop="name" content="Docs | nixtml">
+		<meta property="og:description" content="A documentation theme with sidebar navigation, self-hosted fonts and light and dark color schemes">
+		<meta name="twitter:description" content="A documentation theme with sidebar navigation, self-hosted fonts and light and dark color schemes">
 		<meta name="application-name" content="nixtml">
 		<meta property="og:site_name" content="nixtml">
 		<meta property="og:locale" content="en">
@@ -68,12 +68,22 @@
 							</li>
 							<li>
 								<a href="/nixtml/themes/">
-									Using themes and Minima
+									Using themes
+								</a>
+							</li>
+						</ul>
+						<p class="menu-label">
+							Themes
+						</p>
+						<ul class="menu-list">
+							<li>
+								<a href="/nixtml/themes/minima/">
+									Minima
 								</a>
 							</li>
 							<li>
-								<a href="/nixtml/docs-theme/" class="is-active" aria-current="page">
-									Using the docs theme
+								<a href="/nixtml/themes/docs/" class="is-active" aria-current="page">
+									Docs
 								</a>
 							</li>
 						</ul>
@@ -138,12 +148,22 @@
 								</li>
 								<li>
 									<a href="/nixtml/themes/">
-										Using themes and Minima
+										Using themes
+									</a>
+								</li>
+							</ul>
+							<p class="menu-label">
+								Themes
+							</p>
+							<ul class="menu-list">
+								<li>
+									<a href="/nixtml/themes/minima/">
+										Minima
 									</a>
 								</li>
 								<li>
-									<a href="/nixtml/docs-theme/" class="is-active" aria-current="page">
-										Using the docs theme
+									<a href="/nixtml/themes/docs/" class="is-active" aria-current="page">
+										Docs
 									</a>
 								</li>
 							</ul>
@@ -176,14 +196,15 @@
 					</aside>
 					<main class="docs-main column">
 						<h1 class="title">
-							Using the Docs Theme
+							Docs
 						</h1>
 						<p class="docs-lede">
-							Build a documentation site with sidebar navigation, self-hosted fonts and light and dark color schemes
+							A documentation theme with sidebar navigation, self-hosted fonts and light and dark color schemes
 						</p>
 						<div class="content">
 							<p>The docs theme is the theme used by this website. It provides a hero with a logo, a sidebar navigation built from page frontmatter, previous and next links between pages, edit links, light and dark color schemes and self-hosted fonts. It's built on <a href="https://bulma.io/">Bulma</a>, compiled from pinned Sass sources during the Nix build.</p>
-							<h2 id="import-the-theme">Import the Theme<a class="headerlink mx-2" href="#import-the-theme" title="Permanent link">#</a></h2>
+							<p>See <a href="/nixtml/themes/">Using themes</a> for how themes work in general.</p>
+							<h2 id="import-the-docs-theme">Import the Docs Theme<a class="headerlink mx-2" href="#import-the-docs-theme" title="Permanent link">#</a></h2>
 							<div class="highlight"><pre><span></span><code>nixtml<span class="o">.</span>lib<span class="o">.</span>mkWebsite <span class="p">{</span>
   <span class="k">inherit</span> pkgs<span class="p">;</span>
 
@@ -343,7 +364,7 @@
 <span class="s s-Multiline">''</span><span class="p">;</span>
 </code></pre></div>
 							<h2 id="override-layouts-and-partials">Override Layouts and Partials<a class="headerlink mx-2" href="#override-layouts-and-partials" title="Permanent link">#</a></h2>
-							<p>Like Minima, the docs theme defines its layouts and partials with <code>lib.mkDefault</code>, so a site can replace any of them. The base layout is composed of these partials:</p>
+							<p>The docs theme's layouts and partials can be replaced individually, as described in <a href="/nixtml/themes/#override-a-layout-or-partial">Using themes</a>. The base layout is composed of these partials:</p>
 							<table>
 								<thead>
 									<tr>
@@ -382,23 +403,12 @@
 									</tr>
 								</tbody>
 							</table>
-							<p>See <a href="/nixtml/themes/#override-a-layout-or-partial">Using themes and Minima</a> for an example.</p>
 						</div>
 						<p class="docs-edit-link">
-							<a href="https://github.com/arnarg/nixtml/edit/main/docs/content/docs-theme.md">
+							<a href="https://github.com/arnarg/nixtml/edit/main/docs/content/themes/docs.md">
 								Edit this page
 							</a>
 						</p>
-						<nav class="docs-pager" aria-label="Pagination">
-							<a class="docs-pager-link docs-pager-previous" href="/nixtml/themes/">
-								<span class="docs-pager-label">
-									Previous guide
-								</span>
-								<span class="docs-pager-title">
-									Using themes and Minima
-								</span>
-							</a>
-						</nav>
 					</main>
 				</div>
 			</div>
