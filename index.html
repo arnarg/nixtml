@@ -264,8 +264,7 @@
 							<p>The built-in Minima theme supplies the layouts and styling, so no template code is needed for this first site.</p>
 							<h2 id="prerequisites">Prerequisites<a class="headerlink mx-2" href="#prerequisites" title="Permanent link">#</a></h2>
 							<p>Install Nix and enable the <code>nix-command</code> and <code>flakes</code> experimental features:</p>
-							<div class="highlight"><pre><span></span><code><span class="c1"># ~/.config/nix/nix.conf</span>
-<span class="na">experimental-features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">nix-command flakes</span>
+							<div class="highlight"><span class="filename">~/.config/nix/nix.conf</span><pre><span></span><code><span class="na">experimental-features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">nix-command flakes</span>
 </code></pre></div>
 							<p>Basic familiarity with Nix expressions is helpful, but every file needed for the example is shown below.</p>
 							<h2 id="1-create-the-project">1. Create the Project<a class="headerlink mx-2" href="#1-create-the-project" title="Permanent link">#</a></h2>
@@ -282,7 +281,7 @@ mkdir<span class="w"> </span>content
 </code></pre></div>
 							<h2 id="2-create-the-flake">2. Create the Flake<a class="headerlink mx-2" href="#2-create-the-flake" title="Permanent link">#</a></h2>
 							<p>Create <code>flake.nix</code>:</p>
-							<div class="highlight"><pre><span></span><code><span class="p">{</span>
+							<div class="highlight"><span class="filename">flake.nix</span><pre><span></span><code><span class="p">{</span>
   <span class="ss">description</span> <span class="o">=</span> <span class="s2">"My website generated with nixtml"</span><span class="p">;</span>
 
   <span class="ss">inputs</span> <span class="o">=</span> <span class="p">{</span>
@@ -340,7 +339,7 @@ mkdir<span class="w"> </span>content
 							<p><code>mkWebsite</code> creates a website derivation. The <code>apps.serve</code> output serves that exact derivation, so the preview does not require a separate development build.</p>
 							<h2 id="3-add-the-content">3. Add the Content<a class="headerlink mx-2" href="#3-add-the-content" title="Permanent link">#</a></h2>
 							<p>Create <code>content/index.md</code>:</p>
-							<div class="highlight"><pre><span></span><code>---
+							<div class="highlight"><span class="filename">content/index.md</span><pre><span></span><code>---
 title: Home
 <span class="gu">description: Welcome to my website</span>
 <span class="gu">---</span>
@@ -350,7 +349,7 @@ Welcome to my nixtml-powered website.
 It uses <span class="gs">**Nix**</span> for declarative configuration and reproducible builds.
 </code></pre></div>
 							<p>Create <code>content/about.md</code>:</p>
-							<div class="highlight"><pre><span></span><code>---
+							<div class="highlight"><span class="filename">content/about.md</span><pre><span></span><code>---
 title: About
 <span class="gu">description: About this website</span>
 <span class="gu">---</span>
