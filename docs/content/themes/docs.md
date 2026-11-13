@@ -92,7 +92,27 @@ The colors are [Bulma's colors](https://bulma.io/documentation/customize/concept
 
 The `info`, `success`, `warning` and `danger` colors are also used by [admonitions](/nixtml/reference/markdown/#blocks).
 
-`colorScheme` follows the reader's system preference by default. Set it to `"light"` or `"dark"` to always use one of them.
+## Color Schemes
+
+The theme has a light and a dark color scheme, and follows the reader's system preference by default. Buttons in the top right corner let readers choose between the system, light and dark color schemes. Their choice is saved in their browser and applied before each page is rendered, so pages don't flash in the wrong color scheme.
+
+| Option | Default | Purpose |
+| --- | --- | --- |
+| `colorScheme` | `"auto"` | Color scheme used until the reader chooses one: `"auto"` follows the system preference, `"light"` or `"dark"` |
+| `colorSchemeSwitcher.enable` | `true` | Display the color scheme buttons |
+| `colorSchemeSwitcher.storageKey` | `"<website.name>-color-scheme"` | `localStorage` key of the reader's choice |
+| `colorSchemeSwitcher.labels` | `group`, `system`, `light` and `dark` labels | Accessible labels of the switcher and its buttons |
+
+The switcher requires JavaScript and is hidden without it, leaving the color scheme from `colorScheme`. To always use one color scheme, set `colorScheme` and disable the switcher:
+
+```nix
+themes.docs = {
+  colorScheme = "dark";
+  colorSchemeSwitcher.enable = false;
+};
+```
+
+Websites served from the same origin share their browser storage. For example, all GitHub Pages project sites of a user are served from `<user>.github.io`. The default `storageKey` includes `website.name` to keep their choices separate.
 
 Code blocks are highlighted with the Pygments styles in `codeStyles.light` and `codeStyles.dark`, which default to `default` and `monokai`. Styles from other Python packages need the package in [`extraPythonPackages`](/nixtml/reference/markdown/#additional-python-packages).
 
@@ -165,6 +185,7 @@ The docs theme's layouts and partials can be replaced individually, as described
 | --- | --- |
 | `head` and `meta` | Contents of `<head>` |
 | `docsHero` | Logo or title at the top of the page |
+| `docsColorSchemeSwitcher` | Color scheme buttons, rendered by `docsHero` |
 | `docsSidebar` | Navigation, called with `mobile = true` for small screens |
 | `pageHeader` | Page title and description |
 | `docsEditLink` | Edit link below the content |

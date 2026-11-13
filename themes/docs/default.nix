@@ -8,6 +8,7 @@ let
   inherit (lib.tags)
     a
     body
+    button
     div
     footer
     h1
@@ -18,7 +19,9 @@ let
     main
     meta
     p
+    script
     section
+    span
     ;
   inherit (lib) attrs;
 
@@ -126,8 +129,31 @@ let
         mkdir -p $out
         cp -r ${cfg.internal.fonts}/fonts $out/fonts
       '')
-    ];
+    ]
+    ++ lib.optional cfg.colorSchemeSwitcher.enable (
+      pkgs.runCommand "nixtml-docs-theme-scripts" { } ''
+        mkdir -p $out/js
+        cp ${./color-scheme.js} $out/js/color-scheme.js
+      ''
+    );
   };
+
+  defaultColorScheme = if cfg.colorScheme == "auto" then "system" else cfg.colorScheme;
+
+  # Applies the saved color scheme before the page is rendered, avoiding a
+  # flash of the default color scheme.
+  colorSchemeScript = ''
+    (function () {
+      try {
+        var scheme = window.localStorage.getItem(${builtins.toJSON cfg.colorSchemeSwitcher.storageKey});
+        if (scheme === "system") {
+          document.documentElement.removeAttribute("data-theme");
+        } else if (scheme === "light" || scheme === "dark") {
+          document.documentElement.setAttribute("data-theme", scheme);
+        }
+      } catch (error) {}
+    })();
+  '';
 
   # Paths of the source files of content pages, relative to the content
   # directory, keyed by their output path.
@@ -213,7 +239,53 @@ in
       default = "auto";
       description = ''
         Color scheme of the website. `auto` follows the reader's system preference.
+
+        With `colorSchemeSwitcher` enabled, this is the color scheme used until the reader chooses another one.
       '';
+    };
+
+    colorSchemeSwitcher = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = ''
+          Whether to display buttons for switching between the system, light and dark color schemes. The reader's choice is saved in their browser.
+
+          The switcher requires JavaScript, and is hidden when it's unavailable.
+        '';
+      };
+      storageKey = mkOption {
+        type = types.str;
+        default = "${config.website.name}-color-scheme";
+        defaultText = literalExpression ''"''${config.website.name}-color-scheme"'';
+        description = ''
+          Key of the `localStorage` item storing the chosen color scheme.
+
+          Websites served from the same origin, such as GitHub Pages project sites of the same user, share their storage. Different keys keep their choices separate.
+        '';
+      };
+      labels = {
+        group = mkOption {
+          type = types.str;
+          default = "Color scheme";
+          description = "Accessible label of the switcher.";
+        };
+        system = mkOption {
+          type = types.str;
+          default = "System color scheme";
+          description = "Accessible label of the system color scheme button.";
+        };
+        light = mkOption {
+          type = types.str;
+          default = "Light color scheme";
+          description = "Accessible label of the light color scheme button.";
+        };
+        dark = mkOption {
+          type = types.str;
+          default = "Dark color scheme";
+          description = "Accessible label of the dark color scheme button.";
+        };
+      };
     };
 
     codeStyles = {
@@ -418,7 +490,7 @@ in
 
         partials = {
           docsHero = lib.mkDefault (
-            _:
+            context:
             section
               [
                 (attrs.classes [
@@ -428,6 +500,7 @@ in
                 ])
               ]
               [
+                (partials.docsColorSchemeSwitcher context)
                 (div
                   [ (attrs.classes [ "hero-body" ]) ]
                   [
@@ -513,6 +586,60 @@ in
             ]
           );
 
+          docsColorSchemeSwitcher = lib.mkDefault (
+            _:
+            let
+              schemeButton =
+                scheme:
+                button
+                  [
+                    (attrs.type "button")
+                    (attrs.classes [
+                      "button"
+                      "is-small"
+                    ])
+                    (attrs.data "color-scheme" scheme)
+                    (attrs.aria "pressed" (lib.boolToString (scheme == defaultColorScheme)))
+                    (attrs.aria "label" cfg.colorSchemeSwitcher.labels.${scheme})
+                    (attrs.title cfg.colorSchemeSwitcher.labels.${scheme})
+                  ]
+                  [
+                    (span
+                      [
+                        (attrs.classes [
+                          "docs-color-scheme-icon"
+                          "is-${scheme}"
+                        ])
+                        (attrs.aria "hidden" "true")
+                      ]
+                      [ ]
+                    )
+                  ];
+            in
+            lib.optionalString cfg.colorSchemeSwitcher.enable (
+              div
+                [
+                  (attrs.classes [
+                    "docs-color-scheme"
+                    "buttons"
+                    "has-addons"
+                  ])
+                  (lib.mkAttr "role" "group")
+                  (attrs.aria "label" cfg.colorSchemeSwitcher.labels.group)
+                  (attrs.data "storage-key" cfg.colorSchemeSwitcher.storageKey)
+                  (attrs.data "default" defaultColorScheme)
+                  (lib.mkAttr "hidden" "")
+                ]
+                (
+                  map schemeButton [
+                    "system"
+                    "light"
+                    "dark"
+                  ]
+                )
+            )
+          );
+
           head = lib.mkDefault (
             context:
             [
@@ -539,6 +666,16 @@ in
                 ++ lib.optional (logoMimeType != null) (attrs.type logoMimeType)
               )
             )
+            ++ lib.optionals cfg.colorSchemeSwitcher.enable [
+              (script [ ] [ colorSchemeScript ])
+              (script
+                [
+                  (attrs.src (baseURI + "js/color-scheme.js"))
+                  (lib.mkAttr "defer" "")
+                ]
+                [ ]
+              )
+            ]
             ++ [ (partials.meta context) ]
           );
 

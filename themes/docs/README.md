@@ -4,7 +4,7 @@ A documentation theme built on [Bulma](https://bulma.io/), used by [nixtml's doc
 
 - Sidebar navigation built from `nav` frontmatter, with previous and next links within sections.
 - Configurable logo, colors, code highlighting styles, footer and edit links.
-- Light and dark color schemes.
+- Light and dark color schemes, with a switcher saving the reader's choice.
 - Self-hosted Fira Sans and Fira Mono from nixpkgs, subset like Google Fonts.
 
 ## Usage
