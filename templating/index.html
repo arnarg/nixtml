@@ -210,8 +210,7 @@
 									</tr>
 								</tbody>
 							</table>
-							<p>A page-specific layout renders first. Its result is then passed to <code>base</code>
-								as <code>content</code>, together with the original page context.</p>
+							<p>A page-specific layout renders first. Its result is then passed to <code>base</code> as <code>content</code>, together with the original page context.</p>
 							<h2 id="a-minimal-page-shell">A Minimal Page Shell<a class="headerlink mx-2" href="#a-minimal-page-shell" title="Permanent link">#</a></h2>
 							<p>The following module defines layouts for a site with ordinary pages. Themes provide these same layouts as configurable defaults, so defining them yourself is only necessary when you want custom markup.</p>
 							<div class="highlight"><pre><span></span><code><span class="p">{</span> lib<span class="p">,</span> config<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
@@ -236,23 +235,23 @@
       <span class="p">{</span> path<span class="p">,</span> content<span class="p">,</span> title<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
       <span class="k">let</span>
         <span class="ss">pageTitle</span> <span class="o">=</span>
-          <span class="k">if</span> title <span class="o">!=</span> <span class="no">null</span> <span class="o">&amp;&amp;</span> path <span class="o">!=</span> <span class="p">[</span> <span class="s2">&quot;index.html&quot;</span> <span class="p">]</span> <span class="k">then</span>
-            <span class="s2">&quot;</span><span class="si">${</span>title<span class="si">}</span><span class="s2"> | </span><span class="si">${</span>metadata<span class="o">.</span>title<span class="si">}</span><span class="s2">&quot;</span>
+          <span class="k">if</span> title <span class="o">!=</span> <span class="no">null</span> <span class="o">&amp;&amp;</span> path <span class="o">!=</span> <span class="p">[</span> <span class="s2">"index.html"</span> <span class="p">]</span> <span class="k">then</span>
+            <span class="s2">"</span><span class="si">${</span>title<span class="si">}</span><span class="s2"> | </span><span class="si">${</span>metadata<span class="o">.</span>title<span class="si">}</span><span class="s2">"</span>
           <span class="k">else</span>
             metadata<span class="o">.</span>title<span class="p">;</span>
       <span class="k">in</span>
-      <span class="s2">&quot;&lt;!DOCTYPE html&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
-      <span class="o">+</span> <span class="p">(</span>html <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>lang <span class="p">(</span>metadata<span class="o">.</span>lang <span class="ow">or</span> <span class="s2">&quot;en&quot;</span><span class="p">))</span> <span class="p">]</span> <span class="p">[</span>
+      <span class="s2">"&lt;!DOCTYPE html&gt;</span><span class="se">\n</span><span class="s2">"</span>
+      <span class="o">+</span> <span class="p">(</span>html <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>lang <span class="p">(</span>metadata<span class="o">.</span>lang <span class="ow">or</span> <span class="s2">"en"</span><span class="p">))</span> <span class="p">]</span> <span class="p">[</span>
         <span class="p">(</span>head <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
-          <span class="p">(</span>meta <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>charset <span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span> <span class="p">])</span>
+          <span class="p">(</span>meta <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>charset <span class="s2">"UTF-8"</span><span class="p">)</span> <span class="p">])</span>
           <span class="p">(</span>meta <span class="p">[</span>
-            <span class="p">(</span>attrs<span class="o">.</span>name <span class="s2">&quot;viewport&quot;</span><span class="p">)</span>
-            <span class="p">(</span>attrs<span class="o">.</span>content <span class="s2">&quot;width=device-width, initial-scale=1&quot;</span><span class="p">)</span>
+            <span class="p">(</span>attrs<span class="o">.</span>name <span class="s2">"viewport"</span><span class="p">)</span>
+            <span class="p">(</span>attrs<span class="o">.</span>content <span class="s2">"width=device-width, initial-scale=1"</span><span class="p">)</span>
           <span class="p">])</span>
           <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>title pageTitle<span class="p">)</span>
           <span class="p">(</span>link <span class="p">[</span>
-            <span class="p">(</span>attrs<span class="o">.</span>rel <span class="s2">&quot;stylesheet&quot;</span><span class="p">)</span>
-            <span class="p">(</span>attrs<span class="o">.</span>href <span class="p">(</span>baseURI <span class="o">+</span> <span class="s2">&quot;css/main.css&quot;</span><span class="p">))</span>
+            <span class="p">(</span>attrs<span class="o">.</span>rel <span class="s2">"stylesheet"</span><span class="p">)</span>
+            <span class="p">(</span>attrs<span class="o">.</span>href <span class="p">(</span>baseURI <span class="o">+</span> <span class="s2">"css/main.css"</span><span class="p">))</span>
           <span class="p">])</span>
         <span class="p">])</span>
         <span class="p">(</span>body <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
@@ -263,36 +262,33 @@
     <span class="ss">home</span> <span class="o">=</span> <span class="p">{</span> metadata<span class="p">,</span> content<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
       article <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
         <span class="p">(</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> metadata<span class="o">.</span>title <span class="p">])</span>
-        <span class="p">(</span>div <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>class <span class="s2">&quot;content&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span> content <span class="p">])</span>
+        <span class="p">(</span>div <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>class <span class="s2">"content"</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span> content <span class="p">])</span>
       <span class="p">];</span>
 
     <span class="ss">page</span> <span class="o">=</span> <span class="p">{</span> metadata<span class="p">,</span> content<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
       article <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
         <span class="p">(</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> metadata<span class="o">.</span>title <span class="p">])</span>
-        <span class="p">(</span>div <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>class <span class="s2">&quot;content&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span> content <span class="p">])</span>
+        <span class="p">(</span>div <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>class <span class="s2">"content"</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span> content <span class="p">])</span>
       <span class="p">];</span>
   <span class="p">};</span>
 <span class="p">}</span>
 </code></pre></div>
-							<p>The <code>home</code>
-								and <code>page</code>
-								layouts can differ whenever the homepage needs distinct markup. Both receive the page frontmatter as <code>metadata</code>
-								and the rendered Markdown as <code>content</code>.</p>
+							<p>The <code>home</code> and <code>page</code> layouts can differ whenever the homepage needs distinct markup. Both receive the page frontmatter as <code>metadata</code> and the rendered Markdown as <code>content</code>.</p>
 							<h2 id="string-templates">String Templates<a class="headerlink mx-2" href="#string-templates" title="Permanent link">#</a></h2>
 							<p>HTML helpers are optional. A simple base layout can use Nix string interpolation instead:</p>
-							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">base</span> <span class="o">=</span> <span class="p">{</span> content<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span> <span class="s s-Multiline">&#39;&#39;</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">base</span> <span class="o">=</span> <span class="p">{</span> content<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span> <span class="s s-Multiline">''</span>
 <span class="s s-Multiline">  &lt;!DOCTYPE html&gt;</span>
-<span class="s s-Multiline">  &lt;html lang=&quot;en&quot;&gt;</span>
+<span class="s s-Multiline">  &lt;html lang="en"&gt;</span>
 <span class="s s-Multiline">    &lt;head&gt;</span>
-<span class="s s-Multiline">      &lt;meta charset=&quot;UTF-8&quot;&gt;</span>
-<span class="s s-Multiline">      &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</span>
+<span class="s s-Multiline">      &lt;meta charset="UTF-8"&gt;</span>
+<span class="s s-Multiline">      &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;</span>
 <span class="s s-Multiline">      &lt;title&gt;</span><span class="si">${</span>config<span class="o">.</span>website<span class="o">.</span>metadata<span class="o">.</span>title<span class="si">}</span><span class="s s-Multiline">&lt;/title&gt;</span>
 <span class="s s-Multiline">    &lt;/head&gt;</span>
 <span class="s s-Multiline">    &lt;body&gt;</span>
 <span class="s s-Multiline">      &lt;main&gt;</span><span class="si">${</span>content<span class="si">}</span><span class="s s-Multiline">&lt;/main&gt;</span>
 <span class="s s-Multiline">    &lt;/body&gt;</span>
 <span class="s s-Multiline">  &lt;/html&gt;</span>
-<span class="s s-Multiline">&#39;&#39;</span><span class="p">;</span>
+<span class="s s-Multiline">''</span><span class="p">;</span>
 </code></pre></div>
 							<p>Both approaches can be mixed. HTML helpers are useful for building element and attribute lists programmatically; interpolation can be clearer for a small, mostly static shell.</p>
 							<h2 id="partials">Partials<a class="headerlink mx-2" href="#partials" title="Permanent link">#</a></h2>
@@ -308,18 +304,18 @@
   website<span class="o">.</span><span class="ss">layouts</span> <span class="o">=</span> <span class="p">{</span>
     <span class="ss">partials</span> <span class="o">=</span> <span class="p">{</span>
       <span class="ss">head</span> <span class="o">=</span> <span class="p">{</span> title<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span> <span class="p">[</span>
-        <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>meta <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>charset <span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span> <span class="p">])</span>
+        <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>meta <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>charset <span class="s2">"UTF-8"</span><span class="p">)</span> <span class="p">])</span>
         <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>title title<span class="p">)</span>
       <span class="p">];</span>
 
       <span class="ss">navigation</span> <span class="o">=</span> <span class="p">{</span> <span class="p">}:</span>
-        nav <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>aria <span class="s2">&quot;label&quot;</span> <span class="s2">&quot;Main navigation&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span>
+        nav <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>aria <span class="s2">"label"</span> <span class="s2">"Main navigation"</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span>
           <span class="p">(</span>ul <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
             <span class="p">(</span>li <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
-              <span class="p">(</span>a <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>href baseURI<span class="p">)</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;Home&quot;</span> <span class="p">])</span>
+              <span class="p">(</span>a <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>href baseURI<span class="p">)</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">"Home"</span> <span class="p">])</span>
             <span class="p">])</span>
             <span class="p">(</span>li <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
-              <span class="p">(</span>a <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>href <span class="p">(</span>baseURI <span class="o">+</span> <span class="s2">&quot;about/&quot;</span><span class="p">))</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;About&quot;</span> <span class="p">])</span>
+              <span class="p">(</span>a <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>href <span class="p">(</span>baseURI <span class="o">+</span> <span class="s2">"about/"</span><span class="p">))</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">"About"</span> <span class="p">])</span>
             <span class="p">])</span>
           <span class="p">])</span>
         <span class="p">];</span>
@@ -329,8 +325,8 @@
       <span class="k">let</span>
         <span class="ss">pageTitle</span> <span class="o">=</span> <span class="k">if</span> title <span class="o">!=</span> <span class="no">null</span> <span class="k">then</span> title <span class="k">else</span> metadata<span class="o">.</span>title<span class="p">;</span>
       <span class="k">in</span>
-      <span class="s2">&quot;&lt;!DOCTYPE html&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
-      <span class="o">+</span> <span class="p">(</span>html <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>lang <span class="p">(</span>metadata<span class="o">.</span>lang <span class="ow">or</span> <span class="s2">&quot;en&quot;</span><span class="p">))</span> <span class="p">]</span> <span class="p">[</span>
+      <span class="s2">"&lt;!DOCTYPE html&gt;</span><span class="se">\n</span><span class="s2">"</span>
+      <span class="o">+</span> <span class="p">(</span>html <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>lang <span class="p">(</span>metadata<span class="o">.</span>lang <span class="ow">or</span> <span class="s2">"en"</span><span class="p">))</span> <span class="p">]</span> <span class="p">[</span>
         <span class="p">(</span>head <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
           <span class="p">(</span>partials<span class="o">.</span>head <span class="p">{</span> <span class="ss">title</span> <span class="o">=</span> pageTitle<span class="p">;</span> <span class="p">})</span>
         <span class="p">])</span>
@@ -342,15 +338,12 @@
   <span class="p">};</span>
 <span class="p">}</span>
 </code></pre></div>
-							<p>Pass the complete context with <code>@context</code>
-								when a partial needs values beyond the layout's explicit arguments:</p>
+							<p>Pass the complete context with <code>@context</code> when a partial needs values beyond the layout's explicit arguments:</p>
 							<div class="highlight"><pre><span></span><code>partials<span class="o">.</span>head context
 </code></pre></div>
-							<p>See the <a href="/nixtml/reference/html/">HTML helper reference</a>
-								for tags, attributes, conditional attributes, and escaping.</p>
+							<p>See the <a href="/nixtml/reference/html/">HTML helper reference</a> for tags, attributes, conditional attributes, and escaping.</p>
 							<h2 id="collection-layouts">Collection Layouts<a class="headerlink mx-2" href="#collection-layouts" title="Permanent link">#</a></h2>
-							<p>Collection layouts map over <code>items</code>
-								and render pagination controls:</p>
+							<p>Collection layouts map over <code>items</code> and render pagination controls:</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">collection</span> <span class="o">=</span>
   <span class="p">{</span>
     items<span class="p">,</span>
@@ -363,7 +356,7 @@
     <span class="o">...</span>
   <span class="p">}:</span>
   <span class="p">[</span>
-    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;Posts&quot;</span> <span class="p">])</span>
+    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">"Posts"</span> <span class="p">])</span>
     <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>ul <span class="p">[</span> <span class="p">]</span> <span class="p">(</span>
       <span class="nb">map</span> <span class="p">(</span>item<span class="p">:</span>
         lib<span class="o">.</span>tags<span class="o">.</span>li <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
@@ -372,27 +365,22 @@
           <span class="p">]</span> <span class="p">[</span> item<span class="o">.</span>title <span class="p">])</span>
         <span class="p">])</span> items
     <span class="p">))</span>
-    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>nav <span class="p">[</span> <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>aria <span class="s2">&quot;label&quot;</span> <span class="s2">&quot;Pagination&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span>
+    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>nav <span class="p">[</span> <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>aria <span class="s2">"label"</span> <span class="s2">"Pagination"</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span>
       <span class="p">(</span>lib<span class="o">.</span>optionalString hasPrev
-        <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>a <span class="p">[</span> <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href prevPageURL<span class="p">)</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;Previous&quot;</span> <span class="p">]))</span>
-      <span class="s2">&quot;Page </span><span class="si">${</span><span class="nb">toString</span> pageNumber<span class="si">}</span><span class="s2"> of </span><span class="si">${</span><span class="nb">toString</span> totalPages<span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>a <span class="p">[</span> <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href prevPageURL<span class="p">)</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">"Previous"</span> <span class="p">]))</span>
+      <span class="s2">"Page </span><span class="si">${</span><span class="nb">toString</span> pageNumber<span class="si">}</span><span class="s2"> of </span><span class="si">${</span><span class="nb">toString</span> totalPages<span class="si">}</span><span class="s2">"</span>
       <span class="p">(</span>lib<span class="o">.</span>optionalString hasNext
-        <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>a <span class="p">[</span> <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href nextPageURL<span class="p">)</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;Next&quot;</span> <span class="p">]))</span>
+        <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>a <span class="p">[</span> <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href nextPageURL<span class="p">)</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">"Next"</span> <span class="p">]))</span>
     <span class="p">])</span>
   <span class="p">];</span>
 </code></pre></div>
-							<p>Guard <code>nextPageURL</code>
-								and <code>prevPageURL</code>
-								with their corresponding Boolean values. Accessing a URL for a page that does not exist throws an evaluation error.</p>
-							<p><a href="/nixtml/collections/">Collections and pagination</a>
-							explains item summaries, dates, and collection configuration.</p>
+							<p>Guard <code>nextPageURL</code> and <code>prevPageURL</code> with their corresponding Boolean values. Accessing a URL for a page that does not exist throws an evaluation error.</p>
+							<p><a href="/nixtml/collections/">Collections and pagination</a> explains item summaries, dates, and collection configuration.</p>
 							<h2 id="taxonomy-layouts">Taxonomy Layouts<a class="headerlink mx-2" href="#taxonomy-layouts" title="Permanent link">#</a></h2>
-							<p>Taxonomy layouts receive collection-style pagination data plus <code>title</code>
-								for the term and <code>taxonomy</code>
-								for its type:</p>
+							<p>Taxonomy layouts receive collection-style pagination data plus <code>title</code> for the term and <code>taxonomy</code> for its type:</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">taxonomy</span> <span class="o">=</span> <span class="p">{</span> taxonomy<span class="p">,</span> title<span class="p">,</span> items<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
   <span class="p">[</span>
-    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;</span><span class="si">${</span>taxonomy<span class="si">}</span><span class="s2">: </span><span class="si">${</span>title<span class="si">}</span><span class="s2">&quot;</span> <span class="p">])</span>
+    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">"</span><span class="si">${</span>taxonomy<span class="si">}</span><span class="s2">: </span><span class="si">${</span>title<span class="si">}</span><span class="s2">"</span> <span class="p">])</span>
     <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>ul <span class="p">[</span> <span class="p">]</span> <span class="p">(</span>
       <span class="nb">map</span> <span class="p">(</span>item<span class="p">:</span>
         lib<span class="o">.</span>tags<span class="o">.</span>li <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
@@ -403,24 +391,20 @@
     <span class="p">))</span>
   <span class="p">];</span>
 </code></pre></div>
-							<p>See <a href="/nixtml/taxonomies/">Taxonomies and RSS</a>
-								for term setup and feed links.</p>
+							<p>See <a href="/nixtml/taxonomies/">Taxonomies and RSS</a> for term setup and feed links.</p>
 							<h2 id="site-configuration-in-layouts">Site Configuration in Layouts<a class="headerlink mx-2" href="#site-configuration-in-layouts" title="Permanent link">#</a></h2>
-							<p>Access site-wide settings from the module's <code>config</code>
-								argument:</p>
+							<p>Access site-wide settings from the module's <code>config</code> argument:</p>
 							<div class="highlight"><pre><span></span><code><span class="p">{</span> lib<span class="p">,</span> config<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
 <span class="k">let</span>
   <span class="k">inherit</span> <span class="p">(</span>config<span class="o">.</span>website<span class="p">)</span> baseURL baseURI metadata<span class="p">;</span>
 <span class="k">in</span>
 <span class="p">{</span>
-  <span class="c1"># baseURL:  &quot;https://example.com&quot;</span>
-  <span class="c1"># baseURI:  &quot;/&quot;, or a path such as &quot;/nixtml/&quot;</span>
+  <span class="c1"># baseURL:  "https://example.com"</span>
+  <span class="c1"># baseURI:  "/", or a path such as "/nixtml/"</span>
   <span class="c1"># metadata: arbitrary site-wide values</span>
 <span class="p">}</span>
 </code></pre></div>
-							<p>Use <code>baseURI</code>
-								for internal asset and navigation links so sites hosted below a URL path continue to work. Use <code>baseURL</code>
-								for absolute permalinks and external metadata.</p>
+							<p>Use <code>baseURI</code> for internal asset and navigation links so sites hosted below a URL path continue to work. Use <code>baseURL</code> for absolute permalinks and external metadata.</p>
 							<h2 id="escaping-and-rendered-html">Escaping and Rendered HTML<a class="headerlink mx-2" href="#escaping-and-rendered-html" title="Permanent link">#</a></h2>
 							<p>The HTML helpers return raw strings and do not automatically escape children. Keep rendered Markdown and intentionally generated tags unescaped:</p>
 							<div class="highlight"><pre><span></span><code>div <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> content <span class="p">]</span>
@@ -433,14 +417,10 @@
 							<p>Do not use escaping as a substitute for validating untrusted URLs or other attribute values.</p>
 							<h2 id="reference-and-next-steps">Reference and Next Steps<a class="headerlink mx-2" href="#reference-and-next-steps" title="Permanent link">#</a></h2>
 							<ul>
-								<li><a href="/nixtml/reference/templates/">Template Context Reference</a>
-								for every standard layout value.</li>
-								<li><a href="/nixtml/reference/html/">HTML Tags and Attributes</a>
-								for helper signatures.</li>
-								<li><a href="/nixtml/content/">Content and frontmatter</a>
-								for page metadata and content discovery.</li>
-								<li><a href="/nixtml/options/">Configuration options</a>
-								for all layout and content options.</li>
+								<li><a href="/nixtml/reference/templates/">Template Context Reference</a> for every standard layout value.</li>
+								<li><a href="/nixtml/reference/html/">HTML Tags and Attributes</a> for helper signatures.</li>
+								<li><a href="/nixtml/content/">Content and frontmatter</a> for page metadata and content discovery.</li>
+								<li><a href="/nixtml/options/">Configuration options</a> for all layout and content options.</li>
 							</ul>
 						</div>
 						<nav class="docs-pager" aria-label="Guide pagination">

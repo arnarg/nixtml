@@ -174,17 +174,14 @@
 							Add Markdown pages, metadata, static files, and explicit content entries
 						</p>
 						<div class="content">
-							<p>nixtml discovers Markdown files, parses their YAML frontmatter, and renders them through the <code>md</code>
-								content processor. Content remains separate from layouts: a page supplies text and metadata, while a layout decides how to present them.</p>
+							<p>nixtml discovers Markdown files, parses their YAML frontmatter, and renders them through the <code>md</code> content processor. Content remains separate from layouts: a page supplies text and metadata, while a layout decides how to present them.</p>
 							<h2 id="content-directory">Content Directory<a class="headerlink mx-2" href="#content-directory" title="Permanent link">#</a></h2>
-							<p>Set <code>content.dir</code>
-								in <code>mkWebsite</code>, or <code>website.content.dir</code>
-								in a nixtml module:</p>
+							<p>Set <code>content.dir</code> in <code>mkWebsite</code>, or <code>website.content.dir</code> in a nixtml module:</p>
 							<div class="highlight"><pre><span></span><code>nixtml<span class="o">.</span>lib<span class="o">.</span>mkWebsite <span class="p">{</span>
   <span class="k">inherit</span> pkgs<span class="p">;</span>
 
-  <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;my-website&quot;</span><span class="p">;</span>
-  <span class="ss">baseURL</span> <span class="o">=</span> <span class="s2">&quot;https://example.com&quot;</span><span class="p">;</span>
+  <span class="ss">name</span> <span class="o">=</span> <span class="s2">"my-website"</span><span class="p">;</span>
+  <span class="ss">baseURL</span> <span class="o">=</span> <span class="s2">"https://example.com"</span><span class="p">;</span>
   content<span class="o">.</span><span class="ss">dir</span> <span class="o">=</span> <span class="l">./content</span><span class="p">;</span>
 
   <span class="ss">imports</span> <span class="o">=</span> <span class="p">[</span> nixtml<span class="o">.</span>themes<span class="o">.</span>minima <span class="p">];</span>
@@ -202,8 +199,7 @@
 about/index.html
 guides/first-steps/index.html
 </code></pre></div>
-							<p>The root <code>index.md</code>
-								uses <code>website.layouts.home</code>. Other discovered files use <code>website.layouts.page</code>. The rendered path is available to layouts as a list of path segments.</p>
+							<p>The root <code>index.md</code> uses <code>website.layouts.home</code>. Other discovered files use <code>website.layouts.page</code>. The rendered path is available to layouts as a list of path segments.</p>
 							<h2 id="yaml-frontmatter">YAML Frontmatter<a class="headerlink mx-2" href="#yaml-frontmatter" title="Permanent link">#</a></h2>
 							<p>Put frontmatter at the beginning of each Markdown file:</p>
 							<div class="highlight"><pre><span></span><code>---
@@ -213,8 +209,7 @@ title: About this site
 
 The Markdown body starts here.
 </code></pre></div>
-							<p>Frontmatter becomes <code>metadata</code>
-								in home and page layouts. Common fields are:</p>
+							<p>Frontmatter becomes <code>metadata</code> in home and page layouts. Common fields are:</p>
 							<table>
 								<thead>
 									<tr>
@@ -254,72 +249,58 @@ tags:
 <span class="gu">featured: true</span>
 <span class="gu">---</span>
 </code></pre></div>
-							<p>Inside a page layout, for example, <code>metadata.featured</code>
-								is <code>true</code>
-								and <code>metadata.tags</code>
-								is a list of strings. In collection listings, custom fields are under <code>item.metadata</code>.</p>
+							<p>Inside a page layout, for example, <code>metadata.featured</code> is <code>true</code> and <code>metadata.tags</code> is a list of strings. In collection listings, custom fields are under <code>item.metadata</code>.</p>
 							<p>Use defaults for optional fields:</p>
-							<div class="highlight"><pre><span></span><code>metadata<span class="o">.</span>description <span class="ow">or</span> <span class="s2">&quot;&quot;</span>
+							<div class="highlight"><pre><span></span><code>metadata<span class="o">.</span>description <span class="ow">or</span> <span class="s2">""</span>
 metadata<span class="o">.</span>tags <span class="ow">or</span> <span class="p">[</span> <span class="p">]</span>
 </code></pre></div>
-							<p>The <a href="/nixtml/reference/markdown/">Markdown reference</a>
-								covers date formatting, tables of contents, and highlighting settings.</p>
+							<p>The <a href="/nixtml/reference/markdown/">Markdown reference</a> covers date formatting, tables of contents, and highlighting settings.</p>
 							<h2 id="site-metadata-versus-page-metadata">Site Metadata Versus Page Metadata<a class="headerlink mx-2" href="#site-metadata-versus-page-metadata" title="Permanent link">#</a></h2>
 							<p>Site-wide values are separate from page frontmatter:</p>
 							<div class="highlight"><pre><span></span><code><span class="ss">metadata</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">lang</span> <span class="o">=</span> <span class="s2">&quot;en&quot;</span><span class="p">;</span>
-  <span class="ss">title</span> <span class="o">=</span> <span class="s2">&quot;My Website&quot;</span><span class="p">;</span>
-  <span class="ss">description</span> <span class="o">=</span> <span class="s2">&quot;Notes about Nix&quot;</span><span class="p">;</span>
+  <span class="ss">lang</span> <span class="o">=</span> <span class="s2">"en"</span><span class="p">;</span>
+  <span class="ss">title</span> <span class="o">=</span> <span class="s2">"My Website"</span><span class="p">;</span>
+  <span class="ss">description</span> <span class="o">=</span> <span class="s2">"Notes about Nix"</span><span class="p">;</span>
 <span class="p">};</span>
 </code></pre></div>
-							<p>In a layout, <code>config.website.metadata</code>
-								contains these site-wide values. The <code>metadata</code>
-								function argument contains the current page's frontmatter. Naming a local binding <code>siteMetadata</code>
-								and the argument <code>metadata</code>
-								can make that distinction clear.</p>
+							<p>In a layout, <code>config.website.metadata</code> contains these site-wide values. The <code>metadata</code> function argument contains the current page's frontmatter. Naming a local binding <code>siteMetadata</code> and the argument <code>metadata</code> can make that distinction clear.</p>
 							<h2 id="navigation-metadata-on-this-site">Navigation Metadata on This Site<a class="headerlink mx-2" href="#navigation-metadata-on-this-site" title="Permanent link">#</a></h2>
-							<p>The nixtml documentation theme uses an optional <code>nav</code>
-								frontmatter attribute to include pages in its sidebar and guide pagination:</p>
+							<p>The nixtml documentation theme uses an optional <code>nav</code> frontmatter attribute to include pages in its sidebar and guide pagination:</p>
 							<div class="highlight"><pre><span></span><code><span class="nt">nav</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">section</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">guides</span>
 <span class="w">  </span><span class="nt">order</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
 <span class="w">  </span><span class="nt">label</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Content and frontmatter</span>
 </code></pre></div>
 							<ul>
-								<li><code>section</code>
-								selects a section declared in <code>docs/navigation.nix</code>.</li>
-								<li><code>order</code>
-								controls ordering within that section. Leave gaps between numbers to make later insertions easier.</li>
-								<li><code>label</code>
-								optionally overrides the page title in navigation.</li>
+								<li><code>section</code> selects a section declared in <code>docs/navigation.nix</code>.</li>
+								<li><code>order</code> controls ordering within that section. Leave gaps between numbers to make later insertions easier.</li>
+								<li><code>label</code> optionally overrides the page title in navigation.</li>
 							</ul>
-							<p>Pages without <code>nav</code>
-								metadata are left out of the sidebar. Section titles and section ordering remain in <code>docs/navigation.nix</code>; page paths and previous/next guide links are derived automatically from discovered content.</p>
+							<p>Pages without <code>nav</code> metadata are left out of the sidebar. Section titles and section ordering remain in <code>docs/navigation.nix</code>; page paths and previous/next guide links are derived automatically from discovered content.</p>
 							<p>This is a convention of this documentation theme, not a built-in nixtml navigation option. Other themes can use different metadata or navigation models.</p>
 							<h2 id="explicit-content-pages">Explicit Content Pages<a class="headerlink mx-2" href="#explicit-content-pages" title="Permanent link">#</a></h2>
 							<p>In addition to directory discovery, modules can define content directly under <code>website.content.pages</code>.</p>
 							<p>Use a source file:</p>
-							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>pages<span class="o">.</span><span class="s2">&quot;guides/custom&quot;</span> <span class="o">=</span> <span class="p">{</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>pages<span class="o">.</span><span class="s2">"guides/custom"</span> <span class="o">=</span> <span class="p">{</span>
   <span class="ss">source</span> <span class="o">=</span> <span class="l">./custom.md</span><span class="p">;</span>
-  <span class="ss">processor</span> <span class="o">=</span> <span class="s2">&quot;md&quot;</span><span class="p">;</span>
+  <span class="ss">processor</span> <span class="o">=</span> <span class="s2">"md"</span><span class="p">;</span>
 <span class="p">};</span>
 </code></pre></div>
 							<p>Or provide text inline:</p>
-							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>pages<span class="o">.</span><span class="s2">&quot;about&quot;</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">text</span> <span class="o">=</span> <span class="s s-Multiline">&#39;&#39;</span>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>pages<span class="o">.</span><span class="s2">"about"</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">text</span> <span class="o">=</span> <span class="s s-Multiline">''</span>
 <span class="s s-Multiline">    ---</span>
 <span class="s s-Multiline">    title: About</span>
 <span class="s s-Multiline">    ---</span>
 
 <span class="s s-Multiline">    This page is declared directly in Nix.</span>
-<span class="s s-Multiline">  &#39;&#39;</span><span class="p">;</span>
-  <span class="ss">processor</span> <span class="o">=</span> <span class="s2">&quot;md&quot;</span><span class="p">;</span>
+<span class="s s-Multiline">  ''</span><span class="p">;</span>
+  <span class="ss">processor</span> <span class="o">=</span> <span class="s2">"md"</span><span class="p">;</span>
 <span class="p">};</span>
 </code></pre></div>
 							<p>The attribute name determines the output page path. This mechanism is also useful for generated Markdown, such as the configuration reference on this site.</p>
 							<h2 id="static-assets">Static Assets<a class="headerlink mx-2" href="#static-assets" title="Permanent link">#</a></h2>
-							<p>Set <code>static.dir</code>
-								to copy files into the final website without processing them:</p>
+							<p>Set <code>static.dir</code> to copy files into the final website without processing them:</p>
 							<div class="highlight"><pre><span></span><code>nixtml<span class="o">.</span>lib<span class="o">.</span>mkWebsite <span class="p">{</span>
   <span class="c1"># Other settings...</span>
   static<span class="o">.</span><span class="ss">dir</span> <span class="o">=</span> <span class="l">./static</span><span class="p">;</span>
@@ -333,32 +314,24 @@ metadata<span class="o">.</span>tags <span class="ow">or</span> <span class="p">
 │   └── cover.png
 └── robots.txt
 </code></pre></div>
-							<p>These are emitted as <code>css/main.css</code>, <code>images/cover.png</code>, and <code>robots.txt</code>
-								in the website output. Prefix internal links with <code>config.website.baseURI</code>
-								so they also work when the site is hosted below a URL path:</p>
+							<p>These are emitted as <code>css/main.css</code>, <code>images/cover.png</code>, and <code>robots.txt</code> in the website output. Prefix internal links with <code>config.website.baseURI</code> so they also work when the site is hosted below a URL path:</p>
 							<div class="highlight"><pre><span></span><code>lib<span class="o">.</span>tags<span class="o">.</span>link <span class="p">[</span>
-  <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>rel <span class="s2">&quot;stylesheet&quot;</span><span class="p">)</span>
-  <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href <span class="p">(</span>config<span class="o">.</span>website<span class="o">.</span>baseURI <span class="o">+</span> <span class="s2">&quot;css/main.css&quot;</span><span class="p">))</span>
+  <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>rel <span class="s2">"stylesheet"</span><span class="p">)</span>
+  <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href <span class="p">(</span>config<span class="o">.</span>website<span class="o">.</span>baseURI <span class="o">+</span> <span class="s2">"css/main.css"</span><span class="p">))</span>
 <span class="p">]</span>
 </code></pre></div>
-							<p>For individual generated or copied files, modules can also use <code>website.files</code>. A file entry accepts either <code>source</code>
-								or <code>text</code>
-								and can override its output <code>path</code>.</p>
+							<p>For individual generated or copied files, modules can also use <code>website.files</code>. A file entry accepts either <code>source</code> or <code>text</code> and can override its output <code>path</code>.</p>
 							<h2 id="sitemaps">Sitemaps<a class="headerlink mx-2" href="#sitemaps" title="Permanent link">#</a></h2>
-							<p>nixtml generates <code>sitemap.xml</code>
-								by default. Disable it in a module when needed:</p>
+							<p>nixtml generates <code>sitemap.xml</code> by default. Disable it in a module when needed:</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>sitemap<span class="o">.</span><span class="ss">enable</span> <span class="o">=</span> <span class="no">false</span><span class="p">;</span>
 </code></pre></div>
-							<p>Pages with a usable date can provide a last-modified value to the sitemap. Use <code>website.pages.&lt;name&gt;.lastModified</code>
-								for explicitly declared pages when automatic content metadata is not available.</p>
+							<p>Pages with a usable date can provide a last-modified value to the sitemap. Use <code>website.pages.&lt;name&gt;.lastModified</code> for explicitly declared pages when automatic content metadata is not available.</p>
 							<h2 id="next-steps">Next Steps<a class="headerlink mx-2" href="#next-steps" title="Permanent link">#</a></h2>
 							<ul>
-								<li>Use <a href="/nixtml/templating/">Layouts and partials</a>
-									to render page metadata and content.</li>
+								<li>Use <a href="/nixtml/templating/">Layouts and partials</a> to render page metadata and content.</li>
 								<li>Build dated listings with <a href="/nixtml/collections/">Collections and pagination</a>.</li>
 								<li>Classify collection items with <a href="/nixtml/taxonomies/">Taxonomies and RSS</a>.</li>
-								<li>Consult the <a href="/nixtml/reference/templates/">Template Context Reference</a>
-									for all standard values.</li>
+								<li>Consult the <a href="/nixtml/reference/templates/">Template Context Reference</a> for all standard values.</li>
 							</ul>
 						</div>
 						<nav class="docs-pager" aria-label="Guide pagination">

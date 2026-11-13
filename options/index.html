@@ -174,9 +174,7 @@
 							Generated reference for the options exposed by nixtml's modules
 						</p>
 						<div class="content">
-							<p>This reference is generated directly from nixtml's module options. In an imported module, use the full option names shown below. <code>mkWebsite</code>
-								exposes common <code>website</code>
-								settings as top-level arguments such as <code>content</code>, <code>collections</code>, and <code>layouts</code>.</p>
+							<p>This reference is generated directly from nixtml's module options. In an imported module, use the full option names shown below. <code>mkWebsite</code> exposes common <code>website</code> settings as top-level arguments such as <code>content</code>, <code>collections</code>, and <code>layouts</code>.</p>
 							<h2 id="buildextrapackages">build.extraPackages<a class="headerlink mx-2" href="#buildextrapackages" title="Permanent link">#</a></h2>
 							<p>Extra packages that will be joined with the final website package.</p>
 							<p><strong><em>Type:</em></strong>
@@ -189,21 +187,21 @@
   <span class="ss">stylesheetPackage</span> <span class="o">=</span>
       <span class="k">let</span>
         <span class="ss">bulma</span> <span class="o">=</span> pkgs<span class="o">.</span>fetchFromGitHub <span class="p">{</span>
-          <span class="ss">owner</span> <span class="o">=</span> <span class="s2">&quot;jgthms&quot;</span><span class="p">;</span>
-          <span class="ss">repo</span> <span class="o">=</span> <span class="s2">&quot;bulma&quot;</span><span class="p">;</span>
-          <span class="ss">rev</span> <span class="o">=</span> <span class="s2">&quot;1.0.4&quot;</span><span class="p">;</span>
-          <span class="ss">hash</span> <span class="o">=</span> <span class="s2">&quot;sha256-hlejqBI6ayzhm15IymrzhTevkl3xffMfdTasZ2CmAas=&quot;</span><span class="p">;</span>
+          <span class="ss">owner</span> <span class="o">=</span> <span class="s2">"jgthms"</span><span class="p">;</span>
+          <span class="ss">repo</span> <span class="o">=</span> <span class="s2">"bulma"</span><span class="p">;</span>
+          <span class="ss">rev</span> <span class="o">=</span> <span class="s2">"1.0.4"</span><span class="p">;</span>
+          <span class="ss">hash</span> <span class="o">=</span> <span class="s2">"sha256-hlejqBI6ayzhm15IymrzhTevkl3xffMfdTasZ2CmAas="</span><span class="p">;</span>
         <span class="p">};</span>
 
-        <span class="ss">deps</span> <span class="o">=</span> pkgs<span class="o">.</span>linkFarm <span class="s2">&quot;nixtml-docs-stylesheet-deps&quot;</span> <span class="p">[</span>
+        <span class="ss">deps</span> <span class="o">=</span> pkgs<span class="o">.</span>linkFarm <span class="s2">"nixtml-docs-stylesheet-deps"</span> <span class="p">[</span>
           <span class="p">{</span>
-            <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;bulma&quot;</span><span class="p">;</span>
+            <span class="ss">name</span> <span class="o">=</span> <span class="s2">"bulma"</span><span class="p">;</span>
             <span class="ss">path</span> <span class="o">=</span> bulma<span class="p">;</span>
           <span class="p">}</span>
         <span class="p">];</span>
       <span class="k">in</span>
       pkgs<span class="o">.</span>stdenv<span class="o">.</span>mkDerivation <span class="p">{</span>
-        <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;nixtml-docs-stylesheet&quot;</span><span class="p">;</span>
+        <span class="ss">name</span> <span class="o">=</span> <span class="s2">"nixtml-docs-stylesheet"</span><span class="p">;</span>
 
         <span class="ss">src</span> <span class="o">=</span> <span class="l">./stylesheet</span><span class="p">;</span>
 
@@ -211,15 +209,15 @@
           dart-sass
         <span class="p">];</span>
 
-        <span class="ss">buildPhase</span> <span class="o">=</span> <span class="s s-Multiline">&#39;&#39;</span>
-<span class="s s-Multiline">          sass --load-path &quot;</span><span class="si">${</span>deps<span class="si">}</span><span class="s s-Multiline">&quot; main.scss main.css</span>
-<span class="s s-Multiline">        &#39;&#39;</span><span class="p">;</span>
+        <span class="ss">buildPhase</span> <span class="o">=</span> <span class="s s-Multiline">''</span>
+<span class="s s-Multiline">          sass --load-path "</span><span class="si">${</span>deps<span class="si">}</span><span class="s s-Multiline">" main.scss main.css</span>
+<span class="s s-Multiline">        ''</span><span class="p">;</span>
 
-        <span class="ss">installPhase</span> <span class="o">=</span> <span class="s s-Multiline">&#39;&#39;</span>
+        <span class="ss">installPhase</span> <span class="o">=</span> <span class="s s-Multiline">''</span>
 <span class="s s-Multiline">          mkdir -p $out/css</span>
 
 <span class="s s-Multiline">          cp main.css $out/css/main.css</span>
-<span class="s s-Multiline">        &#39;&#39;</span><span class="p">;</span>
+<span class="s s-Multiline">        ''</span><span class="p">;</span>
       <span class="p">};</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -252,9 +250,9 @@
 							<span class="p">}</span></code></p>
 							<p><strong><em>Example:</em></strong></p>
 							<div class="highlight"><pre><span></span><code><span class="p">{</span>
-  <span class="ss">path</span> <span class="o">=</span> <span class="s2">&quot;blog/posts&quot;</span><span class="p">;</span>
+  <span class="ss">path</span> <span class="o">=</span> <span class="s2">"blog/posts"</span><span class="p">;</span>
   pagination<span class="o">.</span><span class="ss">perPage</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
-  <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;tags&quot;</span> <span class="p">];</span>
+  <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">"tags"</span> <span class="p">];</span>
 <span class="p">}</span>
 </code></pre></div>
 							<p><strong><em>Declared by:</em></strong></p>
@@ -272,12 +270,9 @@
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/collections.nix">&lt;nixtml/modules/collections.nix&gt;</a></li>
 							</ul>
 							<h2 id="websitecollectionsnamepath">website.collections.&lt;name&gt;.path<a class="headerlink mx-2" href="#websitecollectionsnamepath" title="Permanent link">#</a></h2>
-							<p>Path to folder in <code>config.website.content.dir</code>
-								that contains items for the collection.</p>
-							<p>For example if all blog posts are kept in ./content/blog/posts and <code>config.website.content.dir = ./content;</code>, setting this option to <code>"blog/posts"</code>
-								will create a collection for the blog posts.
-								The collection will automatically create pages (such as page 1 at <code>blog/index.html</code>, page 2 at <code>blog/page/2/index.html</code>, etc.) using template <code>config.website.layouts.collection</code>
-								and an RSS feed for the collection (if enabled) at <code>blog/index.xml</code>.</p>
+							<p>Path to folder in <code>config.website.content.dir</code> that contains items for the collection.</p>
+							<p>For example if all blog posts are kept in ./content/blog/posts and <code>config.website.content.dir = ./content;</code>, setting this option to <code>"blog/posts"</code> will create a collection for the blog posts.
+								The collection will automatically create pages (such as page 1 at <code>blog/index.html</code>, page 2 at <code>blog/page/2/index.html</code>, etc.) using template <code>config.website.layouts.collection</code> and an RSS feed for the collection (if enabled) at <code>blog/index.xml</code>.</p>
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Declared by:</em></strong></p>
@@ -313,7 +308,7 @@
 							<span class="p">]</span></code></p>
 							<p><strong><em>Example:</em></strong></p>
 							<div class="highlight"><pre><span></span><code><span class="p">[</span>
-  <span class="s2">&quot;tags&quot;</span>
+  <span class="s2">"tags"</span>
 <span class="p">]</span>
 </code></pre></div>
 							<p><strong><em>Declared by:</em></strong></p>
@@ -329,10 +324,8 @@
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 							</ul>
 							<h2 id="websitecontentpages">website.content.pages<a class="headerlink mx-2" href="#websitecontentpages" title="Permanent link">#</a></h2>
-							<p>Attribute set of pages to be processed by a content processor (see <code>config.website.content.processors</code>). The content can come either from <code>text</code>
-								or <code>source</code>.</p>
-							<p>Keep in mind that nixtml will automatically populate this by walking <code>config.website.content.dir</code>
-								and finding content.</p>
+							<p>Attribute set of pages to be processed by a content processor (see <code>config.website.content.processors</code>). The content can come either from <code>text</code> or <code>source</code>.</p>
+							<p>Keep in mind that nixtml will automatically populate this by walking <code>config.website.content.dir</code> and finding content.</p>
 							<p><strong><em>Type:</em></strong>
 							attribute set of (submodule)</p>
 							<p><strong><em>Default:</em></strong>
@@ -340,20 +333,20 @@
 							<span class="p">}</span></code></p>
 							<p><strong><em>Example:</em></strong></p>
 							<div class="highlight"><pre><span></span><code><span class="p">{</span>
-  <span class="s2">&quot;index&quot;</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="ss">text</span> <span class="o">=</span> <span class="s s-Multiline">&#39;&#39;</span>
+  <span class="s2">"index"</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="ss">text</span> <span class="o">=</span> <span class="s s-Multiline">''</span>
 <span class="s s-Multiline">      ---</span>
 <span class="s s-Multiline">      title: Homepage</span>
 <span class="s s-Multiline">      ---</span>
 <span class="s s-Multiline">      # Welcome!</span>
 
 <span class="s s-Multiline">      Welcome to the hompage</span>
-<span class="s s-Multiline">    &#39;&#39;</span><span class="p">;</span>
-    <span class="ss">processor</span> <span class="o">=</span> <span class="s2">&quot;md&quot;</span><span class="p">;</span>
+<span class="s s-Multiline">    ''</span><span class="p">;</span>
+    <span class="ss">processor</span> <span class="o">=</span> <span class="s2">"md"</span><span class="p">;</span>
   <span class="p">};</span>
-  <span class="s2">&quot;nested/page&quot;</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">"nested/page"</span> <span class="o">=</span> <span class="p">{</span>
     <span class="ss">source</span> <span class="o">=</span> <span class="l">./path/to/page.md</span><span class="p">;</span>
-    <span class="ss">processor</span> <span class="o">=</span> <span class="s2">&quot;md&quot;</span><span class="p">;</span>
+    <span class="ss">processor</span> <span class="o">=</span> <span class="s2">"md"</span><span class="p">;</span>
   <span class="p">};</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -366,7 +359,7 @@
 							<p><strong><em>Type:</em></strong>
 							value "md" (singular enum)</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span class="s2">&quot;md&quot;</span></code></p>
+							<code class="highlight"><span class="s2">"md"</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -402,10 +395,128 @@
 							</ul>
 							<h2 id="websitecontentprocessorsmdhighlightstylesheet">website.content.processors.md.highlightStylesheet<a class="headerlink mx-2" href="#websitecontentprocessorsmdhighlightstylesheet" title="Permanent link">#</a></h2>
 							<p>A CSS file with the configured Pygments styles from <code>website.content.processors.md.settings.highlight.style</code>, in their configured order.</p>
-							<p>Useful when <code>website.content.processors.md.settings.highlight.noclasses</code>
-								is set to <code>false</code>.</p>
+							<p>Useful when <code>website.content.processors.md.settings.highlight.noclasses</code> is set to <code>false</code>.</p>
 							<p><strong><em>Type:</em></strong>
 							package</p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsadmonitionenable">website.content.processors.md.settings.admonition.enable<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsadmonitionenable" title="Permanent link">#</a></h2>
+							<p>Whether to enable admonition blocks, e.g. <code>/// note</code>.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsadmonitionextraconfig">website.content.processors.md.settings.admonition.extraConfig<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsadmonitionextraconfig" title="Permanent link">#</a></h2>
+							<p>Extra config passed to the <code>pymdownx.blocks.admonition</code> extension. Takes precedence over the other settings for this extension.</p>
+							<p>See: <a href="https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/admonition/">https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/admonition/</a></p>
+							<p><strong><em>Type:</em></strong>
+							attribute set of anything</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsadmonitiontypes">website.content.processors.md.settings.admonition.types<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsadmonitiontypes" title="Permanent link">#</a></h2>
+							<p>Admonition types to create shorthand blocks for, e.g. <code>note</code> allows <code>/// note</code> instead of <code>/// admonition | Note</code>.</p>
+							<p><strong><em>Type:</em></strong>
+							list of (string or (submodule))</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">[</span><span class="s2">"note"</span><span class="s2">"attention"</span><span class="s2">"caution"</span><span class="s2">"danger"</span><span class="s2">"error"</span><span class="s2">"tip"</span><span class="s2">"hint"</span><span class="s2">"warning"</span><span class="s2">"important"</span><span class="p">]</span></code></p>
+							<p><strong><em>Example:</em></strong></p>
+							<div class="highlight"><pre><span></span><code><span class="p">[</span>
+  <span class="s2">"note"</span>
+  <span class="s2">"warning"</span>
+  <span class="p">{</span> <span class="ss">name</span> <span class="o">=</span> <span class="s2">"example"</span><span class="p">;</span> <span class="ss">title</span> <span class="o">=</span> <span class="s2">"Try it"</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsattrlistenable">website.content.processors.md.settings.attrList.enable<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsattrlistenable" title="Permanent link">#</a></h2>
+							<p>Whether to enable attribute lists, e.g. <code>{: .class #id }</code>.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingscaptionauto">website.content.processors.md.settings.caption.auto<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingscaptionauto" title="Permanent link">#</a></h2>
+							<p>Whether to automatically number captions of types with a <code>prefix</code>.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingscaptionautolevel">website.content.processors.md.settings.caption.autoLevel<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingscaptionautolevel" title="Permanent link">#</a></h2>
+							<p>Depth of nested figures to automatically number. <code>0</code> numbers all levels, <code>1</code> only the outermost figures, and so on.</p>
+							<p><strong><em>Type:</em></strong>
+							unsigned integer, meaning &gt;=0</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="mi">0</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingscaptionenable">website.content.processors.md.settings.caption.enable<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingscaptionenable" title="Permanent link">#</a></h2>
+							<p>Whether to enable caption blocks, e.g. <code>/// caption</code>.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingscaptionextraconfig">website.content.processors.md.settings.caption.extraConfig<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingscaptionextraconfig" title="Permanent link">#</a></h2>
+							<p>Extra config passed to the <code>pymdownx.blocks.caption</code> extension. Takes precedence over the other settings for this extension.</p>
+							<p>See: <a href="https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/caption/">https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/caption/</a></p>
+							<p><strong><em>Type:</em></strong>
+							attribute set of anything</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingscaptionprepend">website.content.processors.md.settings.caption.prepend<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingscaptionprepend" title="Permanent link">#</a></h2>
+							<p>Whether to place captions before the content instead of after it.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">false</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingscaptiontypes">website.content.processors.md.settings.caption.types<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingscaptiontypes" title="Permanent link">#</a></h2>
+							<p>Caption types to create blocks for. Types with a <code>prefix</code> are numbered.</p>
+							<p><strong><em>Type:</em></strong>
+							list of (string or (submodule))</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">[</span><span class="s2">"caption"</span><span class="p">{</span><span class="ss">name</span>
+							<span class="o">=</span>
+							<span class="s2">"figure-caption"</span><span class="p">;</span><span class="ss">prefix</span>
+							<span class="o">=</span>
+							<span class="s2">"Figure {}."</span><span class="p">;</span><span class="p">}</span><span class="p">{</span><span class="ss">name</span>
+							<span class="o">=</span>
+							<span class="s2">"table-caption"</span><span class="p">;</span><span class="ss">prefix</span>
+							<span class="o">=</span>
+							<span class="s2">"Table {}."</span><span class="p">;</span><span class="p">}</span><span class="p">]</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -416,14 +527,180 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span class="s2">&quot;%b %-d, %Y&quot;</span></code></p>
+							<code class="highlight"><span class="s2">"%b %-d, %Y"</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsdefinitionenable">website.content.processors.md.settings.definition.enable<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsdefinitionenable" title="Permanent link">#</a></h2>
+							<p>Whether to enable definition list blocks, e.g. <code>/// define</code>.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsdetailsenable">website.content.processors.md.settings.details.enable<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsdetailsenable" title="Permanent link">#</a></h2>
+							<p>Whether to enable collapsible details blocks, e.g. <code>/// details | Summary</code>.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsdetailsextraconfig">website.content.processors.md.settings.details.extraConfig<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsdetailsextraconfig" title="Permanent link">#</a></h2>
+							<p>Extra config passed to the <code>pymdownx.blocks.details</code> extension. Takes precedence over the other settings for this extension.</p>
+							<p>See: <a href="https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/details/">https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/details/</a></p>
+							<p><strong><em>Type:</em></strong>
+							attribute set of anything</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsdetailstypes">website.content.processors.md.settings.details.types<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsdetailstypes" title="Permanent link">#</a></h2>
+							<p>Details types to create shorthand blocks for, e.g. <code>note</code> allows <code>/// note | Summary</code> as a collapsible block with the <code>note</code> class.</p>
+							<p>Note that these share names with admonition types, so a type should only be defined in one of them.</p>
+							<p><strong><em>Type:</em></strong>
+							list of (string or (submodule))</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">[</span>
+							<span class="p">]</span></code></p>
+							<p><strong><em>Example:</em></strong></p>
+							<div class="highlight"><pre><span></span><code><span class="p">[</span>
+  <span class="s2">"note"</span>
+  <span class="s2">"warning"</span>
+<span class="p">]</span>
+</code></pre></div>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsextensions">website.content.processors.md.settings.extensions<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsextensions" title="Permanent link">#</a></h2>
+							<p>Additional Python-Markdown extensions to enable, keyed by their import name, along with their config.</p>
+							<p>Extensions from packages other than <code>markdown</code> and <code>pymdown-extensions</code> need to be added to <code>website.content.processors.md.extraPythonPackages</code>.</p>
+							<p>Extensions that nixtml manages through named settings, e.g. <code>toc</code> or <code>pymdownx.blocks.tab</code>, can't be added here. Older extensions superseded by the enabled
+								built-in ones conflict with them: <code>def_list</code> with <code>definition</code>, <code>pymdownx.tabbed</code> with <code>tab</code> and <code>sane_lists</code> with <code>fancylists</code> are errors, while
+								<code>admonition</code> and <code>pymdownx.details</code> only warn. Disable the built-in setting to use the older extension.</p>
+							<p><strong><em>Type:</em></strong>
+							attribute set of (submodule)</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
+							<p><strong><em>Example:</em></strong></p>
+							<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="s2">"pymdownx.arithmatex"</span><span class="o">.</span>config<span class="o">.</span><span class="ss">generic</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+  <span class="s2">"pymdownx.emoji"</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span>
+  <span class="ss">abbr</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span>
+<span class="p">}</span>
+</code></pre></div>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsextensionsnameconfig">website.content.processors.md.settings.extensions.&lt;name&gt;.config<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsextensionsnameconfig" title="Permanent link">#</a></h2>
+							<p>Config passed to the extension.</p>
+							<p><strong><em>Type:</em></strong>
+							attribute set of anything</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsextensionsnameenable">website.content.processors.md.settings.extensions.&lt;name&gt;.enable<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsextensionsnameenable" title="Permanent link">#</a></h2>
+							<p>Whether to enable this extension.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsfancylistsadditionalorderedstyles">website.content.processors.md.settings.fancylists.additionalOrderedStyles<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsfancylistsadditionalorderedstyles" title="Permanent link">#</a></h2>
+							<p>Ordered list styles to support in addition to decimal numbers. <code>generic</code> enables <code>#.</code> as a list marker.</p>
+							<p><strong><em>Type:</em></strong>
+							list of (one of "roman", "alpha", "generic")</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">[</span><span class="s2">"roman"</span><span class="s2">"alpha"</span><span class="s2">"generic"</span><span class="p">]</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsfancylistsenable">website.content.processors.md.settings.fancylists.enable<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsfancylistsenable" title="Permanent link">#</a></h2>
+							<p>Whether to enable <code>pymdownx.fancylists</code>, supporting alphabetical and roman numeral ordered lists.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsfancylistsextraconfig">website.content.processors.md.settings.fancylists.extraConfig<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsfancylistsextraconfig" title="Permanent link">#</a></h2>
+							<p>Extra config passed to the <code>pymdownx.fancylists</code> extension. Takes precedence over the other settings for this extension.</p>
+							<p>See: <a href="https://facelessuser.github.io/pymdown-extensions/extensions/fancylists/">https://facelessuser.github.io/pymdown-extensions/extensions/fancylists/</a></p>
+							<p><strong><em>Type:</em></strong>
+							attribute set of anything</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsfancylistsinjectclass">website.content.processors.md.settings.fancylists.injectClass<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsfancylistsinjectclass" title="Permanent link">#</a></h2>
+							<p>Whether to inject a class indicating the <code>list-style-type</code> on ordered lists.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">false</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsfancylistsinjectstyle">website.content.processors.md.settings.fancylists.injectStyle<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsfancylistsinjectstyle" title="Permanent link">#</a></h2>
+							<p>Whether to inject a <code>list-style-type</code> style attribute on ordered lists.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">false</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsfootnotesenable">website.content.processors.md.settings.footnotes.enable<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsfootnotesenable" title="Permanent link">#</a></h2>
+							<p>Whether to enable footnotes.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsfootnotesextraconfig">website.content.processors.md.settings.footnotes.extraConfig<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsfootnotesextraconfig" title="Permanent link">#</a></h2>
+							<p>Extra config passed to the <code>footnotes</code> extension. Takes precedence over the other settings for this extension.</p>
+							<p>See: <a href="https://python-markdown.github.io/extensions/footnotes/">https://python-markdown.github.io/extensions/footnotes/</a></p>
+							<p><strong><em>Type:</em></strong>
+							attribute set of anything</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 							</ul>
 							<h2 id="websitecontentprocessorsmdsettingshighlightextraconfig">website.content.processors.md.settings.highlight.extraConfig<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingshighlightextraconfig" title="Permanent link">#</a></h2>
-							<p>Extra config passed to the <code>pymdownx.highlight</code>
-								extension. Takes precedence over other highlight settings.</p>
+							<p>Extra config passed to the <code>pymdownx.highlight</code> extension. Takes precedence over other highlight settings.</p>
 							<p>See: <a href="https://facelessuser.github.io/pymdown-extensions/extensions/highlight/#options">https://facelessuser.github.io/pymdown-extensions/extensions/highlight/#options</a></p>
 							<p><strong><em>Type:</em></strong>
 							attribute set of anything</p>
@@ -433,7 +710,7 @@
 							<p><strong><em>Example:</em></strong></p>
 							<div class="highlight"><pre><span></span><code><span class="p">{</span>
   <span class="ss">anchor_linenums</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
-  <span class="ss">line_spans</span> <span class="o">=</span> <span class="s2">&quot;__span&quot;</span><span class="p">;</span>
+  <span class="ss">line_spans</span> <span class="o">=</span> <span class="s2">"__span"</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
 							<p><strong><em>Declared by:</em></strong></p>
@@ -441,8 +718,7 @@
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 							</ul>
 							<h2 id="websitecontentprocessorsmdsettingshighlightlinenums">website.content.processors.md.settings.highlight.linenums<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingshighlightlinenums" title="Permanent link">#</a></h2>
-							<p>Enable line numbers for all code blocks. When <code>null</code>
-								line numbers can still be enabled per code block with <code>linenums="1"</code>.</p>
+							<p>Enable line numbers for all code blocks. When <code>null</code> line numbers can still be enabled per code block with <code>linenums="1"</code>.</p>
 							<p><strong><em>Type:</em></strong>
 							null or boolean</p>
 							<p><strong><em>Default:</em></strong>
@@ -457,17 +733,15 @@
 							<p><strong><em>Type:</em></strong>
 							one of "table", "inline", "pymdownx-inline"</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span class="s2">&quot;table&quot;</span></code></p>
+							<code class="highlight"><span class="s2">"table"</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 							</ul>
 							<h2 id="websitecontentprocessorsmdsettingshighlightnoclasses">website.content.processors.md.settings.highlight.noclasses<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingshighlightnoclasses" title="Permanent link">#</a></h2>
 							<p>Whether to inline the pygments styles in the generated HTML instead of using CSS classes.</p>
-							<p>When set to <code>false</code>
-								a stylesheet for the chosen style is needed, see <code>website.content.processors.md.highlightStylesheet</code>.</p>
-							<p>Note that the <code>pymdownx-inline</code>
-								line number style requires this to be <code>false</code>.</p>
+							<p>When set to <code>false</code> a stylesheet for the chosen style is needed, see <code>website.content.processors.md.highlightStylesheet</code>.</p>
+							<p>Note that the <code>pymdownx-inline</code> line number style requires this to be <code>false</code>.</p>
 							<p><strong><em>Type:</em></strong>
 							boolean</p>
 							<p><strong><em>Default:</em></strong>
@@ -487,7 +761,7 @@
 							<p><strong><em>Default:</em></strong>
 							<code class="highlight"><span class="p">[</span><span class="p">{</span><span class="ss">name</span>
 							<span class="o">=</span>
-							<span class="s2">&quot;default&quot;</span><span class="p">;</span><span class="p">}</span><span class="p">]</span></code></p>
+							<span class="s2">"default"</span><span class="p">;</span><span class="p">}</span><span class="p">]</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -515,14 +789,225 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span class="s2">&quot;.highlight&quot;</span></code></p>
+							<code class="highlight"><span class="s2">".highlight"</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsmagiclinkenable">website.content.processors.md.settings.magiclink.enable<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsmagiclinkenable" title="Permanent link">#</a></h2>
+							<p>Whether to enable automatic linking of URLs and email addresses.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsmagiclinkextraconfig">website.content.processors.md.settings.magiclink.extraConfig<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsmagiclinkextraconfig" title="Permanent link">#</a></h2>
+							<p>Extra config passed to the <code>pymdownx.magiclink</code> extension. Takes precedence over the other settings for this extension.</p>
+							<p>See: <a href="https://facelessuser.github.io/pymdown-extensions/extensions/magiclink/">https://facelessuser.github.io/pymdown-extensions/extensions/magiclink/</a></p>
+							<p><strong><em>Type:</em></strong>
+							attribute set of anything</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsmagiclinkhideprotocol">website.content.processors.md.settings.magiclink.hideProtocol<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsmagiclinkhideprotocol" title="Permanent link">#</a></h2>
+							<p>Whether to display links without the <code>https://</code> (or similar) prefix.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">false</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsmagiclinkprovider">website.content.processors.md.settings.magiclink.provider<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsmagiclinkprovider" title="Permanent link">#</a></h2>
+							<p>Provider used for repository shorthand links.</p>
+							<p><strong><em>Type:</em></strong>
+							one of "github", "gitlab", "bitbucket"</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="s2">"github"</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsmagiclinkrepo">website.content.processors.md.settings.magiclink.repo<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsmagiclinkrepo" title="Permanent link">#</a></h2>
+							<p>Default repository for repository shorthand links.</p>
+							<p><strong><em>Type:</em></strong>
+							null or string</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">null</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsmagiclinkrepourlshortener">website.content.processors.md.settings.magiclink.repoUrlShortener<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsmagiclinkrepourlshortener" title="Permanent link">#</a></h2>
+							<p>Whether to shorten links to repository issues, pull requests and commits.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">false</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsmagiclinkrepourlshorthand">website.content.processors.md.settings.magiclink.repoUrlShorthand<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsmagiclinkrepourlshorthand" title="Permanent link">#</a></h2>
+							<p>Whether to convert shorthand references such as <code>#123</code> or <code>user/repo#123</code> to links. Requires <code>user</code> and <code>repo</code> to be set for the short forms.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">false</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsmagiclinkuser">website.content.processors.md.settings.magiclink.user<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsmagiclinkuser" title="Permanent link">#</a></h2>
+							<p>Default user for repository shorthand links.</p>
+							<p><strong><em>Type:</em></strong>
+							null or string</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">null</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsquotescallouts">website.content.processors.md.settings.quotes.callouts<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsquotescallouts" title="Permanent link">#</a></h2>
+							<p>Whether to enable GitHub/Obsidian style callouts, e.g. <code>&gt; [!NOTE]</code>.</p>
+							<p>Callouts render with the same markup as admonitions, or as collapsible details when followed by <code>-</code> or <code>+</code>.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsquotesenable">website.content.processors.md.settings.quotes.enable<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsquotesenable" title="Permanent link">#</a></h2>
+							<p>Whether to enable <code>pymdownx.quotes</code> blockquotes, which replace the default blockquote handling.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsquotesextraconfig">website.content.processors.md.settings.quotes.extraConfig<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsquotesextraconfig" title="Permanent link">#</a></h2>
+							<p>Extra config passed to the <code>pymdownx.quotes</code> extension. Takes precedence over the other settings for this extension.</p>
+							<p>See: <a href="https://facelessuser.github.io/pymdown-extensions/extensions/quotes/">https://facelessuser.github.io/pymdown-extensions/extensions/quotes/</a></p>
+							<p><strong><em>Type:</em></strong>
+							attribute set of anything</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingstabalternatestyle">website.content.processors.md.settings.tab.alternateStyle<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstabalternatestyle" title="Permanent link">#</a></h2>
+							<p>Whether to use the alternate tab markup, which is easier to style and handles overflowing tabs better.</p>
+							<p>See: <a href="https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/tab/#alternate-style">https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/tab/#alternate-style</a></p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingstabenable">website.content.processors.md.settings.tab.enable<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstabenable" title="Permanent link">#</a></h2>
+							<p>Whether to enable tab blocks, e.g. <code>/// tab | Title</code>.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingstabextraconfig">website.content.processors.md.settings.tab.extraConfig<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstabextraconfig" title="Permanent link">#</a></h2>
+							<p>Extra config passed to the <code>pymdownx.blocks.tab</code> extension. Takes precedence over the other settings for this extension.</p>
+							<p>See: <a href="https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/tab/">https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/tab/</a></p>
+							<p><strong><em>Type:</em></strong>
+							attribute set of anything</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingstablesenable">website.content.processors.md.settings.tables.enable<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstablesenable" title="Permanent link">#</a></h2>
+							<p>Whether to enable tables.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingstablesextraconfig">website.content.processors.md.settings.tables.extraConfig<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstablesextraconfig" title="Permanent link">#</a></h2>
+							<p>Extra config passed to the <code>tables</code> extension. Takes precedence over the other settings for this extension.</p>
+							<p>See: <a href="https://python-markdown.github.io/extensions/tables/">https://python-markdown.github.io/extensions/tables/</a></p>
+							<p><strong><em>Type:</em></strong>
+							attribute set of anything</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingstasklistclickablecheckbox">website.content.processors.md.settings.tasklist.clickableCheckbox<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstasklistclickablecheckbox" title="Permanent link">#</a></h2>
+							<p>Whether checkboxes can be checked and unchecked by the reader.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">false</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingstasklistcustomcheckbox">website.content.processors.md.settings.tasklist.customCheckbox<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstasklistcustomcheckbox" title="Permanent link">#</a></h2>
+							<p>Whether to add an empty <code>&lt;label&gt;</code> after each checkbox to allow for custom styling.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">false</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingstasklistenable">website.content.processors.md.settings.tasklist.enable<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstasklistenable" title="Permanent link">#</a></h2>
+							<p>Whether to enable task lists, e.g. <code>- [x] done</code>.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">true</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
+							<h2 id="websitecontentprocessorsmdsettingstasklistextraconfig">website.content.processors.md.settings.tasklist.extraConfig<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstasklistextraconfig" title="Permanent link">#</a></h2>
+							<p>Extra config passed to the <code>pymdownx.tasklist</code> extension. Takes precedence over the other settings for this extension.</p>
+							<p>See: <a href="https://facelessuser.github.io/pymdown-extensions/extensions/tasklist/">https://facelessuser.github.io/pymdown-extensions/extensions/tasklist/</a></p>
+							<p><strong><em>Type:</em></strong>
+							attribute set of anything</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="p">{</span>
+							<span class="p">}</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 							</ul>
 							<h2 id="websitecontentprocessorsmdsettingstocanchorlink">website.content.processors.md.settings.toc.anchorlink<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstocanchorlink" title="Permanent link">#</a></h2>
-							<p>Set to <code>true</code>
-								to cause all headers to link to themselves.</p>
+							<p>Set to <code>true</code> to cause all headers to link to themselves.</p>
 							<p><strong><em>Type:</em></strong>
 							boolean</p>
 							<p><strong><em>Default:</em></strong>
@@ -536,7 +1021,7 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span class="s2">&quot;toclink&quot;</span></code></p>
+							<code class="highlight"><span class="s2">"toclink"</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -547,16 +1032,14 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span class="s2">&quot;[TOC]&quot;</span></code></p>
+							<code class="highlight"><span class="s2">"[TOC]"</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 							</ul>
 							<h2 id="websitecontentprocessorsmdsettingstocpermalink">website.content.processors.md.settings.toc.permalink<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstocpermalink" title="Permanent link">#</a></h2>
-							<p>Set to <code>true</code>
-								or a string to generate permanent links at the end of each header.</p>
-							<p>When set to <code>true</code>
-								the paragraph symbol (¶ or “<code>&amp;para;</code>”) is used as the link text. When set to a string, the provided string is used as the link text.</p>
+							<p>Set to <code>true</code> or a string to generate permanent links at the end of each header.</p>
+							<p>When set to <code>true</code> the paragraph symbol (¶ or “<code>&amp;para;</code>”) is used as the link text. When set to a string, the provided string is used as the link text.</p>
 							<p><strong><em>Type:</em></strong>
 							boolean or string</p>
 							<p><strong><em>Default:</em></strong>
@@ -570,7 +1053,7 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span class="s2">&quot;headerlink&quot;</span></code></p>
+							<code class="highlight"><span class="s2">"headerlink"</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -590,18 +1073,17 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span class="s2">&quot;toctitle&quot;</span></code></p>
+							<code class="highlight"><span class="s2">"toctitle"</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 							</ul>
 							<h2 id="websitecontentprocessorsmdsettingstoctocclass">website.content.processors.md.settings.toc.tocClass<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstoctocclass" title="Permanent link">#</a></h2>
-							<p>CSS class(es) used for the <code>&lt;div&gt;</code>
-								containing the Table of Contents.</p>
+							<p>CSS class(es) used for the <code>&lt;div&gt;</code> containing the Table of Contents.</p>
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span class="s2">&quot;toc&quot;</span></code></p>
+							<code class="highlight"><span class="s2">"toc"</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
@@ -622,7 +1104,7 @@
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span class="s2">&quot;‹name›&quot;</span></code></p>
+							<code class="highlight"><span class="s2">"‹name›"</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
@@ -662,7 +1144,7 @@
   <span class="k">inherit</span> <span class="p">(</span>lib<span class="p">)</span> attrs<span class="p">;</span>
   <span class="k">inherit</span> <span class="p">(</span>config<span class="o">.</span>website<span class="p">)</span> metadata<span class="p">;</span>
 <span class="k">in</span> <span class="p">{</span>path<span class="p">,</span> content<span class="p">,</span> <span class="o">...</span><span class="p">}:</span>
-  <span class="s2">&quot;&lt;!DOCTYPE html&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+  <span class="s2">"&lt;!DOCTYPE html&gt;</span><span class="se">\n</span><span class="s2">"</span>
   <span class="o">+</span>
     html
       <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>lang metadata<span class="o">.</span>lang<span class="p">)</span> <span class="p">]</span>
@@ -672,22 +1154,22 @@
           <span class="p">[</span>
             <span class="p">(</span>title metadata<span class="o">.</span>title<span class="p">)</span>
             <span class="p">(</span>meta <span class="p">[</span>
-              <span class="p">(</span>attrs<span class="o">.</span>property <span class="s2">&quot;og:type&quot;</span><span class="p">)</span>
-              <span class="p">(</span>attrs<span class="o">.</span>content <span class="p">(</span><span class="k">if</span> <span class="ss">path</span> <span class="o">==</span> <span class="p">[</span> <span class="s2">&quot;index&quot;</span> <span class="p">]</span> <span class="k">then</span> <span class="s2">&quot;website&quot;</span> <span class="k">else</span> <span class="s2">&quot;article&quot;</span><span class="p">))</span>
+              <span class="p">(</span>attrs<span class="o">.</span>property <span class="s2">"og:type"</span><span class="p">)</span>
+              <span class="p">(</span>attrs<span class="o">.</span>content <span class="p">(</span><span class="k">if</span> <span class="ss">path</span> <span class="o">==</span> <span class="p">[</span> <span class="s2">"index"</span> <span class="p">]</span> <span class="k">then</span> <span class="s2">"website"</span> <span class="k">else</span> <span class="s2">"article"</span><span class="p">))</span>
             <span class="p">])</span>
           <span class="p">]</span>
         <span class="p">)</span>
         <span class="p">(</span>body
           <span class="p">[</span>
             <span class="p">(</span>attrs<span class="o">.</span>classes <span class="p">[</span>
-              <span class="s2">&quot;font-sans&quot;</span>
-              <span class="s2">&quot;bg-white&quot;</span>
+              <span class="s2">"font-sans"</span>
+              <span class="s2">"bg-white"</span>
             <span class="p">])</span>
           <span class="p">]</span>
           <span class="p">[</span>
             <span class="p">(</span>div
               <span class="p">[</span>
-                <span class="p">(</span>attrs<span class="o">.</span>classes <span class="p">[</span> <span class="s2">&quot;container&quot;</span> <span class="p">])</span>
+                <span class="p">(</span>attrs<span class="o">.</span>classes <span class="p">[</span> <span class="s2">"container"</span> <span class="p">])</span>
               <span class="p">]</span>
               <span class="p">[</span> content <span class="p">]</span>
             <span class="p">)</span>
@@ -708,8 +1190,7 @@
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
 							</ul>
 							<h2 id="websitelayoutshome">website.layouts.home<a class="headerlink mx-2" href="#websitelayoutshome" title="Permanent link">#</a></h2>
-							<p>Template used for rendering <code>index.md</code>
-								inside <code>config.website.content.dir</code>.</p>
+							<p>Template used for rendering <code>index.md</code> inside <code>config.website.content.dir</code>.</p>
 							<p><strong><em>Type:</em></strong>
 							function that evaluates to a(n) (string or (list of string) convertible to it)</p>
 							<p><strong><em>Declared by:</em></strong></p>
@@ -763,11 +1244,8 @@
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
 							</ul>
 							<h2 id="websitepages">website.pages<a class="headerlink mx-2" href="#websitepages" title="Permanent link">#</a></h2>
-							<p>Attribute set of pages to be templated and put in the final build output. Keep in mind that setting <code>config.website.content.dir</code>
-								and <code>config.website.collections</code>
-								populates this attribute set with pages it generates.</p>
-							<p>Templated pages are automatically passed to <code>config.website.files</code>
-								and included in the final website build derivation.</p>
+							<p>Attribute set of pages to be templated and put in the final build output. Keep in mind that setting <code>config.website.content.dir</code> and <code>config.website.collections</code> populates this attribute set with pages it generates.</p>
+							<p>Templated pages are automatically passed to <code>config.website.files</code> and included in the final website build derivation.</p>
 							<p><strong><em>Type:</em></strong>
 							attribute set of (submodule)</p>
 							<p><strong><em>Default:</em></strong>
@@ -789,8 +1267,7 @@
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>
 							</ul>
 							<h2 id="websitepagesnamelastmodified">website.pages.&lt;name&gt;.lastModified<a class="headerlink mx-2" href="#websitepagesnamelastmodified" title="Permanent link">#</a></h2>
-							<p>Date in the <a href="https://www.w3.org/TR/NOTE-datetime">W3C Datetime</a>
-								format. This is used for generating sitemap.xml.</p>
+							<p>Date in the <a href="https://www.w3.org/TR/NOTE-datetime">W3C Datetime</a> format. This is used for generating sitemap.xml.</p>
 							<p><strong><em>Type:</em></strong>
 							null or string</p>
 							<p><strong><em>Default:</em></strong>
@@ -813,19 +1290,15 @@
 							<ul>
 								<li>If this ends with <code>.html</code>, the value is unchanged. <strong>Example:</strong>
 									<code>404.html</code>.</li>
-								<li>If this ends with <code>index</code>, only <code>.html</code>
-									is appended. <strong>Example:</strong>
-									<code>about/index</code>
-									-&gt; <code>about/index.html</code>.</li>
-								<li>Otherwise <code>/index.html</code>
-									is appended. <strong>Example:</strong>
-									<code>about</code>
-									-&gt; <code>about/index.html</code>.</li>
+								<li>If this ends with <code>index</code>, only <code>.html</code> is appended. <strong>Example:</strong>
+									<code>about/index</code> -&gt; <code>about/index.html</code>.</li>
+								<li>Otherwise <code>/index.html</code> is appended. <strong>Example:</strong>
+									<code>about</code> -&gt; <code>about/index.html</code>.</li>
 							</ul>
 							<p><strong><em>Type:</em></strong>
 							string</p>
 							<p><strong><em>Default:</em></strong>
-							<code class="highlight"><span class="s2">&quot;‹name›&quot;</span></code></p>
+							<code class="highlight"><span class="s2">"‹name›"</span></code></p>
 							<p><strong><em>Declared by:</em></strong></p>
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/nixtml.nix">&lt;nixtml/modules/nixtml.nix&gt;</a></li>

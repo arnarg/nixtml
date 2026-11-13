@@ -174,16 +174,14 @@
 							Classify collection items with tags, categories, authors, and other custom terms
 						</p>
 						<div class="content">
-							<p>Taxonomies classify the items in a collection. A taxonomy such as <code>tags</code>
-								has terms such as <code>nix</code>
-								or <code>tutorial</code>, and each term gets its own paginated listing and optional RSS feed.</p>
+							<p>Taxonomies classify the items in a collection. A taxonomy such as <code>tags</code> has terms such as <code>nix</code> or <code>tutorial</code>, and each term gets its own paginated listing and optional RSS feed.</p>
 							<p>Taxonomies always belong to a collection; they do not independently classify every Markdown page on a site.</p>
 							<h2 id="enable-a-taxonomy">Enable a Taxonomy<a class="headerlink mx-2" href="#enable-a-taxonomy" title="Permanent link">#</a></h2>
 							<p>Declare the frontmatter keys to use on a collection:</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>collections<span class="o">.</span><span class="ss">blog</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">path</span> <span class="o">=</span> <span class="s2">&quot;blog/posts&quot;</span><span class="p">;</span>
+  <span class="ss">path</span> <span class="o">=</span> <span class="s2">"blog/posts"</span><span class="p">;</span>
   pagination<span class="o">.</span><span class="ss">perPage</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
-  <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;tags&quot;</span> <span class="s2">&quot;categories&quot;</span> <span class="p">];</span>
+  <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">"tags"</span> <span class="s2">"categories"</span> <span class="p">];</span>
 <span class="p">};</span>
 </code></pre></div>
 							<p>Then assign terms in each item's frontmatter:</p>
@@ -200,8 +198,7 @@ categories:
 
 Post content...
 </code></pre></div>
-							<p>A post can belong to multiple terms. Terms under keys not listed in <code>taxonomies</code>
-								remain ordinary metadata but do not generate taxonomy pages.</p>
+							<p>A post can belong to multiple terms. Terms under keys not listed in <code>taxonomies</code> remain ordinary metadata but do not generate taxonomy pages.</p>
 							<h2 id="generated-urls">Generated URLs<a class="headerlink mx-2" href="#generated-urls" title="Permanent link">#</a></h2>
 							<p>For a collection with <code>path = "blog/posts"</code>, the examples above generate:</p>
 							<table>
@@ -230,22 +227,16 @@ Post content...
 									</tr>
 								</tbody>
 							</table>
-							<p>Additional listing pages use paths such as <code>blog/tags/nix/page/2/index.html</code>. The collection's <code>pagination.perPage</code>
-								setting also controls taxonomy pagination.</p>
-							<p>A root collection with <code>path = "posts"</code>
-								omits the <code>blog</code>
-								prefix: its term pages start at <code>tags/&lt;term&gt;/index.html</code>.</p>
+							<p>Additional listing pages use paths such as <code>blog/tags/nix/page/2/index.html</code>. The collection's <code>pagination.perPage</code> setting also controls taxonomy pagination.</p>
+							<p>A root collection with <code>path = "posts"</code> omits the <code>blog</code> prefix: its term pages start at <code>tags/&lt;term&gt;/index.html</code>.</p>
 							<p>Feeds for a collection and all of its terms are included when that collection has <code>rss.enable = true</code>, which is the default.</p>
 							<h2 id="render-a-taxonomy-listing">Render a Taxonomy Listing<a class="headerlink mx-2" href="#render-a-taxonomy-listing" title="Permanent link">#</a></h2>
-							<p><code>website.layouts.taxonomy</code>
-							receives <code>title</code>
-							for the current term, <code>taxonomy</code>
-							for its type, and the collection pagination values:</p>
+							<p><code>website.layouts.taxonomy</code> receives <code>title</code> for the current term, <code>taxonomy</code> for its type, and the collection pagination values:</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">taxonomy</span> <span class="o">=</span> <span class="p">{</span> taxonomy<span class="p">,</span> title<span class="p">,</span> items<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
   <span class="p">[</span>
-    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;</span><span class="si">${</span>taxonomy<span class="si">}</span><span class="s2">: </span><span class="si">${</span>title<span class="si">}</span><span class="s2">&quot;</span> <span class="p">])</span>
+    <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">"</span><span class="si">${</span>taxonomy<span class="si">}</span><span class="s2">: </span><span class="si">${</span>title<span class="si">}</span><span class="s2">"</span> <span class="p">])</span>
     <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>p <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
-      <span class="s2">&quot;</span><span class="si">${</span><span class="nb">toString</span> <span class="p">(</span><span class="nb">builtins</span><span class="o">.</span>length items<span class="p">)</span><span class="si">}</span><span class="s2"> items on this page&quot;</span>
+      <span class="s2">"</span><span class="si">${</span><span class="nb">toString</span> <span class="p">(</span><span class="nb">builtins</span><span class="o">.</span>length items<span class="p">)</span><span class="si">}</span><span class="s2"> items on this page"</span>
     <span class="p">])</span>
     <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>ul <span class="p">[</span> <span class="p">]</span> <span class="p">(</span>
       <span class="nb">map</span> <span class="p">(</span>item<span class="p">:</span>
@@ -257,10 +248,7 @@ Post content...
     <span class="p">))</span>
   <span class="p">];</span>
 </code></pre></div>
-							<p>Pagination uses the same <code>hasNext</code>, <code>hasPrev</code>, <code>nextPageURL</code>, and <code>prevPageURL</code>
-								values as a collection layout. See <a href="/nixtml/templating/#collection-layouts">Layouts and partials</a>
-								for pagination controls and the <a href="/nixtml/reference/templates/">Template Context Reference</a>
-								for all values.</p>
+							<p>Pagination uses the same <code>hasNext</code>, <code>hasPrev</code>, <code>nextPageURL</code>, and <code>prevPageURL</code> values as a collection layout. See <a href="/nixtml/templating/#collection-layouts">Layouts and partials</a> for pagination controls and the <a href="/nixtml/reference/templates/">Template Context Reference</a> for all values.</p>
 							<p>Minima supplies a ready-made taxonomy listing layout.</p>
 							<h2 id="display-terms-on-posts">Display Terms on Posts<a class="headerlink mx-2" href="#display-terms-on-posts" title="Permanent link">#</a></h2>
 							<p>Page layouts receive terms through frontmatter metadata. This example renders a post's tags for the blog collection used above:</p>
@@ -273,12 +261,12 @@ Post content...
     <span class="p">[</span>
       <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h1 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> metadata<span class="o">.</span>title <span class="p">])</span>
       <span class="p">(</span>lib<span class="o">.</span>optionalString <span class="p">(</span>tags <span class="o">!=</span> <span class="p">[</span> <span class="p">])</span> <span class="p">(</span>
-        lib<span class="o">.</span>tags<span class="o">.</span>ul <span class="p">[</span> <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>class <span class="s2">&quot;tags&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="p">(</span>
+        lib<span class="o">.</span>tags<span class="o">.</span>ul <span class="p">[</span> <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>class <span class="s2">"tags"</span><span class="p">)</span> <span class="p">]</span> <span class="p">(</span>
           <span class="nb">map</span> <span class="p">(</span>tag<span class="p">:</span>
             lib<span class="o">.</span>tags<span class="o">.</span>li <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
               <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>a <span class="p">[</span>
                 <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href <span class="p">(</span>
-                  config<span class="o">.</span>website<span class="o">.</span>baseURI <span class="o">+</span> <span class="s2">&quot;blog/tags/</span><span class="si">${</span>tag<span class="si">}</span><span class="s2">/&quot;</span>
+                  config<span class="o">.</span>website<span class="o">.</span>baseURI <span class="o">+</span> <span class="s2">"blog/tags/</span><span class="si">${</span>tag<span class="si">}</span><span class="s2">/"</span>
                 <span class="p">))</span>
               <span class="p">]</span> <span class="p">[</span> tag <span class="p">])</span>
             <span class="p">])</span> tags
@@ -288,15 +276,13 @@ Post content...
     <span class="p">];</span>
 <span class="p">}</span>
 </code></pre></div>
-							<p>The URL prefix depends on the collection path and taxonomy name. Adjust <code>blog/tags</code>
-								for your own setup.</p>
-							<p>In collection and taxonomy listings, access the same values through <code>item.metadata.tags</code>
-								rather than <code>metadata.tags</code>.</p>
+							<p>The URL prefix depends on the collection path and taxonomy name. Adjust <code>blog/tags</code> for your own setup.</p>
+							<p>In collection and taxonomy listings, access the same values through <code>item.metadata.tags</code> rather than <code>metadata.tags</code>.</p>
 							<h2 id="multiple-taxonomy-types">Multiple Taxonomy Types<a class="headerlink mx-2" href="#multiple-taxonomy-types" title="Permanent link">#</a></h2>
 							<p>A collection can use any frontmatter keys that contain lists of strings:</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>collections<span class="o">.</span><span class="ss">blog</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">path</span> <span class="o">=</span> <span class="s2">&quot;blog/posts&quot;</span><span class="p">;</span>
-  <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">&quot;tags&quot;</span> <span class="s2">&quot;categories&quot;</span> <span class="s2">&quot;authors&quot;</span> <span class="s2">&quot;series&quot;</span> <span class="p">];</span>
+  <span class="ss">path</span> <span class="o">=</span> <span class="s2">"blog/posts"</span><span class="p">;</span>
+  <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">"tags"</span> <span class="s2">"categories"</span> <span class="s2">"authors"</span> <span class="s2">"series"</span> <span class="p">];</span>
 <span class="p">};</span>
 </code></pre></div>
 							<div class="highlight"><pre><span></span><code>---
@@ -313,21 +299,20 @@ series:
 <span class="gu">  - nix-web-development</span>
 <span class="gu">---</span>
 </code></pre></div>
-							<p>This creates separate page families under <code>blog/tags</code>, <code>blog/categories</code>, <code>blog/authors</code>, and <code>blog/series</code>. The taxonomy layout can use <code>taxonomy</code>
-								to adjust its heading or feed links rather than assuming every listing represents tags.</p>
+							<p>This creates separate page families under <code>blog/tags</code>, <code>blog/categories</code>, <code>blog/authors</code>, and <code>blog/series</code>. The taxonomy layout can use <code>taxonomy</code> to adjust its heading or feed links rather than assuming every listing represents tags.</p>
 							<h2 id="link-a-term-feed">Link a Term Feed<a class="headerlink mx-2" href="#link-a-term-feed" title="Permanent link">#</a></h2>
 							<p>Add a term's feed to its taxonomy layout when readers may want to subscribe to that topic. This fragment assumes the surrounding module receives <code>config</code>:</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">taxonomy</span> <span class="o">=</span>
   <span class="p">{</span> taxonomy<span class="p">,</span> title<span class="p">,</span> items<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
   <span class="p">[</span>
     <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>a <span class="p">[</span>
-      <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>rel <span class="s2">&quot;alternate&quot;</span><span class="p">)</span>
-      <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>type <span class="s2">&quot;application/rss+xml&quot;</span><span class="p">)</span>
+      <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>rel <span class="s2">"alternate"</span><span class="p">)</span>
+      <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>type <span class="s2">"application/rss+xml"</span><span class="p">)</span>
       <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href <span class="p">(</span>
         config<span class="o">.</span>website<span class="o">.</span>baseURI
-        <span class="o">+</span> <span class="s2">&quot;blog/</span><span class="si">${</span>taxonomy<span class="si">}</span><span class="s2">/</span><span class="si">${</span>title<span class="si">}</span><span class="s2">/index.xml&quot;</span>
+        <span class="o">+</span> <span class="s2">"blog/</span><span class="si">${</span>taxonomy<span class="si">}</span><span class="s2">/</span><span class="si">${</span>title<span class="si">}</span><span class="s2">/index.xml"</span>
       <span class="p">))</span>
-    <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;RSS feed for </span><span class="si">${</span>title<span class="si">}</span><span class="s2">&quot;</span> <span class="p">])</span>
+    <span class="p">]</span> <span class="p">[</span> <span class="s2">"RSS feed for </span><span class="si">${</span>title<span class="si">}</span><span class="s2">"</span> <span class="p">])</span>
     <span class="c1"># Render items and pagination...</span>
   <span class="p">];</span>
 </code></pre></div>
@@ -341,8 +326,7 @@ series:
 </code></pre></div>
 							<p>Avoid varying capitalization or punctuation for the same conceptual term, and avoid characters that need URL encoding. Keeping terms consistent prevents fragmented listings and makes generated URLs predictable.</p>
 							<h2 id="examples">Examples<a class="headerlink mx-2" href="#examples" title="Permanent link">#</a></h2>
-							<p>The <a href="https://github.com/arnarg/nixtml/tree/main/examples/minima">Minima example</a>
-								combines collection pagination, tags, excerpts, and feeds. Build it from a nixtml checkout with:</p>
+							<p>The <a href="https://github.com/arnarg/nixtml/tree/main/examples/minima">Minima example</a> combines collection pagination, tags, excerpts, and feeds. Build it from a nixtml checkout with:</p>
 							<div class="highlight"><pre><span></span><code>nix<span class="w"> </span>build<span class="w"> </span>.#examples.minima
 </code></pre></div>
 						</div>

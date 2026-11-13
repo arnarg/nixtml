@@ -174,23 +174,87 @@
 							Markdown extensions, tables of contents, code highlighting, and processor settings
 						</p>
 						<div class="content">
-							<p>nixtml's built-in <code>md</code>
-								content processor turns Markdown with YAML frontmatter into HTML. Its settings live under <code>website.content.processors.md.settings</code>
-								when using nixtml modules directly.</p>
-							<p>See <a href="/nixtml/content/">Content and frontmatter</a>
-								for content discovery and metadata.</p>
+							<p>nixtml's built-in <code>md</code> content processor turns Markdown with YAML frontmatter into HTML. Its settings live under <code>website.content.processors.md.settings</code> when using nixtml modules directly.</p>
+							<p>See <a href="/nixtml/content/">Content and frontmatter</a> for content discovery and metadata.</p>
 							<h2 id="enabled-markdown-features">Enabled Markdown Features<a class="headerlink mx-2" href="#enabled-markdown-features" title="Permanent link">#</a></h2>
-							<p>The processor enables support for:</p>
+							<p>The processor always enables:</p>
 							<ul>
-								<li>Tables and footnotes.</li>
 								<li>Fenced code blocks through <code>pymdownx.superfences</code>.</li>
-								<li>Syntax highlighting through <code>pymdownx.highlight</code>.</li>
-								<li>Inline code highlighting through <code>pymdownx.inlinehilite</code>.</li>
-								<li>Automatic links through <code>pymdownx.magiclink</code>.</li>
-								<li>Heading identifiers and generated tables of contents through the <code>toc</code>
-									extension.</li>
-								<li>Admonition and caption blocks through the corresponding PyMdown extensions.</li>
+								<li>Syntax highlighting through <code>pymdownx.highlight</code> and inline code highlighting through <code>pymdownx.inlinehilite</code>.</li>
+								<li>Heading identifiers and generated tables of contents through the <code>toc</code> extension.</li>
 							</ul>
+							<p>The following features are enabled by default. Each has a setting under <code>website.content.processors.md.settings</code> with an <code>enable</code> option, and most also have an <code>extraConfig</code> option for passing extra config to the underlying extension:</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Setting</th>
+										<th>Extension</th>
+										<th>Syntax</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>tables</code></td>
+										<td><code>tables</code></td>
+										<td>Pipe tables</td>
+									</tr>
+									<tr>
+										<td><code>footnotes</code></td>
+										<td><code>footnotes</code></td>
+										<td><code>[^1]</code> references and definitions</td>
+									</tr>
+									<tr>
+										<td><code>attrList</code></td>
+										<td><code>attr_list</code></td>
+										<td><code>{: .class #id }</code> attributes</td>
+									</tr>
+									<tr>
+										<td><code>quotes</code></td>
+										<td><code>pymdownx.quotes</code></td>
+										<td>Blockquotes, with optional <code>&gt; [!NOTE]</code> callouts</td>
+									</tr>
+									<tr>
+										<td><code>fancylists</code></td>
+										<td><code>pymdownx.fancylists</code></td>
+										<td>Ordered lists using <code>a.</code>, <code>i.</code> or <code>#.</code></td>
+									</tr>
+									<tr>
+										<td><code>tasklist</code></td>
+										<td><code>pymdownx.tasklist</code></td>
+										<td><code>- [x]</code> task lists</td>
+									</tr>
+									<tr>
+										<td><code>magiclink</code></td>
+										<td><code>pymdownx.magiclink</code></td>
+										<td>Automatic links for URLs and email addresses</td>
+									</tr>
+									<tr>
+										<td><code>admonition</code></td>
+										<td><code>pymdownx.blocks.admonition</code></td>
+										<td><code>/// note</code> blocks</td>
+									</tr>
+									<tr>
+										<td><code>details</code></td>
+										<td><code>pymdownx.blocks.details</code></td>
+										<td><code>/// details</code> collapsible blocks</td>
+									</tr>
+									<tr>
+										<td><code>tab</code></td>
+										<td><code>pymdownx.blocks.tab</code></td>
+										<td><code>/// tab</code> blocks</td>
+									</tr>
+									<tr>
+										<td><code>definition</code></td>
+										<td><code>pymdownx.blocks.definition</code></td>
+										<td><code>/// define</code> definition lists</td>
+									</tr>
+									<tr>
+										<td><code>caption</code></td>
+										<td><code>pymdownx.blocks.caption</code></td>
+										<td><code>/// caption</code> blocks</td>
+									</tr>
+								</tbody>
+							</table>
 							<p>For example, a fenced code block can specify its language:</p>
 							<div class="highlight"><pre><span></span><code><span class="sb">```nix</span>
 <span class="p">{</span>
@@ -198,7 +262,159 @@
 <span class="p">}</span>
 <span class="sb">```</span>
 </code></pre></div>
-							<p>Consult the processor implementation when using extension-specific syntax, especially for PyMdown block plugins.</p>
+							<p><code>pymdownx.quotes</code> handles blockquotes differently from plain Python-Markdown: consecutive blockquotes separated by a blank line stay separate instead of being merged. <code>pymdownx.fancylists</code> treats lines starting with <code>a.</code> or <code>i.</code> as list items.</p>
+							<h3 id="blocks">Blocks<a class="headerlink mx-2" href="#blocks" title="Permanent link">#</a></h3>
+							<p>Admonitions, details, tabs, definitions and captions use PyMdown's <code>///</code> block syntax. See the <a href="https://facelessuser.github.io/pymdown-extensions/extensions/blocks/">PyMdown blocks documentation</a> for all options.</p>
+							<div class="highlight"><pre><span></span><code>/// note | Title
+Admonition content.
+///
+
+/// details | Summary
+    open: true
+Collapsible content.
+///
+
+/// tab | Nix
+Tab content.
+///
+
+/// tab | Python
+More tab content.
+///
+
+/// define
+Term
+
+<span class="k">-</span><span class="w"> </span>Definition of the term.
+///
+</code></pre></div>
+							<div class="admonition note">
+								<p class="admonition-title">Example</p>
+								<p>This is a <code>note</code> admonition.</p>
+							</div>
+							<details>
+								<summary>A collapsible <code>details</code> block</summary>
+								<p>Hidden until opened.</p>
+							</details>
+							<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Nix</label><label for="__tabbed_1_2">Markdown</label></div>
+							<div class="tabbed-content">
+								<div class="tabbed-block">
+									<div class="highlight"><pre><span></span><code><span class="p">{</span> website<span class="o">.</span>sitemap<span class="o">.</span><span class="ss">enable</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span> <span class="p">}</span>
+</code></pre></div>
+								</div>
+								<div class="tabbed-block">
+									<div class="highlight"><pre><span></span><code>/// tab | Nix
+...
+///
+</code></pre></div>
+								</div>
+							</div></div>
+							<dl>
+								<dt>Admonition</dt>
+								<dd>A block that draws attention to its content.</dd>
+							</dl>
+							<p>The <code>admonition.types</code> and <code>details.types</code> settings define shorthand block names such as <code>/// warning</code>:</p>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>processors<span class="o">.</span>md<span class="o">.</span><span class="ss">settings</span> <span class="o">=</span> <span class="p">{</span>
+  admonition<span class="o">.</span><span class="ss">types</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"note"</span>
+    <span class="s2">"warning"</span>
+    <span class="p">{</span> <span class="ss">name</span> <span class="o">=</span> <span class="s2">"example"</span><span class="p">;</span> <span class="ss">title</span> <span class="o">=</span> <span class="s2">"Try it"</span><span class="p">;</span> <span class="p">}</span>
+  <span class="p">];</span>
+  details<span class="o">.</span><span class="ss">types</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">"faq"</span> <span class="p">];</span>
+<span class="p">};</span>
+</code></pre></div>
+							<p>With <code>quotes.callouts</code> enabled, which is the default, GitHub style callouts render as admonitions, and as collapsible details when followed by <code>-</code> or <code>+</code>:</p>
+							<div class="highlight"><pre><span></span><code><span class="k">&gt; </span><span class="ge">[!TIP]</span>
+<span class="k">&gt; </span><span class="ge">Shown as a `tip` admonition.</span>
+
+<span class="k">&gt; </span><span class="ge">[!WARNING]-</span>
+<span class="k">&gt; </span><span class="ge">Shown as a collapsed `warning` details block.</span>
+</code></pre></div>
+							<div class="admonition tip">
+								<p class="admonition-title">Tip</p>
+								<p>This is a callout.</p>
+							</div>
+							<p>Tabs use the <a href="https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/tab/#alternate-style">alternate style</a> markup by default, controlled by <code>tab.alternateStyle</code>.</p>
+							<h3 id="styling">Styling<a class="headerlink mx-2" href="#styling" title="Permanent link">#</a></h3>
+							<p>Admonitions, details, tabs and task lists need CSS. The <code>minima</code> theme includes styles for all of them. Custom layouts need to style the following classes:</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Feature</th>
+										<th>Markup</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Admonitions</td>
+										<td><code>div.admonition.&lt;type&gt;</code> with a <code>p.admonition-title</code></td>
+									</tr>
+									<tr>
+										<td>Details</td>
+										<td><code>details.&lt;type&gt;</code> with a <code>summary</code></td>
+									</tr>
+									<tr>
+										<td>Tabs</td>
+										<td><code>div.tabbed-set.tabbed-alternate</code> containing <code>input</code>s, <code>div.tabbed-labels</code> and <code>div.tabbed-content &gt; div.tabbed-block</code></td>
+									</tr>
+									<tr>
+										<td>Task lists</td>
+										<td><code>ul.task-list &gt; li.task-list-item</code> with a checkbox <code>input</code></td>
+									</tr>
+									<tr>
+										<td>Captions</td>
+										<td><code>figure</code> with a <code>figcaption</code> and an optional <code>span.caption-prefix</code></td>
+									</tr>
+								</tbody>
+							</table>
+							<p>Tabs in particular don't work without CSS. See the <a href="https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/tab/#styling-with-css">tab styling documentation</a> for an example.</p>
+							<h3 id="additional-extensions">Additional Extensions<a class="headerlink mx-2" href="#additional-extensions" title="Permanent link">#</a></h3>
+							<p>Other Python-Markdown extensions are enabled through <code>extensions</code>, keyed by their import name:</p>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>processors<span class="o">.</span>md<span class="o">.</span>settings<span class="o">.</span><span class="ss">extensions</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">abbr</span> <span class="o">=</span> <span class="p">{</span> <span class="p">};</span>
+  <span class="s2">"pymdownx.arithmatex"</span><span class="o">.</span>config<span class="o">.</span><span class="ss">generic</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+  <span class="s2">"pymdownx.emoji"</span><span class="o">.</span><span class="ss">enable</span> <span class="o">=</span> <span class="no">false</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+							<p>Extensions from other Python packages also need the package in <a href="#additional-python-packages"><code>extraPythonPackages</code></a>.</p>
+							<p>Extensions that nixtml manages through named settings, such as <code>toc</code> or <code>pymdownx.blocks.tab</code>, can't be added to <code>extensions</code>. Some older extensions provide the same feature as an enabled built-in one and conflict with it:</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Extension</th>
+										<th>Conflicts with</th>
+										<th>Result</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>def_list</code></td>
+										<td><code>definition</code></td>
+										<td>Error, adjacent definition lists merge</td>
+									</tr>
+									<tr>
+										<td><code>pymdownx.tabbed</code></td>
+										<td><code>tab</code></td>
+										<td>Error, tab sets merge and share element IDs</td>
+									</tr>
+									<tr>
+										<td><code>sane_lists</code></td>
+										<td><code>fancylists</code></td>
+										<td>Error, both replace the list parsers</td>
+									</tr>
+									<tr>
+										<td><code>admonition</code></td>
+										<td><code>admonition</code></td>
+										<td>Warning</td>
+									</tr>
+									<tr>
+										<td><code>pymdownx.details</code></td>
+										<td><code>details</code></td>
+										<td>Warning</td>
+									</tr>
+								</tbody>
+							</table>
+							<p>Bundles such as <code>extra</code> and <code>pymdownx.extra</code> are checked for the extensions they include. To use an older extension, disable the conflicting setting, e.g. <code>definition.enable = false;</code>.</p>
 							<h2 id="tables-of-contents">Tables of Contents<a class="headerlink mx-2" href="#tables-of-contents" title="Permanent link">#</a></h2>
 							<p>Insert the configured marker where a table of contents should appear:</p>
 							<div class="highlight"><pre><span></span><code>[TOC]
@@ -209,11 +425,11 @@
 </code></pre></div>
 							<p>The default marker is <code>[TOC]</code>. Configure its behavior under <code>toc</code>:</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>processors<span class="o">.</span>md<span class="o">.</span>settings<span class="o">.</span><span class="ss">toc</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">marker</span> <span class="o">=</span> <span class="s2">&quot;[TOC]&quot;</span><span class="p">;</span>
-  <span class="ss">title</span> <span class="o">=</span> <span class="s2">&quot;On this page&quot;</span><span class="p">;</span>
-  <span class="ss">tocClass</span> <span class="o">=</span> <span class="s2">&quot;toc&quot;</span><span class="p">;</span>
-  <span class="ss">permalink</span> <span class="o">=</span> <span class="s2">&quot;#&quot;</span><span class="p">;</span>
-  <span class="ss">permalinkClass</span> <span class="o">=</span> <span class="s2">&quot;headerlink&quot;</span><span class="p">;</span>
+  <span class="ss">marker</span> <span class="o">=</span> <span class="s2">"[TOC]"</span><span class="p">;</span>
+  <span class="ss">title</span> <span class="o">=</span> <span class="s2">"On this page"</span><span class="p">;</span>
+  <span class="ss">tocClass</span> <span class="o">=</span> <span class="s2">"toc"</span><span class="p">;</span>
+  <span class="ss">permalink</span> <span class="o">=</span> <span class="s2">"#"</span><span class="p">;</span>
+  <span class="ss">permalinkClass</span> <span class="o">=</span> <span class="s2">"headerlink"</span><span class="p">;</span>
 <span class="p">};</span>
 </code></pre></div>
 							<table>
@@ -267,14 +483,13 @@
 									</tr>
 								</tbody>
 							</table>
-							<p>Heading identifiers are generated even when the page does not contain a <code>[TOC]</code>
-								marker, so headings can be linked directly.</p>
+							<p>Heading identifiers are generated even when the page does not contain a <code>[TOC]</code> marker, so headings can be linked directly.</p>
 							<h2 id="syntax-highlighting">Syntax Highlighting<a class="headerlink mx-2" href="#syntax-highlighting" title="Permanent link">#</a></h2>
 							<p>Highlighting is configured under <code>website.content.processors.md.settings.highlight</code>:</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>processors<span class="o">.</span>md<span class="o">.</span>settings<span class="o">.</span><span class="ss">highlight</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="ss">style</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">;</span>
+  <span class="ss">style</span> <span class="o">=</span> <span class="s2">"default"</span><span class="p">;</span>
   <span class="ss">linenums</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
-  <span class="ss">linenumsStyle</span> <span class="o">=</span> <span class="s2">&quot;table&quot;</span><span class="p">;</span>
+  <span class="ss">linenumsStyle</span> <span class="o">=</span> <span class="s2">"table"</span><span class="p">;</span>
 <span class="p">};</span>
 </code></pre></div>
 							<table>
@@ -309,67 +524,54 @@
 									<tr>
 										<td><code>extraConfig</code></td>
 										<td><code>{ }</code></td>
-										<td>Additional <code>pymdownx.highlight</code>
-											options; these override other highlight settings</td>
+										<td>Additional <code>pymdownx.highlight</code> options; these override other highlight settings</td>
 									</tr>
 								</tbody>
 							</table>
 							<p>With the default <code>noclasses = true</code>, generated code contains inline styles and no additional highlighting stylesheet is required.</p>
-							<p>When <code>noclasses = false</code>, provide CSS for the selected Pygments style. nixtml exposes a generated stylesheet as <code>website.content.processors.md.highlightStylesheet</code>; include it in the site output and link it from the base layout. The <code>pymdownx-inline</code>
-								line number style also requires <code>noclasses = false</code>.</p>
+							<p>When <code>noclasses = false</code>, provide CSS for the selected Pygments style. nixtml exposes a generated stylesheet as <code>website.content.processors.md.highlightStylesheet</code>; include it in the site output and link it from the base layout. The <code>pymdownx-inline</code> line number style also requires <code>noclasses = false</code>.</p>
 							<h3 id="light-and-dark-styles">Light and Dark Styles<a class="headerlink mx-2" href="#light-and-dark-styles" title="Permanent link">#</a></h3>
-							<p>The <code>style</code>
-								setting also accepts an ordered list of variants for class-based highlighting. Each variant has a Pygments <code>name</code>, an optional CSS <code>selector</code>
-								defaulting to <code>.highlight</code>, and an optional <code>media</code>
-								feature condition without parentheses:</p>
+							<p>The <code>style</code> setting also accepts an ordered list of variants for class-based highlighting. Each variant has a Pygments <code>name</code>, an optional CSS <code>selector</code> defaulting to <code>.highlight</code>, and an optional <code>media</code> feature condition without parentheses:</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>processors<span class="o">.</span>md<span class="o">.</span>settings<span class="o">.</span><span class="ss">highlight</span> <span class="o">=</span> <span class="p">{</span>
   <span class="ss">noclasses</span> <span class="o">=</span> <span class="no">false</span><span class="p">;</span>
   <span class="ss">style</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">{</span>
-      <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">;</span>
+      <span class="ss">name</span> <span class="o">=</span> <span class="s2">"default"</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="p">{</span>
-      <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;monokai&quot;</span><span class="p">;</span>
-      <span class="ss">media</span> <span class="o">=</span> <span class="s2">&quot;prefers-color-scheme: dark&quot;</span><span class="p">;</span>
+      <span class="ss">name</span> <span class="o">=</span> <span class="s2">"monokai"</span><span class="p">;</span>
+      <span class="ss">media</span> <span class="o">=</span> <span class="s2">"prefers-color-scheme: dark"</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="p">{</span>
-      <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;default&quot;</span><span class="p">;</span>
-      <span class="ss">selector</span> <span class="o">=</span> <span class="s2">&quot;:where([data-theme=light], .theme-light) .highlight&quot;</span><span class="p">;</span>
+      <span class="ss">name</span> <span class="o">=</span> <span class="s2">"default"</span><span class="p">;</span>
+      <span class="ss">selector</span> <span class="o">=</span> <span class="s2">":where([data-theme=light], .theme-light) .highlight"</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="p">{</span>
-      <span class="ss">name</span> <span class="o">=</span> <span class="s2">&quot;monokai&quot;</span><span class="p">;</span>
-      <span class="ss">selector</span> <span class="o">=</span> <span class="s2">&quot;:where([data-theme=dark], .theme-dark) .highlight&quot;</span><span class="p">;</span>
+      <span class="ss">name</span> <span class="o">=</span> <span class="s2">"monokai"</span><span class="p">;</span>
+      <span class="ss">selector</span> <span class="o">=</span> <span class="s2">":where([data-theme=dark], .theme-dark) .highlight"</span><span class="p">;</span>
     <span class="p">}</span>
   <span class="p">];</span>
 <span class="p">};</span>
 </code></pre></div>
-							<p>The generated <code>highlightStylesheet</code>
-								contains all variants in their configured order. Later variants can therefore override earlier ones for explicit theme selectors. A string such as <code>style = "default";</code>
-								remains shorthand for one variant with the default selector and no media condition.</p>
+							<p>The generated <code>highlightStylesheet</code> contains all variants in their configured order. Later variants can therefore override earlier ones for explicit theme selectors. A string such as <code>style = "default";</code> remains shorthand for one variant with the default selector and no media condition.</p>
 							<p>The first variant supplies the style used for inline highlighting. Additional variants are useful with <code>noclasses = false</code>, where their CSS can respond to the active theme.</p>
 							<h3 id="per-block-line-numbers">Per-Block Line Numbers<a class="headerlink mx-2" href="#per-block-line-numbers" title="Permanent link">#</a></h3>
-							<p>When global <code>linenums</code>
-								is <code>null</code>, individual code blocks can enable line numbers using the highlight extension's fenced-code options, such as <code>linenums="1"</code>.</p>
+							<p>When global <code>linenums</code> is <code>null</code>, individual code blocks can enable line numbers using the highlight extension's fenced-code options, such as <code>linenums="1"</code>.</p>
 							<h2 id="date-formatting">Date Formatting<a class="headerlink mx-2" href="#date-formatting" title="Permanent link">#</a></h2>
-							<p>Date values in frontmatter are made available in several formats for collections and feeds. The ordinary <code>metadata.date</code>
-								string uses <code>dateFormat</code>:</p>
-							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>processors<span class="o">.</span>md<span class="o">.</span>settings<span class="o">.</span><span class="ss">dateFormat</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-%d&quot;</span><span class="p">;</span>
+							<p>Date values in frontmatter are made available in several formats for collections and feeds. The ordinary <code>metadata.date</code> string uses <code>dateFormat</code>:</p>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>processors<span class="o">.</span>md<span class="o">.</span>settings<span class="o">.</span><span class="ss">dateFormat</span> <span class="o">=</span> <span class="s2">"%Y-%m-%d"</span><span class="p">;</span>
 </code></pre></div>
-							<p>The value is a Python <code>strftime</code>
-								format string. Its default is <code>"%b %-d, %Y"</code>.</p>
+							<p>The value is a Python <code>strftime</code> format string. Its default is <code>"%b %-d, %Y"</code>.</p>
 							<h2 id="additional-python-packages">Additional Python Packages<a class="headerlink mx-2" href="#additional-python-packages" title="Permanent link">#</a></h2>
 							<p>A site can extend the processor's Python environment:</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>content<span class="o">.</span>processors<span class="o">.</span>md<span class="o">.</span><span class="ss">extraPythonPackages</span> <span class="o">=</span> <span class="p">[</span>
   pkgs<span class="o">.</span>python3Packages<span class="o">.</span>pygments-styles
 <span class="p">];</span>
 </code></pre></div>
-							<p>The package must provide or extend functionality used by the configured Markdown and highlighting setup. Adding a package alone does not enable a new Markdown extension.</p>
+							<p>The package must provide or extend functionality used by the configured Markdown and highlighting setup. Adding a package alone does not enable a new Markdown extension, add it to <a href="#additional-extensions"><code>extensions</code></a> as well.</p>
 							<h2 id="post-summaries">Post Summaries<a class="headerlink mx-2" href="#post-summaries" title="Permanent link">#</a></h2>
-							<p>The HTML before an exact <code>&lt;!--more--&gt;</code>
-								marker becomes <code>item.summary</code>
-								in collection and taxonomy layouts. Without the marker, the summary contains the entire rendered item.</p>
-							<p>See <a href="/nixtml/collections/">Collections and pagination</a>
-								for item values and listing templates.</p>
+							<p>The HTML before an exact <code>&lt;!--more--&gt;</code> marker becomes <code>item.summary</code> in collection and taxonomy layouts. Without the marker, the summary contains the entire rendered item.</p>
+							<p>See <a href="/nixtml/collections/">Collections and pagination</a> for item values and listing templates.</p>
 						</div>
 					</main>
 				</div>

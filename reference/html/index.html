@@ -174,8 +174,7 @@
 							Reference for nixtml's functional HTML helpers
 						</p>
 						<div class="content">
-							<p>nixtml exposes HTML helpers through <code>lib.tags</code>
-								and attribute helpers through <code>lib.attrs</code>. They produce strings that can be returned directly by layouts or combined with ordinary Nix string interpolation.</p>
+							<p>nixtml exposes HTML helpers through <code>lib.tags</code> and attribute helpers through <code>lib.attrs</code>. They produce strings that can be returned directly by layouts or combined with ordinary Nix string interpolation.</p>
 							<h2 id="basic-usage">Basic Usage<a class="headerlink mx-2" href="#basic-usage" title="Permanent link">#</a></h2>
 							<div class="highlight"><pre><span></span><code><span class="p">{</span> lib<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
 <span class="k">let</span>
@@ -185,8 +184,8 @@
 <span class="p">{</span>
   website<span class="o">.</span>layouts<span class="o">.</span>partials<span class="o">.</span><span class="ss">example</span> <span class="o">=</span>
     <span class="p">{</span> <span class="p">}:</span>
-    div <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>class <span class="s2">&quot;container&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span>
-      <span class="p">(</span>a <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>href <span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;Home&quot;</span> <span class="p">])</span>
+    div <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>class <span class="s2">"container"</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span>
+      <span class="p">(</span>a <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>href <span class="s2">"/"</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">"Home"</span> <span class="p">])</span>
     <span class="p">];</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -194,11 +193,11 @@
 							<div class="highlight"><pre><span></span><code>tagName <span class="p">[</span> attributes <span class="p">]</span> <span class="p">[</span> children <span class="p">]</span>
 </code></pre></div>
 							<p>For example:</p>
-							<div class="highlight"><pre><span></span><code><span class="p">(</span>div <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;Hello&quot;</span> <span class="p">])</span>
+							<div class="highlight"><pre><span></span><code><span class="p">(</span>div <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">"Hello"</span> <span class="p">])</span>
 <span class="c1"># &lt;div&gt;Hello&lt;/div&gt;</span>
 
-<span class="p">(</span>a <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>href <span class="s2">&quot;/about/&quot;</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;About&quot;</span> <span class="p">])</span>
-<span class="c1"># &lt;a href=&quot;/about/&quot;&gt;About&lt;/a&gt;</span>
+<span class="p">(</span>a <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>href <span class="s2">"/about/"</span><span class="p">)</span> <span class="p">]</span> <span class="p">[</span> <span class="s2">"About"</span> <span class="p">])</span>
+<span class="c1"># &lt;a href="/about/"&gt;About&lt;/a&gt;</span>
 </code></pre></div>
 							<h2 id="regular-tags">Regular Tags<a class="headerlink mx-2" href="#regular-tags" title="Permanent link">#</a></h2>
 							<p>Regular tags have a closing tag and accept both attributes and children. Commonly used helpers include:</p>
@@ -232,9 +231,8 @@
   <span class="p">;</span>
 </code></pre></div>
 							<h3 id="page-titles">Page Titles<a class="headerlink mx-2" href="#page-titles" title="Permanent link">#</a></h3>
-							<p><code>lib.tags.title</code>
-							is a convenience function that accepts the title text directly:</p>
-							<div class="highlight"><pre><span></span><code>lib<span class="o">.</span>tags<span class="o">.</span>title <span class="s2">&quot;My page&quot;</span>
+							<p><code>lib.tags.title</code> is a convenience function that accepts the title text directly:</p>
+							<div class="highlight"><pre><span></span><code>lib<span class="o">.</span>tags<span class="o">.</span>title <span class="s2">"My page"</span>
 </code></pre></div>
 							<h2 id="void-tags">Void Tags<a class="headerlink mx-2" href="#void-tags" title="Permanent link">#</a></h2>
 							<p>Void tags accept attributes but no children:</p>
@@ -242,14 +240,14 @@
   area base br col embed hr img input link meta source track wbr
   <span class="p">;</span>
 
-meta <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>charset <span class="s2">&quot;UTF-8&quot;</span><span class="p">)</span> <span class="p">]</span>
+meta <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>charset <span class="s2">"UTF-8"</span><span class="p">)</span> <span class="p">]</span>
 link <span class="p">[</span>
-  <span class="p">(</span>attrs<span class="o">.</span>rel <span class="s2">&quot;stylesheet&quot;</span><span class="p">)</span>
-  <span class="p">(</span>attrs<span class="o">.</span>href <span class="s2">&quot;/css/main.css&quot;</span><span class="p">)</span>
+  <span class="p">(</span>attrs<span class="o">.</span>rel <span class="s2">"stylesheet"</span><span class="p">)</span>
+  <span class="p">(</span>attrs<span class="o">.</span>href <span class="s2">"/css/main.css"</span><span class="p">)</span>
 <span class="p">]</span>
 img <span class="p">[</span>
-  <span class="p">(</span>attrs<span class="o">.</span>src <span class="s2">&quot;/logo.svg&quot;</span><span class="p">)</span>
-  <span class="p">(</span>attrs<span class="o">.</span>alt <span class="s2">&quot;Project logo&quot;</span><span class="p">)</span>
+  <span class="p">(</span>attrs<span class="o">.</span>src <span class="s2">"/logo.svg"</span><span class="p">)</span>
+  <span class="p">(</span>attrs<span class="o">.</span>alt <span class="s2">"Project logo"</span><span class="p">)</span>
 <span class="p">]</span>
 br <span class="p">[</span> <span class="p">]</span>
 </code></pre></div>
@@ -327,41 +325,35 @@ br <span class="p">[</span> <span class="p">]</span>
 							</table>
 							<p>Width and height accept either integers or strings:</p>
 							<div class="highlight"><pre><span></span><code>attrs<span class="o">.</span>width <span class="mi">100</span>
-attrs<span class="o">.</span>height <span class="s2">&quot;auto&quot;</span>
+attrs<span class="o">.</span>height <span class="s2">"auto"</span>
 </code></pre></div>
 							<h3 id="data-and-aria-attributes">Data and ARIA Attributes<a class="headerlink mx-2" href="#data-and-aria-attributes" title="Permanent link">#</a></h3>
-							<p>The <code>data</code>
-								and <code>aria</code>
-								helpers take the suffix as their first argument:</p>
-							<div class="highlight"><pre><span></span><code>attrs<span class="o">.</span>data <span class="s2">&quot;theme&quot;</span> <span class="s2">&quot;dark&quot;</span>
-<span class="c1"># data-theme=&quot;dark&quot;</span>
+							<p>The <code>data</code> and <code>aria</code> helpers take the suffix as their first argument:</p>
+							<div class="highlight"><pre><span></span><code>attrs<span class="o">.</span>data <span class="s2">"theme"</span> <span class="s2">"dark"</span>
+<span class="c1"># data-theme="dark"</span>
 
-attrs<span class="o">.</span>aria <span class="s2">&quot;label&quot;</span> <span class="s2">&quot;Documentation&quot;</span>
-<span class="c1"># aria-label=&quot;Documentation&quot;</span>
+attrs<span class="o">.</span>aria <span class="s2">"label"</span> <span class="s2">"Documentation"</span>
+<span class="c1"># aria-label="Documentation"</span>
 
-attrs<span class="o">.</span>aria <span class="s2">&quot;current&quot;</span> <span class="s2">&quot;page&quot;</span>
-<span class="c1"># aria-current=&quot;page&quot;</span>
+attrs<span class="o">.</span>aria <span class="s2">"current"</span> <span class="s2">"page"</span>
+<span class="c1"># aria-current="page"</span>
 </code></pre></div>
-							<p>Other specialized helpers include <code>attrs.property</code>
-								for Open Graph metadata and <code>attrs.httpEquiv</code>
-								for HTTP-equivalent meta tags.</p>
+							<p>Other specialized helpers include <code>attrs.property</code> for Open Graph metadata and <code>attrs.httpEquiv</code> for HTTP-equivalent meta tags.</p>
 							<h3 id="custom-attributes">Custom Attributes<a class="headerlink mx-2" href="#custom-attributes" title="Permanent link">#</a></h3>
-							<p>Use <code>lib.mkAttr</code>
-								when no named helper exists:</p>
+							<p>Use <code>lib.mkAttr</code> when no named helper exists:</p>
 							<div class="highlight"><pre><span></span><code>div <span class="p">[</span>
-  <span class="p">(</span>lib<span class="o">.</span>mkAttr <span class="s2">&quot;data-custom&quot;</span> <span class="s2">&quot;value&quot;</span><span class="p">)</span>
-<span class="p">]</span> <span class="p">[</span> <span class="s2">&quot;Content&quot;</span> <span class="p">]</span>
+  <span class="p">(</span>lib<span class="o">.</span>mkAttr <span class="s2">"data-custom"</span> <span class="s2">"value"</span><span class="p">)</span>
+<span class="p">]</span> <span class="p">[</span> <span class="s2">"Content"</span> <span class="p">]</span>
 </code></pre></div>
 							<h2 id="conditional-attributes-and-children">Conditional Attributes and Children<a class="headerlink mx-2" href="#conditional-attributes-and-children" title="Permanent link">#</a></h2>
 							<p>Build attribute and child lists with normal Nix list operations:</p>
 							<div class="highlight"><pre><span></span><code>a <span class="p">(</span>
   <span class="p">[</span> <span class="p">(</span>attrs<span class="o">.</span>href item<span class="o">.</span>url<span class="p">)</span> <span class="p">]</span>
-  <span class="o">++</span> lib<span class="o">.</span>optional isActive <span class="p">(</span>attrs<span class="o">.</span>class <span class="s2">&quot;is-active&quot;</span><span class="p">)</span>
-  <span class="o">++</span> lib<span class="o">.</span>optional isActive <span class="p">(</span>attrs<span class="o">.</span>aria <span class="s2">&quot;current&quot;</span> <span class="s2">&quot;page&quot;</span><span class="p">)</span>
+  <span class="o">++</span> lib<span class="o">.</span>optional isActive <span class="p">(</span>attrs<span class="o">.</span>class <span class="s2">"is-active"</span><span class="p">)</span>
+  <span class="o">++</span> lib<span class="o">.</span>optional isActive <span class="p">(</span>attrs<span class="o">.</span>aria <span class="s2">"current"</span> <span class="s2">"page"</span><span class="p">)</span>
 <span class="p">)</span> <span class="p">[</span> item<span class="o">.</span>title <span class="p">]</span>
 </code></pre></div>
-							<p>Use <code>lib.optionalString</code>
-								when a whole element is optional:</p>
+							<p>Use <code>lib.optionalString</code> when a whole element is optional:</p>
 							<div class="highlight"><pre><span></span><code>lib<span class="o">.</span>optionalString <span class="p">(</span>metadata <span class="o">?</span> description<span class="p">)</span>
   <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>p <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> metadata<span class="o">.</span>description <span class="p">])</span>
 </code></pre></div>
@@ -372,8 +364,7 @@ attrs<span class="o">.</span>aria <span class="s2">&quot;current&quot;</span> <s
 <span class="p">]</span>
 </code></pre></div>
 							<p>Do not escape rendered Markdown content before inserting it into a layout; doing so would display its HTML tags as text.</p>
-							<p>The <a href="/nixtml/templating/">Layouts and partials guide</a>
-								demonstrates these helpers in a complete page shell.</p>
+							<p>The <a href="/nixtml/templating/">Layouts and partials guide</a> demonstrates these helpers in a complete page shell.</p>
 						</div>
 					</main>
 				</div>

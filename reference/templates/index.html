@@ -177,15 +177,13 @@
 							<p>Every nixtml layout is a function that receives an attribute set. The available attributes depend on the kind of page being rendered.</p>
 							<p>Layout functions can return either a string or a list of strings. Nested HTML helper calls return strings, so they can be included directly in those lists.</p>
 							<h2 id="rendering-order">Rendering Order<a class="headerlink mx-2" href="#rendering-order" title="Permanent link">#</a></h2>
-							<p>nixtml renders a page-specific layout first and then passes its output to <code>website.layouts.base</code>
-								as <code>content</code>:</p>
+							<p>nixtml renders a page-specific layout first and then passes its output to <code>website.layouts.base</code> as <code>content</code>:</p>
 							<div class="highlight"><pre><span></span><code>content file or generated page
   → home, page, collection, or taxonomy layout
   → base layout
   → formatted HTML file
 </code></pre></div>
-							<p>The base layout receives the original page context as well as the rendered <code>content</code>. It can therefore use values such as <code>path</code>, <code>title</code>, and <code>metadata</code>
-								when they are present.</p>
+							<p>The base layout receives the original page context as well as the rendered <code>content</code>. It can therefore use values such as <code>path</code>, <code>title</code>, and <code>metadata</code> when they are present.</p>
 							<h2 id="common-values">Common Values<a class="headerlink mx-2" href="#common-values" title="Permanent link">#</a></h2>
 							<table>
 								<thead>
@@ -199,23 +197,18 @@
 									<tr>
 										<td><code>path</code></td>
 										<td>list of strings</td>
-										<td>Output path segments, including the final <code>index.html</code>
-											or other filename</td>
+										<td>Output path segments, including the final <code>index.html</code> or other filename</td>
 									</tr>
 									<tr>
 										<td><code>title</code></td>
 										<td>string or <code>null</code></td>
-										<td>Page title, collection <code>null</code>
-											value, or taxonomy term</td>
+										<td>Page title, collection <code>null</code> value, or taxonomy term</td>
 									</tr>
 								</tbody>
 							</table>
-							<p>Markdown page layouts also receive <code>content</code>
-								as HTML produced by the content processor. In the base layout, <code>content</code>
-								is instead the already-rendered result of every kind of page-specific layout.</p>
+							<p>Markdown page layouts also receive <code>content</code> as HTML produced by the content processor. In the base layout, <code>content</code> is instead the already-rendered result of every kind of page-specific layout.</p>
 							<h2 id="home-and-page-layouts">Home and Page Layouts<a class="headerlink mx-2" href="#home-and-page-layouts" title="Permanent link">#</a></h2>
-							<p><code>website.layouts.home</code>
-							renders <code>content/index.md</code>. Other Markdown files use <code>website.layouts.page</code>.</p>
+							<p><code>website.layouts.home</code> renders <code>content/index.md</code>. Other Markdown files use <code>website.layouts.page</code>.</p>
 							<p>Both layouts receive:</p>
 							<table>
 								<thead>
@@ -239,19 +232,17 @@
 									</tr>
 									<tr>
 										<td><code>title</code></td>
-										<td><code>metadata.title</code>, or <code>null</code>
-										when no title is present</td>
+										<td><code>metadata.title</code>, or <code>null</code> when no title is present</td>
 									</tr>
 								</tbody>
 							</table>
-							<p>For example, <code>content/about.md</code>
-								normally has this path:</p>
-							<div class="highlight"><pre><span></span><code><span class="p">[</span> <span class="s2">&quot;about&quot;</span> <span class="s2">&quot;index.html&quot;</span> <span class="p">]</span>
+							<p>For example, <code>content/about.md</code> normally has this path:</p>
+							<div class="highlight"><pre><span></span><code><span class="p">[</span> <span class="s2">"about"</span> <span class="s2">"index.html"</span> <span class="p">]</span>
 </code></pre></div>
 							<p>Frontmatter can contain arbitrary values. Access optional fields with a default instead of assuming they exist:</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span><span class="ss">page</span> <span class="o">=</span> <span class="p">{</span> metadata<span class="p">,</span> content<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
   <span class="k">let</span>
-    <span class="ss">description</span> <span class="o">=</span> metadata<span class="o">.</span>description <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+    <span class="ss">description</span> <span class="o">=</span> metadata<span class="o">.</span>description <span class="ow">or</span> <span class="s2">""</span><span class="p">;</span>
     <span class="ss">tags</span> <span class="o">=</span> metadata<span class="o">.</span>tags <span class="ow">or</span> <span class="p">[</span> <span class="p">];</span>
   <span class="k">in</span>
   <span class="p">[</span>
@@ -260,8 +251,7 @@
   <span class="p">];</span>
 </code></pre></div>
 							<h2 id="collection-layouts">Collection Layouts<a class="headerlink mx-2" href="#collection-layouts" title="Permanent link">#</a></h2>
-							<p><code>website.layouts.collection</code>
-							receives one pagination page at a time:</p>
+							<p><code>website.layouts.collection</code> receives one pagination page at a time:</p>
 							<table>
 								<thead>
 									<tr>
@@ -304,14 +294,12 @@
 									<tr>
 										<td><code>nextPageURL</code></td>
 										<td>string</td>
-										<td>URL of the next page; only access it when <code>hasNext</code>
-											is true</td>
+										<td>URL of the next page; only access it when <code>hasNext</code> is true</td>
 									</tr>
 									<tr>
 										<td><code>prevPageURL</code></td>
 										<td>string</td>
-										<td>URL of the previous page; only access it when <code>hasPrev</code>
-											is true</td>
+										<td>URL of the previous page; only access it when <code>hasPrev</code> is true</td>
 									</tr>
 									<tr>
 										<td><code>title</code></td>
@@ -320,11 +308,8 @@
 									</tr>
 								</tbody>
 							</table>
-							<p>A first page at <code>blog/index.html</code>
-								has <code>[ "blog" "index.html" ]</code>
-								as its path. A later page can have a path such as <code>[ "blog" "page" "2" "index.html" ]</code>.</p>
-							<p>See <a href="/nixtml/collections/">Collections and pagination</a>
-								for configuration and a rendering example.</p>
+							<p>A first page at <code>blog/index.html</code> has <code>[ "blog" "index.html" ]</code> as its path. A later page can have a path such as <code>[ "blog" "page" "2" "index.html" ]</code>.</p>
+							<p>See <a href="/nixtml/collections/">Collections and pagination</a> for configuration and a rendering example.</p>
 							<h2 id="taxonomy-layouts">Taxonomy Layouts<a class="headerlink mx-2" href="#taxonomy-layouts" title="Permanent link">#</a></h2>
 							<p>Taxonomy layouts receive the same pagination values as collection layouts, plus:</p>
 							<table>
@@ -346,13 +331,11 @@
 								</tbody>
 							</table>
 							<p>For a collection at <code>blog/posts</code>, a taxonomy page might have this path:</p>
-							<div class="highlight"><pre><span></span><code><span class="p">[</span> <span class="s2">&quot;blog&quot;</span> <span class="s2">&quot;tags&quot;</span> <span class="s2">&quot;nix&quot;</span> <span class="s2">&quot;index.html&quot;</span> <span class="p">]</span>
+							<div class="highlight"><pre><span></span><code><span class="p">[</span> <span class="s2">"blog"</span> <span class="s2">"tags"</span> <span class="s2">"nix"</span> <span class="s2">"index.html"</span> <span class="p">]</span>
 </code></pre></div>
-							<p>See <a href="/nixtml/taxonomies/">Taxonomies and RSS</a>
-								for term setup and generated URLs.</p>
+							<p>See <a href="/nixtml/taxonomies/">Taxonomies and RSS</a> for term setup and generated URLs.</p>
 							<h2 id="collection-item-values">Collection Item Values<a class="headerlink mx-2" href="#collection-item-values" title="Permanent link">#</a></h2>
-							<p>Each value in <code>items</code>
-								contains:</p>
+							<p>Each value in <code>items</code> contains:</p>
 							<table>
 								<thead>
 									<tr>
@@ -423,8 +406,7 @@ tags
 </code></pre></div>
 							<p>Collection items require the standard title and date fields used by collection processing.</p>
 							<h2 id="partials">Partials<a class="headerlink mx-2" href="#partials" title="Permanent link">#</a></h2>
-							<p><code>website.layouts.partials</code>
-							is an attribute set of reusable functions. Partials do not have a fixed context: each partial defines its own arguments.</p>
+							<p><code>website.layouts.partials</code> is an attribute set of reusable functions. Partials do not have a fixed context: each partial defines its own arguments.</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span>partials<span class="o">.</span><span class="ss">pageHeading</span> <span class="o">=</span>
   <span class="p">{</span> title<span class="p">,</span> description <span class="o">?</span> <span class="no">null</span> <span class="p">}:</span>
   <span class="p">[</span>
@@ -439,8 +421,7 @@ tags
   <span class="ss">description</span> <span class="o">=</span> metadata<span class="o">.</span>description <span class="ow">or</span> <span class="no">null</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
-							<p>The <a href="/nixtml/templating/">Layouts and partials guide</a>
-								shows how to include partials in complete layouts.</p>
+							<p>The <a href="/nixtml/templating/">Layouts and partials guide</a> shows how to include partials in complete layouts.</p>
 						</div>
 					</main>
 				</div>
