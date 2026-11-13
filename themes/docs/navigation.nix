@@ -15,6 +15,7 @@ let
 
   cfg = config.themes.docs;
   inherit (cfg.navigation) sections;
+  inherit (config.website.layouts) partials;
 
   navigationPages = lib.pipe config.website.content.pages [
     (lib.filterAttrs (_: page: page.result.metadata ? nav))
@@ -212,6 +213,12 @@ in
         default = "Browse documentation";
         description = "Accessible label of the navigation button on small screens.";
       };
+
+      closeLabel = mkOption {
+        type = types.str;
+        default = "Close navigation";
+        description = "Accessible label of the button closing the navigation on small screens.";
+      };
     };
 
     pager = {
@@ -241,6 +248,25 @@ in
           ])
           (attrs.aria "label" cfg.navigation.mobileLabel)
           (attrs.aria "expanded" "false")
+          (attrs.aria "controls" "docs-mobile-navigation")
+          (lib.mkAttr "hidden" "")
+        ]
+        (lib.replicate 4 (span [ (attrs.aria "hidden" "true") ] [ ]))
+    );
+
+    # Button in the top right corner of the off-canvas navigation, closing it.
+    # Hidden until the mobile navigation script is set up.
+    docsMobileNavClose = lib.mkDefault (
+      _:
+      button
+        [
+          (attrs.type "button")
+          (attrs.classes [
+            "navbar-burger"
+            "is-active"
+            "docs-mobile-nav-close"
+          ])
+          (attrs.aria "label" cfg.navigation.closeLabel)
           (attrs.aria "controls" "docs-mobile-navigation")
           (lib.mkAttr "hidden" "")
         ]
@@ -300,7 +326,7 @@ in
         path,
         mobile ? false,
         ...
-      }:
+      }@context:
       let
         menu = navigationMenu (pageKey path);
       in
@@ -324,7 +350,19 @@ in
                 (attrs.class "docs-mobile-nav-panel")
                 (attrs.id "docs-mobile-navigation")
               ]
-              [ menu ])
+              [
+                # On small screens the repository link is moved from the
+                # topbar to the top of the navigation.
+                (div
+                  [ (attrs.class "docs-mobile-nav-header") ]
+                  [
+                    (partials.docsRepository context)
+                    (partials.docsMobileNavClose context)
+                  ]
+                )
+                menu
+              ]
+            )
           ]
       else
         aside

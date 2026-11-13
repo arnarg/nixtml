@@ -152,16 +152,49 @@
   margin-bottom: 2rem;
 }
 
-.docs-mobile-nav-toggle {
-  position: relative;
-  z-index: 42;
+.docs-mobile-nav-toggle,
+.docs-mobile-nav-close {
   margin: 0;
-  margin-inline-end: auto;
   border: 1px solid var(--bulma-border);
   border-radius: var(--bulma-radius);
 
-  &.is-active {
-    background-color: var(--bulma-scheme-main);
+  &[hidden] {
+    display: none;
+  }
+}
+
+.docs-mobile-nav-toggle {
+  margin-inline-end: auto;
+}
+
+// Repository link and close button at the top of the off-canvas navigation.
+.docs-mobile-nav-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  // The same size as the buttons in the topbar.
+  .button {
+    height: var(--bulma-control-height);
+    margin-bottom: 0;
+    font-size: 1rem;
+  }
+
+  // The navigation is too narrow for the repository name next to its stats,
+  // it stays readable by screen readers.
+  .docs-repo-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .docs-mobile-nav-close {
+    flex-shrink: 0;
+    margin-inline-start: auto;
   }
 }
 
@@ -193,7 +226,7 @@
     z-index: 41;
     box-sizing: border-box;
     width: min(22rem, calc(100vw - 3rem));
-    padding: 4.5rem 1.5rem 1.5rem;
+    padding: 1.5rem;
     overflow-y: auto;
     overscroll-behavior: contain;
     visibility: hidden;
@@ -513,8 +546,9 @@ $admonition-colors: (
 }
 
 // Bar in the top of the hero. It's in the top right corner on desktop. On
-// mobile it spans the page, with the navigation toggle on the left and the
-// repository link and color scheme switcher on the right.
+// touch devices it spans the page, with the navigation toggle on the left and
+// the color scheme switcher on the right. The repository link is displayed at
+// the top of the off-canvas navigation instead.
 .docs-topbar {
   position: absolute;
   top: 0;
@@ -537,13 +571,14 @@ $admonition-colors: (
     font-size: 0.9rem;
   }
 
-  @include mixins.mobile {
+  @include mixins.touch {
     position: static;
-    // Avoid trapping the navigation toggle below the off-canvas panel. As a
-    // flex item, the topbar's desktop z-index creates a stacking context.
-    z-index: auto;
     justify-content: flex-end;
     margin: 0 1.5rem 0rem;
+
+    .docs-repo {
+      display: none;
+    }
 
     .button {
       font-size: 1rem;

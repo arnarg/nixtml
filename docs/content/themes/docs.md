@@ -74,6 +74,7 @@ Pages in sections with `pager = true` link to the previous and next page in the 
 | `navigation.links` | `[ ]` | Extra links at the end of the navigation, as `{ title; url; }` |
 | `navigation.linksTitle` | `"Links"` | Title above `links` |
 | `navigation.mobileLabel` | `"Browse documentation"` | Label of the collapsible navigation on small screens |
+| `navigation.closeLabel` | `"Close navigation"` | Label of the button closing the navigation on small screens |
 | `pager.previousLabel` | `"Previous"` | Label of the link to the previous page |
 | `pager.nextLabel` | `"Next"` | Label of the link to the next page |
 
@@ -133,7 +134,7 @@ The theme can link to the project's repository in the top of every page, next to
 themes.docs.repository.url = "https://github.com/arnarg/nixtml";
 ```
 
-The link displays the provider's icon and the repository's name, followed by its latest release, number of stars and number of forks. On small screens, only the icon and stats are displayed.
+The link displays the provider's icon and the repository's name, followed by its latest release, number of stars and number of forks. On small screens, it's displayed at the top of the navigation instead, with only the icon and stats.
 
 The stats are fetched from the provider's API by the reader's browser, and cached in their browser for an hour. This means readers' browsers send requests to the provider, which can be turned off with `repository.stats.enable = false`, leaving only the link. Values that can't be fetched, e.g. because the API's rate limit is reached, are left out. Repositories without releases don't display a version.
 

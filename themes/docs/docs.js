@@ -76,12 +76,14 @@
   //
   // The menu is visible in normal flow until this feature is initialized, so
   // it remains available when JavaScript is disabled. Once enhanced, Bulma's
-  // navbar burger toggles the off-canvas menu and its `is-active` state.
+  // navbar burger opens the off-canvas menu, and the close button in its top
+  // right corner, the overlay or the Escape key closes it.
   var setupMobileNavigation = function (container) {
     var root = document.documentElement;
     var toggle = document.querySelector(".docs-mobile-nav-toggle");
     var overlay = container.querySelector(".docs-mobile-nav-overlay");
     var sidebar = container.querySelector(".docs-mobile-nav-panel");
+    var close = container.querySelector(".docs-mobile-nav-close");
     if (!toggle || !overlay || !sidebar) {
       return;
     }
@@ -91,13 +93,14 @@
       'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
     var focusableElements = function () {
-      return [toggle].concat(Array.prototype.slice.call(sidebar.querySelectorAll(focusableSelector)));
+      return Array.prototype.filter.call(sidebar.querySelectorAll(focusableSelector), function (element) {
+        return !element.hidden;
+      });
     };
 
     var setOpen = function (value, restoreFocus) {
       open = value;
       container.classList.toggle("is-active", open);
-      toggle.classList.toggle("is-active", open);
       toggle.setAttribute("aria-expanded", open ? "true" : "false");
       root.classList.toggle("docs-mobile-nav-open", open);
 
@@ -105,7 +108,7 @@
         sidebar.removeAttribute("aria-hidden");
         sidebar.removeAttribute("inert");
         var elements = focusableElements();
-        (elements[1] || toggle).focus();
+        (elements[0] || sidebar).focus();
       } else {
         sidebar.setAttribute("aria-hidden", "true");
         sidebar.setAttribute("inert", "");
@@ -118,6 +121,11 @@
     toggle.addEventListener("click", function () {
       setOpen(!open, true);
     });
+    if (close) {
+      close.addEventListener("click", function () {
+        setOpen(false, true);
+      });
+    }
     overlay.addEventListener("click", function () {
       setOpen(false, true);
     });
@@ -140,20 +148,17 @@
         return;
       }
 
+      // Keep focus within the open menu.
       var elements = focusableElements();
       var first = elements[0];
       var last = elements[elements.length - 1];
-      if (elements.length === 1) {
+      var outside = !sidebar.contains(document.activeElement);
+      if (elements.length === 0) {
         event.preventDefault();
-        toggle.focus();
-      } else if (
-        event.shiftKey &&
-        (document.activeElement === first ||
-          (!container.contains(document.activeElement) && document.activeElement !== toggle))
-      ) {
+      } else if (event.shiftKey && (outside || document.activeElement === first)) {
         event.preventDefault();
         last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
+      } else if (!event.shiftKey && (outside || document.activeElement === last)) {
         event.preventDefault();
         first.focus();
       }
@@ -169,6 +174,9 @@
 
     container.classList.add("is-enhanced");
     toggle.hidden = false;
+    if (close) {
+      close.hidden = false;
+    }
     setOpen(false, false);
   };
 
@@ -207,7 +215,17 @@
     });
   };
 
+  var pendingFacts = {};
+
   var fetchFacts = function (provider, api, version) {
+    var key = api + " " + version;
+    if (!pendingFacts[key]) {
+      pendingFacts[key] = requestFacts(provider, api, version);
+    }
+    return pendingFacts[key];
+  };
+
+  var requestFacts = function (provider, api, version) {
     var repository = fetchJSON(api).then(function (info) {
       return { stars: info[provider.stars], forks: info[provider.forks] };
     });
