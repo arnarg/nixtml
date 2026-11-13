@@ -348,7 +348,7 @@ in
   config = {
     website.files = lib.concatMapAttrs (
       n: v:
-      lib.optionalAttrs (v.rss.enable) (
+      lib.optionalAttrs v.rss.enable (
         {
           ${v.rss.path}.text = v.rss.result;
         }
