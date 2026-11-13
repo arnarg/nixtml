@@ -29,7 +29,8 @@
     var key = switcher.dataset.storageKey;
     var fallback = switcher.dataset.default;
     var schemes = ["system", "light", "dark"];
-    var buttons = switcher.querySelectorAll("[data-color-scheme]");
+    var button = switcher.querySelector("[data-color-scheme]");
+    var icon = button.querySelector(".docs-icon");
 
     var load = function () {
       var scheme = storage.get(key);
@@ -43,17 +44,21 @@
         root.setAttribute("data-theme", scheme);
       }
 
-      buttons.forEach(function (button) {
-        button.setAttribute("aria-pressed", String(button.dataset.colorScheme === scheme));
+      var next = schemes[(schemes.indexOf(scheme) + 1) % schemes.length];
+
+      button.dataset.colorScheme = scheme;
+      button.setAttribute("aria-label", button.getAttribute("data-label-" + scheme));
+      button.title = button.getAttribute("data-label-" + scheme);
+      schemes.forEach(function (name) {
+        icon.classList.toggle("is-" + name, name === next);
       });
     };
 
-    buttons.forEach(function (button) {
-      button.addEventListener("click", function () {
-        var scheme = button.dataset.colorScheme;
-        storage.set(key, scheme);
-        apply(scheme);
-      });
+    button.addEventListener("click", function () {
+      var current = schemes.indexOf(button.dataset.colorScheme);
+      var scheme = schemes[(current + 1) % schemes.length];
+      storage.set(key, scheme);
+      apply(scheme);
     });
 
     // Keep other open pages of the website in sync.
