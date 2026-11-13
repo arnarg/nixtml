@@ -36,10 +36,10 @@ The following features are enabled by default. Each has a setting under `website
 | `definition` | `pymdownx.blocks.definition` | `/// define` definition lists |
 | `caption` | `pymdownx.blocks.caption` | `/// caption` blocks |
 
-For example, a fenced code block can specify its language:
+For example, a fenced code block can specify its language and, optionally, a title such as a file name:
 
 ````markdown
-```nix
+```nix title="flake.nix"
 {
   website.sitemap.enable = true;
 }

@@ -15,8 +15,7 @@ The built-in Minima theme supplies the layouts and styling, so no template code 
 
 Install Nix and enable the `nix-command` and `flakes` experimental features:
 
-```ini
-# ~/.config/nix/nix.conf
+```ini title="~/.config/nix/nix.conf"
 experimental-features = nix-command flakes
 ```
 
@@ -44,7 +43,7 @@ my-website/
 
 Create `flake.nix`:
 
-```nix
+```nix title="flake.nix"
 {
   description = "My website generated with nixtml";
 
@@ -107,7 +106,7 @@ Create `flake.nix`:
 
 Create `content/index.md`:
 
-```markdown
+```markdown title="content/index.md"
 ---
 title: Home
 description: Welcome to my website
@@ -120,7 +119,7 @@ It uses **Nix** for declarative configuration and reproducible builds.
 
 Create `content/about.md`:
 
-```markdown
+```markdown title="content/about.md"
 ---
 title: About
 description: About this website

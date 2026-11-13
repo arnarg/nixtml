@@ -24,7 +24,7 @@ website.collections.blog = {
 
 Then assign terms in each item's frontmatter:
 
-```markdown
+```markdown title="content/blog/posts/getting-started.md"
 ---
 title: Getting started with nixtml
 date: 2026-01-19T10:00:00

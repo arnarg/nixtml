@@ -3,6 +3,7 @@
 // Bulma's utilities are configured by the generated entrypoint before this
 // module is loaded, so loading them here uses the configured values.
 @use "bulma/sass/utilities/mixins";
+@use "sass:map";
 @use "icons";
 
 @forward "bulma/sass/base";
@@ -154,6 +155,43 @@ div.highlight {
 
   pre {
     border-radius: .5em;
+  }
+
+  // Code block titles, e.g. ```nix title="flake.nix"
+  .filename {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    padding: 0.625em 1.5em;
+    border-bottom: 1px solid var(--bulma-border-weak);
+    border-radius: .5em .5em 0 0;
+    background-color: var(--bulma-pre-background);
+    color: var(--bulma-text-weak);
+    font-family: var(--bulma-code-family);
+    font-size: var(--bulma-pre-font-size);
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+
+    &::before {
+      content: "";
+      flex-shrink: 0;
+      width: 1em;
+      height: 1em;
+      background-color: currentColor;
+      mask: url(map.get(icons.$icons, "file")) center / contain no-repeat;
+    }
+  }
+
+  > .filename + pre {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  // With table line numbers the title is wrapped in a header cell.
+  th.filename {
+    padding: 0;
+    border: 0;
+    text-align: left;
   }
 }
 

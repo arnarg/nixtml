@@ -78,7 +78,7 @@ The special root collection path `"posts"` creates its listing at `index.html`. 
 
 Give each item a title and an unquoted ISO 8601 datetime:
 
-```markdown
+```markdown title="content/blog/posts/first-post.md"
 ---
 title: My first post
 date: 2026-01-19T10:00:00

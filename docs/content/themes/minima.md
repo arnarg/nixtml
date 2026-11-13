@@ -73,7 +73,7 @@ Minima supports both ordinary content homepages and a homepage containing the la
 
 With no root collection, `content/index.md` uses Minima's home layout:
 
-```markdown
+```markdown title="content/index.md"
 ---
 title: Welcome
 ---
