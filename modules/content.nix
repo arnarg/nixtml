@@ -314,6 +314,7 @@ let
     builtins.toJSON {
       inherit (processors.md.settings) dateFormat;
       inherit (markdownExtensions) extensions configs;
+      relativeLinks = processors.md.settings.relativeLinks.enable;
     }
   );
 
@@ -506,6 +507,23 @@ in
                   Extra config passed to the `pymdownx.highlight` extension. Takes precedence over other highlight settings.
 
                   See: https://facelessuser.github.io/pymdown-extensions/extensions/highlight/#options
+                '';
+              };
+            };
+
+            relativeLinks = {
+              enable = mkOption {
+                type = types.bool;
+                default = false;
+                description = ''
+                  Whether to resolve relative links and image sources against the Markdown file's location, like on GitHub, instead of the page's URL.
+
+                  Links to other Markdown files are rewritten to the URL of their page, e.g. `[Setup](./setup.md#install)` in `guide/intro.md` becomes `../setup/#install`
+                  on the page at `guide/intro/`. Other relative URLs, e.g. images in `website.static.dir`, are rewritten to stay correct from the page's URL, so
+                  `![Diagram](../images/diagram.png)` in `guide/intro.md` points to `/images/diagram.png`.
+
+                  Absolute URLs, URLs starting with `/` and links to anchors on the same page are left alone. Pages are expected at their default path, i.e. `guide/setup.md`
+                  at `guide/setup/` and `guide/index.md` at `guide/`. Links to missing files are not detected.
                 '';
               };
             };
@@ -848,7 +866,7 @@ in
                     let
                       inherit (processors.${config.processor}) processor;
                     in
-                    processor (lib.concatStringsSep "-" (lib.splitString "/" name)) config.source;
+                    processor name config.source;
                 };
               }
             )
@@ -919,8 +937,8 @@ in
         processors.md.processor =
           name: path:
           let
-            jsonData = pkgs.runCommand "content-data-${name}.json" { } ''
-              ${pythonEnv}/bin/python ${./processContent.py} ${toString path} ${processorOptions} > $out
+            jsonData = pkgs.runCommand "content-data-${lib.replaceStrings [ "/" ] [ "-" ] name}.json" { } ''
+              ${pythonEnv}/bin/python ${./processContent.py} ${toString path} ${processorOptions} ${lib.escapeShellArg name} > $out
             '';
 
             contentData = lib.importJSON jsonData;

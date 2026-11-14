@@ -164,6 +164,33 @@ website.content.pages."about" = {
 
 The attribute name determines the output page path. This mechanism is also useful for generated Markdown, such as the configuration reference on this site.
 
+## Links Between Pages
+
+Relative URLs in Markdown are resolved against the page's URL by default, so a link from `guides/first-steps.md` to `about.md` has to be written as `../../about/`. Enable `relativeLinks` to write them relative to the Markdown file instead, the way they work when browsing the files on GitHub:
+
+```nix
+nixtml.lib.mkWebsite {
+  # Other settings...
+  content.processors.md.settings.relativeLinks.enable = true;
+}
+```
+
+Links to Markdown files are then rewritten to the URL of their page, keeping any `#anchor`:
+
+```markdown
+<!-- In guides/first-steps.md -->
+Read [about this site](../about.md#history) or the [next guide](./second-steps.md).
+```
+
+```html
+<a href="../../about/#history">about this site</a>
+<a href="../second-steps/">next guide</a>
+```
+
+Other relative URLs, such as images from the static directory, are rewritten the same way, so `![Cover](../images/cover.png)` in `guides/first-steps.md` points to `images/cover.png` at the root of the site. Absolute URLs, URLs starting with `/` and `#anchor` links are left alone.
+
+The rewrite assumes pages are at their default path, and links to files that don't exist are not reported.
+
 ## Static Assets
 
 Set `static.dir` to copy files into the final website without processing them:

@@ -1,8 +1,11 @@
 import json
+import posixpath
 import sys
 import yaml
+from urllib.parse import urlsplit, urlunsplit
 from markdown import Markdown, Extension
 from markdown.preprocessors import Preprocessor
+from markdown.treeprocessors import Treeprocessor
 from typing import List, Tuple
 from datetime import datetime
 
@@ -56,9 +59,86 @@ class YamlMetadataPreprocessor(Preprocessor):
         return meta_lines, lines
 
 
-def process_post(post: str, options: dict) -> str:
+class RelativeLinksExtension(Extension):
+    """Resolves relative URLs against the source file instead of the page URL.
+
+    Links to Markdown files are rewritten to the URL of their page.
+    """
+
+    def __init__(self, page: str, **kwargs):
+        self.page = page
+        super().__init__(**kwargs)
+
+    def extendMarkdown(self, md: Markdown) -> None:
+        md.registerExtension(self)
+        # After inline processing and attr_list, so attributes are final.
+        md.treeprocessors.register(
+            RelativeLinksTreeprocessor(md, self.page), "nixtml_relative_links", 1
+        )
+
+
+def page_dir(name: str) -> str:
+    """Directory of a page's output, e.g. `a/b` and `a/b/index` are at `a/b/`."""
+    if posixpath.basename(name) == "index":
+        return posixpath.dirname(name)
+    return name
+
+
+def rewrite_url(url: str, source_dir: str, output_dir: str) -> str:
+    parts = urlsplit(url)
+    path = parts.path
+    if parts.scheme or parts.netloc or not path or path.startswith("/"):
+        return url
+
+    target = posixpath.normpath(posixpath.join(source_dir, path))
+    if target == ".." or target.startswith("../"):
+        # Outside of the site root, leave it to the author.
+        return url
+
+    if target.endswith(".md"):
+        target = page_dir(target[:-3])
+        if target == "index":
+            target = ""
+        is_dir = True
+    else:
+        if target == ".":
+            target = ""
+        is_dir = path.endswith("/") or target == ""
+
+    rel = posixpath.relpath(target or ".", output_dir or ".")
+    if rel == ".":
+        rel = "./" if is_dir else rel
+    elif is_dir:
+        rel += "/"
+
+    return urlunsplit(("", "", rel, parts.query, parts.fragment))
+
+
+class RelativeLinksTreeprocessor(Treeprocessor):
+    def __init__(self, md, page: str):
+        super().__init__(md)
+        self.source_dir = posixpath.dirname(page)
+        self.output_dir = page_dir(page)
+        if self.output_dir == "index":
+            self.output_dir = ""
+
+    def run(self, root):
+        for el in root.iter():
+            attr = {"a": "href", "img": "src"}.get(el.tag)
+            if attr is None:
+                continue
+            url = el.get(attr)
+            if url is not None:
+                el.set(attr, rewrite_url(url, self.source_dir, self.output_dir))
+
+
+def process_post(post: str, options: dict, page: str) -> str:
+    extensions = [YamlMetadataExtension(), *options["extensions"]]
+    if options.get("relativeLinks"):
+        extensions.append(RelativeLinksExtension(page))
+
     md = Markdown(
-        extensions=[YamlMetadataExtension(), *options["extensions"]],
+        extensions=extensions,
         extension_configs=options["configs"],
     )
     rendered = md.convert(post)
@@ -88,6 +168,8 @@ if __name__ == "__main__":
     with open(optionsPath, "r") as f:
         options = json.load(f)
 
-    data = process_post(postData, options)
+    page = sys.argv[3]
+
+    data = process_post(postData, options, page)
 
     print(json.dumps(data))
