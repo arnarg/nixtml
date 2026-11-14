@@ -214,6 +214,8 @@ themes.docs.sassVariables = {
 };
 ```
 
+The width of the content and of the sidebar are set by the `--docs-content-width` and `--docs-sidebar-width` CSS variables, `75ch` and `18rem` by default. Pages are as wide as the two together, so the bar at the top lines up with the edges of the sidebar and the content.
+
 `extraScss` is appended to the theme's stylesheet, after the code highlighting styles. Bulma's modules can be loaded with `@use`:
 
 ```nix

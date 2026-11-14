@@ -472,10 +472,7 @@ in
                       [
                         (div
                           [
-                            (attrs.classes [
-                              "container"
-                              "is-max-widescreen"
-                            ])
+                            (attrs.class "docs-container")
                           ]
                           [
                             (partials.docsSidebar (context // { mobile = true; }))
@@ -653,10 +650,7 @@ in
               [
                 (div
                   [
-                    (attrs.classes [
-                      "container"
-                      "is-max-widescreen"
-                    ])
+                    (attrs.class "docs-container")
                   ]
                   [
                     (partials.docsMobileNavToggle context)

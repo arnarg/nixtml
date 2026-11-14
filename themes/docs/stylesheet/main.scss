@@ -50,12 +50,34 @@
   }
 }
 
+// The width of the content, limited to keep lines readable, and of the
+// sidebar on desktop. Pages are only as wide as the two, so the items in the
+// topbar line up with the edges of the sidebar and the content.
+:root {
+  --docs-content-width: 75ch;
+  --docs-sidebar-width: 18rem;
+}
+
+.docs-container {
+  width: 100%;
+  max-width: var(--docs-content-width);
+  margin-inline: auto;
+
+  @include mixins.desktop {
+    max-width: calc(var(--docs-sidebar-width) + var(--docs-content-width));
+  }
+}
+
 .docs-section {
   padding-top: 2rem;
 }
 
 .docs-sidebar {
   --bulma-menu-label-spacing: 1.5rem;
+
+  // Includes the column's padding, so the content gets the remaining width.
+  flex: none;
+  width: var(--docs-sidebar-width);
 
   position: sticky;
   top: 1.5rem;
@@ -76,7 +98,7 @@
 
   > .title,
   > .content {
-    max-inline-size: 75ch;
+    max-inline-size: var(--docs-content-width);
   }
 }
 
@@ -90,7 +112,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1rem;
-  max-inline-size: 75ch;
+  max-inline-size: var(--docs-content-width);
   margin-top: 3rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--bulma-border);
@@ -534,9 +556,15 @@ $admonition-colors: (
 // the navigation toggle is in front of the title, and the repository link is
 // displayed at the top of the off-canvas navigation instead.
 .docs-topbar {
+  // The same horizontal padding as Bulma's sections, so the bar's items
+  // line up with the page's content when the window is narrower than it.
   padding: 1rem 1.5rem;
 
-  > .container,
+  @include mixins.desktop {
+    padding-inline: 3rem;
+  }
+
+  > .docs-container,
   .docs-topbar-end {
     display: flex;
     align-items: center;
@@ -563,7 +591,7 @@ $admonition-colors: (
   }
 
   @include mixins.touch {
-    > .container {
+    > .docs-container {
       gap: 0.75rem;
     }
 
@@ -692,7 +720,7 @@ $admonition-colors: (
 }
 
 .docs-edit-link {
-  max-inline-size: 75ch;
+  max-inline-size: var(--docs-content-width);
   margin-top: 2rem;
   font-size: 0.875rem;
 }

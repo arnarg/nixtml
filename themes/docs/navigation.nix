@@ -370,7 +370,6 @@ in
             (attrs.classes [
               "docs-sidebar"
               "column"
-              "is-one-quarter-desktop"
               "is-hidden-touch"
             ])
           ]
