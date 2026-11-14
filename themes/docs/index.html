@@ -423,6 +423,12 @@
   compact<span class="o">.</span><span class="ss">source</span> <span class="o">=</span> <span class="l">./icon.svg</span><span class="p">;</span>
 <span class="p">};</span>
 </code></pre></div>
+							<p><code>hero.content</code> is HTML displayed below the logo on the landing page, such as badges or a tagline:</p>
+							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span>docs<span class="o">.</span>hero<span class="o">.</span><span class="ss">content</span> <span class="o">=</span> <span class="s s-Multiline">''</span>
+<span class="s s-Multiline">  &lt;p&gt;Documentation for my project.&lt;/p&gt;</span>
+<span class="s s-Multiline">''</span><span class="p">;</span>
+</code></pre></div>
+							<p>The logo's size can be changed with <a href="#customizing-styles"><code>extraScss</code></a>, through the <code>docs-hero-logo</code> class.</p>
 							<p>The colors are <a href="https://bulma.io/documentation/customize/concepts/">Bulma's colors</a>, given as Sass color values. <code>primary</code> and <code>link</code> default to the colors of this website, and setting any color to <code>null</code> uses Bulma's default:</p>
 							<table>
 								<thead>
@@ -610,7 +616,7 @@
 <span class="s s-Multiline">  @use "bulma/sass/utilities/mixins";</span>
 
 <span class="s s-Multiline">  @include mixins.mobile {</span>
-<span class="s s-Multiline">    .docs-hero img {</span>
+<span class="s s-Multiline">    .docs-hero-logo {</span>
 <span class="s s-Multiline">      width: 10rem;</span>
 <span class="s s-Multiline">    }</span>
 <span class="s s-Multiline">  }</span>
@@ -640,7 +646,7 @@
 									</tr>
 									<tr>
 										<td><code>docsHero</code></td>
-										<td>Logo, or title without one, on the landing page</td>
+										<td>Logo, or title without one, and <code>hero.content</code> on the landing page</td>
 									</tr>
 									<tr>
 										<td><code>docsMobileNavToggle</code></td>
