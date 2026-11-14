@@ -26,18 +26,27 @@
   .hero-body {
     padding: 1rem;
   }
+}
 
-  img {
-    display: block;
-    width: min(100%, 18rem);
-    height: auto;
-    margin-inline: auto;
-  }
+// Not nested in `.docs-hero`, so `extraScss` can change its size with the
+// same selector.
+.docs-hero-logo {
+  display: block;
+  width: min(100%, 18rem);
+  height: auto;
+  margin-inline: auto;
 
   @include mixins.mobile {
-    img {
-      width: min(100%, 15rem);
-    }
+    width: min(100%, 15rem);
+  }
+}
+
+// Content below the logo, e.g. badges.
+.docs-hero-content {
+  margin-top: 1.5rem;
+
+  img {
+    vertical-align: middle;
   }
 }
 

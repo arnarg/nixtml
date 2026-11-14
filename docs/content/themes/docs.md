@@ -91,6 +91,16 @@ themes.docs.logo = {
 };
 ```
 
+`hero.content` is HTML displayed below the logo on the landing page, such as badges or a tagline:
+
+```nix
+themes.docs.hero.content = ''
+  <p>Documentation for my project.</p>
+'';
+```
+
+The logo's size can be changed with [`extraScss`](#customizing-styles), through the `docs-hero-logo` class.
+
 The colors are [Bulma's colors](https://bulma.io/documentation/customize/concepts/), given as Sass color values. `primary` and `link` default to the colors of this website, and setting any color to `null` uses Bulma's default:
 
 | Option | Default |
@@ -211,7 +221,7 @@ themes.docs.extraScss = ''
   @use "bulma/sass/utilities/mixins";
 
   @include mixins.mobile {
-    .docs-hero img {
+    .docs-hero-logo {
       width: 10rem;
     }
   }
@@ -227,7 +237,7 @@ The docs theme's layouts and partials can be replaced individually, as described
 | `head` and `meta` | Contents of `<head>` |
 | `docsTopbar` | Bar at the top of every page, containing the mobile navigation toggle, `docsBrand`, `docsRepository` and `docsColorSchemeSwitcher` |
 | `docsBrand` | Site title linking to the landing page, with the compact logo in front of it. Empty on the landing page |
-| `docsHero` | Logo, or title without one, on the landing page |
+| `docsHero` | Logo, or title without one, and `hero.content` on the landing page |
 | `docsMobileNavToggle` | Hamburger button for the off-canvas navigation on small screens |
 | `docsRepository` | Repository link and stats |
 | `docsColorSchemeSwitcher` | Color scheme buttons |

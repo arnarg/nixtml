@@ -345,7 +345,7 @@ in
       example = ''
         @use "bulma/sass/utilities/mixins";
 
-        .docs-hero img {
+        .docs-hero-logo {
           width: 12rem;
         }
       '';
@@ -370,6 +370,15 @@ in
         default = "Edit this page";
         description = "Text of the edit link.";
       };
+    };
+
+    hero.content = mkOption {
+      type = with types; nullOr str;
+      default = null;
+      example = ''
+        <p>Documentation for my project.</p>
+      '';
+      description = "HTML content displayed below the logo on the landing page, such as badges or a tagline.";
     };
 
     footer = mkOption {
@@ -544,6 +553,7 @@ in
                           (
                             if logoFile != null then
                               img [
+                                (attrs.class "docs-hero-logo")
                                 (attrs.src (baseURI + logoFile))
                                 (attrs.alt cfg.logo.alt)
                               ]
@@ -557,6 +567,9 @@ in
                                 ]
                                 [ siteTitle ]
                           )
+                          (lib.optionalString (cfg.hero.content != null) (
+                            div [ (attrs.class "docs-hero-content") ] [ cfg.hero.content ]
+                          ))
                         ]
                       )
                     ]
