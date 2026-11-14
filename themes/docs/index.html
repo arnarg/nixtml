@@ -36,7 +36,7 @@
 	</head>
 	<body>
 		<header class="docs-topbar">
-			<div class="container is-max-widescreen">
+			<div class="docs-container">
 				<button type="button" class="navbar-burger docs-mobile-nav-toggle is-hidden-desktop" aria-label="Browse documentation" aria-expanded="false" aria-controls="docs-mobile-navigation" hidden="">
 					<span aria-hidden="true">
 					</span>
@@ -101,7 +101,7 @@
 		</header>
 
 		<section class="section docs-section">
-			<div class="container is-max-widescreen">
+			<div class="docs-container">
 				<div class="docs-mobile-nav is-hidden-desktop">
 					<div class="docs-mobile-nav-overlay" aria-hidden="true">
 					</div>
@@ -234,7 +234,7 @@
 					</aside>
 				</div>
 				<div class="columns">
-					<aside class="docs-sidebar column is-one-quarter-desktop is-hidden-touch">
+					<aside class="docs-sidebar column is-hidden-touch">
 						<nav class="menu" aria-label="Documentation">
 							<p class="menu-label">
 								Guides
@@ -611,6 +611,7 @@
   <span class="ss">weight-extrabold</span> <span class="o">=</span> <span class="s2">"700"</span><span class="p">;</span>
 <span class="p">};</span>
 </code></pre></div>
+							<p>The width of the content and of the sidebar are set by the <code>--docs-content-width</code> and <code>--docs-sidebar-width</code> CSS variables, <code>75ch</code> and <code>18rem</code> by default. Pages are as wide as the two together, so the bar at the top lines up with the edges of the sidebar and the content.</p>
 							<p><code>extraScss</code> is appended to the theme's stylesheet, after the code highlighting styles. Bulma's modules can be loaded with <code>@use</code>:</p>
 							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span>docs<span class="o">.</span><span class="ss">extraScss</span> <span class="o">=</span> <span class="s s-Multiline">''</span>
 <span class="s s-Multiline">  @use "bulma/sass/utilities/mixins";</span>
