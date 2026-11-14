@@ -1056,6 +1056,21 @@
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
 							</ul>
+							<h2 id="websitecontentprocessorsmdsettingsrelativelinksenable">website.content.processors.md.settings.relativeLinks.enable<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingsrelativelinksenable" title="Permanent link">#</a></h2>
+							<p>Whether to resolve relative links and image sources against the Markdown file's location, like on GitHub, instead of the page's URL.</p>
+							<p>Links to other Markdown files are rewritten to the URL of their page, e.g. <code>[Setup](./setup.md#install)</code> in <code>guide/intro.md</code> becomes <code>../setup/#install</code>
+								on the page at <code>guide/intro/</code>. Other relative URLs, e.g. images in <code>website.static.dir</code>, are rewritten to stay correct from the page's URL, so
+								<code>![Diagram](../images/diagram.png)</code> in <code>guide/intro.md</code> points to <code>/images/diagram.png</code>.</p>
+							<p>Absolute URLs, URLs starting with <code>/</code> and links to anchors on the same page are left alone. Pages are expected at their default path, i.e. <code>guide/setup.md</code>
+								at <code>guide/setup/</code> and <code>guide/index.md</code> at <code>guide/</code>. Links to missing files are not detected.</p>
+							<p><strong><em>Type:</em></strong>
+							boolean</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">false</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/content.nix">&lt;nixtml/modules/content.nix&gt;</a></li>
+							</ul>
 							<h2 id="websitecontentprocessorsmdsettingstabalternatestyle">website.content.processors.md.settings.tab.alternateStyle<a class="headerlink mx-2" href="#websitecontentprocessorsmdsettingstabalternatestyle" title="Permanent link">#</a></h2>
 							<p>Whether to use the alternate tab markup, which is easier to style and handles overflowing tabs better.</p>
 							<p>See: <a href="https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/tab/#alternate-style">https://facelessuser.github.io/pymdown-extensions/extensions/blocks/plugins/tab/#alternate-style</a></p>

@@ -446,6 +446,22 @@ metadata<span class="o">.</span>tags <span class="ow">or</span> <span class="p">
 <span class="p">};</span>
 </code></pre></div>
 							<p>The attribute name determines the output page path. This mechanism is also useful for generated Markdown, such as the configuration reference on this site.</p>
+							<h2 id="links-between-pages">Links Between Pages<a class="headerlink mx-2" href="#links-between-pages" title="Permanent link">#</a></h2>
+							<p>Relative URLs in Markdown are resolved against the page's URL by default, so a link from <code>guides/first-steps.md</code> to <code>about.md</code> has to be written as <code>../../about/</code>. Enable <code>relativeLinks</code> to write them relative to the Markdown file instead, the way they work when browsing the files on GitHub:</p>
+							<div class="highlight"><pre><span></span><code>nixtml<span class="o">.</span>lib<span class="o">.</span>mkWebsite <span class="p">{</span>
+  <span class="c1"># Other settings...</span>
+  content<span class="o">.</span>processors<span class="o">.</span>md<span class="o">.</span>settings<span class="o">.</span>relativeLinks<span class="o">.</span><span class="ss">enable</span> <span class="o">=</span> <span class="no">true</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+							<p>Links to Markdown files are then rewritten to the URL of their page, keeping any <code>#anchor</code>:</p>
+							<div class="highlight"><pre><span></span><code>&lt;!-- In guides/first-steps.md --&gt;
+Read [<span class="nt">about this site</span>](<span class="na">../about.md#history</span>) or the [<span class="nt">next guide</span>](<span class="na">./second-steps.md</span>).
+</code></pre></div>
+							<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"../../about/#history"</span><span class="p">&gt;</span>about this site<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"../second-steps/"</span><span class="p">&gt;</span>next guide<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</code></pre></div>
+							<p>Other relative URLs, such as images from the static directory, are rewritten the same way, so <code>![Cover](../images/cover.png)</code> in <code>guides/first-steps.md</code> points to <code>images/cover.png</code> at the root of the site. Absolute URLs, URLs starting with <code>/</code> and <code>#anchor</code> links are left alone.</p>
+							<p>The rewrite assumes pages are at their default path, and links to files that don't exist are not reported.</p>
 							<h2 id="static-assets">Static Assets<a class="headerlink mx-2" href="#static-assets" title="Permanent link">#</a></h2>
 							<p>Set <code>static.dir</code> to copy files into the final website without processing them:</p>
 							<div class="highlight"><pre><span></span><code>nixtml<span class="o">.</span>lib<span class="o">.</span>mkWebsite <span class="p">{</span>
