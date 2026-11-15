@@ -156,8 +156,15 @@
   }
 }
 
-// Without JavaScript, the mobile menu remains visible in normal flow. The
-// script adds `is-enhanced` before hiding it off screen and showing the burger.
+// Without JavaScript, the mobile menu remains visible in normal flow. When
+// scripting is enabled, hide the fallback before the script adds `is-enhanced`
+// and turns it into an off-canvas menu, avoiding a flash during page load.
+@media (scripting: enabled) {
+  .docs-mobile-nav:not(.is-enhanced) {
+    display: none;
+  }
+}
+
 .docs-mobile-nav {
   margin-bottom: 2rem;
 }
