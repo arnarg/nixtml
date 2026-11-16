@@ -169,11 +169,11 @@
   margin-bottom: 2rem;
 }
 
+// Square icon buttons, like the color scheme switcher.
 .docs-mobile-nav-toggle,
 .docs-mobile-nav-close {
-  margin: 0;
-  border: 1px solid var(--bulma-border);
-  border-radius: var(--bulma-radius);
+  aspect-ratio: 1;
+  padding: 0;
 
   &[hidden] {
     display: none;
@@ -647,6 +647,16 @@ $admonition-colors: (
   .button {
     aspect-ratio: 1;
     padding: 0;
+  }
+}
+
+// Icons in icon-only buttons fill more of the button than icons next to text.
+.docs-color-scheme,
+.docs-mobile-nav-toggle,
+.docs-mobile-nav-close {
+  .docs-icon {
+    width: 1.5em;
+    height: 1.5em;
   }
 }
 

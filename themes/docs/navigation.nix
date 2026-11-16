@@ -242,7 +242,8 @@ in
         [
           (attrs.type "button")
           (attrs.classes [
-            "navbar-burger"
+            "button"
+            "is-small"
             "docs-mobile-nav-toggle"
             "is-hidden-desktop"
           ])
@@ -251,7 +252,18 @@ in
           (attrs.aria "controls" "docs-mobile-navigation")
           (lib.mkAttr "hidden" "")
         ]
-        (lib.replicate 4 (span [ (attrs.aria "hidden" "true") ] [ ]))
+        [
+          (span
+            [
+              (attrs.classes [
+                "docs-icon"
+                "is-menu"
+              ])
+              (attrs.aria "hidden" "true")
+            ]
+            [ ]
+          )
+        ]
     );
 
     # Button in the top right corner of the off-canvas navigation, closing it.
@@ -262,15 +274,26 @@ in
         [
           (attrs.type "button")
           (attrs.classes [
-            "navbar-burger"
-            "is-active"
+            "button"
+            "is-small"
             "docs-mobile-nav-close"
           ])
           (attrs.aria "label" cfg.navigation.closeLabel)
           (attrs.aria "controls" "docs-mobile-navigation")
           (lib.mkAttr "hidden" "")
         ]
-        (lib.replicate 4 (span [ (attrs.aria "hidden" "true") ] [ ]))
+        [
+          (span
+            [
+              (attrs.classes [
+                "docs-icon"
+                "is-close"
+              ])
+              (attrs.aria "hidden" "true")
+            ]
+            [ ]
+          )
+        ]
     );
 
     docsPager = lib.mkDefault (
