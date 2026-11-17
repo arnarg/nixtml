@@ -428,21 +428,37 @@ in
 
       content.processors.md.settings.highlight = {
         noclasses = lib.mkDefault false;
-        style = lib.mkDefault [
-          { name = cfg.codeStyles.light; }
-          {
-            name = cfg.codeStyles.dark;
-            media = "prefers-color-scheme: dark";
-          }
-          {
-            name = cfg.codeStyles.light;
-            selector = ":where([data-theme=light], .theme-light) .highlight";
-          }
-          {
-            name = cfg.codeStyles.dark;
-            selector = ":where([data-theme=dark], .theme-dark) .highlight";
-          }
-        ];
+        style = lib.mkDefault (
+          let
+            systemSelector =
+              ":where(:root:not([data-theme]):not(.theme-light):not(.theme-dark)) .highlight";
+          in
+          [
+            {
+              name = cfg.codeStyles.light;
+              media = "prefers-color-scheme: no-preference";
+              selector = systemSelector;
+            }
+            {
+              name = cfg.codeStyles.light;
+              media = "prefers-color-scheme: light";
+              selector = systemSelector;
+            }
+            {
+              name = cfg.codeStyles.dark;
+              media = "prefers-color-scheme: dark";
+              selector = systemSelector;
+            }
+            {
+              name = cfg.codeStyles.light;
+              selector = ":where([data-theme=light], .theme-light) .highlight";
+            }
+            {
+              name = cfg.codeStyles.dark;
+              selector = ":where([data-theme=dark], .theme-dark) .highlight";
+            }
+          ]
+        );
       };
 
       layouts = {
