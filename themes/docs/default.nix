@@ -327,6 +327,35 @@ in
       };
     };
 
+    copyCode = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = ''
+          Whether to add a button copying the code to the clipboard to code blocks.
+
+          The button requires JavaScript and the Clipboard API, and isn't added when they're unavailable.
+        '';
+      };
+      labels = {
+        copy = mkOption {
+          type = types.str;
+          default = "Copy code";
+          description = "Accessible label of the copy button.";
+        };
+        copied = mkOption {
+          type = types.str;
+          default = "Copied to clipboard";
+          description = "Label announced after the code is copied.";
+        };
+        failed = mkOption {
+          type = types.str;
+          default = "Copying failed";
+          description = "Label announced when the code couldn't be copied.";
+        };
+      };
+    };
+
     sassVariables = mkOption {
       type = with types; attrsOf str;
       default = { };
@@ -430,8 +459,7 @@ in
         noclasses = lib.mkDefault false;
         style = lib.mkDefault (
           let
-            systemSelector =
-              ":where(:root:not([data-theme]):not(.theme-light):not(.theme-dark)) .highlight";
+            systemSelector = ":where(:root:not([data-theme]):not(.theme-light):not(.theme-dark)) .highlight";
           in
           [
             {
@@ -650,9 +678,7 @@ in
           pageHeader = lib.mkDefault (
             { metadata, ... }:
             [
-              (lib.optionalString (metadata ? title) (
-                h1 [ (attrs.classes [ "title" ]) ] [ metadata.title ]
-              ))
+              (lib.optionalString (metadata ? title) (h1 [ (attrs.classes [ "title" ]) ] [ metadata.title ]))
               (lib.optionalString (metadata ? description && metadata.description != "") (
                 p [ (attrs.classes [ "docs-lede" ]) ] [ metadata.description ]
               ))
@@ -756,12 +782,18 @@ in
             )
             ++ lib.optional cfg.colorSchemeSwitcher.enable (script [ ] [ colorSchemeScript ])
             ++ lib.optional scriptEnabled (
-              script
+              script (
                 [
                   (attrs.src (baseURI + "js/docs.js"))
                   (lib.mkAttr "defer" "")
                 ]
-                [ ]
+                ++ lib.optionals cfg.copyCode.enable [
+                  (attrs.data "copy-code" "")
+                  (attrs.data "label-copy" cfg.copyCode.labels.copy)
+                  (attrs.data "label-copied" cfg.copyCode.labels.copied)
+                  (attrs.data "label-copy-failed" cfg.copyCode.labels.failed)
+                ]
+              ) [ ]
             )
             ++ [ (partials.meta context) ]
           );

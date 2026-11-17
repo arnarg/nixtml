@@ -136,6 +136,15 @@ Websites served from the same origin share their browser storage. For example, a
 
 Code blocks are highlighted with the Pygments styles in `codeStyles.light` and `codeStyles.dark`, which default to `default` and `monokai`. Styles from other Python packages need the package in [`extraPythonPackages`](/nixtml/reference/markdown/#additional-python-packages).
 
+## Copying Code
+
+Code blocks have a button in their top right corner that copies the code to the clipboard. The button requires JavaScript and the Clipboard API, which browsers only provide on pages served over HTTPS or from `localhost`, and isn't added without them.
+
+| Option | Default | Purpose |
+| --- | --- | --- |
+| `copyCode.enable` | `true` | Add copy buttons to code blocks |
+| `copyCode.labels` | `copy`, `copied` and `failed` labels | Accessible label of the button, and the results announced after a click |
+
 ## Repository
 
 The theme can link to the project's repository in the bar at the top of every page, next to the color scheme buttons. Linking to a repository is opt-in:

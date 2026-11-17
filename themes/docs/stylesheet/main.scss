@@ -318,7 +318,8 @@ div.highlight {
     }
   }
 
-  > .filename + pre {
+  > .filename + pre,
+  > .filename + .docs-copy-code-container > pre {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
@@ -328,6 +329,79 @@ div.highlight {
     padding: 0;
     border: 0;
     text-align: left;
+  }
+}
+
+// Added around <pre> by the theme's script, with a copy button.
+.docs-copy-code-container {
+  position: relative;
+}
+
+.docs-copy-code {
+  position: absolute;
+  z-index: 1;
+  // Centered on the first line of code. With the font size and line height
+  // of the code, `em` and `lh` match those of <pre>, whose top padding is
+  // Bulma's `$content-pre-padding` and line height is set by Pygments'
+  // stylesheet.
+  // The same space is kept on the right.
+  --docs-copy-code-size: 1.875rem;
+  --docs-copy-code-offset: calc(1.25em + 0.5lh - var(--docs-copy-code-size) / 2);
+  top: var(--docs-copy-code-offset);
+  right: var(--docs-copy-code-offset);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--docs-copy-code-size);
+  height: var(--docs-copy-code-size);
+  padding: 0;
+  border: 1px solid var(--bulma-border);
+  border-radius: var(--bulma-radius);
+  background-color: var(--bulma-scheme-main);
+  color: var(--bulma-text-weak);
+  font-family: var(--bulma-code-family);
+  font-size: var(--bulma-pre-font-size);
+  line-height: 125%;
+  cursor: pointer;
+  opacity: 0.5;
+  transition:
+    color var(--bulma-duration) var(--bulma-easing),
+    border-color var(--bulma-duration) var(--bulma-easing),
+    opacity var(--bulma-duration) var(--bulma-easing);
+
+  &:hover,
+  &:focus-visible {
+    border-color: var(--bulma-border-hover);
+    color: var(--bulma-text-strong);
+    opacity: 1;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--bulma-link);
+    outline-offset: 2px;
+  }
+
+  &[data-state="success"] {
+    border-color: var(--bulma-success);
+    color: var(--bulma-success);
+    opacity: 1;
+  }
+
+  &[data-state="error"] {
+    border-color: var(--bulma-danger);
+    color: var(--bulma-danger);
+    opacity: 1;
+  }
+
+  .docs-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .docs-copy-code {
+    transition: none;
   }
 }
 
