@@ -18,7 +18,7 @@
 				} catch (error) {}
 			})();
 		</script>
-		<script src="/nixtml/js/docs.js" defer="">
+		<script src="/nixtml/js/docs.js" defer="" data-copy-code="" data-label-copy="Copy code" data-label-copied="Copied to clipboard" data-label-copy-failed="Copying failed">
 		</script>
 		<title>
 			Docs | nixtml
@@ -486,6 +486,29 @@
 </code></pre></div>
 							<p>Websites served from the same origin share their browser storage. For example, all GitHub Pages project sites of a user are served from <code>&lt;user&gt;.github.io</code>. The default <code>storageKey</code> includes <code>website.name</code> to keep their choices separate.</p>
 							<p>Code blocks are highlighted with the Pygments styles in <code>codeStyles.light</code> and <code>codeStyles.dark</code>, which default to <code>default</code> and <code>monokai</code>. Styles from other Python packages need the package in <a href="/nixtml/reference/markdown/#additional-python-packages"><code>extraPythonPackages</code></a>.</p>
+							<h2 id="copying-code">Copying Code<a class="headerlink mx-2" href="#copying-code" title="Permanent link">#</a></h2>
+							<p>Code blocks have a button in their top right corner that copies the code to the clipboard. The button requires JavaScript and the Clipboard API, which browsers only provide on pages served over HTTPS or from <code>localhost</code>, and isn't added without them.</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Option</th>
+										<th>Default</th>
+										<th>Purpose</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>copyCode.enable</code></td>
+										<td><code>true</code></td>
+										<td>Add copy buttons to code blocks</td>
+									</tr>
+									<tr>
+										<td><code>copyCode.labels</code></td>
+										<td><code>copy</code>, <code>copied</code> and <code>failed</code> labels</td>
+										<td>Accessible label of the button, and the results announced after a click</td>
+									</tr>
+								</tbody>
+							</table>
 							<h2 id="repository">Repository<a class="headerlink mx-2" href="#repository" title="Permanent link">#</a></h2>
 							<p>The theme can link to the project's repository in the bar at the top of every page, next to the color scheme buttons. Linking to a repository is opt-in:</p>
 							<div class="highlight"><pre><span></span><code>themes<span class="o">.</span>docs<span class="o">.</span>repository<span class="o">.</span><span class="ss">url</span> <span class="o">=</span> <span class="s2">"https://github.com/arnarg/nixtml"</span><span class="p">;</span>
