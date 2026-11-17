@@ -114,7 +114,7 @@ The `info`, `success`, `warning` and `danger` colors are also used by [admonitio
 
 ## Color Schemes
 
-The theme has a light and a dark color scheme, and follows the reader's system preference by default. Buttons in the top right corner let readers choose between the system, light and dark color schemes. Their choice is saved in their browser and applied before each page is rendered, so pages don't flash in the wrong color scheme.
+The theme has a light and a dark color scheme, and follows the reader's system preference by default. The button in the top right corner switches between light and dark, with its icon showing the scheme that a click will select. The reader's choice is saved in their browser and applied before each page is rendered, so pages don't flash in the wrong color scheme.
 
 | Option | Default | Purpose |
 | --- | --- | --- |

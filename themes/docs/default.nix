@@ -271,7 +271,7 @@ in
         type = types.bool;
         default = true;
         description = ''
-          Whether to display a button for cycling through the system, light and dark color schemes. The reader's choice is saved in their browser.
+          Whether to display a button for switching between light and dark color schemes. The initial scheme follows `colorScheme`, which defaults to the reader's system preference. The reader's choice is saved in their browser.
 
           The switcher requires JavaScript, and is hidden when it's unavailable.
         '';
