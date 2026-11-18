@@ -132,6 +132,20 @@ tags
 
 Collection items require the standard title and date fields used by collection processing.
 
+### Group Entries
+
+When a collection sets `groupBy`, its listing pages can contain group entries in place of the items they group:
+
+| Value | Type | Description |
+| --- | --- | --- |
+| `isGroup` | Boolean | Always `true`; regular items lack this value, so check `item.isGroup or false` |
+| `taxonomy` | string | The `groupBy` taxonomy, such as `series` |
+| `term` | string | The shared taxonomy term |
+| `title` | string | Same as `term` |
+| `url` | string or `null` | URL of the term's taxonomy page, or `null` when the taxonomy is not in the collection's `taxonomies` |
+| `date`, `dateEpoch`, `dateRFC822`, `dateW3C` | | Date values of the newest grouped item |
+| `items` | list | The grouped collection items, oldest first |
+
 ## Partials
 
 `website.layouts.partials` is an attribute set of reusable functions. Partials do not have a fixed context: each partial defines its own arguments.

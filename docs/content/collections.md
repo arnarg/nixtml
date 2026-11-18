@@ -144,6 +144,41 @@ website.collections.blog = {
 
 nixtml then generates listing and feed pages for each declared taxonomy term. The dedicated [Taxonomies and RSS guide](/nixtml/taxonomies/) covers their URLs and templates without repeating the collection setup here.
 
+## Group Items in Listings
+
+A multi-part series published newest first fills a listing with its later parts before its first. Set `groupBy` to a taxonomy to show each term as a single listing entry instead:
+
+```nix
+website.collections.blog = {
+  path = "blog/posts";
+  taxonomies = [ "tags" "series" ];
+  groupBy = "series";
+};
+```
+
+Items sharing the first term of that taxonomy are replaced by one group entry, positioned where the newest of them would be. Pagination counts the group as a single entry. Terms with only one item, and items without the taxonomy, are listed as usual. Taxonomy pages and RSS feeds are not grouped.
+
+Group entries have `isGroup = true`, so the collection layout can render them differently:
+
+```nix
+map (item:
+  if item.isGroup or false then
+    lib.tags.article [ ] [
+      (lib.tags.h2 [ ] [ item.term ])
+      (lib.tags.ol [ ] (
+        map (part:
+          lib.tags.li [ ] [
+            (lib.tags.a [ (lib.attrs.href part.url) ] [ part.title ])
+          ]) item.items
+      ))
+    ]
+  else
+    renderPost item
+) items
+```
+
+See [Group Entries](/nixtml/reference/templates/#group-entries) for all values of a group entry.
+
 ## RSS Feeds
 
 Collection RSS generation is enabled by default. Disable it when a collection does not need a feed:

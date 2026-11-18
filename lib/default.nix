@@ -56,6 +56,65 @@ lib.extend (
         state // updated
       ) { } items;
 
+    # Collapses items sharing the first term of the taxonomy at `path` into a
+    # single group entry, placed where its newest item would be. Expects
+    # `items` sorted newest first. Items without a term, or whose term only
+    # has a single item, are kept as is.
+    groupItems =
+      path: items:
+      let
+        termOf =
+          item:
+          let
+            terms = lib.attrByPath path [ ] item;
+          in
+          if terms == [ ] then null else lib.head terms;
+
+        members = lib.groupBy termOf (lib.filter (item: termOf item != null) items);
+
+        mkGroup =
+          term:
+          let
+            termItems = members.${term};
+            newest = lib.head termItems;
+          in
+          {
+            isGroup = true;
+            taxonomy = lib.last path;
+            inherit term;
+            title = term;
+            inherit (newest)
+              date
+              dateEpoch
+              dateRFC822
+              dateW3C
+              ;
+            # Oldest first, in reading order.
+            items = lib.reverseList termItems;
+          };
+
+        step =
+          state: item:
+          let
+            term = termOf item;
+          in
+          if term == null || lib.length members.${term} < 2 then
+            state // { result = state.result ++ [ item ]; }
+          else if state.seen ? ${term} then
+            state
+          else
+            {
+              seen = state.seen // {
+                ${term} = true;
+              };
+              result = state.result ++ [ (mkGroup term) ];
+            };
+      in
+      (lib.foldl' step {
+        seen = { };
+        result = [ ];
+      } items).result;
+
     paginate =
       perPage: items:
       let

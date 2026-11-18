@@ -39,6 +39,25 @@ in
                     Taxonomies to enable for the collection.
                   '';
                 };
+                groupBy = mkOption {
+                  type = with types; nullOr str;
+                  default = null;
+                  example = "series";
+                  description = ''
+                    Taxonomy used to collapse items in the collection's listing pages.
+
+                    Items sharing the first term of this taxonomy are replaced by a single group entry, placed where the newest of them would be.
+                    Group entries have `isGroup = true`, `taxonomy`, `term`, `title` (the term), `url` (the term's taxonomy page, or `null` if the taxonomy is not in `taxonomies`), the date values of the newest item and `items` with the grouped items, oldest first.
+                    Terms with a single item are not grouped.
+
+                    Only the collection listing pages are affected; taxonomy pages and RSS feeds still list every item.
+                  '';
+                };
+                listItems = mkOption {
+                  type = with types; listOf (attrsOf anything);
+                  default = [ ];
+                  internal = true;
+                };
                 rss = {
                   enable = mkOption {
                     type = types.bool;
@@ -168,6 +187,25 @@ in
                   (lib.sort (a: b: a.dateEpoch > b.dateEpoch))
                 ];
 
+                listItems =
+                  if config.groupBy == null then
+                    config.items
+                  else
+                    map (
+                      item:
+                      if item.isGroup or false then
+                        item
+                        // {
+                          url =
+                            if lib.elem item.taxonomy config.taxonomies then
+                              baseURI + lib.removeSuffix "index.html" config.taxonomyPages.${item.taxonomy}.${item.term}."1".path
+                            else
+                              null;
+                        }
+                      else
+                        item
+                    ) (lib.groupItems [ "metadata" config.groupBy ] config.items);
+
                 pages =
                   let
                     inherit (config.pagination) perPage;
@@ -182,7 +220,7 @@ in
                         if lib.length p < 1 then joined else joined + "/"
                       )
                     ];
-                    pagination = lib.paginate perPage config.items;
+                    pagination = lib.paginate perPage config.listItems;
                   in
                   lib.listToAttrs (
                     lib.map (
