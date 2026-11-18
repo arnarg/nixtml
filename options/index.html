@@ -394,6 +394,22 @@
 							<ul>
 								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/collections.nix">&lt;nixtml/modules/collections.nix&gt;</a></li>
 							</ul>
+							<h2 id="websitecollectionsnamegroupby">website.collections.&lt;name&gt;.groupBy<a class="headerlink mx-2" href="#websitecollectionsnamegroupby" title="Permanent link">#</a></h2>
+							<p>Taxonomy used to collapse items in the collection's listing pages.</p>
+							<p>Items sharing the first term of this taxonomy are replaced by a single group entry, placed where the newest of them would be.
+								Group entries have <code>isGroup = true</code>, <code>taxonomy</code>, <code>term</code>, <code>title</code> (the term), <code>url</code> (the term's taxonomy page, or <code>null</code> if the taxonomy is not in <code>taxonomies</code>), the date values of the newest item and <code>items</code> with the grouped items, oldest first.
+								Terms with a single item are not grouped.</p>
+							<p>Only the collection listing pages are affected; taxonomy pages and RSS feeds still list every item.</p>
+							<p><strong><em>Type:</em></strong>
+							null or string</p>
+							<p><strong><em>Default:</em></strong>
+							<code class="highlight"><span class="no">null</span></code></p>
+							<p><strong><em>Example:</em></strong>
+							<code class="highlight"><span class="s2">"series"</span></code></p>
+							<p><strong><em>Declared by:</em></strong></p>
+							<ul>
+								<li><a href="https://github.com/arnarg/nixtml/blob/main/modules/collections.nix">&lt;nixtml/modules/collections.nix&gt;</a></li>
+							</ul>
 							<h2 id="websitecollectionsnamepaginationperpage">website.collections.&lt;name&gt;.pagination.perPage<a class="headerlink mx-2" href="#websitecollectionsnamepaginationperpage" title="Permanent link">#</a></h2>
 							<p>Number of collection item per page when rendering the pagination.</p>
 							<p><strong><em>Type:</em></strong>

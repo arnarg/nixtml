@@ -426,6 +426,32 @@ This additional content appears on the full post page.
 <span class="p">};</span>
 </code></pre></div>
 							<p>nixtml then generates listing and feed pages for each declared taxonomy term. The dedicated <a href="/nixtml/taxonomies/">Taxonomies and RSS guide</a> covers their URLs and templates without repeating the collection setup here.</p>
+							<h2 id="group-items-in-listings">Group Items in Listings<a class="headerlink mx-2" href="#group-items-in-listings" title="Permanent link">#</a></h2>
+							<p>A multi-part series published newest first fills a listing with its later parts before its first. Set <code>groupBy</code> to a taxonomy to show each term as a single listing entry instead:</p>
+							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>collections<span class="o">.</span><span class="ss">blog</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">path</span> <span class="o">=</span> <span class="s2">"blog/posts"</span><span class="p">;</span>
+  <span class="ss">taxonomies</span> <span class="o">=</span> <span class="p">[</span> <span class="s2">"tags"</span> <span class="s2">"series"</span> <span class="p">];</span>
+  <span class="ss">groupBy</span> <span class="o">=</span> <span class="s2">"series"</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div>
+							<p>Items sharing the first term of that taxonomy are replaced by one group entry, positioned where the newest of them would be. Pagination counts the group as a single entry. Terms with only one item, and items without the taxonomy, are listed as usual. Taxonomy pages and RSS feeds are not grouped.</p>
+							<p>Group entries have <code>isGroup = true</code>, so the collection layout can render them differently:</p>
+							<div class="highlight"><pre><span></span><code><span class="nb">map</span> <span class="p">(</span>item<span class="p">:</span>
+  <span class="k">if</span> item<span class="o">.</span>isGroup <span class="ow">or</span> <span class="no">false</span> <span class="k">then</span>
+    lib<span class="o">.</span>tags<span class="o">.</span>article <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
+      <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>h2 <span class="p">[</span> <span class="p">]</span> <span class="p">[</span> item<span class="o">.</span>term <span class="p">])</span>
+      <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>ol <span class="p">[</span> <span class="p">]</span> <span class="p">(</span>
+        <span class="nb">map</span> <span class="p">(</span>part<span class="p">:</span>
+          lib<span class="o">.</span>tags<span class="o">.</span>li <span class="p">[</span> <span class="p">]</span> <span class="p">[</span>
+            <span class="p">(</span>lib<span class="o">.</span>tags<span class="o">.</span>a <span class="p">[</span> <span class="p">(</span>lib<span class="o">.</span>attrs<span class="o">.</span>href part<span class="o">.</span>url<span class="p">)</span> <span class="p">]</span> <span class="p">[</span> part<span class="o">.</span>title <span class="p">])</span>
+          <span class="p">])</span> item<span class="o">.</span>items
+      <span class="p">))</span>
+    <span class="p">]</span>
+  <span class="k">else</span>
+    renderPost item
+<span class="p">)</span> items
+</code></pre></div>
+							<p>See <a href="/nixtml/reference/templates/#group-entries">Group Entries</a> for all values of a group entry.</p>
 							<h2 id="rss-feeds">RSS Feeds<a class="headerlink mx-2" href="#rss-feeds" title="Permanent link">#</a></h2>
 							<p>Collection RSS generation is enabled by default. Disable it when a collection does not need a feed:</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>collections<span class="o">.</span>portfolio<span class="o">.</span>rss<span class="o">.</span><span class="ss">enable</span> <span class="o">=</span> <span class="no">false</span><span class="p">;</span>

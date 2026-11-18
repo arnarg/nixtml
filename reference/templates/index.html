@@ -540,6 +540,54 @@
 tags
 </code></pre></div>
 							<p>Collection items require the standard title and date fields used by collection processing.</p>
+							<h3 id="group-entries">Group Entries<a class="headerlink mx-2" href="#group-entries" title="Permanent link">#</a></h3>
+							<p>When a collection sets <code>groupBy</code>, its listing pages can contain group entries in place of the items they group:</p>
+							<table>
+								<thead>
+									<tr>
+										<th>Value</th>
+										<th>Type</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><code>isGroup</code></td>
+										<td>Boolean</td>
+										<td>Always <code>true</code>; regular items lack this value, so check <code>item.isGroup or false</code></td>
+									</tr>
+									<tr>
+										<td><code>taxonomy</code></td>
+										<td>string</td>
+										<td>The <code>groupBy</code> taxonomy, such as <code>series</code></td>
+									</tr>
+									<tr>
+										<td><code>term</code></td>
+										<td>string</td>
+										<td>The shared taxonomy term</td>
+									</tr>
+									<tr>
+										<td><code>title</code></td>
+										<td>string</td>
+										<td>Same as <code>term</code></td>
+									</tr>
+									<tr>
+										<td><code>url</code></td>
+										<td>string or <code>null</code></td>
+										<td>URL of the term's taxonomy page, or <code>null</code> when the taxonomy is not in the collection's <code>taxonomies</code></td>
+									</tr>
+									<tr>
+										<td><code>date</code>, <code>dateEpoch</code>, <code>dateRFC822</code>, <code>dateW3C</code></td>
+										<td></td>
+										<td>Date values of the newest grouped item</td>
+									</tr>
+									<tr>
+										<td><code>items</code></td>
+										<td>list</td>
+										<td>The grouped collection items, oldest first</td>
+									</tr>
+								</tbody>
+							</table>
 							<h2 id="partials">Partials<a class="headerlink mx-2" href="#partials" title="Permanent link">#</a></h2>
 							<p><code>website.layouts.partials</code> is an attribute set of reusable functions. Partials do not have a fixed context: each partial defines its own arguments.</p>
 							<div class="highlight"><pre><span></span><code>website<span class="o">.</span>layouts<span class="o">.</span>partials<span class="o">.</span><span class="ss">pageHeading</span> <span class="o">=</span>
